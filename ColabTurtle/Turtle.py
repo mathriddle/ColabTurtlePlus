@@ -3,46 +3,47 @@ import time
 import math
 import re
 
-"""
-# Original Created at: 23rd October 2018
-#         by: Tolga Atam
-# v2.1.0 Updated at: 15th March 2021
-#         by: Tolga Atam
+""" 
+Original Created at: 23rd October 2018
+        by: Tolga Atam
+v2.1.0 Updated at: 15th March 2021
+         by: Tolga Atam
+Module for drawing classic Turtle figures on Google Colab notebooks.
+It uses html capabilites of IPython library to draw svg shapes inline.
+Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.appspot.com/turtle)
 
-# Modified April 2021 by Larry Riddle
-# Changed some default values to match classic turtle.py package
-#   default background color is white, default pen color is black, default pen thickness is 1
-#   default mode is "standard"
-#   center of window has coordinates (0,0)
-# Added option for selecting a mode when initializing the turtle graphics
-#   "standard" : default direction is to the right (east) and positive angles measured counterclockwise
-#   "logo" : default directon is upward (north) and positive angles are measured clockwise with 0° pointing up.
-#   "svg": This is a special mode to handle how the original ColabTurtle worked. The coordinate system is the same
-#          as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
-#          positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
-# Added functions to print or save the svg coding for the image.
-# Added "arrow" as a turtle shape (also default shape).
-# Added speed=0 option that displays final image with no animation. 
-#   Added done function so that final image is displayed on screen when speed=0.
-# Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
-#   This should be done immediately after initializing the turtle window.
-# Added towards function to return the angle between the line from turtle position to specified position.
-# Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function.
-#   Because the fill is controlled by svg rules, the result may differ from classic turtle fill.
-# Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in
-#   classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the
-#   path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of
-#   the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using
-#   the svg circle function.
-# Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
-# Added dot function to draw a dot with given diameter and color.
-# Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
-#   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
-#   default window size to 800x500. It also sets the mode to "svg".
+--------
+Modified April 2021 by Larry Riddle
+Changed some default values to match classic turtle.py package
+  default background color is white, default pen color is black, default pen thickness is 1
+  default mode is "standard"
+  center of window has coordinates (0,0)
+Added option for selecting a mode when initializing the turtle graphics
+  "standard" : default direction is to the right (east) and positive angles measured counterclockwise
+  "logo" : default directon is upward (north) and positive angles are measured clockwise with 0° pointing up.
+  "svg": This is a special mode to handle how the original ColabTurtle worked. The coordinate system is the same
+         as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
+         positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
+Added functions to print or save the svg coding for the image.
+Added "arrow" as a turtle shape (also default shape).
+Added speed=0 option that displays final image with no animation. 
+  Added done function so that final image is displayed on screen when speed=0.
+Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
+  This should be done immediately after initializing the turtle window.
+Added towards function to return the angle between the line from turtle position to specified position.
+Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function.
+  Because the fill is controlled by svg rules, the result may differ from classic turtle fill.
+Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in
+  classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the
+  path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of
+  the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using
+  the svg circle function.
+Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
+Added dot function to draw a dot with given diameter and color.
+Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
+  This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
+  default window size to 800x500. It also sets the mode to "svg".
 
-# Module for drawing classic Turtle figures on Google Colab notebooks.
-# It uses html capabilites of IPython library to draw svg shapes inline.
-# Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.appspot.com/turtle)
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
