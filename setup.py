@@ -1,9 +1,9 @@
 from distutils.core import setup
 
 setup(
-    name='ColabTurtle',
-    version='3.0.0',
-    packages=['ColabTurtle'],
+    name='ColabTurtlePlus',
+    version='1.0.0',
+    packages=['ColabTurtlePlus'],
     url='https://github.com/mathriddle/MyColabTurtle',
     license='MIT',
     author='Larry Riddle',
