@@ -1,3 +1,111 @@
+# ColabTurtlePlus
+An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
+
+
+This is a module for drawing classic Turtle figures on Google Colab notebooks. It can also be used in Jupyter Lab notebooks. The graphics are drawn using SVG tags. The SVG commands can be printed on screen (after the drawing is completed) or saved to a file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
+
+Installation
+----
+Create an empty code cell and type:
+
+   !pip3 install git+https://github.com/mathriddle/ColabTurtlePlus.git@main
+
+Run the code cell to install the library.
+
+Usage
+----
+In any code cell, import the package using either
+
+    from ColabTurtlePlus.Turtle import *
+
+or
+
+    import ColabTurtlePlus.Turtle as turtle
+
+where turtle (or other name) is the name of the turtle. As Colab stores the declared variables in the runtime, call this before using 
+
+    turtle.initializeTurtle()
+
+Main Changes from ColabTurtle
+----
+Some of the default values have been changed to mirror those in turtle.py. In particular,
+* Default background color is white
+* Default pen color is black
+* Default pen size is 1
+* Default shape is an arrow
+* Default window size is 800x600
+* Default mode is standard. Therefore
+   * center of window has coordinates (0,0)
+   * initial turtle heading is to the right (east)
+   * positive angles are measured counterclockwise with 0° pointing right
+The original default values in ColabTurtle can be used by calling turtle.OldDefaults() before the initializeTurtle() command.
+
+This version extends ColabTurtle to include more of the commands found in the classic turtle.py package and some additional features. 
+* Added option for selecting a mode when initializing the turtle graphics
+   * "standard" : initial turtle heading is to the right (east) and positive angles measured counterclockwise with 0° pointing right.
+   * "logo" : initial turtle heading is upward (north) and positive angles are measured clockwise with 0° pointing up.
+   * "world" : used with user-defined coordinates. Setup is same as "standard".
+   * "svg": This is a special mode to handle how the original ColabTurtle worked. The coordinate system is the same as that used with SVG. The upper left corner is (0,0) with positive x direction going left to right, and the positive y direction going top to bottom. Positive angles are measured clockwise with 0° pointing right.
+* Added functions to print or save the svg tags for the image.
+* Added "arrow" as a turtle shape (also the default shape).
+* Added speed=0 option that displays final image with no animation. 
+* Added done function so that final image is displayed on screen when speed=0.
+* Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world". This should be done immediately after initializing the turtle window.
+* Added towards function to return the angle between the line from turtle position to specified position.
+* Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function. Because the fill is controlled by svg rules, the result may differ from classic turtle fill.
+* Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using the svg circle function.
+* Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
+* Added dot function to draw a dot with given diameter and color.
+
+Commands
+----
+
+See https://docs.python.org/3/library/turtle.html for more details on most of these commands.
+
+`initializeTurtle(window,speed,mode)` -> Constructs the display for the turtle. The three arguments are optional. Set `window=(w,h)` to specify a window of width w pixels and height h pixels. The `speed` sets the initial speed and `mode` specifies either 'standard', 'lego', 'world', or 'svg'. Default values [(800,600), 5, and 'standard'] are used if an argument is not given.
+
+`showSVG(show_turtle)` -> Print the SVG tags to the screen. The `show_turtle` argument (True or False) determines whether or not the turtle is included.\
+`saveSVG(filename, show_turtle)` -> Save the SVG tags to the file `filename`. The `show_turtle` argument (True or False) determines whether or not the turtle is included.
+
+`OldDefaults()` -> Set the defaults used in the original version of ColabTurtle package for backward compatability.
+
+`forward(units) | fd(units)` -> Moves the turtle in the direction it is facing, by `units` pixels
+
+`backward(units) | bk(units) | back(units)` -> Moves the turtle in the opposite of the direction it is facing, by `units` pixels
+
+`right(degrees) | rt(degrees)` -> Turns the turtle to right by the given `degrees` 
+
+`left(degrees) | lt(degrees)` -> Turns the turtle to left by the given `degrees` 
+
+`circle(radius, extent)` -> Draws a circle of radius `radius` covering an extent of `extent` degrees. If extent is not given, draws the complete circle. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using the svg circle function.
+
+`dot(size,color)` -> Draw a circular dot with diameter size, using color.
+
+`setheading(to_angle) | heading(to_angle) | face(to_angle)` -> Sets the orientation of the turtle to `to_angle` (measured in degrees). The result depends on the mode.
+
+`penup() | pu() | up()` -> Lifts the pen, turtles movement will not draw anything after this function is called.
+
+`pendown() | pd()` -> Puts the pen down, causing the turtle movements to start drawing again.
+
+`speed(s)` -> Sets the speed of turtle's movements. `s` can be a value in interval [0,13] where 1 is the slowest and 13 is the fastest for animation. If the speed is 0, no animation is drawn and only the final result is shown. The command done() must be executed to see the final image if speed=0. If `s` is omitted, the function returns the current speed.
+
+`setx(x)` -> Moves the turtle to the given `x` position, the y coordinate of the turtle stays the same.
+
+`sety(y)` -> Moves the turtle to the given `y` position, the x coordinate of the turtle stays the same.
+
+`home()` -> Takes the turtle to the beginning position and angle. The turtle will continue drawing during this operation if the pen is down.
+
+`getx() | xcor()` -> Returns the current x coordinate of the turtle.
+
+`gety() | ycor()` -> Returns the current y coordinate of the turtle.
+
+`position() | pos()` -> Returns the current x,y coordinates of the turtle as a tuple.
+
+`heading() | getheading()` -> Returns the direction that the turtle is looking at right now, in degrees.
+
+`goto(x,y) | setpos(x,y) | setposition(x,y)`\
+`goto((x,y)) | setpos((x,y)) | setposition((x,y))`\
+Moves the turtle to the point defined by x,y. The coordinates can be given separately, or in a single tuple.
 
 `begin_fill()` -> To be called just before drawing a shape to be filled.\
 `end_fill()` -> Fill the shape drawn after the last call to begin_fill().
