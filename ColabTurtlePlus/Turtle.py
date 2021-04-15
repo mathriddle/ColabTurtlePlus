@@ -51,7 +51,7 @@ DEFAULT_SPEED = 5
 DEFAULT_TURTLE_VISIBILITY = True
 DEFAULT_PEN_COLOR = 'black'
 DEFAULT_TURTLE_DEGREE = 0
-DEFAULT_BACKGROUND_COLOR = 'white'
+DEFAULT_BACKGROUND_COLOR = 'none'
 DEFAULT_FILL_COLOR = 'black'
 DEFAULT_BORDER_COLOR = ""
 DEFAULT_IS_PEN_DOWN = True
@@ -71,7 +71,7 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'aliceblue', 'honeydew', 'azure', 'sandybrown', 'wheat', 'beige', 'whitesmoke', 'mintcream', 'ghostwhite', 'salmon', 'antiquewhite', 'linen', 
                 'lightgoldenrodyellow', 'oldlace', 'red', 'fuchsia', 'magenta', 'deeppink', 'orangered', 'tomato', 'hotpink', 'coral', 'darkorange', 
                 'lightsalmon', 'orange', 'lightpink', 'pink', 'gold', 'peachpuff', 'navajowhite', 'moccasin', 'bisque', 'mistyrose', 'blanchedalmond', 
-                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white')
+                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none')
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'arrow'
