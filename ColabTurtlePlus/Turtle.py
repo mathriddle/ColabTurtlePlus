@@ -813,7 +813,7 @@ def shape(name=None):
     turtle_shape = shape
     _updateDrawing()
 
-# Set turtle mode (“standard”, “logo”, “world”, or "svg") and clear the window. If mode is not given, current mode is returned.
+# Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
 def mode(mode=None):
     global _mode
     if mode is None:
@@ -822,8 +822,7 @@ def mode(mode=None):
         raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
     
     _mode = mode    
-    clear()
-    home()
+    reset()
     
 # Return turtle window width
 def window_width():
@@ -932,19 +931,32 @@ def OldDefaults():
     DEFAULT_TURTLE_SHAPE = "turtle"
     DEFAULT_WINDOW_SIZE = (800, 500)
 
+# Reset back to defaults
 def reset():
     global is_turtle_visible
     global pen_color
     global background_color
     global is_pen_down
     global pen_width
+    global svg_lines_string
+    global svg_fill_string
+    global svg_dots_string
+    global turtle_degree  
+    global turtle_pos
+    global fill_color
+    global border_color
 
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
+    fill_color = DEFAULT_FILL_COLOR
+    border_color = DEFAULT_BORDER_COLOR
     background_color = DEFAULT_BACKGROUND_COLOR
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
-    clear()
-    home()
-
+    svg_lines_string = ""
+    svg_fill_string = ""
+    svg_dots_string = "
+    turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    _updateDrawing()
 
