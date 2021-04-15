@@ -955,7 +955,7 @@ def reset():
     pen_width = DEFAULT_PEN_WIDTH
     svg_lines_string = ""
     svg_fill_string = ""
-    svg_dots_string = "
+    svg_dots_string = ""
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     _updateDrawing()
