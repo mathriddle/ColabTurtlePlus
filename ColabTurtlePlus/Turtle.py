@@ -810,7 +810,7 @@ def shape(name=None):
     elif name not in VALID_TURTLE_SHAPES:
         raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES))
     
-    turtle_shape = shape
+    turtle_shape = name
     _updateDrawing()
 
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
