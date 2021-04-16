@@ -51,7 +51,7 @@ DEFAULT_SPEED = 5
 DEFAULT_TURTLE_VISIBILITY = True
 DEFAULT_PEN_COLOR = 'black'
 DEFAULT_TURTLE_DEGREE = 0
-DEFAULT_BACKGROUND_COLOR = 'none'
+DEFAULT_BACKGROUND_COLOR = 'white'
 DEFAULT_FILL_COLOR = 'black'
 DEFAULT_BORDER_COLOR = ""
 DEFAULT_IS_PEN_DOWN = True
@@ -913,7 +913,7 @@ def showBorder(color = None, c2 = None, c3 = None):
 # Hide the border around the graphics window.    
 def hideBorder():
     global border_color
-    border_color = ""
+    border_color = "none"
     _updateDrawing()
   
 # Set the defaults used in the original version of ColabTurtle package
@@ -946,12 +946,14 @@ def reset():
     global turtle_pos
     global fill_color
     global border_color
+    global turtle_shape
 
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
     fill_color = DEFAULT_FILL_COLOR
     border_color = DEFAULT_BORDER_COLOR
     background_color = DEFAULT_BACKGROUND_COLOR
+    #turtle_shape = DEFAULT_TURTLE_SHAPE
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
     svg_lines_string = ""
