@@ -220,7 +220,7 @@ def _generateTurtleSvgDrawing():
         degrees -= 90
         template = TURTLE_ARROW_SVG_TEMPLATE
     else: #circle
-        turtle_y -= 12*turtle_scale+4
+        turtle_y = 12*turtle_scale+4
         degrees -= 90
         template = TURTLE_CIRCLE_SVG_TEMPLATE
 
@@ -231,7 +231,7 @@ def _generateTurtleSvgDrawing():
                            degrees=degrees,
                            s=turtle_scale,
                            r=12*turtle_scale,
-                           cy=12*turtle_scale+4,
+                           cy=-(12*turtle_scale+4),
                            rotation_x=turtle_pos[0], 
                            rotation_y=turtle_pos[1],
                            pen_width=1+pen_width)
