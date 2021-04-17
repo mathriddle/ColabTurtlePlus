@@ -230,8 +230,8 @@ def _generateTurtleSvgDrawing():
                            rotation_x=turtle_pos[0], 
                            rotation_y=turtle_pos[1],
                            pen_width=pen_width,
-                           tx = turtle_pos[0],
-                           ty = turtle_pos[1])
+                           tx = -turtle_pos[0],
+                           ty = -turtle_pos[1])
 
 
 # Helper function for generating the whole svg string
