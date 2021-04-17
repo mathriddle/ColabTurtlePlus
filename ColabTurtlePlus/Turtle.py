@@ -93,7 +93,7 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="circle" visibility="{visibility}" transfo
 <polygon points="0,5 5,0 -5,0" transform="scale({s})" style="fill:{turtle_color};stroke:{turtle_color};stroke-width:0" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,0 0,1 5,0 0,8" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:0" />
+<polygon points="-5,0 0,1 5,0 0,8" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
@@ -232,6 +232,7 @@ def _generateTurtleSvgDrawing():
                            s=turtle_scale,
                            r=12*turtle_scale,
                            cy=-(12*turtle_scale+4),
+                           pw = pen_width,
                            rotation_x=turtle_pos[0], 
                            rotation_y=turtle_pos[1])
 
@@ -969,6 +970,9 @@ def reset():
     turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     _updateDrawing()
 
-def turtleScale(s):
+# Scale the size of the turtle
+def shapesize(s):
     global turtle_scale
     turtle_scale = s
+        
+turtlesize = shapesize #alias
