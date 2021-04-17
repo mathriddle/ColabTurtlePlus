@@ -119,6 +119,7 @@ _mode = DEFAULT_MODE
 border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
+turtle_scale = 1
 
 
 drawing_window = None
