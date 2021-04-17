@@ -90,10 +90,10 @@ TURTLE_TURTLE_SVG_TEMPLATE = """<g id="turtle" visibility="{visibility}" transfo
 </g>"""
 TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="circle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <circle stroke="{turtle_color}" stroke-width="3" fill="transparent" r="{r}" cx="0" cy="{cy}" />
-<polygon points="0,3 3,0 -3,0" transform="scale({s})" style="fill:{turtle_color};stroke:{turtle_color};stroke-width:2" />
+<polygon points="0,5 5,0 -5,0" transform="scale({s})" style="fill:{turtle_color};stroke:{turtle_color};stroke-width:0" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-4,0 0,1 4,0 0,7" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:1" />
+<polygon points="-4,0 0,1 4,0 0,7" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:0" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
