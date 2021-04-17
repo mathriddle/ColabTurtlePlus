@@ -965,3 +965,6 @@ def reset():
     turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     _updateDrawing()
 
+def turtleScale(s):
+    global turtle_scale
+    turtle_scale = s
