@@ -93,7 +93,7 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="circle" visibility="{visibility}" transfo
 <polygon points="0,3 3,0 -3,0" transform="scale({s})" style="fill:{turtle_color};stroke:{turtle_color};stroke-width:2" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-4,0 0,1 4,0 0,7" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pen_width}" />
+<polygon points="-4,0 0,1 4,0 0,7" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:1" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
@@ -234,6 +234,7 @@ def _generateTurtleSvgDrawing():
                            cy=-(12*turtle_scale+4),
                            rotation_x=turtle_pos[0], 
                            rotation_y=turtle_pos[1])
+
 
 
 # Helper function for generating the whole svg string
