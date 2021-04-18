@@ -978,7 +978,7 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     global turtle_scaley
     if stretch_wid is stretch_len is None:
         return stretch_wid, stretch_len
-    if stretch_wid == or stretch_len == 0:
+    if stretch_wid == 0 or stretch_len == 0:
         raise ValueError("stretch_wid/stretch_len must be positive")
     if stretch_wid is not None:
         if stretch_len is None:
