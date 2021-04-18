@@ -74,7 +74,7 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none')
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
-DEFAULT_TURTLE_SHAPE = 'arrow'
+DEFAULT_TURTLE_SHAPE = 'classic'
 VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic')
 DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
