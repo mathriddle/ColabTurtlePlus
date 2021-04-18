@@ -57,6 +57,9 @@ DEFAULT_BORDER_COLOR = ""
 DEFAULT_IS_PEN_DOWN = True
 DEFAULT_SVG_LINES_STRING = ""
 DEFAULT_PEN_WIDTH = 1
+DEFAULT_OUTLINE_WIDTH = 1
+DEFAULT_SCALEX = 1
+DEFAULT_SCALEY = 1
 # all 140 color names that modern browsers support. taken from https://www.w3schools.com/colors/colors_names.asp
 VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
@@ -119,8 +122,9 @@ _mode = DEFAULT_MODE
 border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
-turtle_scalex = 1
-turtle_scaley = 1
+turtle_scalex = DEFAULT_SCALEX
+turtle_scaley = DEFAULT_SCALEY
+outline_width = DEFAULT_OUTLINE_WIDTH
 
 
 drawing_window = None
@@ -225,7 +229,7 @@ def _generateTurtleSvgDrawing():
         degrees -= 90
         template = TURTLE_CIRCLE_SVG_TEMPLATE
 
-    return template.format(turtle_color=pen_color, 
+    return template.format(turtle_color=fill_color, 
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
@@ -235,7 +239,7 @@ def _generateTurtleSvgDrawing():
                            rx=12*turtle_scalex,
                            ry=12*turtle_scaley,
                            cy=-(12*turtle_scaley+4),
-                           pw = pen_width,
+                           pw = outline_width,
                            rotation_x=turtle_pos[0], 
                            rotation_y=turtle_pos[1])
 
