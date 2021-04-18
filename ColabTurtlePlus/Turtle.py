@@ -981,8 +981,9 @@ def reset():
 def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     global turtle_scalex
     global turtle_scaley
-    if stretch_wid is stretch_len is None:
-        return stretch_wid, stretch_len
+    global outline_width
+    if stretch_wid is stretch_len is outline is None:
+        return turtle_scalex, turtle_scaley, outline_width
     if stretch_wid == 0 or stretch_len == 0:
         raise ValueError("stretch_wid/stretch_len must be positive")
     if stretch_wid is not None:
@@ -993,8 +994,11 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     elif stretch_len is not None:
         if stretch_wid is None:
             stretchfactor = stretch_len, stretch_len
+    if outline is None:
+        outline = outline_width
         
     turtle_scalex = stretchfactor[0]
     turtle_scaley = stretchfactor[1]
+    outline_width = outline
         
 turtlesize = shapesize #alias
