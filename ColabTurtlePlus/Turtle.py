@@ -93,10 +93,10 @@ TURTLE_TURTLE_SVG_TEMPLATE = """<g id="turtle" visibility="{visibility}" transfo
 </g>"""
 TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <ellipse stroke="{turtle_color}" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
-<polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{turtle_color};stroke-width:0" />
+<polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:0" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+<polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style=" stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
@@ -229,7 +229,8 @@ def _generateTurtleSvgDrawing():
         degrees -= 90
         template = TURTLE_CIRCLE_SVG_TEMPLATE
 
-    return template.format(turtle_color=fill_color, 
+    return template.format(turtle_color=fill_color,
+                           pen_color=pen_color,
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
