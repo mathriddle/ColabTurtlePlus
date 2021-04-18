@@ -212,16 +212,16 @@ def _generateTurtleSvgDrawing():
     template = ''
 
     if turtle_shape == 'turtle':
-        turtle_x -= 18*turtle_scale
-        turtle_y -= 18*turtle_scale
+        turtle_x -= 18*turtle_scalex
+        turtle_y -= 18*turtle_scaley
         degrees += 90
         template = TURTLE_TURTLE_SVG_TEMPLATE
     elif turtle_shape == 'classic':
-        turtle_y -= 4.5*turtle_scale
+        turtle_y -= 4.5*turtle_scaley
         degrees -= 90
         template = TURTLE_CLASSIC_SVG_TEMPLATE
     else: #circle
-        turtle_y += 12*turtle_scale+4
+        turtle_y += 12*turtle_scaley+4
         degrees -= 90
         template = TURTLE_CIRCLE_SVG_TEMPLATE
 
