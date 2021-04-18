@@ -962,6 +962,9 @@ def reset():
     global fill_color
     global border_color
     global turtle_shape
+    global turtle_scalex
+    global turtle_scaley
+    global outline_width
 
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
@@ -971,6 +974,9 @@ def reset():
     #turtle_shape = DEFAULT_TURTLE_SHAPE
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
+    turtle_scalex = DEFAULT_SCALEX
+    turtle_scaley = DEFAULT_SCALEY
+    outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
     svg_fill_string = ""
     svg_dots_string = ""
@@ -979,6 +985,8 @@ def reset():
     _updateDrawing()
 
 # Scale the size of the turtle
+# stretch_wid scales perpendicular to orientation
+# stretch_len scales in direction of turtle's orientation
 def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     global turtle_scalex
     global turtle_scaley
