@@ -25,7 +25,7 @@ Added option for selecting a mode when initializing the turtle graphics
          as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
          positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
 Added functions to print or save the svg coding for the image.
-Added "arrow" as a turtle shape (also default shape).
+Added "classic" as a turtle shape (also default shape).
 Added speed=0 option that displays final image with no animation. 
   Added done function so that final image is displayed on screen when speed=0.
 Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
@@ -75,7 +75,7 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'arrow'
-VALID_TURTLE_SHAPES = ('turtle', 'circle', 'arrow')
+VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic')
 DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
@@ -92,7 +92,7 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="circle" visibility="{visibility}" transfo
 <circle stroke="{turtle_color}" stroke-width="3" fill="transparent" r="{r}" cx="0" cy="{cy}" />
 <polygon points="0,5 5,0 -5,0" transform="scale({s})" style="fill:{turtle_color};stroke:{turtle_color};stroke-width:0" />
 </g>"""
-TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="-5,0 0,2 5,0 0,9" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
 </g>"""
 
@@ -215,10 +215,10 @@ def _generateTurtleSvgDrawing():
         turtle_y -= 18*turtle_scale
         degrees += 90
         template = TURTLE_TURTLE_SVG_TEMPLATE
-    elif turtle_shape == 'arrow':
-        turtle_y -= 3.5*turtle_scale
+    elif turtle_shape == 'classic':
+        turtle_y -= 4.5*turtle_scale
         degrees -= 90
-        template = TURTLE_ARROW_SVG_TEMPLATE
+        template = TURTLE_CLASSIC_SVG_TEMPLATE
     else: #circle
         turtle_y += 12*turtle_scale+4
         degrees -= 90
