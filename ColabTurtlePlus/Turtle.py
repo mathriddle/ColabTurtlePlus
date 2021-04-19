@@ -79,7 +79,7 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
-VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic', 'arrow', 'square', 'triangle')
+VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic', 'arrow', 'square', 'triangle') 
 DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
