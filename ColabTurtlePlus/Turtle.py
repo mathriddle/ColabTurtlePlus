@@ -40,6 +40,7 @@ Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified the
   the svg circle function.
 Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 Added dot function to draw a dot with given diameter and color.
+Added shapesize function to scale the turtle shape.
 Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -991,10 +992,17 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     global turtle_scalex
     global turtle_scaley
     global outline_width
+
     if stretch_wid is stretch_len is outline is None:
         return turtle_scalex, turtle_scaley, outline_width
+    if not isinstance(stretch_wid, (int,float)):
+        raise ValueError('The stretch_wid position must be a number.')
+    if not isinstance(stretch_len, (int,float)):
+        raise ValueError('The stretch_len position must be a number.')
+    if not isinstance(outline, (int,float)):
+        raise ValueError('The outline must be a positive number.')
     if stretch_wid == 0 or stretch_len == 0:
-        raise ValueError("stretch_wid/stretch_len must be positive")
+        raise ValueError("stretch_wid/stretch_len must not be zero")
     if stretch_wid is not None:
         if stretch_len is None:
             stretchfactor = stretch_wid, stretch_wid
