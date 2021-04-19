@@ -242,7 +242,7 @@ def _generateTurtleSvgDrawing():
         degrees -= 90
         template = TURTLE_ARROW_SVG_TEMPLATE
     elif turtle_shape == 'square':
-        template = TURTLE_ARROW_SVG_TEMPLATE
+        template = TURTLE_SQUARE_SVG_TEMPLATE
 
     return template.format(turtle_color=fill_color,
                            pen_color=pen_color,
