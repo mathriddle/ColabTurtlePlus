@@ -300,7 +300,7 @@ def _converty(y):
 def _moveToNewPosition(new_pos):
     global turtle_pos
     global svg_lines_string
-    global svg_fill_string
+    global tmp_fill_string
 
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
@@ -316,7 +316,7 @@ def _moveToNewPosition(new_pos):
                         pen_color=pen_color, 
                         pen_width=pen_width)
     if is_filling:
-        svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
+        tmp_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
     turtle_pos = new_pos
     _updateDrawing()
 
@@ -327,7 +327,7 @@ def _moveToNewPosition(new_pos):
 def _arctoNewPosition(r,new_pos):
     global turtle_pos
     global svg_lines_string
-    global svg_fill_string
+    global tmp_fill_string
     
     sweep = 0 if r > 0 else 1  # SVG arc sweep flag
     rx = r*xscale
@@ -338,7 +338,7 @@ def _arctoNewPosition(r,new_pos):
         svg_lines_string += """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
             x1=start_pos[0], y1=start_pos[1],rx = rx, ry = ry, x2=new_pos[0], y2=new_pos[1], pen_color=pen_color, pen_width=pen_width, s=sweep)    
     if is_filling:
-        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
+        tmp_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
     
     turtle_pos = new_pos
     #_updateDrawing()    
@@ -350,12 +350,10 @@ def _arctoNewPosition(r,new_pos):
 def begin_fill():
     global is_filling
     global svg_lines_string_orig
-    global svg_fill_string_orig
-    global svg_fill_string
+    global tmp_fill_string
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
-        svg_fill_string_orig = svg_fill_string
-        svg_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])
+        tmp_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])
         
         is_filling = True
 
@@ -370,11 +368,11 @@ def end_fill():
     
     if is_filling:
         is_filling = False
-        svg_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(pencolor=pen_color,
+        tmp_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(pencolor=pen_color,
                                                                                                                    penwidth=pen_width,
                                                                                                                    fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig
-        svg_fill_string = svg_fill_string_orig + svg_fill_string
+        svg_fill_string += tmp_fill_string
         _updateDrawing()
 
 # Helper function to draw a circular arc
