@@ -25,7 +25,7 @@ Added option for selecting a mode when initializing the turtle graphics
          as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
          positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
 Added functions to print or save the svg coding for the image.
-Added "arrow" as a turtle shape (also default shape).
+Added "classic" as a turtle shape (also default shape).
 Added speed=0 option that displays final image with no animation. 
   Added done function so that final image is displayed on screen when speed=0.
 Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
@@ -40,6 +40,7 @@ Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified the
   the svg circle function.
 Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 Added dot function to draw a dot with given diameter and color.
+Added shapesize function to scale the turtle shape.
 Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -57,6 +58,9 @@ DEFAULT_BORDER_COLOR = ""
 DEFAULT_IS_PEN_DOWN = True
 DEFAULT_SVG_LINES_STRING = ""
 DEFAULT_PEN_WIDTH = 1
+DEFAULT_OUTLINE_WIDTH = 1
+DEFAULT_SCALEX = 1
+DEFAULT_SCALEY = 1
 # all 140 color names that modern browsers support. taken from https://www.w3schools.com/colors/colors_names.asp
 VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
@@ -74,8 +78,8 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none')
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
-DEFAULT_TURTLE_SHAPE = 'arrow'
-VALID_TURTLE_SHAPES = ('turtle', 'circle', 'arrow')
+DEFAULT_TURTLE_SHAPE = 'classic'
+VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic')
 DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
@@ -86,14 +90,14 @@ SVG_TEMPLATE = """
       </svg>
     """
 TURTLE_TURTLE_SVG_TEMPLATE = """<g id="turtle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<path style=" stroke:none;fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="scale({s})" d="M 18.214844 0.632812 C 16.109375 1.800781 15.011719 4.074219 15.074219 7.132812 L 15.085938 7.652344 L 14.785156 7.496094 C 13.476562 6.824219 11.957031 6.671875 10.40625 7.066406 C 8.46875 7.550781 6.515625 9.15625 4.394531 11.992188 C 3.0625 13.777344 2.679688 14.636719 3.042969 15.027344 L 3.15625 15.152344 L 3.519531 15.152344 C 4.238281 15.152344 4.828125 14.886719 8.1875 13.039062 C 9.386719 12.378906 10.371094 11.839844 10.378906 11.839844 C 10.386719 11.839844 10.355469 11.929688 10.304688 12.035156 C 9.832031 13.09375 9.257812 14.820312 8.96875 16.078125 C 7.914062 20.652344 8.617188 24.53125 11.070312 27.660156 C 11.351562 28.015625 11.363281 27.914062 10.972656 28.382812 C 8.925781 30.84375 7.945312 33.28125 8.238281 35.1875 C 8.289062 35.527344 8.28125 35.523438 8.917969 35.523438 C 10.941406 35.523438 13.074219 34.207031 15.136719 31.6875 C 15.359375 31.417969 15.328125 31.425781 15.5625 31.574219 C 16.292969 32.042969 18.023438 32.964844 18.175781 32.964844 C 18.335938 32.964844 19.941406 32.210938 20.828125 31.71875 C 20.996094 31.625 21.136719 31.554688 21.136719 31.558594 C 21.203125 31.664062 21.898438 32.414062 22.222656 32.730469 C 23.835938 34.300781 25.5625 35.132812 27.582031 35.300781 C 27.90625 35.328125 27.9375 35.308594 28.007812 34.984375 C 28.382812 33.242188 27.625 30.925781 25.863281 28.425781 L 25.542969 27.96875 L 25.699219 27.785156 C 28.945312 23.960938 29.132812 18.699219 26.257812 11.96875 L 26.207031 11.84375 L 27.945312 12.703125 C 31.53125 14.476562 32.316406 14.800781 33.03125 14.800781 C 33.976562 14.800781 33.78125 13.9375 32.472656 12.292969 C 28.519531 7.355469 25.394531 5.925781 21.921875 7.472656 L 21.558594 7.636719 L 21.578125 7.542969 C 21.699219 6.992188 21.761719 5.742188 21.699219 5.164062 C 21.496094 3.296875 20.664062 1.964844 19.003906 0.855469 C 18.480469 0.503906 18.457031 0.5 18.214844 0.632812" />
+<path style=" stroke:none;fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="scale({sx},{sy})" d="M 18.214844 0.632812 C 16.109375 1.800781 15.011719 4.074219 15.074219 7.132812 L 15.085938 7.652344 L 14.785156 7.496094 C 13.476562 6.824219 11.957031 6.671875 10.40625 7.066406 C 8.46875 7.550781 6.515625 9.15625 4.394531 11.992188 C 3.0625 13.777344 2.679688 14.636719 3.042969 15.027344 L 3.15625 15.152344 L 3.519531 15.152344 C 4.238281 15.152344 4.828125 14.886719 8.1875 13.039062 C 9.386719 12.378906 10.371094 11.839844 10.378906 11.839844 C 10.386719 11.839844 10.355469 11.929688 10.304688 12.035156 C 9.832031 13.09375 9.257812 14.820312 8.96875 16.078125 C 7.914062 20.652344 8.617188 24.53125 11.070312 27.660156 C 11.351562 28.015625 11.363281 27.914062 10.972656 28.382812 C 8.925781 30.84375 7.945312 33.28125 8.238281 35.1875 C 8.289062 35.527344 8.28125 35.523438 8.917969 35.523438 C 10.941406 35.523438 13.074219 34.207031 15.136719 31.6875 C 15.359375 31.417969 15.328125 31.425781 15.5625 31.574219 C 16.292969 32.042969 18.023438 32.964844 18.175781 32.964844 C 18.335938 32.964844 19.941406 32.210938 20.828125 31.71875 C 20.996094 31.625 21.136719 31.554688 21.136719 31.558594 C 21.203125 31.664062 21.898438 32.414062 22.222656 32.730469 C 23.835938 34.300781 25.5625 35.132812 27.582031 35.300781 C 27.90625 35.328125 27.9375 35.308594 28.007812 34.984375 C 28.382812 33.242188 27.625 30.925781 25.863281 28.425781 L 25.542969 27.96875 L 25.699219 27.785156 C 28.945312 23.960938 29.132812 18.699219 26.257812 11.96875 L 26.207031 11.84375 L 27.945312 12.703125 C 31.53125 14.476562 32.316406 14.800781 33.03125 14.800781 C 33.976562 14.800781 33.78125 13.9375 32.472656 12.292969 C 28.519531 7.355469 25.394531 5.925781 21.921875 7.472656 L 21.558594 7.636719 L 21.578125 7.542969 C 21.699219 6.992188 21.761719 5.742188 21.699219 5.164062 C 21.496094 3.296875 20.664062 1.964844 19.003906 0.855469 C 18.480469 0.503906 18.457031 0.5 18.214844 0.632812" />
 </g>"""
-TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="circle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<circle stroke="{turtle_color}" stroke-width="3" fill="transparent" r="{r}" cx="0" cy="{cy}" />
-<polygon points="0,5 5,0 -5,0" transform="scale({s})" style="fill:{turtle_color};stroke:{turtle_color};stroke-width:0" />
+TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<ellipse stroke="{turtle_color}" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
+<polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:0" />
 </g>"""
-TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,0 0,1 5,0 0,8" transform="scale({s})" style=" stroke:{turtle_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style=" stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
@@ -119,7 +123,9 @@ _mode = DEFAULT_MODE
 border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
-turtle_scale = 1
+turtle_scalex = DEFAULT_SCALEX
+turtle_scaley = DEFAULT_SCALEY
+outline_width = DEFAULT_OUTLINE_WIDTH
 
 
 drawing_window = None
@@ -211,28 +217,31 @@ def _generateTurtleSvgDrawing():
     template = ''
 
     if turtle_shape == 'turtle':
-        turtle_x -= 18*turtle_scale
-        turtle_y -= 18*turtle_scale
+        turtle_x -= 18*turtle_scalex
+        turtle_y -= 18*turtle_scaley
         degrees += 90
         template = TURTLE_TURTLE_SVG_TEMPLATE
-    elif turtle_shape == 'arrow':
-        turtle_y -= 3.5*turtle_scale
+    elif turtle_shape == 'classic':
+        turtle_y -= 4.5*turtle_scaley
         degrees -= 90
-        template = TURTLE_ARROW_SVG_TEMPLATE
+        template = TURTLE_CLASSIC_SVG_TEMPLATE
     else: #circle
-        turtle_y += 12*turtle_scale+4
+        turtle_y += 12*turtle_scaley+4
         degrees -= 90
         template = TURTLE_CIRCLE_SVG_TEMPLATE
 
-    return template.format(turtle_color=pen_color, 
+    return template.format(turtle_color=fill_color,
+                           pen_color=pen_color,
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
                            degrees=degrees,
-                           s=turtle_scale,
-                           r=12*turtle_scale,
-                           cy=-(12*turtle_scale+4),
-                           pw = pen_width,
+                           sx=turtle_scalex,
+                           sy=turtle_scaley,
+                           rx=12*turtle_scalex,
+                           ry=12*turtle_scaley,
+                           cy=-(12*turtle_scaley+4),
+                           pw = outline_width,
                            rotation_x=turtle_pos[0], 
                            rotation_y=turtle_pos[1])
 
@@ -954,6 +963,9 @@ def reset():
     global fill_color
     global border_color
     global turtle_shape
+    global turtle_scalex
+    global turtle_scaley
+    global outline_width
 
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
@@ -963,6 +975,9 @@ def reset():
     #turtle_shape = DEFAULT_TURTLE_SHAPE
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
+    turtle_scalex = DEFAULT_SCALEX
+    turtle_scaley = DEFAULT_SCALEY
+    outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
     svg_fill_string = ""
     svg_dots_string = ""
@@ -971,8 +986,38 @@ def reset():
     _updateDrawing()
 
 # Scale the size of the turtle
-def shapesize(s):
-    global turtle_scale
-    turtle_scale = s
+# stretch_wid scales perpendicular to orientation
+# stretch_len scales in direction of turtle's orientation
+def shapesize(stretch_wid=None, stretch_len=None, outline=None):
+    global turtle_scalex
+    global turtle_scaley
+    global outline_width
+
+    if stretch_wid is stretch_len is outline is None:
+        return turtle_scalex, turtle_scaley, outline_width
+
+    if stretch_wid == 0 or stretch_len == 0:
+        raise ValueError("stretch_wid/stretch_len must not be zero")
+    if stretch_wid is not None:
+        if not isinstance(stretch_wid, (int,float)):
+            raise ValueError('The stretch_wid position must be a number.')        
+        if stretch_len is None:
+            stretchfactor = stretch_wid, stretch_wid
+        else:
+            if not isinstance(stretch_len, (int,float)):
+                raise ValueError('The stretch_len position must be a number.')                
+            stretchfactor = stretch_wid, stretch_len
+    elif stretch_len is not None:
+        if not isinstance(stretch_len, (int,float)):
+            raise ValueError('The stretch_len position must be a number.')         
+        stretchfactor = stretch_len, stretch_len
+    if outline is None:
+        outline = outline_width
+    elif not isinstance(outline, (int,float)):
+        raise ValueError('The outline must be a positive number.')        
+        
+    turtle_scalex = stretchfactor[0]
+    turtle_scaley = stretchfactor[1]
+    outline_width = outline
         
 turtlesize = shapesize #alias
