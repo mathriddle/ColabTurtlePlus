@@ -327,7 +327,7 @@ def _moveToNewPosition(new_pos):
 def _arctoNewPosition(r,new_pos):
     global turtle_pos
     global svg_lines_string
-    global svg_tmp_string
+    global tmp_fill_string
     
     sweep = 0 if r > 0 else 1  # SVG arc sweep flag
     rx = r*xscale
