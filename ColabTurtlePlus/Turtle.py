@@ -856,10 +856,10 @@ def shape(name=None):
     global turtle_shape
     if name is None:
         return turtle_shape
-    elif lower(name) not in VALID_TURTLE_SHAPES:
+    elif name.lower() not in VALID_TURTLE_SHAPES:
         raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES))
     
-    turtle_shape = lower(name)
+    turtle_shape = name.lower()
     _updateDrawing()
 
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
@@ -867,10 +867,10 @@ def mode(mode=None):
     global _mode
     if mode is None:
         return _mode
-    elif lower(mode) not in VALID_MODES:
+    elif mode.lower() not in VALID_MODES:
         raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
     
-    _mode = lower(mode)    
+    _mode = mode.lower()   
     reset()
     
 # Return turtle window width
