@@ -84,6 +84,7 @@ DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{background_color};stroke:{kolor};stroke-width:1"/>
+        {fill}
         {lines}
         {dots}
         {turtle}
@@ -271,7 +272,8 @@ def _generateTurtleSvgDrawing():
 def _generateSvgDrawing():
     return SVG_TEMPLATE.format(window_width=window_size[0], 
                                window_height=window_size[1],
-                               background_color=background_color, 
+                               background_color=background_color,
+                               fill=svg_fill_string,
                                lines=svg_lines_string,
                                dots=svg_dots_string,
                                turtle=_generateTurtleSvgDrawing(),
@@ -347,10 +349,10 @@ def _arctoNewPosition(r,new_pos):
 # the svg code for the path generated between the begin and end fill commands.
 def begin_fill():
     global is_filling
-    global svg_fill_string
+    global tmp_fill_string
     global svg_lines_string_orig
     if not is_filling:
-        svg_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])
+        tmp_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])
         svg_lines_string_orig = svg_lines_string
         is_filling = True
 
@@ -360,6 +362,7 @@ def begin_fill():
 # the svg code for the path generated between the begin and end fill commands. 
 def end_fill():
     global is_filling
+    global tmp_fill_string
     global svg_fill_string
     global svg_lines_string
     
@@ -368,8 +371,9 @@ def end_fill():
         svg_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(pencolor=pen_color,
                                                                                                                    penwidth=pen_width,
                                                                                                                    fillcolor=fill_color)
-        svg_lines_string = svg_fill_string + svg_lines_string_orig
-        svg_fill_string = ''
+        svg_lines_string = svg_lines_string_orig
+        svg_fill_string += tmp_fill_string
+        tmp_fill_string = ''
         _updateDrawing()
 
 # Helper function to draw a circular arc
