@@ -25,7 +25,9 @@ Added option for selecting a mode when initializing the turtle graphics
          as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
          positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
 Added functions to print or save the svg coding for the image.
-Added "classic" as a turtle shape (also default shape).
+Added additional shapes from classic turtle.py:
+  "classic" (also default shape)
+  "arrow"
 Added speed=0 option that displays final image with no animation. 
   Added done function so that final image is displayed on screen when speed=0.
 Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
@@ -79,7 +81,7 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
-VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic')
+VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic', 'arrow')
 DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
@@ -98,6 +100,9 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transf
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style=" stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+</g>"""
+TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<polygon points="-10,0 0,10 10,0" transform="scale({sx},{sy})" style=" stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
@@ -225,10 +230,14 @@ def _generateTurtleSvgDrawing():
         turtle_y -= 4.5*turtle_scaley
         degrees -= 90
         template = TURTLE_CLASSIC_SVG_TEMPLATE
-    else: #circle
+    elif turtle_shape == 'circle':
         turtle_y += 12*turtle_scaley+4
         degrees -= 90
         template = TURTLE_CIRCLE_SVG_TEMPLATE
+    elif turtle_shape == 'arrow':
+        turtle_y -= 5*turtle_scaley
+        degrees -= 90
+        template = TURTLE_ARROW_SVG_TEMPLATE
 
     return template.format(turtle_color=fill_color,
                            pen_color=pen_color,
