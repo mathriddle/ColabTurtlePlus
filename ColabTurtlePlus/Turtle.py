@@ -25,9 +25,7 @@ Added option for selecting a mode when initializing the turtle graphics
          as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
          positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
 Added functions to print or save the svg coding for the image.
-Added additional shapes from classic turtle.py:
-  "classic" (also default shape)
-  "arrow"
+Added additional shapes from classic turtle.py: 'classic' (also default shape), 'arrow', 'square'
 Added speed=0 option that displays final image with no animation. 
   Added done function so that final image is displayed on screen when speed=0.
 Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
