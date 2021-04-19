@@ -79,7 +79,7 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
-VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic', 'arrow', 'square')
+VALID_TURTLE_SHAPES = ('turtle', 'circle', 'classic', 'arrow', 'square', 'triangle')
 DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
@@ -104,6 +104,9 @@ TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform
 </g>"""
 TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style=" stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+</g>"""
+TURTLE_TRIANGLE_SVG_TEMPLATE = """<g id="triangle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<polygon points="10,0 0,17.32 -10,0" transform="scale({sx},{sy})" style=" stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
@@ -242,6 +245,10 @@ def _generateTurtleSvgDrawing():
     elif turtle_shape == 'square':
         degrees -= 90
         template = TURTLE_SQUARE_SVG_TEMPLATE
+    elif turtle_shape == 'triangle':
+        turtle_y -= 8.66*turtle_scaley
+        degrees -= 90
+        template = TURTLE_TRIANGLE_SVG_TEMPLATE
 
     return template.format(turtle_color=fill_color,
                            pen_color=pen_color,
