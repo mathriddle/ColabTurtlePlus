@@ -327,7 +327,7 @@ def _moveToNewPosition(new_pos):
 def _arctoNewPosition(r,new_pos):
     global turtle_pos
     global svg_lines_string
-    global tmp_fill_string
+    global svg_fill_string
     
     sweep = 0 if r > 0 else 1  # SVG arc sweep flag
     rx = r*xscale
@@ -338,7 +338,7 @@ def _arctoNewPosition(r,new_pos):
         svg_lines_string += """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
             x1=start_pos[0], y1=start_pos[1],rx = rx, ry = ry, x2=new_pos[0], y2=new_pos[1], pen_color=pen_color, pen_width=pen_width, s=sweep)    
     if is_filling:
-        tmp_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
+        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
     
     turtle_pos = new_pos
     #_updateDrawing()    
@@ -351,6 +351,7 @@ def begin_fill():
     global is_filling
     global svg_lines_string_orig
     global svg_fill_string_orig
+    global svg_fill_string
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
         svg_fill_string_orig = svg_fill_string
