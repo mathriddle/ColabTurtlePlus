@@ -349,11 +349,13 @@ def _arctoNewPosition(r,new_pos):
 # the svg code for the path generated between the begin and end fill commands.
 def begin_fill():
     global is_filling
-    global tmp_fill_string
     global svg_lines_string_orig
+    global svg_fill_string_orig
     if not is_filling:
-        tmp_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])
         svg_lines_string_orig = svg_lines_string
+        svg_fill_string_orig = svg_fill_string
+        svg_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])
+        
         is_filling = True
 
 # Terminate the string for the svg path of the filled shape and prepend to the list of drawn svg shapes.
@@ -361,8 +363,7 @@ def begin_fill():
 # The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands. 
 def end_fill():
-    global is_filling
-    global tmp_fill_string
+    global is_filling   
     global svg_fill_string
     global svg_lines_string
     
@@ -372,8 +373,7 @@ def end_fill():
                                                                                                                    penwidth=pen_width,
                                                                                                                    fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig
-        svg_fill_string += tmp_fill_string
-        tmp_fill_string = ''
+        svg_fill_string = svg_fill_string_orig + svg_fill_string
         _updateDrawing()
 
 # Helper function to draw a circular arc
@@ -904,10 +904,11 @@ def showSVG(show_turtle=False):
                                                                                                                       h=window_size[1]) 
     header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(fillcolor=background_color,
                                                                                                                            kolor=border_color)
+    fill = svg_fill_string.replace(">",">\n")
     image = svg_lines_string.replace(">",">\n")
     dots = svg_dots_string.replace(">",">\n")
     turtle_svg = (_generateTurtleSvgDrawing() + " \n") if show_turtle else ""
-    output = header + image + dots + turtle_svg + "</svg>"
+    output = header + fill + image + dots + turtle_svg + "</svg>"
     print(output) 
 
 # Set up user-defined coordinate system using lower left and upper right corners.
