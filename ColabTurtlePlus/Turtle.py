@@ -995,24 +995,26 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
 
     if stretch_wid is stretch_len is outline is None:
         return turtle_scalex, turtle_scaley, outline_width
-    if not isinstance(stretch_wid, (int,float)):
-        raise ValueError('The stretch_wid position must be a number.')
-    if not isinstance(stretch_len, (int,float)):
-        raise ValueError('The stretch_len position must be a number.')
-    if not isinstance(outline, (int,float)):
-        raise ValueError('The outline must be a positive number.')
+
     if stretch_wid == 0 or stretch_len == 0:
         raise ValueError("stretch_wid/stretch_len must not be zero")
     if stretch_wid is not None:
+        if not isinstance(stretch_wid, (int,float)):
+            raise ValueError('The stretch_wid position must be a number.')        
         if stretch_len is None:
             stretchfactor = stretch_wid, stretch_wid
         else:
+            if not isinstance(stretch_len, (int,float)):
+                raise ValueError('The stretch_len position must be a number.')                
             stretchfactor = stretch_wid, stretch_len
     elif stretch_len is not None:
-        if stretch_wid is None:
-            stretchfactor = stretch_len, stretch_len
+        if not isinstance(stretch_len, (int,float)):
+            raise ValueError('The stretch_len position must be a number.')         
+        stretchfactor = stretch_len, stretch_len
     if outline is None:
         outline = outline_width
+    elif not isinstance(outline, (int,float)):
+        raise ValueError('The outline must be a positive number.')        
         
     turtle_scalex = stretchfactor[0]
     turtle_scaley = stretchfactor[1]
