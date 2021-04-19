@@ -353,11 +353,10 @@ def begin_fill():
     global tmp_fill_string
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
-        tmp_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])
-        
+        tmp_fill_string = """<path d="M {x1} {y1} """.format(x1=turtle_pos[0], y1=turtle_pos[1])  
         is_filling = True
 
-# Terminate the string for the svg path of the filled shape and prepend to the list of drawn svg shapes.
+# Terminate the string for the svg path of the filled shape
 # Modified from aronma/ColabTurtle_2 github repo
 # The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands. 
@@ -368,9 +367,10 @@ def end_fill():
     global tmp_fill_string
     if is_filling:
         is_filling = False
-        tmp_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(pencolor=pen_color,
-                                                                                                                   penwidth=pen_width,
-                                                                                                                   fillcolor=fill_color)
+        tmp_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(
+                pencolor=pen_color,
+                penwidth=pen_width,
+                fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig
         svg_fill_string += tmp_fill_string
         _updateDrawing()
@@ -432,10 +432,11 @@ def dot(size = None, *color):
         if size is None:
             size = pen_width + max(pen_width,4)
         color = _processColor(color[0])
-    svg_dots_string += """<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{kolor}" fill-opacity="1" />""".format(radius=size/2,
-                                                                                                      cx=turtle_pos[0],
-                                                                                                      cy=turtle_pos[1],
-                                                                                                      kolor=color)
+    svg_dots_string += """<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{kolor}" fill-opacity="1" />""".format(
+            radius=size/2,
+            cx=turtle_pos[0],
+            cy=turtle_pos[1],
+            kolor=color)
     _updateDrawing()
         
 # Makes the turtle move forward by 'units' units
@@ -550,7 +551,8 @@ def sety(y):
         raise ValueError('New y position must be a number.')
     _moveToNewPosition((turtle_pos[0], _converty(y)))
 
-# Move turtle to center of widnow – coordinates (0,0) except for svg mode – and set its heading to its start-orientation (which depends on the mode).
+# Move turtle to center of widnow – coordinates (0,0) except for svg mode – and set its heading to its 
+# start-orientation (which depends on the mode).
 def home():
     global turtle_degree
 
@@ -817,7 +819,7 @@ def write(obj, **kwargs):
         if len(font) != 3 or isinstance(font[0], int) == False \
                           or isinstance(font[1], str) == False \
                           or font[2] not in {'bold','italic','underline','normal'}:
-            raise ValueError('font parameter must be a triplet consisting of font size (int), font family (str) and font type. font type can be one of {bold, italic, underline, normal}')
+            raise ValueError('Font parameter must be a triplet consisting of font size (int), font family (str) and font type. Font type can be one of {bold, italic, underline, normal}')
         font_size = font[0]
         font_family = font[1]
         font_type = font[2]
@@ -833,12 +835,13 @@ def write(obj, **kwargs):
     elif font_type == 'underline':
         style_string += "text-decoration: underline;"
             
-    svg_lines_string += """<text x="{x}" y="{y}" fill="{fill_color}" text-anchor="{align}" style="{style}">{text}</text>""".format(x=turtle_pos[0], 
-                                                                                                                                   y=turtle_pos[1], 
-                                                                                                                                   text=text, 
-                                                                                                                                   fill_color=pen_color, 
-                                                                                                                                   align=align, 
-                                                                                                                                   style=style_string)
+    svg_lines_string += """<text x="{x}" y="{y}" fill="{fill_color}" text-anchor="{align}" style="{style}">{text}</text>""".format(
+            x=turtle_pos[0], 
+            y=turtle_pos[1], 
+            text=text, 
+            fill_color=pen_color, 
+            align=align, 
+            style=style_string)
     
     _updateDrawing()
 
@@ -881,17 +884,20 @@ def saveSVG(filename, show_turtle=False):
     if not filename.endswith(".svg"):
         filename += ".svg"
     text_file = open(filename, "w")
-    header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(w=window_size[0],
-                                                                                                                      h=window_size[1]) 
-    header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(fillcolor=background_color,
-                                                                                                                          kolor=border_color)
+    header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
+            w=window_size[0],
+            h=window_size[1]) 
+    header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
+            fillcolor=background_color,
+            kolor=border_color)
+    fill = svg_fill_string.replace(">",">\n")
     image = svg_lines_string.replace(">",">\n")
     dots = svg_dots_string.replace(">",">\n")
     if show_turtle:
         turtle_svg = _generateTurtleSvgDrawing() + " \n"
     else:
         turtle_svg = ""
-    output = header + image + dots + turtle_svg + "</svg>"
+    output = header + fill + image + dots + turtle_svg + "</svg>"
     text_file.write(output)
     text_file.close()
 
@@ -899,10 +905,12 @@ def saveSVG(filename, show_turtle=False):
 def showSVG(show_turtle=False):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(w=window_size[0],
-                                                                                                                      h=window_size[1]) 
-    header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(fillcolor=background_color,
-                                                                                                                           kolor=border_color)
+    header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
+            w=window_size[0],
+            h=window_size[1]) 
+    header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
+            fillcolor=background_color,
+            kolor=border_color)
     fill = svg_fill_string.replace(">",">\n")
     image = svg_lines_string.replace(">",">\n")
     dots = svg_dots_string.replace(">",">\n")
