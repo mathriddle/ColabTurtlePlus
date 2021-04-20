@@ -242,7 +242,7 @@ def _generateTurtleSvgDrawing():
     elif turtle_shape == 'ctcircle':
         turtle_y += 10*turtle_scaley+4
         degrees -= 90
-        template = TURTLE_CTCIRCLE_SVG_TEMPLATE
+        template = TURTLE_RING_SVG_TEMPLATE
     elif turtle_shape == 'arrow':
         turtle_y -= 5*turtle_scaley
         degrees -= 90
