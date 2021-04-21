@@ -366,14 +366,15 @@ def begin_fill(rule='nonzero'):
     global is_filling
     global svg_lines_string_orig
     global tmp_fill_string
-    if rule.lower() != 'nonzero' or rule != 'evenodd':
+    rule = rule.lower()
+    if rule != 'nonzero' or rule != 'evenodd':
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
         tmp_fill_string = """<path fill-rule="{rule}" d="M {x1} {y1} """.format(
                 x1=turtle_pos[0],
                 y1=turtle_pos[1],
-                rule=rule.lower())  
+                rule=rule)  
         is_filling = True
 
 # Terminate the string for the svg path of the filled shape
