@@ -367,7 +367,7 @@ def begin_fill(rule='nonzero'):
     global svg_lines_string_orig
     global tmp_fill_string
     rule = rule.lower()
-    if not (rule = 'nonzero' or rule = 'evenodd'):
+    if not (rule == 'nonzero' or rule == 'evenodd'):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
