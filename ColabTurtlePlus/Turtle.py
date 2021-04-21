@@ -35,6 +35,7 @@ Added setworldcoordinates function to allow for setting world coordinate system.
 Added towards function to return the angle between the line from turtle position to specified position.
 Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function.
   Because the fill is controlled by svg rules, the result may differ from classic turtle fill.
+  The argument can have two values, 'nonzero' or 'evenodd', which specifies the svg fill-rule. The default is 'nonzero'
 Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in
   classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the
   path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of
@@ -365,12 +366,14 @@ def begin_fill(rule='nonzero'):
     global is_filling
     global svg_lines_string_orig
     global tmp_fill_string
+    if rule.lower() != 'nonzero' or rule != 'evenodd':
+        raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
         tmp_fill_string = """<path fill-rule="{rule}" d="M {x1} {y1} """.format(
                 x1=turtle_pos[0],
                 y1=turtle_pos[1],
-                rule=rule)  
+                rule=rule.lower())  
         is_filling = True
 
 # Terminate the string for the svg path of the filled shape
