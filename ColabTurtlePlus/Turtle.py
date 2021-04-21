@@ -261,7 +261,7 @@ def _generateTurtleSvgDrawing():
         degrees -= 90
         template = TURTLE_CIRCLE_SVG_TEMPLATE
     elif turtle_shape == 'turtle2':
-        degrees -= 90
+        degrees += 90
         template = TURTLE_TURTLE2_SVG_TEMPLATE
 
     return template.format(turtle_color=fill_color,
