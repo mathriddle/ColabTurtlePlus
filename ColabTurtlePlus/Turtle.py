@@ -928,14 +928,13 @@ def saveSVG(filename, show_turtle=False):
     header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
             fillcolor=background_color,
             kolor=border_color)
-    fill = svg_fill_string.replace(">",">\n")
     image = svg_lines_string.replace(">",">\n")
     dots = svg_dots_string.replace(">",">\n")
     if show_turtle:
         turtle_svg = _generateTurtleSvgDrawing() + " \n"
     else:
         turtle_svg = ""
-    output = header + fill + image + dots + turtle_svg + "</svg>"
+    output = header + image + dots + turtle_svg + "</svg>"
     text_file.write(output)
     text_file.close()
 
@@ -949,11 +948,10 @@ def showSVG(show_turtle=False):
     header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
             fillcolor=background_color,
             kolor=border_color)
-    fill = svg_fill_string.replace(">",">\n")
     image = svg_lines_string.replace(">",">\n")
     dots = svg_dots_string.replace(">",">\n")
     turtle_svg = (_generateTurtleSvgDrawing() + " \n") if show_turtle else ""
-    output = header + fill + image + dots + turtle_svg + "</svg>"
+    output = header + image + dots + turtle_svg + "</svg>"
     print(output) 
 
 # Set up user-defined coordinate system using lower left and upper right corners.
