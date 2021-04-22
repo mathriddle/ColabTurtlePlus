@@ -32,7 +32,7 @@ Some of the default values have been changed to mirror those in turtle.py. In pa
 * Default background color is white
 * Default pen color is black
 * Default pen size is 1
-* Default shape is an arrow
+* Default shape is classic
 * Default window size is 800x600
 * Default mode is standard. Therefore
    * center of window has coordinates (0,0)
@@ -40,22 +40,23 @@ Some of the default values have been changed to mirror those in turtle.py. In pa
    * positive angles are measured counterclockwise with 0° pointing right
 The original default values in ColabTurtle can be used by calling turtle.OldDefaults() before the initializeTurtle() command.
 
-This version extends ColabTurtle to include more of the commands found in the classic turtle.py package and some additional features. 
+This version extends ColabTurtle to include more of the commands found in the classic turtle.py package and some additional features.
+* The possible turtle shapes include the ones from turtle.py: 'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. The 'turtle' shape is the one that Tolga Atam included in his original ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
 * Added option for selecting a mode when initializing the turtle graphics
    * "standard" : initial turtle heading is to the right (east) and positive angles measured counterclockwise with 0° pointing right.
    * "logo" : initial turtle heading is upward (north) and positive angles are measured clockwise with 0° pointing up.
    * "world" : used with user-defined coordinates. Setup is same as "standard".
    * "svg": This is a special mode to handle how the original ColabTurtle worked. The coordinate system is the same as that used with SVG. The upper left corner is (0,0) with positive x direction going left to right, and the positive y direction going top to bottom. Positive angles are measured clockwise with 0° pointing right.
 * Added functions to print or save the svg tags for the image.
-* Added "arrow" as a turtle shape (also the default shape).
 * Added speed=0 option that displays final image with no animation. 
 * Added done function so that final image is displayed on screen when speed=0.
 * Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world". This should be done immediately after initializing the turtle window.
 * Added towards function to return the angle between the line from turtle position to specified position.
-* Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function. Because the fill is controlled by svg rules, the result may differ from classic turtle fill.
+* Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function. Because the fill is controlled by svg rules, the result may differ from classic turtle fill. There are two possible arguments to specify the SVG fill-rule: 'nonzero' (default) and 'evenodd'.  See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule for details.
 * Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using the svg circle function.
 * Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 * Added dot function to draw a dot with given diameter and color.
+* Added shapesize function to scale the turtle shape.
 
 Commands
 ----
@@ -108,7 +109,8 @@ See https://docs.python.org/3/library/turtle.html for more details on most of th
 Moves the turtle to the point defined by x,y. The coordinates can be given separately, or in a single tuple.
 
 `begin_fill()` -> To be called just before drawing a shape to be filled.\
-`end_fill()` -> Fill the shape drawn after the last call to begin_fill().
+`end_fill()` -> Fill the shape drawn after the last call to begin_fill().\
+The `begin_fill()` function can take one of two arguments: rule='nonzero' or rule='evenodd'. These determine which fill-rule is used by SVG to fill the object.
 
 `showturtle() | st()` -> Makes the turtle visible.
 
@@ -123,7 +125,7 @@ bgcolor((r,g,b))
 bgcolor(colorstring)
 ```
 If no parameter given, returns the current background color as string. Else, changes the background color of the drawing area. The color can be given as three separate color arguments as in the RGB color encoding: red,green,blue. These three numbers can be given in a single tuple as well. The color can be given as a single color string, too! The following formats are accepted for this color string:
-- HTML standard color names: 140 color names defined as standard ( https://www.w3schools.com/colors/colors_names.asp ) . Examples: `"red"`, `"black"`, `"magenta"`, `"cyan"` etc.
+- HTML standard color names: 140 color names defined as standard ( https://www.w3schools.com/colors/colors_names.asp ) . Examples: `"red"`, `"black"`, `"magenta"`, `"cyan"` etc. Can also use 'none' for no background color.
 - Hex string with 3 or 6 digits, like `"#fff"`, `"FFF"`, `"#dfdfdf"`, `"#DFDFDF"`
 - RGB string, like `"rgb(10 20 30)"`, `"rgb(10, 20, 30)"`
 
@@ -155,9 +157,13 @@ Works the same as `bgcolor` for the fillcolor.
 
 `clear()` -> Clear any drawing on the screen.
 
+`reset()` -> Reset most (but not all) of the default values. Clears the drawing and moves turtle back to the middle of the drawing window.
+
 `write(obj, align=, font=)` -> Writes the string equivalent of any value to the screen. `align` and `font` **named** parameters can be given as arguments optionally. `align` must be one of `"left","center","right"`. It specifies where to put the text with respect to the turtle. `font` must be a tuple of three values like `(20, "Arial", "bold")`. The first value is the size, second value is the font family (only the ones that your browser natively supports must be used), the third value is font style that must be one of `"normal","bold","italic","underline"`.
 
-`shape(sh)` -> Takes a shape name `sh` and transforms the main character's look. This library only has `'circle'`, `'turtle'`, and `'arrow'` shapes available. If no argument is supplied, this function returns the name of the current shape.
+`shape(sh)` -> Takes a shape name `sh` and transforms the main character's look. This library has `'classic'`, `'turtle'`, `'circle'`, `'arrow'`, `'triangle'`, `'square'`, `'ring'`, `'blank'`, and `'turtle2'` shapes available, with `'classic'` as the default. If no argument is supplied, this function returns the name of the current shape. The `'turtle'` shape is the one that Tolga Atam included in his original ColabTurtle version. Use `'turtle2'` for the polygonal turtle shape form turtle.py. The circle shape from the original ColabTurtle was renamed `'ring'`.
+
+`shapesize(stretch_wid=None, stretch_len=None, outline=None) | turtlesize()` -> Scale the size of the turtle. The turtle will be displayed stretched according to its stretchfactors: `stretch_wid` is stretchfactor perpendicular to its orientation, `stretch_len` is stretchfactor in direction of its orientation, `outline` determines the width of the shapes’s outline.
 
 `setworldcoordinates(llx,lly,urx,ury)` -> Set up user-defined coordinate system and switch to mode “world”. This should be done immediately after initializing the turtle window.\
 * `llx` : x-coordinate of lower left corner of canvas
@@ -168,3 +174,5 @@ Works the same as `bgcolor` for the fillcolor.
 `window_width()` -> Return the width of the turtle window.
 
 `window_height()` -> Return the height of the turtle window.
+
+
