@@ -387,6 +387,7 @@ def end_fill():
     global is_filling   
     global svg_fill_string
     global svg_lines_string
+    global svg_lines_string_orig
     global tmp_fill_string
     if is_filling:
         is_filling = False
