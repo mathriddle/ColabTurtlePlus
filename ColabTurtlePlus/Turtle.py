@@ -402,7 +402,7 @@ def end_fill():
         _updateDrawing()
 
 # Allow user to set the svg fill_rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill_rule.
-def fillrule(rule=None)
+def fillrule(rule=None):
     global fill_rule
     if rule is None:
         return fill_rule
