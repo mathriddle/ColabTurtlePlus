@@ -396,7 +396,7 @@ def end_fill():
                 penwidth=pen_width,
                 fillcolor=fill_color)
         #svg_lines_string = svg_lines_string_orig
-        svg_lines_string = svg_lines_string_org + tmp_fill_string
+        svg_lines_string = svg_lines_string_orig + tmp_fill_string
         _updateDrawing()
 
 # Helper function to draw a circular arc
