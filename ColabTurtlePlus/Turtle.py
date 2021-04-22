@@ -366,7 +366,7 @@ def _arctoNewPosition(r,new_pos):
 # the svg code for the path generated between the begin and end fill commands.
 def begin_fill(rule='nonzero'):
     global is_filling
-    #global svg_lines_string_orig
+    global svg_lines_string_orig
     global tmp_fill_string
     rule = rule.lower()
     if not (rule == 'nonzero' or rule == 'evenodd'):
@@ -395,7 +395,7 @@ def end_fill():
                 penwidth=pen_width,
                 fillcolor=fill_color)
         #svg_lines_string = svg_lines_string_orig
-        svg_lines_string += tmp_fill_string
+        svg_lines_string = svg_lines_string_org + tmp_fill_string
         _updateDrawing()
 
 # Helper function to draw a circular arc
