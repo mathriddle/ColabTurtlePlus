@@ -64,6 +64,7 @@ DEFAULT_PEN_WIDTH = 1
 DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_SCALEX = 1
 DEFAULT_SCALEY = 1
+DEFAULT_FILL_RULE = 'nonzero'
 # all 140 color names that modern browsers support. taken from https://www.w3schools.com/colors/colors_names.asp
 VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
@@ -145,7 +146,7 @@ fill_color = DEFAULT_FILL_COLOR
 turtle_scalex = DEFAULT_SCALEX
 turtle_scaley = DEFAULT_SCALEY
 outline_width = DEFAULT_OUTLINE_WIDTH
-
+fill_rule = DEFAULT_FILL_RULE
 
 drawing_window = None
 
@@ -163,6 +164,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     global is_pen_down
     global svg_lines_string
     global svg_fill_string
+    global fill_rule
     global svg_dots_string
     global pen_width
     global turtle_shape
@@ -218,7 +220,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     svg_fill_string = ''
     svg_dots_string = ''
     fill_color = DEFAULT_FILL_COLOR
-    
+    fill_rule = DEFAULT_FILL_RULE
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
 
@@ -317,7 +319,7 @@ def _converty(y):
 def _moveToNewPosition(new_pos):
     global turtle_pos
     global svg_lines_string
-    global tmp_fill_string
+    global svg_fill_string
 
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
@@ -333,7 +335,7 @@ def _moveToNewPosition(new_pos):
                         pen_color=pen_color, 
                         pen_width=pen_width)
     if is_filling:
-        tmp_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
+        svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
     turtle_pos = new_pos
     _updateDrawing()
 
@@ -344,7 +346,7 @@ def _moveToNewPosition(new_pos):
 def _arctoNewPosition(r,new_pos):
     global turtle_pos
     global svg_lines_string
-    global tmp_fill_string
+    global svg_fill_string
     
     sweep = 0 if r > 0 else 1  # SVG arc sweep flag
     rx = r*xscale
@@ -355,7 +357,7 @@ def _arctoNewPosition(r,new_pos):
         svg_lines_string += """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
             x1=start_pos[0], y1=start_pos[1],rx = rx, ry = ry, x2=new_pos[0], y2=new_pos[1], pen_color=pen_color, pen_width=pen_width, s=sweep)    
     if is_filling:
-        tmp_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
+        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
     
     turtle_pos = new_pos
     #_updateDrawing()    
@@ -364,16 +366,18 @@ def _arctoNewPosition(r,new_pos):
 # Modified from aronma/ColabTurtle_2 github repo
 # The current svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands.
-def begin_fill(rule='nonzero'):
+def begin_fill(rule=None):
     global is_filling
     global svg_lines_string_orig
-    global tmp_fill_string
+    global svg_fill_string
+    if rule is None:
+         rule = fill_rule
     rule = rule.lower()
     if not (rule == 'nonzero' or rule == 'evenodd'):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
-        tmp_fill_string = """<path fill-rule="{rule}" d="M {x1} {y1} """.format(
+        svg_fill_string = """<path fill-rule="{rule}" d="M {x1} {y1} """.format(
                 x1=turtle_pos[0],
                 y1=turtle_pos[1],
                 rule=rule)  
@@ -388,17 +392,27 @@ def end_fill():
     global svg_fill_string
     global svg_lines_string
     global svg_lines_string_orig
-    global tmp_fill_string
     if is_filling:
         is_filling = False
-        tmp_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(
+        svg_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(
                 pencolor=pen_color,
                 penwidth=pen_width,
                 fillcolor=fill_color)
-        #svg_lines_string = svg_lines_string_orig
-        svg_lines_string = svg_lines_string_orig + tmp_fill_string
+        svg_lines_string = svg_lines_string_orig + svg_fill_string
         _updateDrawing()
 
+# Allow user to set the svg fill_rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill_rule.
+def fillrule(rule=None)
+    global fill_rule
+    if rule is None:
+        return fill_rule
+    if not isinstance(rule,str):
+        raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
+    rule = rule.lower()
+    if not (rule == 'nonzero' or rule == 'evenodd'):
+        raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
+    fill_rule = rule
+        
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
