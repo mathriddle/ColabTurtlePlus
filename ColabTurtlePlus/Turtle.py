@@ -390,7 +390,7 @@ def begin_fill(rule=None):
 def end_fill():
     global is_filling   
     global svg_lines_string
-
+    global svg_fill_string
     if is_filling:
         is_filling = False
         svg_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(
