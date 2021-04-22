@@ -748,6 +748,7 @@ def color(*args):
             raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
     else:
         return pen_color,fill_color
+    _updateDrawing()
         
 # Change the width of the lines drawn by the turtle, in pixels
 # If the function is called without arguments, it returns the current width
