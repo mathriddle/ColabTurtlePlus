@@ -168,6 +168,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     global svg_fill_string
     global fill_rule
     global svg_dots_string
+    global svg_stamps_string
     global pen_width
     global turtle_shape
     global _mode
