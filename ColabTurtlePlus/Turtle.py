@@ -102,22 +102,22 @@ TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="
 <polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:0" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+<polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-10,0 0,10 10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+<polygon points="-10,0 0,10 10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+<polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_TRIANGLE_SVG_TEMPLATE = """<g id="triangle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,0 0,17.32 -10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" />
+<polygon points="10,0 0,17.32 -10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<ellipse stroke="{turtle_color}" style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" />
+<ellipse stroke="{turtle_color}" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" />
 </g>"""
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color};fill-opacity:1;" />
+<polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" />
 </g>"""
 
 
