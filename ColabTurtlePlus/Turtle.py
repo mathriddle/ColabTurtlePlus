@@ -1091,3 +1091,10 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     outline_width = outline
         
 turtlesize = shapesize #alias
+
+def stamp():
+    global svg_lines_string
+    svg_lines_string += _generateTurtleSvgDrawing()
+    _updateDrawing()
+
+
