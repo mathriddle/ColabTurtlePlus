@@ -110,7 +110,7 @@ Moves the turtle to the point defined by x,y. The coordinates can be given separ
 
 `begin_fill()` -> To be called just before drawing a shape to be filled.\
 `end_fill()` -> Fill the shape drawn after the last call to begin_fill().\
-`fillrule(rule)` -> Sets the global fill_rule (nonzero or evenodd) used by SVG to fill an object. The `begin_fill()` function can take an argument of 'nonzero' or 'evenodd' to set the fill_rule just for that fill. The global default fill-rule is evenodd to match the behavior of classic turtle.py.A
+`fillrule(rule)` -> Sets the global fill_rule (nonzero or evenodd) used by SVG to fill an object. The `begin_fill()` function can take an argument of 'nonzero' or 'evenodd' to set the fill_rule just for that fill. The global default fill-rule is evenodd to match the behavior of classic turtle.py.
 
 `showturtle() | st()` -> Makes the turtle visible.
 
