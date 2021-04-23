@@ -89,6 +89,7 @@ DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{background_color};stroke:{kolor};stroke-width:1"/>
+        {stamps}
         {lines}
         {dots}
         {turtle}
@@ -220,6 +221,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     is_filling = False
     svg_fill_string = ''
     svg_dots_string = ''
+    svg_stamps_string = ''
     fill_color = DEFAULT_FILL_COLOR
     fill_rule = DEFAULT_FILL_RULE
 
@@ -296,6 +298,7 @@ def _generateSvgDrawing():
                                fill=svg_fill_string,
                                lines=svg_lines_string,
                                dots=svg_dots_string,
+                               stamps=svg_stamps_string,
                                turtle=_generateTurtleSvgDrawing(),
                                kolor=border_color)
 
@@ -1093,8 +1096,8 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
 turtlesize = shapesize #alias
 
 def stamp():
-    global svg_lines_string
-    svg_lines_string += _generateTurtleSvgDrawing()
+    global svg_stamps_string
+    svg_stamps_string += _generateTurtleSvgDrawing()
     _updateDrawing()
 
 
