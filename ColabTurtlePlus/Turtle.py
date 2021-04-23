@@ -34,7 +34,7 @@ Added setworldcoordinates function to allow for setting world coordinate system.
   This should be done immediately after initializing the turtle window.
 Added towards function to return the angle between the line from turtle position to specified position.
 Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function and fillrule function.
-  The fillrule function can be used to specify the SVG fill_rule (nonzero or evenodd). The default is nonzero.
+  The fillrule function can be used to specify the SVG fill_rule (nonzero or evenodd). The default is evenodd to match turtle.py behavior.
   When calling begin_fill, a value for the fill_rule can be given that will apply only to that fill.
   Because the fill is controlled by svg rules, the result may differ from classic turtle fill.
 Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in
@@ -65,7 +65,7 @@ DEFAULT_PEN_WIDTH = 1
 DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_SCALEX = 1
 DEFAULT_SCALEY = 1
-DEFAULT_FILL_RULE = 'nonzero'
+DEFAULT_FILL_RULE = 'evenodd'
 # all 140 color names that modern browsers support. taken from https://www.w3schools.com/colors/colors_names.asp
 VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
