@@ -1139,9 +1139,9 @@ def _generateStampSvgString(m):
     tmp = ""
     if m == 0:
         for n in stampdictB:
-            tmp += stampdict[n]
+            tmp += stampdictB[n]
         svg_stampsB_string = tmp
     else:
         for n in stampdictT:
-            tmp += stampdict[n]
+            tmp += stampdictT[n]
         svg_stampsT_string = tmp
