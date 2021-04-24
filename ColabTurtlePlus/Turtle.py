@@ -178,6 +178,8 @@ def initializeTurtle(window=None, speed=None, mode=None):
     global xscale
     global yscale
     global timeout
+    global stampdictB, stampdictT
+    global stampnum
     
     if window == None:
         window_size = DEFAULT_WINDOW_SIZE
@@ -227,6 +229,8 @@ def initializeTurtle(window=None, speed=None, mode=None):
     svg_stampsB_string = svg_stampsT_string = ''
     fill_color = DEFAULT_FILL_COLOR
     fill_rule = DEFAULT_FILL_RULE
+    stampdictB = stampdictT = {}
+    stampnum = 0
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
 
@@ -1107,10 +1111,15 @@ turtlesize = shapesize #alias
 def stamp(layer=0):
     global svg_stampsB_string
     global svg_stampsT_string
+    global stampnum
+    stampnum += 1
     if layer != 0:
-        svg_stampsT_string += _generateTurtleSvgDrawing()
+        stampdictT[stampnum] = _generateTurtleSvgDrawing()
+        svg_stampsT_string += stampdictT[stampnum]
     else:
-        svg_stampsB_string += _generateTurtleSvgDrawing()
+        stampdictB[stampnum] = _generateTurtleSvgDrawing()
+        svg_stampsB_string += stampdictB[stampnum]
     _updateDrawing()
+    return stampnum
 
 
