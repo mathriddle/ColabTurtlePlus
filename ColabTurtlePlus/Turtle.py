@@ -922,33 +922,32 @@ def window_width():
 def window_height():
     return window_size[1]
 
-# Save the image as an SVG file using given filename. Set show_turtle=True to include turtle in svg output
-def saveSVG(filename, show_turtle=False):
+# Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
+def saveSVG(file, turtle=False):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    if not isinstance(filename, str):
-        raise ValueError("Filename must be a string")
-    if not filename.endswith(".svg"):
-        filename += ".svg"
-    text_file = open(filename, "w")
+    if not isinstance(file, str):
+        raise ValueError("File name must be a string")
+    if not file.endswith(".svg"):
+        file += ".svg"
+    text_file = open(file, "w")
     header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
             w=window_size[0],
             h=window_size[1]) 
     header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
             fillcolor=background_color,
             kolor=border_color)
-    image = svg_lines_string.replace("/>","/>\n").replace("\n</g>","</g>\n")
+    image = svg_lines_string.replace("/>","/>\n")
+    stampsB = svg_stampsB_string.replace("</g>","</g>\n")
+    stampsT = svg_stampsT_string.replace("</g>","</g>\n")
     dots = svg_dots_string.replace(">",">\n")
-    if show_turtle:
-        turtle_svg = _generateTurtleSvgDrawing() + " \n"
-    else:
-        turtle_svg = ""
-    output = header + image + dots + turtle_svg + "</svg>"
+    turtle_svg = (_generateTurtleSvgDrawing() + " \n") if turtle else ""
+    output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
     text_file.write(output)
     text_file.close()
 
-# Print the SVG code for the image
-def showSVG(show_turtle=False):
+# Print the SVG code for the image to the screen. Set turtle=True to include turtle in svg output.
+def showSVG(turtle=False):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
@@ -961,7 +960,7 @@ def showSVG(show_turtle=False):
     stampsB = svg_stampsB_string.replace("</g>","</g>\n")
     stampsT = svg_stampsT_string.replace("</g>","</g>\n")    
     dots = svg_dots_string.replace(">",">\n")
-    turtle_svg = (_generateTurtleSvgDrawing() + " \n") if show_turtle else ""
+    turtle_svg = (_generateTurtleSvgDrawing() + " \n") if turtle else ""
     output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
     print(output) 
 
