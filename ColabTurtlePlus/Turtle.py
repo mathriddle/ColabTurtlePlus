@@ -1137,23 +1137,33 @@ def clearstamp(stampid):
     global stamplist
     tmp = ""
     if stampid in stampdictB.keys():
-        stampdictB.pop(stampid)
+        if isinstance(stampid,tuple):
+            for subitem in stampid:
+                stampdictB.pop(subitem)
+                stamplist.remove(subitem)
+        else:
+            stampdictB.pop(stampid)
+            stamplist.remove(stampid)
         for n in stampdictB:
             tmp += stampdictB[n]
         svg_stampsB_string = tmp        
     elif stampid in stampdictT.keys():
-        stampdictT.pop(stampid)
+        if isinstance(stampid,tuple):
+            for subitem in stampid:
+                stampdictT.pop(subitem)
+                stamplist.remove(subitem)
+        else:
+            stampdictT.pop(stampid)
+            stamplist.remove(stampid)
         for n in stampdictT:
             tmp += stampdictT[n]
         svg_stampsT_string = tmp
-    stamplist.remove(stampid)
     _updateDrawing()
 
 # Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps, else if n < 0 delete last n stamps.
 def clearstamps(n=None):
-    tmplist = stamplist.copy()
     if n is None:
-        [clearstamp(x) for x in stamplist]
+        [clearstamp(k) for k in stamplist]
     elif n > 0:
         [clearstamp(k) for k in stamplist[:n]]
     elif n < 0:
