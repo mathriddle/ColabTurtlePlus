@@ -1122,4 +1122,26 @@ def stamp(layer=0):
     _updateDrawing()
     return stampnum
 
+def clearstamp(stampid)
+    global stampdictB
+    global stampdictT
+    if stampid in stampdictB.keys():
+        stampdictB.pop(stampid)
+        _generateStampSvgString(0)
+    elif stampid in stampdictT.keys():
+        stampdictT.pop(stampid)
+         _generateStampSvgString(1)
+    _updateDrawing()
 
+def _generateStampSvgString(m)
+    global svg_stampsB_string
+    global svg_stampsT_string
+    tmp = ""
+    if m == 0:
+        for n in stringdict:
+            tmp += stringdict[n]
+        svg_stampsB_string = tmp
+    else:
+        for n in stringdict:
+            tmp += stringdict[n]
+        svg_stampsT_string = tmp
