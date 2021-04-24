@@ -1100,6 +1100,10 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
         
 turtlesize = shapesize #alias
 
+# Stamp a copy of the turtle shape onto the canvas at the current turtle position.
+# The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in 
+# the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if
+# the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number).
 def stamp(layer=0):
     global svg_stampsB_string
     global svg_stampsT_string
