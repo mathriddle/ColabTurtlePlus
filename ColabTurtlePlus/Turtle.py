@@ -1132,6 +1132,7 @@ def clearstamp(stampid):
         stampdictT.pop(stampid)
         _generateStampSvgString(1)
     _updateDrawing()
+    print(stampdictB,stampdictT)
 
 def _generateStampSvgString(m):
     global svg_stampsB_string
