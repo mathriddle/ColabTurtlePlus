@@ -958,10 +958,11 @@ def showSVG(show_turtle=False):
             fillcolor=background_color,
             kolor=border_color)
     image = svg_lines_string.replace(">","/>\n")
-    stamps = svg_stamps_string.replace("</g>","</g>\n")
+    stampsB = svg_stampsB_string.replace("</g>","</g>\n")
+    stampsT = svg_stampsT_string.replace("</g>","</g>\n")    
     dots = svg_dots_string.replace(">",">\n")
     turtle_svg = (_generateTurtleSvgDrawing() + " \n") if show_turtle else ""
-    output = header + stamps + image + dots + turtle_svg + "</svg>"
+    output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
     print(output) 
 
 # Set up user-defined coordinate system using lower left and upper right corners.
