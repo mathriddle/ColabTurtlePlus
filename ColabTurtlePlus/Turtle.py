@@ -1120,6 +1120,8 @@ def stamp(layer=0):
         stampdictB[stampnum] = _generateTurtleSvgDrawing()
         svg_stampsB_string += stampdictB[stampnum]
     _updateDrawing()
+    print(stampdictB)
+    print(stampdictT)
     return stampnum
 
 def clearstamp(stampid):
@@ -1132,7 +1134,8 @@ def clearstamp(stampid):
         stampdictT.pop(stampid)
         _generateStampSvgString(1)
     _updateDrawing()
-    print(stampdictB,stampdictT)
+    print(stampdictB)
+    print(stampdictT)
 
 def _generateStampSvgString(m):
     global svg_stampsB_string
@@ -1146,3 +1149,5 @@ def _generateStampSvgString(m):
         for n in stampdictT:
             tmp += stampdictT[n]
         svg_stampsT_string = tmp
+    print(svg_stampsB_string)
+    print(svg_stampsT_string)
