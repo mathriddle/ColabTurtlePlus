@@ -1127,46 +1127,45 @@ def stamp(layer=0):
     _updateDrawing()
     return stampnum
 
-# Delete stamp with given stampid.
-# stampid – an integer, must be return value of previous stamp() call
-def clearstamp(stampid):
+
+def _clearstamp(stampid):
     global stampdictB
     global stampdictT
     global svg_stampsB_string
     global svg_stampsT_string  
     global stamplist
     tmp = ""
+    
     if stampid in stampdictB.keys():
-        if isinstance(stampid,tuple):
-            for subitem in stampid:
-                stampdictB.pop(subitem)
-                stamplist.remove(subitem)
-        else:
-            stampdictB.pop(stampid)
-            stamplist.remove(stampid)
+        stampdictB.pop(stampid)
+        stamplist.remove(stampid)
         for n in stampdictB:
             tmp += stampdictB[n]
         svg_stampsB_string = tmp        
     elif stampid in stampdictT.keys():
-        if isinstance(stampid,tuple):
-            for subitem in stampid:
-                stampdictT.pop(subitem)
-                stamplist.remove(subitem)
-        else:
-            stampdictT.pop(stampid)
-            stamplist.remove(stampid)
+        stampdictT.pop(stampid)
+        stamplist.remove(stampid)
         for n in stampdictT:
             tmp += stampdictT[n]
         svg_stampsT_string = tmp
     _updateDrawing()
 
+# Delete stamp with given stampid.
+# stampid – an integer, must be return value of previous stamp() call
+def clearstamp(stampid):
+    if isinstance(stampid,tuple):
+        for subitem in stampid:
+            _clearstamp(subitem)
+    else:
+        _clearstamp(stampid)
+
 # Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps, else if n < 0 delete last n stamps.
 def clearstamps(n=None):
     if n is None:
-        [clearstamp(k) for k in stamplist]
+        [_clearstamp(k) for k in stamplist]
     elif n > 0:
-        [clearstamp(k) for k in stamplist[:n]]
+        [_clearstamp(k) for k in stamplist[:n]]
     elif n < 0:
-        [clearstamp(k) for k in stamplist[n:]]
+        [_clearstamp(k) for k in stamplist[n:]]
 
         
