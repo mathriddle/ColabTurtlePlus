@@ -68,7 +68,7 @@ DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_SCALEX = 1
 DEFAULT_SCALEY = 1
 DEFAULT_FILL_RULE = 'evenodd'
-# all 140 color names that modern browsers support. taken from https://www.w3schools.com/colors/colors_names.asp
+# All 140 color names that modern browsers support, plus 'none'. Taken from https://www.w3schools.com/colors/colors_names.asp
 VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
                 'darkslategray', 'darkslategrey', 'limegreen', 'mediumseagreen', 'turquoise', 'royalblue', 'steelblue', 'darkslateblue', 'mediumturquoise', 
@@ -124,9 +124,7 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 <polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" />
 </g>"""
 
-
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
-
 
 # Helper function that maps [0,13] speed values to ms delays
 def _speedToSec(speed):
@@ -154,7 +152,6 @@ outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 
 drawing_window = None
-
 
 # Construct the display for turtle
 def initializeTurtle(window=None, speed=None, mode=None):
@@ -216,7 +213,6 @@ def initializeTurtle(window=None, speed=None, mode=None):
         xscale = 1
         yscale = -1
        
-
     is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
     turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
@@ -229,7 +225,8 @@ def initializeTurtle(window=None, speed=None, mode=None):
     is_filling = False
     svg_fill_string = ''
     svg_dots_string = ''
-    svg_stampsB_string = svg_stampsT_string = ''
+    svg_stampsB_string = ''
+    svg_stampsT_string = ''
     fill_color = DEFAULT_FILL_COLOR
     fill_rule = DEFAULT_FILL_RULE
     stampdictB = {}
@@ -325,12 +322,13 @@ def _updateDrawing():
         time.sleep(timeout)
         drawing_window.update(HTML(_generateSvgDrawing()))
 
+        
 # Convert to world coordinates
 def _convertx(x):
-    return (x-xmin)*xscale
-  
+    return (x-xmin)*xscale 
 def _converty(y):
     return (ymax-y)*yscale
+
 
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
 def _moveToNewPosition(new_pos):
@@ -356,6 +354,7 @@ def _moveToNewPosition(new_pos):
     turtle_pos = new_pos
     _updateDrawing()
 
+        
 # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
 # Modified from aronma/ColabTurtle_2 github to allow arc on either side of turtle.
 # Positive radius has circle to left of turtle moving counterclockwise.
@@ -378,7 +377,8 @@ def _arctoNewPosition(r,new_pos):
     
     turtle_pos = new_pos
     #_updateDrawing()    
-    
+  
+        
 # Initialize the string for the svg path of the filled shape.
 # Modified from aronma/ColabTurtle_2 github repo
 # The current svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
@@ -401,6 +401,7 @@ def begin_fill(rule=None):
                 rule=rule)  
         is_filling = True
 
+        
 # Terminate the string for the svg path of the filled shape
 # Modified from aronma/ColabTurtle_2 github repo
 # The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
@@ -418,6 +419,7 @@ def end_fill():
         svg_lines_string = svg_lines_string_orig + svg_fill_string
         _updateDrawing()
 
+        
 # Allow user to set the svg fill_rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill_rule.
 def fillrule(rule=None):
     global fill_rule
@@ -429,6 +431,7 @@ def fillrule(rule=None):
     if not (rule == 'nonzero' or rule == 'evenodd'):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
     fill_rule = rule
+  
         
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
@@ -470,8 +473,9 @@ def circle(radius, extent=360, **kwargs):
             _arc(radius, extent)
         extent += -90        
 
+        
 # Draw a dot with diameter size, using color
-# If size is not given, the maximum of pensize+4 and 2*pensize is used.
+# If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
 def dot(size = None, *color):
     global svg_dots_string
 
@@ -493,7 +497,8 @@ def dot(size = None, *color):
             cy=turtle_pos[1],
             kolor=color)
     _updateDrawing()
-        
+ 
+
 # Makes the turtle move forward by 'units' units
 def forward(units):
     if not isinstance(units, (int,float)):
@@ -528,6 +533,15 @@ def right(degrees):
 
 rt = right # alias
 
+# Makes the turtle move right by 'degrees' degrees (NOT radians, this library does not support radians right now)
+def left(degrees):
+    if not isinstance(degrees, (int,float)):
+        raise ValueError('Degrees must be a number.')
+    right(-1 * degrees)
+
+lt = left
+
+
 # Makes the turtle face a given direction
 def face(degrees):
     global turtle_degree
@@ -546,13 +560,6 @@ def face(degrees):
 setheading = face # alias
 seth = face # alias
 
-# Makes the turtle move right by 'degrees' degrees (NOT radians, this library does not support radians right now)
-def left(degrees):
-    if not isinstance(degrees, (int,float)):
-        raise ValueError('Degrees must be a number.')
-    right(-1 * degrees)
-
-lt = left
 
 # Raises the pen such that following turtle moves will not cause any drawings
 def penup():
@@ -572,6 +579,7 @@ down = pendown # alias
 
 def isdown():
     return is_pen_down
+
 
 # Update the speed of the moves, [0,13]
 # If argument is omitted, it returns the speed.
@@ -593,7 +601,8 @@ def done():
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     drawing_window.update(HTML(_generateSvgDrawing()))        
-        
+
+
 # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
 def setx(x):
     if not isinstance(x, (int,float)):
@@ -615,7 +624,23 @@ def home():
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     _updateDrawing()
     
-reset = home # alias
+
+# Move the turtle to a designated position.
+def goto(x, y=None):
+    if isinstance(x, tuple) and y is None:
+        if len(x) != 2:
+            raise ValueError('The tuple argument must be of length 2.')
+        y = x[1]
+        x = x[0]
+    if not isinstance(x, (int,float)):
+        raise ValueError('New x position must be a number.')
+    if not isinstance(y, (int,float)):
+        raise ValueError('New y position must be a number.')
+    _moveToNewPosition((_convertx(x), _converty(y)))
+
+setpos = goto # alias
+setposition = goto # alias
+
 
 # Retrieve the turtle's currrent 'x' x-coordinate
 def getx():
@@ -646,23 +671,6 @@ def getheading():
 
 heading = getheading # alias
 
-# Move the turtle to a designated position.
-def goto(x, y=None):
-    if isinstance(x, tuple) and y is None:
-        if len(x) != 2:
-            raise ValueError('The tuple argument must be of length 2.')
-
-        y = x[1]
-        x = x[0]
-
-    if not isinstance(x, (int,float)):
-        raise ValueError('New x position must be a number.')
-    if not isinstance(y, (int,float)):
-        raise ValueError('New y position must be a number.')
-    _moveToNewPosition((_convertx(x), _converty(y)))
-
-setpos = goto # alias
-setposition = goto # alias
 
 # Switch turtle visibility to ON
 def showturtle():
@@ -682,6 +690,7 @@ ht = hideturtle # alias
 
 def isvisible():
     return is_turtle_visible
+
 
 def _validateColorString(color):
     if color in VALID_COLORS_SET: # 140 predefined html color names
@@ -729,7 +738,6 @@ def bgcolor(color = None, c2 = None, c3 = None):
 
     background_color = _processColor(color)
     _updateDrawing()
-
 
 # Change the color of the pen
 # If no params, return the current pen color
@@ -780,6 +788,7 @@ def color(*args):
     else:
         return pen_color,fill_color
     _updateDrawing()
+
         
 # Change the width of the lines drawn by the turtle, in pixels
 # If the function is called without arguments, it returns the current width
@@ -799,6 +808,7 @@ def width(width = None):
 
 pensize = width  #alias
 
+
 # Calculate the distance between the turtle and a given point
 def distance(x, y=None):
     if isinstance(x, tuple) and y is None:
@@ -814,6 +824,7 @@ def distance(x, y=None):
         raise ValueError('The y position must be a number.')
 
     return round(math.sqrt( (getx() - x) ** 2 + (gety() - y) ** 2 ), 8)
+
 
 # Return the angle between the line from turtle position to position specified by (x,y)
 # This depends on the turtle’s start orientation which depends on the mode - standard/world or logo.  
@@ -841,7 +852,8 @@ def towards(x, y=None):
         return (90 - result) % 360
     else:  # mode = "svg"
         return (360 - result) % 360
-  
+ 
+        
 # Clear any text or drawing on the screen
 def clear():
     global svg_lines_string
@@ -852,6 +864,7 @@ def clear():
     svg_fill_string = ""
     svg_dots_string = ""
     _updateDrawing()
+
 
 def write(obj, **kwargs):
     global svg_lines_string
@@ -901,6 +914,7 @@ def write(obj, **kwargs):
     
     _updateDrawing()
 
+
 # Set turtle shape to shape with given name or, if name is not given, return name of current shape
 def shape(name=None):
     global turtle_shape
@@ -912,6 +926,7 @@ def shape(name=None):
     turtle_shape = name.lower()
     _updateDrawing()
 
+
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
 def mode(mode=None):
     global _mode
@@ -922,7 +937,8 @@ def mode(mode=None):
     
     _mode = mode.lower()   
     reset()
-    
+   
+        
 # Return turtle window width
 def window_width():
     return window_size[0]
@@ -930,6 +946,7 @@ def window_width():
 # Return turtle window height
 def window_height():
     return window_size[1]
+
 
 # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
 def saveSVG(file, turtle=False):
@@ -972,6 +989,7 @@ def showSVG(turtle=False):
     turtle_svg = (_generateTurtleSvgDrawing() + " \n") if turtle else ""
     output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
     print(output) 
+
 
 # Set up user-defined coordinate system using lower left and upper right corners.
 # ATTENTION: in user-defined coordinate systems angles may appear distorted.
@@ -1018,7 +1036,8 @@ def hideBorder():
     global border_color
     border_color = "none"
     _updateDrawing()
-  
+
+
 # Set the defaults used in the original version of ColabTurtle package
 def OldDefaults():
     global DEFAULT_BACKGROUND_COLOR
@@ -1035,7 +1054,8 @@ def OldDefaults():
     DEFAULT_TURTLE_SHAPE = "turtle"
     DEFAULT_WINDOW_SIZE = (800, 500)
 
-# Reset back to defaults
+
+# Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
 def reset():
     global is_turtle_visible
     global pen_color
@@ -1068,9 +1088,16 @@ def reset():
     svg_lines_string = ""
     svg_fill_string = ""
     svg_dots_string = ""
+    svg_stampsB_string = ""
+    svg_stampsT_string = ""
+    stampdictB = {}
+    stampdictT = {}
+    stampnum = 0
+    stamplist = []
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     _updateDrawing()
+
 
 # Scale the size of the turtle
 # stretch_wid scales perpendicular to orientation
@@ -1108,6 +1135,7 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     outline_width = outline
         
 turtlesize = shapesize #alias
+
 
 # Stamp a copy of the turtle shape onto the canvas at the current turtle position.
 # The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in 
