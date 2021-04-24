@@ -1122,7 +1122,7 @@ def stamp(layer=0):
     _updateDrawing()
     return stampnum
 
-def clearstamp(stampid)
+def clearstamp(stampid):
     global stampdictB
     global stampdictT
     if stampid in stampdictB.keys():
@@ -1133,7 +1133,7 @@ def clearstamp(stampid)
          _generateStampSvgString(1)
     _updateDrawing()
 
-def _generateStampSvgString(m)
+def _generateStampSvgString(m):
     global svg_stampsB_string
     global svg_stampsT_string
     tmp = ""
