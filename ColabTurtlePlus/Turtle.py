@@ -89,9 +89,9 @@ DEFAULT_MODE = 'standard'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{background_color};stroke:{kolor};stroke-width:1"/>
-        {stamps}
         {lines}
         {dots}
+        {stamps}
         {turtle}
       </svg>
     """
