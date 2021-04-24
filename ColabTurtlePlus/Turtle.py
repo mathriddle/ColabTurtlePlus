@@ -1121,34 +1121,26 @@ def stamp(layer=0):
         stampdictB[stampnum] = _generateTurtleSvgDrawing()
         svg_stampsB_string += stampdictB[stampnum]
     _updateDrawing()
-    print(stampdictB)
-    print(stampdictT)
     return stampnum
 
+# Delete stamp with given stampid.
+# stampid – an integer, must be return value of previous stamp() call
 def clearstamp(stampid):
     global stampdictB
     global stampdictT
+    global svg_stampsB_string
+    global svg_stampsT_string        
+    tmp = ""
     if stampid in stampdictB.keys():
         stampdictB.pop(stampid)
-        _generateStampSvgString(0)
-    elif stampid in stampdictT.keys():
-        stampdictT.pop(stampid)
-        _generateStampSvgString(1)
-    _updateDrawing()
-    print(stampdictB)
-    print(stampdictT)
-
-def _generateStampSvgString(m):
-    global svg_stampsB_string
-    global svg_stampsT_string
-    tmp = ""
-    if m == 0:
         for n in stampdictB:
             tmp += stampdictB[n]
-        svg_stampsB_string = tmp
-    else:
+        svg_stampsB_string = tmp        
+    elif stampid in stampdictT.keys():
+        stampdictT.pop(stampid)
         for n in stampdictT:
             tmp += stampdictT[n]
         svg_stampsT_string = tmp
-    print(svg_stampsB_string)
-    print(svg_stampsT_string)
+    _updateDrawing()
+
+
