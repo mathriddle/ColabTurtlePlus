@@ -229,7 +229,8 @@ def initializeTurtle(window=None, speed=None, mode=None):
     svg_stampsB_string = svg_stampsT_string = ''
     fill_color = DEFAULT_FILL_COLOR
     fill_rule = DEFAULT_FILL_RULE
-    stampdictB = stampdictT = {}
+    stampdictB = {}
+    stampdictT = {}
     stampnum = 0
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
