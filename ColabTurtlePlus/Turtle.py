@@ -1149,4 +1149,14 @@ def clearstamp(stampid):
     stamplist.remove(stampid)
     _updateDrawing()
 
-
+def clearstamps(n=None):
+    tmplist = stamplist.copy()
+    if n is None:
+         [clearstamp(x) for x in tmplist]
+    elif n > 0:
+        for k in tmplist[:n]:
+            clearstamp(k)
+    elif n < 0:
+        for k in tmplist[n:]:
+            clearstamp(k)
+        
