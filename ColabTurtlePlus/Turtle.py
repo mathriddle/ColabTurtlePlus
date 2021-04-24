@@ -180,6 +180,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     global timeout
     global stampdictB, stampdictT
     global stampnum
+    global stamplist
     
     if window == None:
         window_size = DEFAULT_WINDOW_SIZE
@@ -232,6 +233,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stampdictB = {}
     stampdictT = {}
     stampnum = 0
+    stamplist=[]
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
 
@@ -1113,7 +1115,9 @@ def stamp(layer=0):
     global svg_stampsB_string
     global svg_stampsT_string
     global stampnum
+    global stamplist
     stampnum += 1
+    stamplist.append(stampnum)
     if layer != 0:
         stampdictT[stampnum] = _generateTurtleSvgDrawing()
         svg_stampsT_string += stampdictT[stampnum]
@@ -1129,7 +1133,8 @@ def clearstamp(stampid):
     global stampdictB
     global stampdictT
     global svg_stampsB_string
-    global svg_stampsT_string        
+    global svg_stampsT_string  
+    gloabl stamplist
     tmp = ""
     if stampid in stampdictB.keys():
         stampdictB.pop(stampid)
@@ -1141,6 +1146,7 @@ def clearstamp(stampid):
         for n in stampdictT:
             tmp += stampdictT[n]
         svg_stampsT_string = tmp
+    stamplist.remove(stampid)
     _updateDrawing()
 
 
