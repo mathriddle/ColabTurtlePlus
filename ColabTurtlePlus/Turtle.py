@@ -1134,7 +1134,7 @@ def clearstamp(stampid):
     global stampdictT
     global svg_stampsB_string
     global svg_stampsT_string  
-    gloabl stamplist
+    global stamplist
     tmp = ""
     if stampid in stampdictB.keys():
         stampdictB.pop(stampid)
