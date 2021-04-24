@@ -1130,7 +1130,7 @@ def clearstamp(stampid):
         _generateStampSvgString(0)
     elif stampid in stampdictT.keys():
         stampdictT.pop(stampid)
-         _generateStampSvgString(1)
+        _generateStampSvgString(1)
     _updateDrawing()
 
 def _generateStampSvgString(m):
