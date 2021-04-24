@@ -1149,14 +1149,14 @@ def clearstamp(stampid):
     stamplist.remove(stampid)
     _updateDrawing()
 
+# Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps, else if n < 0 delete last n stamps.
 def clearstamps(n=None):
     tmplist = stamplist.copy()
     if n is None:
-         [clearstamp(x) for x in tmplist]
+        [clearstamp(x) for x in tmplist]
     elif n > 0:
-        for k in tmplist[:n]:
-            clearstamp(k)
+        [clearstamp(k) for k in tmplist[:n]]
     elif n < 0:
-        for k in tmplist[n:]:
-            clearstamp(k)
+        [clearstamp(k) for k in tmplist[n:]]
+
         
