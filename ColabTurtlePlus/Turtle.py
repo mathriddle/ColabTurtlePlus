@@ -1153,10 +1153,10 @@ def clearstamp(stampid):
 def clearstamps(n=None):
     tmplist = stamplist.copy()
     if n is None:
-        [clearstamp(x) for x in tmplist]
+        [clearstamp(x) for x in stamplist]
     elif n > 0:
-        [clearstamp(k) for k in tmplist[:n]]
+        [clearstamp(k) for k in stamplist[:n]]
     elif n < 0:
-        [clearstamp(k) for k in tmplist[n:]]
+        [clearstamp(k) for k in stamplist[n:]]
 
         
