@@ -171,6 +171,10 @@ Works the same as `bgcolor` for the fillcolor.
 * `urx` : x-coordinate of upper right corner of canvas
 * `ury` : y-coordinate of upper right corner of canvas
 
+`stamp()` -> Stamp a copy of the turtle shape onto the canvas at the current turtle position. Return a stamp_id for that stamp, which can be used to delete it by calling clearstamp(stamp_id).\
+`clearstamp(stampid)` -> Delete stamp with given stampid, which can be an integer or a tuple of integers.\
+`clearstamps(n)` -> Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps, else if n < 0 delete last n stamps.
+
 `window_width()` -> Return the width of the turtle window.
 
 `window_height()` -> Return the height of the turtle window.
