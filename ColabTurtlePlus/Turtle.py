@@ -45,6 +45,8 @@ Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified the
 Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 Added dot function to draw a dot with given diameter and color.
 Added shapesize function to scale the turtle shape.
+Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
+  delete stamps.
 Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -1111,6 +1113,7 @@ turtlesize = shapesize #alias
 # The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in 
 # the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if
 # the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number).
+# Returns a stamp_id for that stamp, which can be used to delete it by calling clearstamp(stamp_id).
 def stamp(layer=0):
     global svg_stampsB_string
     global svg_stampsT_string
@@ -1127,7 +1130,7 @@ def stamp(layer=0):
     _updateDrawing()
     return stampnum
 
-
+# Helper function to do the work for clearstamp() and clearstamps()
 def _clearstamp(stampid):
     global stampdictB
     global stampdictT
@@ -1135,7 +1138,6 @@ def _clearstamp(stampid):
     global svg_stampsT_string  
     global stamplist
     tmp = ""
-    
     if stampid in stampdictB.keys():
         stampdictB.pop(stampid)
         stamplist.remove(stampid)
@@ -1151,7 +1153,7 @@ def _clearstamp(stampid):
     _updateDrawing()
 
 # Delete stamp with given stampid.
-# stampid – an integer, must be return value of previous stamp() call
+# stampid – an integer or tuple of integers, which must be return values of previous stamp() calls
 def clearstamp(stampid):
     if isinstance(stampid,tuple):
         for subitem in stampid:
@@ -1159,7 +1161,8 @@ def clearstamp(stampid):
     else:
         _clearstamp(stampid)
 
-# Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps, else if n < 0 delete last n stamps.
+# Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps,
+# else if n < 0 delete last n stamps.
 def clearstamps(n=None):
     if n is None:
         [_clearstamp(k) for k in stamplist]
