@@ -83,7 +83,7 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'aliceblue', 'honeydew', 'azure', 'sandybrown', 'wheat', 'beige', 'whitesmoke', 'mintcream', 'ghostwhite', 'salmon', 'antiquewhite', 'linen', 
                 'lightgoldenrodyellow', 'oldlace', 'red', 'fuchsia', 'magenta', 'deeppink', 'orangered', 'tomato', 'hotpink', 'coral', 'darkorange', 
                 'lightsalmon', 'orange', 'lightpink', 'pink', 'gold', 'peachpuff', 'navajowhite', 'moccasin', 'bisque', 'mistyrose', 'blanchedalmond', 
-                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none')
+                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none','')
 VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
@@ -407,8 +407,7 @@ def begin_fill(rule=None, opacity=None):
                 rule=rule,
                 opacity = opacity)
         is_filling = True
-
-        
+    
 # Terminate the string for the svg path of the filled shape
 # Modified from aronma/ColabTurtle_2 github repo
 # The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
@@ -425,9 +424,9 @@ def end_fill():
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
         _updateDrawing()
-
-        
-# Allow user to set the svg fill_rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill_rule.
+     
+# Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
+# This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
 def fillrule(rule=None):
     global fill_rule
     if rule is None:
@@ -438,8 +437,20 @@ def fillrule(rule=None):
     if not (rule == 'nonzero' or rule == 'evenodd'):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
     fill_rule = rule
-  
-        
+
+# Allow user to set the svg fill-opacity. If no argument, return current fill-opacity.
+# This can be overridden for an individual object by setting the fill-opacity as an argument to begin_fill().
+def fillopacity(opacity=None):
+    global fill_opacity
+    if opacity is None:
+        return fill_opacity
+    if not isinstance(opacity,(int,float)):
+        raise ValueError("The fill-opacity must be a number between 0 and 1.")
+    if (opacity < 0) or (opacity > 1):
+        raise ValueError("The fill_opacity should be between 0 and 1.")
+    fill_opacity = opacity
+
+    
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
