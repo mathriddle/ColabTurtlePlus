@@ -395,7 +395,7 @@ def begin_fill(rule=None, opacity=None):
     if opacity is None:
          opacity = fill_opacity
     rule = rule.lower()
-    if not (rule == 'nonzero' or rule == 'evenodd'):
+    if not rule in ['evenodd','nonzero']:
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
     if (opacity < 0) or (opacity > 1):
         raise ValueError("The fill_opacity should be between 0 and 1.")
@@ -434,7 +434,7 @@ def fillrule(rule=None):
     if not isinstance(rule,str):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
     rule = rule.lower()
-    if not (rule == 'nonzero' or rule == 'evenodd'):
+    if not rule in ['evenodd','nonzero']:
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
     fill_rule = rule
 
