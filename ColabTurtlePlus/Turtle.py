@@ -730,6 +730,7 @@ def _validateColorTuple(color):
 
 def _processColor(color):
     if isinstance(color, str):
+        if color == "": color = "none"
         color = color.lower()
         if not _validateColorString(color):
             raise ValueError('Color is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.')
@@ -746,7 +747,6 @@ def _processColor(color):
 # If no params, return the current background color
 def bgcolor(color = None, c2 = None, c3 = None):
     global background_color
-
     if color is None:
         return background_color
     elif c2 is not None:
@@ -761,7 +761,6 @@ def bgcolor(color = None, c2 = None, c3 = None):
 # If no params, return the current pen color
 def pencolor(color = None, c2 = None, c3 = None):
     global pen_color
-
     if color is None:
         return pen_color
     elif c2 is not None:
@@ -776,7 +775,6 @@ def pencolor(color = None, c2 = None, c3 = None):
 # If no params, return the current fill color
 def fillcolor(color = None, c2 = None, c3 = None):
     global fill_color
-
     if color is None:
         return fill_color
     elif c2 is not None:
