@@ -70,7 +70,7 @@ DEFAULT_SCALEY = 1
 DEFAULT_FILL_RULE = 'evenodd'
 DEFAULT_FILL_OPACITY = 1
 # All 140 color names that modern browsers support, plus 'none'. Taken from https://www.w3schools.com/colors/colors_names.asp
-VALID_COLORS = ['black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
+VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
                 'darkslategray', 'darkslategrey', 'limegreen', 'mediumseagreen', 'turquoise', 'royalblue', 'steelblue', 'darkslateblue', 'mediumturquoise', 
                 'indigo', 'darkolivegreen', 'cadetblue', 'cornflowerblue', 'rebeccapurple', 'mediumaquamarine', 'dimgray', 'dimgrey', 'slateblue', 'olivedrab', 
@@ -83,8 +83,8 @@ VALID_COLORS = ['black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'aliceblue', 'honeydew', 'azure', 'sandybrown', 'wheat', 'beige', 'whitesmoke', 'mintcream', 'ghostwhite', 'salmon', 'antiquewhite', 'linen', 
                 'lightgoldenrodyellow', 'oldlace', 'red', 'fuchsia', 'magenta', 'deeppink', 'orangered', 'tomato', 'hotpink', 'coral', 'darkorange', 
                 'lightsalmon', 'orange', 'lightpink', 'pink', 'gold', 'peachpuff', 'navajowhite', 'moccasin', 'bisque', 'mistyrose', 'blanchedalmond', 
-                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none','']
-VALID_COLORS_SET = set(VALID_COLORS)
+                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none','')
+#VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
 VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank') 
@@ -711,7 +711,7 @@ def isvisible():
 
 
 def _validateColorString(color):
-    if color in VALID_COLORS_SET: # 140 predefined html color names
+    if color in VALID_COLORS: # 140 predefined html color names
         return True
     if re.search("^#(?:[0-9a-fA-F]{3}){1,2}$", color): # 3 or 6 digit hex color code
         return True
@@ -1215,7 +1215,8 @@ def clearstamps(n=None):
     elif n < 0:
         [_clearstamp(k) for k in stamplist[n:]]
 
-def getColor(n):
-    if (n < 1) or (n > 140):
-        raise valueError("color request must be between 1 and 140")
-    return VALID_COLORS[n+1]
+# Get the color corresponding to position n in the valid color list
+def getcolor(n):
+    if (n < 0) or (n > 139):
+        raise valueError("color request must be between 0 and 139")
+    return VALID_COLORS[n]
