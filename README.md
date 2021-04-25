@@ -26,7 +26,7 @@ where turtle (or other name) is the name of the turtle. As Colab stores the decl
 
     turtle.initializeTurtle()
 
-Main Changes from ColabTurtle
+Main differences from ColabTurtle
 ----
 Some of the default values have been changed to mirror those in turtle.py. In particular,
 * Default background color is white
@@ -52,11 +52,13 @@ This version extends ColabTurtle to include more of the commands found in the cl
 * Added done function so that final image is displayed on screen when speed=0.
 * Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world". This should be done immediately after initializing the turtle window.
 * Added towards function to return the angle between the line from turtle position to specified position.
-* Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function. Because the fill is controlled by svg rules, the result may differ from classic turtle fill. There are two possible arguments to specify the SVG fill-rule: 'nonzero' (default) and 'evenodd'.  See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule for details.
-* Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using the svg circle function.
+* Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor, fillrule, and fillopacity functions. Because the fill is controlled by svg rules, the result may differ from classic turtle fill. The fill-rule and fill-opacity can be set as arguments to the begin_fill() function and will apply only to objects filled before the end_fill is called. There are two possible arguments to specify the SVG fill-rule: 'nonzero' (default) and 'evenodd'.  See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule for details.
+* Implemented circle function from aronma/ColabTurtle_2 github. Modified this to match behavior of circle function in classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using the svg circle function.
 * Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 * Added dot function to draw a dot with given diameter and color.
 * Added shapesize function to scale the turtle shape.
+* Added stamp, clearstamp, and clearstamps functions.
+* Add getcolor function to return a color string in the list of 140 valid HTML colors.
 
 Commands
 ----
@@ -110,7 +112,8 @@ Moves the turtle to the point defined by x,y. The coordinates can be given separ
 
 `begin_fill()` -> To be called just before drawing a shape to be filled.\
 `end_fill()` -> Fill the shape drawn after the last call to begin_fill().\
-`fillrule(rule)` -> Sets the global fill_rule (nonzero or evenodd) used by SVG to fill an object. The `begin_fill()` function can take an argument of 'nonzero' or 'evenodd' to set the fill_rule just for that fill. The global default fill-rule is evenodd to match the behavior of classic turtle.py.
+`fillrule(rule)` -> Sets the global fill_rule (nonzero or evenodd) used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The `begin_fill()` function can take an argument of 'nonzero' or 'evenodd' to set the fill_rule just for that fill.\
+`fillopacity(opacity)` -> Sets the global fill-opacity used by SVG to fill an object. The default is 1. The `begin_fill()` function can take an argument between 0 and 1 to set the fill_opacity just for that fill.
 
 `showturtle() | st()` -> Makes the turtle visible.
 
@@ -150,6 +153,8 @@ Works the same as `bgcolor` for the fillcolor.
 `color(string1,string2), color((r1,g1,b1),(r2,g2,b2))` -> Equivalent to pencolor(string1) and fillcolor(string2)
 
 `showBorder(color)` -> Show a border around the graphics window. Default (no parameters) is gray. A color can be specified in a similar way as with `bgcolor`.
+
+`getcolor(n)` -> Returns the color string in position n in the valid color list. Requires 0 <= n <= 139.
 
 `width(w) | pensize(w)` -> Changes the width of the pen. If the parameter is omitted, returns the current pen width.
 
