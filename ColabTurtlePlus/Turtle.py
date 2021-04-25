@@ -1215,4 +1215,7 @@ def clearstamps(n=None):
     elif n < 0:
         [_clearstamp(k) for k in stamplist[n:]]
 
-        
+def getColor(n):
+    if (n < 1) or (n > 140):
+        raise valueError("color request must be between 1 and 140")
+    return VALID_COLORS[n+1]
