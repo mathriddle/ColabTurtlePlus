@@ -68,6 +68,7 @@ DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_SCALEX = 1
 DEFAULT_SCALEY = 1
 DEFAULT_FILL_RULE = 'evenodd'
+DEFAULT_FILL_OPACITY = 1
 # All 140 color names that modern browsers support, plus 'none'. Taken from https://www.w3schools.com/colors/colors_names.asp
 VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
@@ -82,8 +83,8 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'aliceblue', 'honeydew', 'azure', 'sandybrown', 'wheat', 'beige', 'whitesmoke', 'mintcream', 'ghostwhite', 'salmon', 'antiquewhite', 'linen', 
                 'lightgoldenrodyellow', 'oldlace', 'red', 'fuchsia', 'magenta', 'deeppink', 'orangered', 'tomato', 'hotpink', 'coral', 'darkorange', 
                 'lightsalmon', 'orange', 'lightpink', 'pink', 'gold', 'peachpuff', 'navajowhite', 'moccasin', 'bisque', 'mistyrose', 'blanchedalmond', 
-                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none')
-VALID_COLORS_SET = set(VALID_COLORS)
+                'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none','')
+#VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
 VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank') 
@@ -150,6 +151,7 @@ turtle_scalex = DEFAULT_SCALEX
 turtle_scaley = DEFAULT_SCALEY
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
+fill_opacity = DEFAULT_FILL_OPACITY
 
 drawing_window = None
 
@@ -384,24 +386,28 @@ def _arctoNewPosition(r,new_pos):
 # The current svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands.
 # When calling begin_fill, a value for the fill_rule can be given that will apply only to that fill.
-def begin_fill(rule=None):
+def begin_fill(rule=None, opacity=None):
     global is_filling
     global svg_lines_string_orig
     global svg_fill_string
     if rule is None:
          rule = fill_rule
+    if opacity is None:
+         opacity = fill_opacity
     rule = rule.lower()
-    if not (rule == 'nonzero' or rule == 'evenodd'):
+    if not rule in ['evenodd','nonzero']:
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
+    if (opacity < 0) or (opacity > 1):
+        raise ValueError("The fill_opacity should be between 0 and 1.")
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
-        svg_fill_string = """<path fill-rule="{rule}" d="M {x1} {y1} """.format(
+        svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity}" d="M {x1} {y1} """.format(
                 x1=turtle_pos[0],
                 y1=turtle_pos[1],
-                rule=rule)  
+                rule=rule,
+                opacity = opacity)
         is_filling = True
-
-        
+    
 # Terminate the string for the svg path of the filled shape
 # Modified from aronma/ColabTurtle_2 github repo
 # The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
@@ -418,9 +424,9 @@ def end_fill():
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
         _updateDrawing()
-
-        
-# Allow user to set the svg fill_rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill_rule.
+     
+# Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
+# This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
 def fillrule(rule=None):
     global fill_rule
     if rule is None:
@@ -428,11 +434,23 @@ def fillrule(rule=None):
     if not isinstance(rule,str):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
     rule = rule.lower()
-    if not (rule == 'nonzero' or rule == 'evenodd'):
+    if not rule in ['evenodd','nonzero']:
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
     fill_rule = rule
-  
-        
+
+# Allow user to set the svg fill-opacity. If no argument, return current fill-opacity.
+# This can be overridden for an individual object by setting the fill-opacity as an argument to begin_fill().
+def fillopacity(opacity=None):
+    global fill_opacity
+    if opacity is None:
+        return fill_opacity
+    if not isinstance(opacity,(int,float)):
+        raise ValueError("The fill-opacity must be a number between 0 and 1.")
+    if (opacity < 0) or (opacity > 1):
+        raise ValueError("The fill_opacity should be between 0 and 1.")
+    fill_opacity = opacity
+
+    
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
@@ -693,7 +711,7 @@ def isvisible():
 
 
 def _validateColorString(color):
-    if color in VALID_COLORS_SET: # 140 predefined html color names
+    if color in VALID_COLORS: # 140 predefined html color names
         return True
     if re.search("^#(?:[0-9a-fA-F]{3}){1,2}$", color): # 3 or 6 digit hex color code
         return True
@@ -712,6 +730,7 @@ def _validateColorTuple(color):
 
 def _processColor(color):
     if isinstance(color, str):
+        if color == "": color = "none"
         color = color.lower()
         if not _validateColorString(color):
             raise ValueError('Color is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.')
@@ -728,7 +747,6 @@ def _processColor(color):
 # If no params, return the current background color
 def bgcolor(color = None, c2 = None, c3 = None):
     global background_color
-
     if color is None:
         return background_color
     elif c2 is not None:
@@ -743,7 +761,6 @@ def bgcolor(color = None, c2 = None, c3 = None):
 # If no params, return the current pen color
 def pencolor(color = None, c2 = None, c3 = None):
     global pen_color
-
     if color is None:
         return pen_color
     elif c2 is not None:
@@ -758,7 +775,6 @@ def pencolor(color = None, c2 = None, c3 = None):
 # If no params, return the current fill color
 def fillcolor(color = None, c2 = None, c3 = None):
     global fill_color
-
     if color is None:
         return fill_color
     elif c2 is not None:
@@ -1199,4 +1215,8 @@ def clearstamps(n=None):
     elif n < 0:
         [_clearstamp(k) for k in stamplist[n:]]
 
-        
+# Get the color corresponding to position n in the valid color list
+def getcolor(n):
+    if (n < 0) or (n > 139):
+        raise valueError("color request must be between 0 and 139")
+    return VALID_COLORS[n]
