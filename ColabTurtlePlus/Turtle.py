@@ -68,6 +68,7 @@ DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_SCALEX = 1
 DEFAULT_SCALEY = 1
 DEFAULT_FILL_RULE = 'evenodd'
+DEFAULT_FILL_OPACITY = 1
 # All 140 color names that modern browsers support, plus 'none'. Taken from https://www.w3schools.com/colors/colors_names.asp
 VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 'green', 'teal', 'darkcyan', 'deepskyblue', 'darkturquoise', 
                 'mediumspringgreen', 'lime', 'springgreen', 'aqua', 'cyan', 'midnightblue', 'dodgerblue', 'lightseagreen', 'forestgreen', 'seagreen', 
@@ -150,6 +151,7 @@ turtle_scalex = DEFAULT_SCALEX
 turtle_scaley = DEFAULT_SCALEY
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
+fill_opacity = DEFAULT_FILL_OPACITY
 
 drawing_window = None
 
@@ -384,21 +386,26 @@ def _arctoNewPosition(r,new_pos):
 # The current svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands.
 # When calling begin_fill, a value for the fill_rule can be given that will apply only to that fill.
-def begin_fill(rule=None):
+def begin_fill(rule=None, opacity=None):
     global is_filling
     global svg_lines_string_orig
     global svg_fill_string
     if rule is None:
          rule = fill_rule
+    if opacity is None:
+         opacity = fill_opacity
     rule = rule.lower()
     if not (rule == 'nonzero' or rule == 'evenodd'):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
+    if (opacity < 0) or (opacity > 1):
+        raise ValueError("The fill_opacity should be between 0 and 1.")
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
-        svg_fill_string = """<path fill-rule="{rule}" d="M {x1} {y1} """.format(
+        svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity} d="M {x1} {y1} """.format(
                 x1=turtle_pos[0],
                 y1=turtle_pos[1],
-                rule=rule)  
+                rule=rule,
+                opacity = opacity)
         is_filling = True
 
         
