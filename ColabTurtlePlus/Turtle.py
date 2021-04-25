@@ -401,7 +401,7 @@ def begin_fill(rule=None, opacity=None):
         raise ValueError("The fill_opacity should be between 0 and 1.")
     if not is_filling:
         svg_lines_string_orig = svg_lines_string
-        svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity} d="M {x1} {y1} """.format(
+        svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity}" d="M {x1} {y1} """.format(
                 x1=turtle_pos[0],
                 y1=turtle_pos[1],
                 rule=rule,
