@@ -738,7 +738,7 @@ def _processColor(color):
             raise ValueError('Color tuple is invalid. It must be a tuple of three integers, which are in the interval [0,255]')
         return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
     else:
-        raise ValueError('The first parameter must be a color string or a tuple')
+        raise ValueError('The color parameter must be a color string or a tuple')
 
 # Change the background color of the drawing area
 # If color='none', the drawing window will have no background fill.
@@ -1213,6 +1213,8 @@ def getcolor(n):
         raise valueError("color request must be between 0 and 139")
     return VALID_COLORS[n]
 
+
+# Return or set the pen's attributes
 def pen(dictname=None, **pendict):
     global is_turtle_visible
     global is_pen_down
@@ -1220,13 +1222,15 @@ def pen(dictname=None, **pendict):
     global fill_color
     global pen_width
     global turtle_speed
+    global stretchfactor
     global timeout
-    _pd = {"shown"      : is_turtle_visible,
-           "pendown"    : is_pen_down,
-           "pencolor"   : pen_color,
-           "fillcolor"  : fill_color,
-           "pensize"    : pen_width,
-           "speed"      : turtle_speed
+    _pd = {"shown"          : is_turtle_visible,
+           "pendown"        : is_pen_down,
+           "pencolor"       : pen_color,
+           "fillcolor"      : fill_color,
+           "pensize"        : pen_width,
+           "speed"          : turtle_speed,
+           "stretchfactor"  : stretchfactor
           }
     if not (dictname or pendict):
         return _pd
@@ -1240,14 +1244,19 @@ def pen(dictname=None, **pendict):
     if "pendown" in p:
         is_pen_down = p["pendown"]
     if "pencolor" in p:
-        pen_color = p["pencolor"]
+        pen_color = _processColor(p["pencolor"])
     if "fillcolor" in p:
-        fill_color = p["fillcolor"]
+        fill_color = _processColor(p["fillcolor"])
     if "pensize" in p:
         pen_width = p["pensize"]
     if "speed" in p:
         turtle_speed = p["speed"]
         timeout = _speedToSec(turtle_speed)
+    if "stretchfactor" in p:
+        sf = p["stretchfactor"]
+        if isinstance(sf, (int,float)):
+            sf = (sf,sf)
+        stretchfactor = sf
     _updateDrawing
         
 
