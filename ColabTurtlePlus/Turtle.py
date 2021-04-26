@@ -1226,7 +1226,7 @@ def pen(dictname=None, **pendict):
     global is_pen_down
     global pen_color
     global fill_color
-    global pen_size
+    global pen_width
     global turtle_speed
     global timeout
     _pd = {"shown"      : is_turtle_visible,
