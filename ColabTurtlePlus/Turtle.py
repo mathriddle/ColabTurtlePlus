@@ -1220,3 +1220,43 @@ def getcolor(n):
     if (n < 0) or (n > 139):
         raise valueError("color request must be between 0 and 139")
     return VALID_COLORS[n]
+
+def pen(dictname=None, **pendict):
+    global is_turtle_visible
+    global is_pen_down
+    global pen_color
+    global fill_color
+    global pen_size
+    global turtle_speed
+    global timeout
+    _pd = {"shown"      : is_turtle_visible,
+           "pendown"    : is_pen_down,
+           "pencolor"   : pen_color,
+           "fillcolor"  : fill_color,
+           "pensize"    : pen_size,
+           "speed"      : turtle_speed
+          }
+    if not (dictname or pendict):
+        return _pd
+    if isinstance(dictname,dict):
+        p = dictname
+    else:
+        p = {}
+    p.update(pendict)
+    if "shown" in p:
+        is_turtle_visible = p["shown"]
+    if "pendown" in p:
+        is_pen_down = p["pendown"]
+    if "pencolor" in p:
+        pen_color = p["pencolor"]
+    if "fillcolor" in p:
+        fill_color = p["fillcolor"]
+    if "pensize" in p:
+        pen_size = p["pensize"]
+    if "speed" in p:
+        turtle_speed = p["speed"]
+        timeout = _speedToSec(turtle_speed)
+    _updateDrawing
+        
+
+
