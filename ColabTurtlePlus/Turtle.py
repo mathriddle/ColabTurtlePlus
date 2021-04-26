@@ -1223,6 +1223,7 @@ def pen(dictname=None, **pendict):
     global pen_width
     global turtle_speed
     global stretchfactor
+    global outline_width
     global timeout
     _pd = {"shown"          : is_turtle_visible,
            "pendown"        : is_pen_down,
@@ -1230,7 +1231,8 @@ def pen(dictname=None, **pendict):
            "fillcolor"      : fill_color,
            "pensize"        : pen_width,
            "speed"          : turtle_speed,
-           "stretchfactor"  : stretchfactor
+           "stretchfactor"  : stretchfactor,
+           "outline"        : outline_width
           }
     if not (dictname or pendict):
         return _pd
@@ -1257,6 +1259,8 @@ def pen(dictname=None, **pendict):
         if isinstance(sf, (int,float)):
             sf = (sf,sf)
         stretchfactor = sf
+    if "outline" in p:
+        outline_width = p["outline"]
     _updateDrawing
         
 
