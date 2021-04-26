@@ -65,8 +65,7 @@ DEFAULT_IS_PEN_DOWN = True
 DEFAULT_SVG_LINES_STRING = ""
 DEFAULT_PEN_WIDTH = 1
 DEFAULT_OUTLINE_WIDTH = 1
-DEFAULT_SCALEX = 1
-DEFAULT_SCALEY = 1
+DEFAULT_STRETCHFACTOR = (1,1)
 DEFAULT_FILL_RULE = 'evenodd'
 DEFAULT_FILL_OPACITY = 1
 # All 140 color names that modern browsers support, plus 'none'. Taken from https://www.w3schools.com/colors/colors_names.asp
@@ -147,8 +146,7 @@ _mode = DEFAULT_MODE
 border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
-turtle_scalex = DEFAULT_SCALEX
-turtle_scaley = DEFAULT_SCALEY
+stretchfactor = DEFAULT_STRETCH_FACTOR
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
@@ -252,27 +250,27 @@ def _generateTurtleSvgDrawing():
     template = ''
 
     if turtle_shape == 'turtle':
-        turtle_x -= 18*turtle_scalex
-        turtle_y -= 18*turtle_scaley
+        turtle_x -= 18*stretchfactor[0]
+        turtle_y -= 18*stretchfactor[1]
         degrees += 90
         template = TURTLE_TURTLE_SVG_TEMPLATE
     elif turtle_shape == 'classic':
-        turtle_y -= 4.5*turtle_scaley
+        turtle_y -= 4.5*stretchfactor[1]
         degrees -= 90
         template = TURTLE_CLASSIC_SVG_TEMPLATE
     elif turtle_shape == 'ring':
-        turtle_y += 10*turtle_scaley+4
+        turtle_y += 10*stretchfactor[1]+4
         degrees -= 90
         template = TURTLE_RING_SVG_TEMPLATE
     elif turtle_shape == 'arrow':
-        turtle_y -= 5*turtle_scaley
+        turtle_y -= 5*stretchfactor[1]
         degrees -= 90
         template = TURTLE_ARROW_SVG_TEMPLATE
     elif turtle_shape == 'square':
         degrees -= 90
         template = TURTLE_SQUARE_SVG_TEMPLATE
     elif turtle_shape == 'triangle':
-        turtle_y -= 8.66*turtle_scaley
+        turtle_y -= 8.66*stretchfactor[1]
         degrees -= 90
         template = TURTLE_TRIANGLE_SVG_TEMPLATE
     elif turtle_shape == 'circle':
@@ -290,11 +288,11 @@ def _generateTurtleSvgDrawing():
                            turtle_y=turtle_y,
                            visibility=vis, 
                            degrees=degrees,
-                           sx=turtle_scalex,
-                           sy=turtle_scaley,
-                           rx=10*turtle_scalex,
-                           ry=10*turtle_scaley,
-                           cy=-(10*turtle_scaley+4),
+                           sx=stretchfactor[0],
+                           sy=stretchfactor[1],
+                           rx=10*stretchfactor[0],
+                           ry=10*stretchfactor[1],
+                           cy=-(10*stretchfactor[1]+4),
                            pw = outline_width,
                            rotation_x=turtle_pos[0], 
                            rotation_y=turtle_pos[1])
@@ -1086,8 +1084,7 @@ def reset():
     global fill_color
     global border_color
     global turtle_shape
-    global turtle_scalex
-    global turtle_scaley
+    global stretchfactor
     global outline_width
 
     is_turtle_visible = True
@@ -1098,8 +1095,7 @@ def reset():
     #turtle_shape = DEFAULT_TURTLE_SHAPE
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
-    turtle_scalex = DEFAULT_SCALEX
-    turtle_scaley = DEFAULT_SCALEY
+    stretchfactor = DEFAULT_STRETCH_FACTOR
     outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
     svg_fill_string = ""
@@ -1119,12 +1115,11 @@ def reset():
 # stretch_wid scales perpendicular to orientation
 # stretch_len scales in direction of turtle's orientation
 def shapesize(stretch_wid=None, stretch_len=None, outline=None):
-    global turtle_scalex
-    global turtle_scaley
+    global stretchfactor
     global outline_width
 
     if stretch_wid is stretch_len is outline is None:
-        return turtle_scalex, turtle_scaley, outline_width
+        return stretchfactor[0], stretchfactor[1], outline_width
 
     if stretch_wid == 0 or stretch_len == 0:
         raise ValueError("stretch_wid/stretch_len must not be zero")
@@ -1145,9 +1140,6 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
         outline = outline_width
     elif not isinstance(outline, (int,float)):
         raise ValueError('The outline must be a positive number.')        
-        
-    turtle_scalex = stretchfactor[0]
-    turtle_scaley = stretchfactor[1]
     outline_width = outline
         
 turtlesize = shapesize #alias
