@@ -47,6 +47,7 @@ Added dot function to draw a dot with given diameter and color.
 Added shapesize function to scale the turtle shape.
 Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
   delete stamps.
+Added pen function.
 Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -1262,6 +1263,6 @@ def pen(dictname=None, **pendict):
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing
-        
+    
 
 
