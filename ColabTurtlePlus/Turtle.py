@@ -1233,7 +1233,7 @@ def pen(dictname=None, **pendict):
            "pendown"    : is_pen_down,
            "pencolor"   : pen_color,
            "fillcolor"  : fill_color,
-           "pensize"    : pen_size,
+           "pensize"    : pen_width,
            "speed"      : turtle_speed
           }
     if not (dictname or pendict):
@@ -1252,7 +1252,7 @@ def pen(dictname=None, **pendict):
     if "fillcolor" in p:
         fill_color = p["fillcolor"]
     if "pensize" in p:
-        pen_size = p["pensize"]
+        pen_width = p["pensize"]
     if "speed" in p:
         turtle_speed = p["speed"]
         timeout = _speedToSec(turtle_speed)
