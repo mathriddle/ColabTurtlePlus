@@ -146,7 +146,7 @@ _mode = DEFAULT_MODE
 border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
-stretchfactor = DEFAULT_STRETCH_FACTOR
+stretchfactor = DEFAULT_STRETCHFACTOR
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
@@ -1095,7 +1095,7 @@ def reset():
     #turtle_shape = DEFAULT_TURTLE_SHAPE
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
-    stretchfactor = DEFAULT_STRETCH_FACTOR
+    stretchfactor = DEFAULT_STRETCHFACTOR
     outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
     svg_fill_string = ""
