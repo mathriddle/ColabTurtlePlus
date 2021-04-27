@@ -149,7 +149,7 @@ border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
 stretchfactor = DEFAULT_STRETCHFACTOR
-tilt = DEFAULT_TILT_ANGLE
+tilt_angle = DEFAULT_TILT_ANGLE
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
@@ -249,7 +249,7 @@ def _generateTurtleSvgDrawing():
 
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
-    degrees = turtle_degree + tilt
+    degrees = turtle_degree + tilt_angle
     template = ''
 
     if turtle_shape == 'turtle':
@@ -1268,5 +1268,5 @@ def pen(dictname=None, **pendict):
     
 def tilt(angle):
     global tilt
-    tilt = angle
+    tilt_angle = angle
 
