@@ -1267,6 +1267,6 @@ def pen(dictname=None, **pendict):
     _updateDrawing(0)
     
 def tilt(angle):
-    global tilt
+    global tilt_angle
     tilt_angle = angle
 
