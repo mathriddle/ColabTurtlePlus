@@ -67,6 +67,7 @@ DEFAULT_SVG_LINES_STRING = ""
 DEFAULT_PEN_WIDTH = 1
 DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_STRETCHFACTOR = (1,1)
+DEFAULT_TILT_ANGLE = 0
 DEFAULT_FILL_RULE = 'evenodd'
 DEFAULT_FILL_OPACITY = 1
 # All 140 color names that modern browsers support, plus 'none'. Taken from https://www.w3schools.com/colors/colors_names.asp
@@ -148,6 +149,7 @@ border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
 stretchfactor = DEFAULT_STRETCHFACTOR
+tilt = DEFAULT_TILT_ANGLE
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
@@ -247,7 +249,7 @@ def _generateTurtleSvgDrawing():
 
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
-    degrees = turtle_degree
+    degrees = turtle_degree + tilt
     template = ''
 
     if turtle_shape == 'turtle':
@@ -1264,5 +1266,7 @@ def pen(dictname=None, **pendict):
         outline_width = p["outline"]
     _updateDrawing(0)
     
-
+def tilt(angle):
+    global tilt
+    tilt = angle
 
