@@ -316,11 +316,11 @@ def _generateSvgDrawing():
 
 # Helper functions for updating the screen using the latest positions/angles/lines etc.
 # If the turtle speed is 0, the update is skipped so animation is done.
-def _updateDrawing():
+def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if (turtle_speed != 0):
-        time.sleep(timeout)
+        if delay: time.sleep(timeout)
         drawing_window.update(HTML(_generateSvgDrawing()))
 
         
@@ -422,7 +422,7 @@ def end_fill():
                 penwidth=pen_width,
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
-        _updateDrawing()
+        _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
 # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
@@ -513,7 +513,7 @@ def dot(size = None, *color):
             cx=turtle_pos[0],
             cy=turtle_pos[1],
             kolor=color)
-    _updateDrawing()
+    _updateDrawing(0)
  
 
 # Makes the turtle move forward by 'units' units
@@ -693,7 +693,7 @@ heading = getheading # alias
 def showturtle():
     global is_turtle_visible
     is_turtle_visible = True
-    _updateDrawing()
+    _updateDrawing(0)
 
 st = showturtle # alias
 
@@ -701,7 +701,7 @@ st = showturtle # alias
 def hideturtle():
     global is_turtle_visible
     is_turtle_visible = False
-    _updateDrawing()
+    _updateDrawing(0)
 
 ht = hideturtle # alias
 
@@ -754,7 +754,7 @@ def bgcolor(color = None, c2 = None, c3 = None):
         color = (color, c2, c3)
 
     background_color = _processColor(color)
-    _updateDrawing()
+    _updateDrawing(0)
 
 # Change the color of the pen
 # If no params, return the current pen color
@@ -768,7 +768,7 @@ def pencolor(color = None, c2 = None, c3 = None):
         color = (color, c2, c3)
 
     pen_color = _processColor(color)
-    _updateDrawing()
+    _updateDrawing(0)
 
 # Change the fill color
 # If no params, return the current fill color
@@ -782,7 +782,7 @@ def fillcolor(color = None, c2 = None, c3 = None):
         color = (color, c2, c3)
 
     fill_color = _processColor(color)
-    _updateDrawing()
+    _updateDrawing(0)
 
 # Return or set pencolor and fillcolor
 def color(*args):
@@ -802,7 +802,7 @@ def color(*args):
             raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
     else:
         return pen_color,fill_color
-    _updateDrawing()
+    _updateDrawing(0)
 
         
 # Change the width of the lines drawn by the turtle, in pixels
@@ -819,7 +819,7 @@ def width(width = None):
             raise ValueError('New width value must be positive.')
 
         pen_width = width
-    _updateDrawing()
+    _updateDrawing(0)
 
 pensize = width  #alias
 
@@ -878,7 +878,7 @@ def clear():
     svg_lines_string = ""
     svg_fill_string = ""
     svg_dots_string = ""
-    _updateDrawing()
+    _updateDrawing(0)
 
 
 def write(obj, **kwargs):
@@ -927,7 +927,7 @@ def write(obj, **kwargs):
             align=align, 
             style=style_string)
     
-    _updateDrawing()
+    _updateDrawing(0)
 
 
 # Set turtle shape to shape with given name or, if name is not given, return name of current shape
@@ -939,7 +939,7 @@ def shape(name=None):
         raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES))
     
     turtle_shape = name.lower()
-    _updateDrawing()
+    _updateDrawing(0)
 
 
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
@@ -949,7 +949,6 @@ def mode(mode=None):
         return _mode
     elif mode.lower() not in VALID_MODES:
         raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
-    
     _mode = mode.lower()   
     reset()
    
@@ -1044,13 +1043,13 @@ def showBorder(color = None, c2 = None, c3 = None):
         color = (color, c2, c3)
 
     border_color = _processColor(color)
-    _updateDrawing()
+    _updateDrawing(0)
 
 # Hide the border around the graphics window.    
 def hideBorder():
     global border_color
     border_color = "none"
-    _updateDrawing()
+    _updateDrawing(0)
 
 
 # Set the defaults used in the original version of ColabTurtle package
@@ -1109,7 +1108,7 @@ def reset():
     stamplist = []
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     turtle_pos = (window_size[0] / 2, window_size[1] / 2)
-    _updateDrawing()
+    _updateDrawing(0)
 
 
 # Scale the size of the turtle
@@ -1187,7 +1186,7 @@ def _clearstamp(stampid):
         for n in stampdictT:
             tmp += stampdictT[n]
         svg_stampsT_string = tmp
-    _updateDrawing()
+    _updateDrawing(0)
 
 # Delete stamp with given stampid.
 # stampid – an integer or tuple of integers, which must be return values of previous stamp() calls
@@ -1262,7 +1261,7 @@ def pen(dictname=None, **pendict):
         stretchfactor = sf
     if "outline" in p:
         outline_width = p["outline"]
-    _updateDrawing
+    _updateDrawing(0)
     
 
 
