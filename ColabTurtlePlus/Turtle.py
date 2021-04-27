@@ -423,7 +423,7 @@ def end_fill():
                 penwidth=pen_width,
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
-        _updateDrawing(0)
+        _updateDrawing()
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
 # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
@@ -514,7 +514,7 @@ def dot(size = None, *color):
             cx=turtle_pos[0],
             cy=turtle_pos[1],
             kolor=color)
-    _updateDrawing(0)
+    _updateDrawing()
  
 
 # Makes the turtle move forward by 'units' units
