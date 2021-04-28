@@ -366,8 +366,8 @@ def _moveToNewPosition(new_pos):
                         y2=y1 + dy,
                         pen_color=pen_color, 
                         pen_width=pen_width)
-            x1 = x2
-            y1 = y2
+            x1 = x1+dx
+            y1 = y1+dx
             _updateDrawing()
         svg_lines_string = current_svg_lines_string + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
