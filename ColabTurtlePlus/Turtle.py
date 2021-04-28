@@ -183,6 +183,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     global stampdictB, stampdictT
     global stampnum
     global stamplist
+    global tilt_angle
     
     if window == None:
         window_size = DEFAULT_WINDOW_SIZE
@@ -225,6 +226,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     svg_lines_string = DEFAULT_SVG_LINES_STRING
     pen_width = DEFAULT_PEN_WIDTH
     turtle_shape = DEFAULT_TURTLE_SHAPE
+    tilt_angle = DEFAULT_TILT_ANGLE
     is_filling = False
     svg_fill_string = ''
     svg_dots_string = ''
@@ -1227,6 +1229,7 @@ def pen(dictname=None, **pendict):
     global turtle_speed
     global stretchfactor
     global outline_width
+    global tilt_angle
     global timeout
     _pd = {"shown"          : is_turtle_visible,
            "pendown"        : is_pen_down,
@@ -1235,6 +1238,7 @@ def pen(dictname=None, **pendict):
            "pensize"        : pen_width,
            "speed"          : turtle_speed,
            "stretchfactor"  : stretchfactor,
+           "tilt"           : tilt_angle,
            "outline"        : outline_width
           }
     if not (dictname or pendict):
@@ -1262,10 +1266,14 @@ def pen(dictname=None, **pendict):
         if isinstance(sf, (int,float)):
             sf = (sf,sf)
         stretchfactor = sf
+    if "tilt" in p:
+        tilt_angle = tilt
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
     
+
+# Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
     if _mode in ["standard","world"]:
@@ -1274,3 +1282,14 @@ def tilt(angle):
         tilt_angle += angle
     _updateDrawing(0)
 
+# Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
+# DO NOT change the turtle's heading (direction of movement).
+def settiltangle(angle):
+    global tilt_angle
+    if _mode in ["standard","world"]:
+        tilt_angle = -angle
+    else:
+        tilt_angle = angle
+    _updateDrawing(0)    
+    
+    
