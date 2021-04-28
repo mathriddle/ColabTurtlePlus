@@ -402,7 +402,7 @@ def _arctoNewPosition(r,new_pos):
     start_pos = turtle_pos
     if is_pen_down:  
         svg_lines_string += \
-        """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
+        """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
             x1=start_pos[0], 
             y1=start_pos[1],
             rx = rx,
@@ -417,7 +417,7 @@ def _arctoNewPosition(r,new_pos):
     
     turtle_pos = new_pos
     #_updateDrawing()    
-    #    fill="transparent" fill-opacity="0"
+    
         
 # Initialize the string for the svg path of the filled shape.
 # Modified from aronma/ColabTurtle_2 github repo
