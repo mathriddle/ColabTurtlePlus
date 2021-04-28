@@ -383,7 +383,7 @@ def _moveToNewPosition(new_pos):
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
     timeout = current_timeout   
     turtle_pos = new_pos
-    _updateDrawing(0)
+    _updateDrawing()
 
         
 # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
