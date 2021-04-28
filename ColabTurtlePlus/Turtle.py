@@ -401,14 +401,23 @@ def _arctoNewPosition(r,new_pos):
     
     start_pos = turtle_pos
     if is_pen_down:  
-        svg_lines_string += """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
-            x1=start_pos[0], y1=start_pos[1],rx = rx, ry = ry, x2=new_pos[0], y2=new_pos[1], pen_color=pen_color, pen_width=pen_width, s=sweep)    
+        svg_lines_string += \
+        """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
+            x1=start_pos[0], 
+            y1=start_pos[1],
+            rx = rx,
+            ry = ry,
+            x2=new_pos[0],
+            y2=new_pos[1],
+            pen_color=pen_color,
+            pen_width=pen_width,
+            s=sweep)    
     if is_filling:
         svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
     
     turtle_pos = new_pos
     #_updateDrawing()    
-  
+    #    fill="transparent" fill-opacity="0"
         
 # Initialize the string for the svg path of the filled shape.
 # Modified from aronma/ColabTurtle_2 github repo
@@ -514,11 +523,11 @@ def circle(radius, extent=360, **kwargs):
         raise ValueError('Extent should be a positive number')
      
     while extent > 0:
-        if extent > 90:
-            _arc(radius, 90)
+        if extent > 30:
+            _arc(radius, 30)
         else:
             _arc(radius, extent)
-        extent += -90        
+        extent += -30        
 
         
 # Draw a dot with diameter size, using color
@@ -576,7 +585,7 @@ def right(degrees):
         raise ValueError('Degrees must be a number.')
 
     turtle_degree = (turtle_degree + degrees) % 360
-    _updateDrawing()
+    _updateDrawing(0)
 
 rt = right # alias
 
