@@ -966,7 +966,7 @@ def write(obj, **kwargs):
             align=align, 
             style=style_string)
     
-    _updateDrawing(0)
+    _updateDrawing(1)
 
 
 # Set turtle shape to shape with given name or, if name is not given, return name of current shape
