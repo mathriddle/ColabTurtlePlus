@@ -346,6 +346,7 @@ def _moveToNewPosition(new_pos):
     
     current_svg_lines_string = svg_lines_string
     current_timeout = timeout
+    
     timeout = timeout/8
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
@@ -367,7 +368,8 @@ def _moveToNewPosition(new_pos):
                         pen_color=pen_color, 
                         pen_width=pen_width)
             x1 = x1+dx
-            y1 = y1+dx
+            y1 = y1+dy
+            turtle_pos = x1,y1
             _updateDrawing()
         svg_lines_string = current_svg_lines_string + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
