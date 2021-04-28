@@ -326,8 +326,8 @@ def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if (turtle_speed != 0):
-        if delay: time.sleep(timeout)
         drawing_window.update(HTML(_generateSvgDrawing()))
+        if delay: time.sleep(timeout)
 
         
 # Convert to world coordinates
@@ -461,7 +461,7 @@ def end_fill():
                 penwidth=pen_width,
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
-        _updateDrawing()
+        _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
 # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
