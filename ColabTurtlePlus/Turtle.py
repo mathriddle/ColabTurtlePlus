@@ -48,6 +48,7 @@ Added shapesize function to scale the turtle shape.
 Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
   delete stamps.
 Added pen function.
+Added tilt and tiltangle functions.
 Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -67,6 +68,7 @@ DEFAULT_SVG_LINES_STRING = ""
 DEFAULT_PEN_WIDTH = 1
 DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_STRETCHFACTOR = (1,1)
+DEFAULT_TILT_ANGLE = 0
 DEFAULT_FILL_RULE = 'evenodd'
 DEFAULT_FILL_OPACITY = 1
 # All 140 color names that modern browsers support, plus 'none'. Taken from https://www.w3schools.com/colors/colors_names.asp
@@ -148,6 +150,7 @@ border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
 stretchfactor = DEFAULT_STRETCHFACTOR
+tilt_angle = DEFAULT_TILT_ANGLE
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
@@ -181,6 +184,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     global stampdictB, stampdictT
     global stampnum
     global stamplist
+    global tilt_angle
     
     if window == None:
         window_size = DEFAULT_WINDOW_SIZE
@@ -223,6 +227,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     svg_lines_string = DEFAULT_SVG_LINES_STRING
     pen_width = DEFAULT_PEN_WIDTH
     turtle_shape = DEFAULT_TURTLE_SHAPE
+    tilt_angle = DEFAULT_TILT_ANGLE
     is_filling = False
     svg_fill_string = ''
     svg_dots_string = ''
@@ -247,7 +252,7 @@ def _generateTurtleSvgDrawing():
 
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
-    degrees = turtle_degree
+    degrees = turtle_degree + tilt_angle
     template = ''
 
     if turtle_shape == 'turtle':
@@ -1086,6 +1091,7 @@ def reset():
     global border_color
     global turtle_shape
     global stretchfactor
+    global tilt_angle
     global outline_width
 
     is_turtle_visible = True
@@ -1097,6 +1103,7 @@ def reset():
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
     stretchfactor = DEFAULT_STRETCHFACTOR
+    tilt_angle = DEFAULT_TILT_ANGLE
     outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
     svg_fill_string = ""
@@ -1164,7 +1171,7 @@ def stamp(layer=0):
     else:
         stampdictB[stampnum] = _generateTurtleSvgDrawing()
         svg_stampsB_string += stampdictB[stampnum]
-    _updateDrawing()
+    _updateDrawing(0)
     return stampnum
 
 # Helper function to do the work for clearstamp() and clearstamps()
@@ -1225,6 +1232,7 @@ def pen(dictname=None, **pendict):
     global turtle_speed
     global stretchfactor
     global outline_width
+    global tilt_angle
     global timeout
     _pd = {"shown"          : is_turtle_visible,
            "pendown"        : is_pen_down,
@@ -1233,6 +1241,7 @@ def pen(dictname=None, **pendict):
            "pensize"        : pen_width,
            "speed"          : turtle_speed,
            "stretchfactor"  : stretchfactor,
+           "tilt"           : tilt_angle,
            "outline"        : outline_width
           }
     if not (dictname or pendict):
@@ -1260,9 +1269,40 @@ def pen(dictname=None, **pendict):
         if isinstance(sf, (int,float)):
             sf = (sf,sf)
         stretchfactor = sf
+    if "tilt" in p:
+        tilt_angle = tilt
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
     
 
+# Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
+def tilt(angle):
+    global tilt_angle
+    if _mode in ["standard","world"]:
+        tilt_angle -= angle
+    else:
+        tilt_angle += angle
+    _updateDrawing(0)
 
+# Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
+# DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
+def settiltangle(angle):
+    global tilt_angle
+    if _mode in ["standard","world"]:
+        tilt_angle = -angle
+    else:
+        tilt_angle = angle
+    _updateDrawing(0)    
+
+# Set or return the current tilt-angle. 
+# If angle is given, rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle. 
+# Do not change the turtle’s heading (direction of movement). If angle is not given: return the current tilt-angle, 
+# i. e. the angle between the orientation of the turtleshape and the heading of the turtle (its direction of movement).
+def tiltangle(angle=None):
+    global tilt_angle
+    if angle == None:
+        return tilt_angle
+    else:
+        settiltangle(angle)
+   
