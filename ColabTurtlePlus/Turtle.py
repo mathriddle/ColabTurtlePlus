@@ -1283,7 +1283,7 @@ def tilt(angle):
     _updateDrawing(0)
 
 # Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
-# DO NOT change the turtle's heading (direction of movement).
+# DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
 def settiltangle(angle):
     global tilt_angle
     if _mode in ["standard","world"]:
@@ -1291,5 +1291,15 @@ def settiltangle(angle):
     else:
         tilt_angle = angle
     _updateDrawing(0)    
-    
-    
+
+# Set or return the current tilt-angle. 
+# If angle is given, rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle. 
+# Do not change the turtle’s heading (direction of movement). If angle is not given: return the current tilt-angle, 
+# i. e. the angle between the orientation of the turtleshape and the heading of the turtle (its direction of movement).
+def tiltangle(angle=None):
+    global tilt_angle
+    if angle = None:
+        return tilt_angle
+    else:
+        settiltangle(angle)
+   
