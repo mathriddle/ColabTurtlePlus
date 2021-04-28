@@ -352,13 +352,13 @@ def _moveToNewPosition(new_pos):
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
     
     start_pos = turtle_pos
-    dx = (new_pos[0]-start_pos[0])/8
-    dy = (new_pos[1]-start_pos[1])/8
+    dx = (new_pos[0]-start_pos[0])/4
+    dy = (new_pos[1]-start_pos[1])/4
     x1 = start_pos[0]
     y1 = start_pos[1]
     
     if is_pen_down:
-        for k in range(8):
+        for k in range(4):
             svg_lines_string += \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=x1,
