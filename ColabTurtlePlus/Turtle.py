@@ -342,6 +342,7 @@ def _moveToNewPosition(new_pos):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
+    global timeout
     
     current_svg_lines_string = svg_lines_string
     current_timeout = timeout
@@ -378,7 +379,7 @@ def _moveToNewPosition(new_pos):
                         pen_width=pen_width)
     if is_filling:
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
-        
+    timeout = current_timeout   
     turtle_pos = new_pos
    # _updateDrawing()
 
