@@ -523,11 +523,11 @@ def circle(radius, extent=360, **kwargs):
         raise ValueError('Extent should be a positive number')
      
     while extent > 0:
-        if extent > 90:
-            _arc(radius, 90)
+        if extent > 30:
+            _arc(radius, 30)
         else:
             _arc(radius, extent)
-        extent += -90        
+        extent += -30        
 
         
 # Draw a dot with diameter size, using color
