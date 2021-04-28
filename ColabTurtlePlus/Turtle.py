@@ -1090,6 +1090,7 @@ def reset():
     global border_color
     global turtle_shape
     global stretchfactor
+    global tilt_angle
     global outline_width
 
     is_turtle_visible = True
@@ -1101,6 +1102,7 @@ def reset():
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
     stretchfactor = DEFAULT_STRETCHFACTOR
+    tilt_angle = DEFAULT_TILT_ANGLE
     outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
     svg_fill_string = ""
@@ -1168,7 +1170,7 @@ def stamp(layer=0):
     else:
         stampdictB[stampnum] = _generateTurtleSvgDrawing()
         svg_stampsB_string += stampdictB[stampnum]
-    _updateDrawing()
+    _updateDrawing(0)
     return stampnum
 
 # Helper function to do the work for clearstamp() and clearstamps()
