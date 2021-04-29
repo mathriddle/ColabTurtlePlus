@@ -135,7 +135,7 @@ shapeDict = {"turtle":TURTLE_TURTLE2_SVG_TEMPLATE,
               "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE
-              "blank",""}
+              "blank":""}
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
 
@@ -340,7 +340,6 @@ def _updateDrawing(delay=None):
     else:
         pause = delay*timeout
     if (turtle_speed != 0):
-        print("in update: ",shapeDict[turtle_shape])
         time.sleep(pause)       
         drawing_window.update(HTML(_generateSvgDrawing()))        
 
@@ -588,7 +587,6 @@ def right(degrees):
           /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90)
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate}) 
-        print(shapeDict[turtle_shape])
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
