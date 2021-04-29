@@ -322,12 +322,17 @@ def _generateSvgDrawing():
 # Helper functions for updating the screen using the latest positions/angles/lines etc.
 # If the turtle speed is 0, the update is skipped so animation is done.
 # If the delay is False (or 0), update immediately without any delay
-def _updateDrawing(delay=True):
+def _updateDrawing(delay=None):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
+    if delay is None:
+        pause = 1
+    else:
+        pause = delay*timeout
     if (turtle_speed != 0):
-        if delay: time.sleep(timeout)
-        drawing_window.update(HTML(_generateSvgDrawing()))
+        drawing_window.update(HTML(_generateSvgDrawing()))        
+        time.sleep(pause)
+
 
 
         
@@ -571,7 +576,7 @@ def right(degrees):
                     fill="freeze"
           /></g>""".format(lt=degrees, t=timeout*360/degrees)
     TURTLE_TURTLE2_SVG_TEMPLATE = TURTLE_TURTLE2_SVG_TEMPLATE.replace("</g>",tmp)
-    _updateDrawing()
+    _updateDrawing(360/degrees)
     turtle_degree = (turtle_degree_orig + degrees) % 360
     TURTLE_TURTLE2_SVG_TEMPLATE = temp
     
