@@ -566,10 +566,10 @@ def right(degrees):
     tmp = """<animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{lt} 0 0"
-                    begin="0s" dur="5s"
+                    begin="0s" dur={t}
                     repeatCount="1"
                     fill="freeze"
-          /></g>""".format(lt=degrees)
+          /></g>""".format(lt=degrees, t=timeout)
     TURTLE_TURTLE2_SVG_TEMPLATE = TURTLE_TURTLE2_SVG_TEMPLATE.replace("</g>",tmp)
     _updateDrawing()
     print(TURTLE_TURTLE2_SVG_TEMPLATE)
