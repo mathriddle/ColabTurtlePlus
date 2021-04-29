@@ -342,36 +342,14 @@ def _moveToNewPosition(new_pos):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
-    global timeout
-    
-    current_svg_lines_string = svg_lines_string
-    current_timeout = timeout
-    
-    timeout = timeout/8
+
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
     
     start_pos = turtle_pos
-    dx = (new_pos[0]-start_pos[0])/4
-    dy = (new_pos[1]-start_pos[1])/4
-    x1 = start_pos[0]
-    y1 = start_pos[1]
-    
+  
     if is_pen_down:
-        for k in range(4):
-            svg_lines_string += \
-            """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
-                        x1=x1,
-                        y1=y1,
-                        x2=x1 + dx,
-                        y2=y1 + dy,
-                        pen_color=pen_color, 
-                        pen_width=pen_width)
-            x1 = x1+dx
-            y1 = y1+dy
-            turtle_pos = x1,y1
-            _updateDrawing()
-        svg_lines_string = current_svg_lines_string + \
+        svg_lines_string += \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
                         y1=start_pos[1],
@@ -380,8 +358,7 @@ def _moveToNewPosition(new_pos):
                         pen_color=pen_color, 
                         pen_width=pen_width)
     if is_filling:
-        svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
-    timeout = current_timeout   
+        svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
     _updateDrawing()
 
