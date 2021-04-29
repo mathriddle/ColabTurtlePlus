@@ -558,24 +558,21 @@ back = backward # alias
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
 def right(degrees):
     global turtle_degree
-    global timeout
+    global TURTLE_TURTLE2_SVG_TEMPLATE
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
     turtle_degree_orig = turtle_degree
-    deg = degrees
-    timeout_orig = timeout
-    timeout = 0.05
-    s = 1 if degrees > 0 else -1
-    while s*degrees > 0:
-        if s*degrees > 15:
-            turtle_degree = (turtle_degree + s*15) % 360
-            _updateDrawing()
-        else:
-            turtle_degree = (turtle_degree + degrees) % 360
-            _updateDrawing()
-        degrees = degrees - s*15
+    temp = TURTLE_TURTLE2_SVG_TEMPLATE
+    TURTLE_TURTLE2_SVG_TEMPLATE += """<animateTransform attributeName="transform"
+                    type="rotate"
+                    from="{st} {x} {y}" to ="{lt} {x} {y}"
+                    begin="0s" dur=".12s"
+                    repeatCount="1"
+          />""".format(st=turtle_degree, lt=turtle_degree+deg, x=turtle_pos[0],y=turtle_pos[1])
+    _updateDrawing
     turtle_degree = (turtle_degree_orig + deg) % 360
-    timeout = timeout_orig
+    TURTLE_TURTLE2_SVG_TEMPLATE = temp
+    
     #_updateDrawing()
 
 rt = right # alias
