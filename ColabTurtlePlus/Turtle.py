@@ -564,15 +564,15 @@ def right(degrees):
     turtle_degree_orig = turtle_degree
     deg = degrees
     timeout_orig = timeout
-    timeout = timeout*0.80
+    timeout = timeout*0.75
     s = 1 if degrees > 0 else -1
     while s*degrees > 0:
         if s*degrees > 30:
             turtle_degree = (turtle_degree + s*30) % 360
-            _updateDrawing(0)
+            _updateDrawing()
         else:
             turtle_degree = (turtle_degree + degrees) % 360
-            _updateDrawing(0)
+            _updateDrawing()
         degrees = degrees - s*30
     turtle_degree = (turtle_degree_orig + deg) % 360
     timeout = timeout_orig
