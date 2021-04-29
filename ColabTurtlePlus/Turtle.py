@@ -570,7 +570,7 @@ def right(degrees):
                     repeatCount="1"
           />""".format(st=0, lt=degrees, x=turtle_pos[0],y=turtle_pos[1])
     _updateDrawing()
-    #print(TURTLE_TURTLE2_SVG_TEMPLATE
+    print(TURTLE_TURTLE2_SVG_TEMPLATE)
     turtle_degree = (turtle_degree_orig + degrees) % 360
     TURTLE_TURTLE2_SVG_TEMPLATE = temp
     
