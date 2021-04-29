@@ -586,10 +586,10 @@ def right(degrees):
           /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90)
         shapeDict[turtle_shape] = template.replace("</g>",tmp)
         _updateDrawing()
-        turtle_degree = (turtle_degree_orig + degrees) % 360
+        turtle_degree = (turtle_degree + degrees) % 360
         shapeDict[turtle_shape] = template
     else:
-        urtle_degree = (turtle_degree_orig + degrees) % 360
+        urtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
 
 rt = right # alias
