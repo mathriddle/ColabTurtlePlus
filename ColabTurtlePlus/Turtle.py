@@ -584,10 +584,10 @@ def right(degrees):
                     fill="freeze"
           /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90)
         newtemplate = template.replace("</g>",tmp)
-        shapeDict.update({shape:newtemplate}) 
+        shapeDict.update({turtle_shape:newtemplate}) 
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
-        shapeDict.update({shape:template})
+        shapeDict.update({turtle_shape:template})
     else:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
