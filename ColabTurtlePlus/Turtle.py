@@ -558,10 +558,13 @@ back = backward # alias
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
 def right(degrees):
     global turtle_degree
+    global timeout
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
     turtle_degree_orig = turtle_degree
     deg = degrees
+    timeout_orig = timeout
+    timeout = timeout/2
     s = 1 if degrees > 0 else -1
     while s*degrees > 0:
         if s*degrees > 30:
@@ -572,6 +575,7 @@ def right(degrees):
             _updateDrawing(0)
         degrees = degrees - s*30
     turtle_degree = (turtle_degree_orig + deg) % 360
+    timeout = timeout_orig
     #_updateDrawing()
 
 rt = right # alias
