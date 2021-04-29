@@ -572,12 +572,10 @@ back = backward # alias
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
 def right(degrees):
     global turtle_degree
-    global shapeDict
     if not isinstance(degrees, (int,float)):
-        raise ValueError('Degrees must be a number.')
-    template = shapeDict[turtle_shape]
-    print(template)
+        raise ValueError('Degrees must be a number.')    
     if turtle_shape != 'blank':
+        template = shapeDict[turtle_shape]        
         tmp = """<animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{extent} 0 0"
@@ -585,11 +583,11 @@ def right(degrees):
                     repeatCount="1"
                     fill="freeze"
           /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90)
-        shapeDict[turtle_shape] = template.replace("</g>",tmp)
-        print(shapeDict[turtle_shape])
+        newtemplate = template.replace("</g>",tmp)
+        shapeDict.update(shape:newtemplate) 
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
-        shapeDict[turtle_shape] = template
+        shapeDict.update(shape:template)
     else:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
