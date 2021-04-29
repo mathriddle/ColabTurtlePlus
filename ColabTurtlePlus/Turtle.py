@@ -566,10 +566,10 @@ def right(degrees):
     while s*degrees > 0:
         if s*degrees > 30:
             turtle_degree = (turtle_degree + s*30) % 360
-            _updateDrawing()
+            _updateDrawing(0)
         else:
             turtle_degree = (turtle_degree + degrees) % 360
-            _updateDrawing()
+            _updateDrawing(0)
         degrees = degrees - s*30
     turtle_degree = (turtle_degree_orig + deg) % 360
     #_updateDrawing()
