@@ -558,12 +558,21 @@ back = backward # alias
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
 def right(degrees):
     global turtle_degree
-
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
-
-    turtle_degree = (turtle_degree + degrees) % 360
-    _updateDrawing(0)
+    turtle_degree_orig = turtle_degree
+    deg = degrees
+    s = 1 if degrees > 0 else -1
+    while s*degrees > 0:
+        if s*degrees > 30:
+            turtle_degree = (turtle_degree + s*30) % 360
+            _updateDrawing()
+        else:
+            turtle_degree = (turtle_degree + degrees) % 360
+            _updateDrawing()
+        degrees = degrees - s*30
+    turtle_degree = (turtle_degree_orig + deg) % 360
+    #_updateDrawing()
 
 rt = right # alias
 
@@ -944,7 +953,7 @@ def write(obj, **kwargs):
             align=align, 
             style=style_string)
     
-    _updateDrawing(1)
+    _updateDrawing()
 
 
 # Set turtle shape to shape with given name or, if name is not given, return name of current shape
