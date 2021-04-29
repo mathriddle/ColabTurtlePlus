@@ -127,7 +127,7 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 <polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" >
 </g>"""
 
-shapeDict = {"turtle":TURTLE_TURTLE2_SVG_TEMPLATE, 
+shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
               "ring":TURTLE_RING_SVG_TEMPLATE, 
               "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
               "arrow":TURTLE_ARROW_SVG_TEMPLATE,
@@ -269,34 +269,24 @@ def _generateTurtleSvgDrawing():
         turtle_x -= 18*stretchfactor[0]
         turtle_y -= 18*stretchfactor[1]
         degrees += 90
-        template = TURTLE_TURTLE_SVG_TEMPLATE
     elif turtle_shape == 'classic':
         turtle_y -= 4.5*stretchfactor[1]
         degrees -= 90
-        template = TURTLE_CLASSIC_SVG_TEMPLATE
     elif turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
         degrees -= 90
-        template = TURTLE_RING_SVG_TEMPLATE
     elif turtle_shape == 'arrow':
         turtle_y -= 5*stretchfactor[1]
         degrees -= 90
-        template = TURTLE_ARROW_SVG_TEMPLATE
     elif turtle_shape == 'square':
         degrees -= 90
-        template = TURTLE_SQUARE_SVG_TEMPLATE
     elif turtle_shape == 'triangle':
         turtle_y -= 8.66*stretchfactor[1]
         degrees -= 90
-        template = TURTLE_TRIANGLE_SVG_TEMPLATE
     elif turtle_shape == 'circle':
         degrees -= 90
-        template = TURTLE_CIRCLE_SVG_TEMPLATE
     elif turtle_shape == 'turtle2':
         degrees += 90
-        template = TURTLE_TURTLE2_SVG_TEMPLATE
-    elif turtle_shape == 'blank':
-        template = ""
     
     return shapeDict[turtle_shape].format(turtle_color=fill_color,
                            pen_color=pen_color,
