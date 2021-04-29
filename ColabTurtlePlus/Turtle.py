@@ -576,6 +576,7 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
     template = shapeDict[turtle_shape]
+    print(template)
     if turtle_shape != 'blank':
         tmp = """<animateTransform attributeName="transform"
                     type="rotate"
@@ -585,11 +586,12 @@ def right(degrees):
                     fill="freeze"
           /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90)
         shapeDict[turtle_shape] = template.replace("</g>",tmp)
+        print(shapeDict[turtle_shape])
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict[turtle_shape] = template
     else:
-        urtle_degree = (turtle_degree + degrees) % 360
+        turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
 
 rt = right # alias
