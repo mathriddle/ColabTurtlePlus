@@ -338,6 +338,7 @@ def _updateDrawing(delay=None):
     else:
         pause = delay*timeout
     if (turtle_speed != 0):
+        print("in update: ",shapeDict[turtle_shape])
         time.sleep(pause)       
         drawing_window.update(HTML(_generateSvgDrawing()))        
 
