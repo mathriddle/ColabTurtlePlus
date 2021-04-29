@@ -566,7 +566,7 @@ def right(degrees):
     TURTLE_TURTLE2_SVG_TEMPLATE += """<animateTransform attributeName="transform"
                     type="rotate"
                     from="{st} {x} {y}" to ="{lt} {x} {y}"
-                    begin="0s" dur=".12s"
+                    begin="0s" dur="5s"
                     repeatCount="1"
           />""".format(st=0, lt=degrees, x=turtle_pos[0],y=turtle_pos[1])
     _updateDrawing
