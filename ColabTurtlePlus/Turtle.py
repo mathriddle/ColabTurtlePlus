@@ -574,9 +574,9 @@ def right(degrees):
                     begin="0s" dur="{t}s"
                     repeatCount="1"
                     fill="freeze"
-          /></g>""".format(lt=degrees, t=timeout*360/degrees)
+          /></g>""".format(lt=degrees, t=timeout*360/abs(degrees))
     TURTLE_TURTLE2_SVG_TEMPLATE = TURTLE_TURTLE2_SVG_TEMPLATE.replace("</g>",tmp)
-    _updateDrawing(360/degrees)
+    _updateDrawing(360/abs(degrees))
     turtle_degree = (turtle_degree_orig + degrees) % 360
     TURTLE_TURTLE2_SVG_TEMPLATE = temp
     
