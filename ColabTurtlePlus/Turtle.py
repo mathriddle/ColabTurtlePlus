@@ -134,7 +134,7 @@ shapeDict = {"turtle":TURTLE_TURTLE2_SVG_TEMPLATE,
               "square":TURTLE_SQUARE_SVG_TEMPLATE,
               "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
-              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE
+              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
