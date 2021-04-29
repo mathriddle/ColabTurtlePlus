@@ -563,12 +563,12 @@ def right(degrees):
         raise ValueError('Degrees must be a number.')
     turtle_degree_orig = turtle_degree
     temp = TURTLE_TURTLE2_SVG_TEMPLATE
-    TURTLE_TURTLE2_SVG_TEMPLATE += """<animateTransform attributeName="transform"
+    TURTLE_TURTLE2_SVG_TEMPLATE = TURTLE_TURTLE2_SVG_TEMPLATE.replace("</g>","""<animateTransform attributeName="transform"
                     type="rotate"
                     from="{st} {x} {y}" to ="{lt} {x} {y}"
                     begin="0s" dur="5s"
                     repeatCount="1"
-          />""".format(st=0, lt=degrees, x=turtle_pos[0],y=turtle_pos[1])
+          /></g>""".format(st=0, lt=degrees, x=turtle_pos[0],y=turtle_pos[1])
     _updateDrawing()
     print(TURTLE_TURTLE2_SVG_TEMPLATE)
     turtle_degree = (turtle_degree_orig + degrees) % 360
