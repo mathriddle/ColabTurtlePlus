@@ -106,7 +106,7 @@ TURTLE_TURTLE_SVG_TEMPLATE = """<g id="turtle" visibility="{visibility}" transfo
 </g>"""
 TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <ellipse stroke="{pen_color}" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
-<polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:0" />
+<polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:1" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
@@ -329,6 +329,7 @@ def _updateDrawing(delay=True):
         if delay: time.sleep(timeout)
         drawing_window.update(HTML(_generateSvgDrawing()))
 
+
         
 # Convert to world coordinates
 def _convertx(x):
@@ -347,6 +348,7 @@ def _moveToNewPosition(new_pos):
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
     
     start_pos = turtle_pos
+  
     if is_pen_down:
         svg_lines_string += \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
@@ -357,7 +359,7 @@ def _moveToNewPosition(new_pos):
                         pen_color=pen_color, 
                         pen_width=pen_width)
     if is_filling:
-        svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])
+        svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
     _updateDrawing()
 
@@ -377,14 +379,23 @@ def _arctoNewPosition(r,new_pos):
     
     start_pos = turtle_pos
     if is_pen_down:  
-        svg_lines_string += """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
-            x1=start_pos[0], y1=start_pos[1],rx = rx, ry = ry, x2=new_pos[0], y2=new_pos[1], pen_color=pen_color, pen_width=pen_width, s=sweep)    
+        svg_lines_string += \
+        """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
+            x1=start_pos[0], 
+            y1=start_pos[1],
+            rx = rx,
+            ry = ry,
+            x2=new_pos[0],
+            y2=new_pos[1],
+            pen_color=pen_color,
+            pen_width=pen_width,
+            s=sweep)    
     if is_filling:
         svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
     
     turtle_pos = new_pos
     #_updateDrawing()    
-  
+    
         
 # Initialize the string for the svg path of the filled shape.
 # Modified from aronma/ColabTurtle_2 github repo
@@ -547,19 +558,30 @@ back = backward # alias
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
 def right(degrees):
     global turtle_degree
-
+    global timeout
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
-
-    turtle_degree = (turtle_degree + degrees) % 360
-    _updateDrawing()
+    turtle_degree_orig = turtle_degree
+    deg = degrees
+    timeout_orig = timeout
+    timeout = 0.05
+    s = 1 if degrees > 0 else -1
+    while s*degrees > 0:
+        if s*degrees > 15:
+            turtle_degree = (turtle_degree + s*15) % 360
+            _updateDrawing()
+        else:
+            turtle_degree = (turtle_degree + degrees) % 360
+            _updateDrawing()
+        degrees = degrees - s*15
+    turtle_degree = (turtle_degree_orig + deg) % 360
+    timeout = timeout_orig
+    #_updateDrawing()
 
 rt = right # alias
 
 # Makes the turtle move right by 'degrees' degrees (NOT radians, this library does not support radians right now)
 def left(degrees):
-    if not isinstance(degrees, (int,float)):
-        raise ValueError('Degrees must be a number.')
     right(-1 * degrees)
 
 lt = left
@@ -933,7 +955,7 @@ def write(obj, **kwargs):
             align=align, 
             style=style_string)
     
-    _updateDrawing(0)
+    _updateDrawing()
 
 
 # Set turtle shape to shape with given name or, if name is not given, return name of current shape
