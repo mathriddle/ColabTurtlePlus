@@ -330,8 +330,9 @@ def _updateDrawing(delay=None):
     else:
         pause = delay*timeout
     if (turtle_speed != 0):
+        time.sleep(pause)       
         drawing_window.update(HTML(_generateSvgDrawing()))        
-        time.sleep(pause)
+
 
 
 
@@ -576,7 +577,7 @@ def right(degrees):
                     fill="freeze"
           /></g>""".format(lt=degrees, t=timeout*360/abs(degrees))
     TURTLE_TURTLE2_SVG_TEMPLATE = TURTLE_TURTLE2_SVG_TEMPLATE.replace("</g>",tmp)
-    _updateDrawing(360/abs(degrees))
+    _updateDrawing()
     turtle_degree = (turtle_degree_orig + degrees) % 360
     TURTLE_TURTLE2_SVG_TEMPLATE = temp
     
