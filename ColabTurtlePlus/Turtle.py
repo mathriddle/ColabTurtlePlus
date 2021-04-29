@@ -566,7 +566,7 @@ def right(degrees):
     tmp = """<animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{lt} 0 0"
-                    begin="0s" dur={t}
+                    begin="0s" dur="{t}s"
                     repeatCount="1"
                     fill="freeze"
           /></g>""".format(lt=degrees, t=timeout)
