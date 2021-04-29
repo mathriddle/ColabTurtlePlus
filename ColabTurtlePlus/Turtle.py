@@ -127,7 +127,7 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 <polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" >
 </g>"""
 
-shapesDict = {"turtle":TURTLE_TURTLE2_SVG_TEMPLATE, 
+shapeDict = {"turtle":TURTLE_TURTLE2_SVG_TEMPLATE, 
               "ring":TURTLE_RING_SVG_TEMPLATE, 
               "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
               "arrow":TURTLE_ARROW_SVG_TEMPLATE,
