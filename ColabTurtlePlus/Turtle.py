@@ -137,7 +137,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
 
-SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
+SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.025, 12: 0.01, 13: 0.005}
 
 # Helper function that maps [0,13] speed values to ms delays
 def _speedToSec(speed):
@@ -322,15 +322,11 @@ def _generateSvgDrawing():
 # Helper functions for updating the screen using the latest positions/angles/lines etc.
 # If the turtle speed is 0, the update is skipped so animation is done.
 # If the delay is False (or 0), update immediately without any delay
-def _updateDrawing(delay=None):
+def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    if delay is None:
-        pause = 1
-    else:
-        pause = delay*timeout
     if (turtle_speed != 0):
-        time.sleep(pause)       
+        if delay: time.sleep(timeout)       
         drawing_window.update(HTML(_generateSvgDrawing()))        
 
 
@@ -566,9 +562,13 @@ back = backward # alias
 def right(degrees):
     global turtle_degree
     global stretchfactor
+    global timeout
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')    
-    if turtle_speed != 0 and turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
+    if turtle_speed == 0:
+        turtle_degree = (turtle_degree + degrees) % 360
+        _updateDrawing()
+    elif turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
         stretchfactor_orig = stretchfactor
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
@@ -593,9 +593,21 @@ def right(degrees):
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
-    else:
+    else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
+        turtle_degree_orig = turtle_degree
+        timeout_orig = timeout
+        timeout = timeout/3
+        s = 1 if degrees > 0 else -1
+        while s*degrees > 0:
+            if s*degrees > 30:
+                turtle_degree = (turtle_degree + s*30) % 360
+                _updateDrawing()
+            else:
+                turtle_degree = (turtle_degree + degrees) % 360
+                _updateDrawing()
+            degrees = degrees - s*30
+        timeout = timeout_orig
         turtle_degree = (turtle_degree + degrees) % 360
-        _updateDrawing()
 
 rt = right # alias
 
