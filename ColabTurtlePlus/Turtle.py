@@ -322,15 +322,11 @@ def _generateSvgDrawing():
 # Helper functions for updating the screen using the latest positions/angles/lines etc.
 # If the turtle speed is 0, the update is skipped so animation is done.
 # If the delay is False (or 0), update immediately without any delay
-def _updateDrawing(delay=None):
+def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    if delay is None:
-        pause = 1
-    else:
-        pause = delay*timeout
     if (turtle_speed != 0):
-        time.sleep(pause)       
+        if delay: time.sleep(timeout)       
         drawing_window.update(HTML(_generateSvgDrawing()))        
 
 
