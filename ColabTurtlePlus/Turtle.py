@@ -109,10 +109,10 @@ TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="
 <polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:1" >
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-10,0 0,10 10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="-10,-5 0,5 10,-5" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
@@ -270,13 +270,13 @@ def _generateTurtleSvgDrawing():
         turtle_y -= 0 #18*stretchfactor[1]
         degrees += 90
     elif turtle_shape == 'classic':
-        turtle_y -= 4.5*stretchfactor[1]
+        turtle_y -= 0 #4.5*stretchfactor[1]
         degrees -= 90
     elif turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
         degrees -= 90
     elif turtle_shape == 'arrow':
-        turtle_y -= 5*stretchfactor[1]
+        turtle_y -= 0 #5*stretchfactor[1]
         degrees -= 90
     elif turtle_shape == 'square':
         degrees -= 90
