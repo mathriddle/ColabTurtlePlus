@@ -311,13 +311,9 @@ def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if (turtle_speed != 0):
+        if delay: time.sleep(timeout)          
         drawing_window.update(HTML(_generateSvgDrawing()))             
-        if delay: time.sleep(timeout)       
-  
-
-
-
-
+     
         
 # Convert to world coordinates
 def _convertx(x):
