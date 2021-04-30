@@ -599,7 +599,6 @@ def right(degrees):
         stretchfactor = stretchfactor_orig
     else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
         turtle_degree_orig = turtle_degree
-        deg = degrees
         timeout_orig = timeout
         timeout = timeout/3
         s = 1 if degrees > 0 else -1
@@ -611,7 +610,8 @@ def right(degrees):
                 turtle_degree = (turtle_degree + degrees) % 360
                 _updateDrawing()
             degrees = degrees - s*30
-
+        timeout = timeout_orig
+        turtle_degree = (turtle_degree + degrees) % 360
 
 rt = right # alias
 
