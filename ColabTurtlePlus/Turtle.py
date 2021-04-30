@@ -311,8 +311,9 @@ def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if (turtle_speed != 0):
+        drawing_window.update(HTML(_generateSvgDrawing()))             
         if delay: time.sleep(timeout)       
-        drawing_window.update(HTML(_generateSvgDrawing()))        
+  
 
 
 
@@ -551,7 +552,8 @@ def right(degrees):
     global stretchfactor
     global timeout
     if not isinstance(degrees, (int,float)):
-        raise ValueError('Degrees must be a number.')    
+        raise ValueError('Degrees must be a number.')  
+    timeout_orig = timeout
     if turtle_speed == 0:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
@@ -576,13 +578,14 @@ def right(degrees):
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
+        timeout = timeout*abs(degrees)/90+0.001
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
+        timeout = timeout_orig
     else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
         turtle_degree_orig = turtle_degree
-        timeout_orig = timeout
         timeout = timeout/3
         s = 1 if degrees > 0 else -1
         while s*degrees > 0:
