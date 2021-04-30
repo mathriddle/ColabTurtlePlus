@@ -568,13 +568,19 @@ def right(degrees):
         raise ValueError('Degrees must be a number.')    
     if turtle_shape != 'blank':
         template = shapeDict[turtle_shape]        
-        tmp = """<animateTransform attributeName="transform"
+        tmp = """<animateTransform id = "one" attributeName="transform"
+                      type="scale"
+                      from="1 1" to="{sx} {sy}"
+                      begin="0s" dur="0.0001s"
+                      repeatCount="1"
+                      fill="freeze"
+            /><animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{extent} 0 0"
-                    begin="0s" dur="{t}s"
+                    begin="one.end" dur="{t}s"
                     repeatCount="1"
                     fill="freeze"
-          /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90)
+          /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate}) 
         _updateDrawing()
