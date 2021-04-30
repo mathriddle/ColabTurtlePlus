@@ -601,7 +601,7 @@ def right(degrees):
         turtle_degree_orig = turtle_degree
         deg = degrees
         timeout_orig = timeout
-        timeout = 0.05
+        timeout = timeout*abs(degrees)/90
         s = 1 if degrees > 0 else -1
         while s*degrees > 0:
             if s*degrees > 15:
