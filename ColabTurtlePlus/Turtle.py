@@ -251,6 +251,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stamplist=[]
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
+    _updateDrawing()
 
 
 # Helper function for generating svg string of the turtle
@@ -311,8 +312,9 @@ def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if (turtle_speed != 0):
+        drawing_window.update(HTML(_generateSvgDrawing()))         
         if delay: time.sleep(timeout)          
-        drawing_window.update(HTML(_generateSvgDrawing()))             
+            
      
         
 # Convert to world coordinates
