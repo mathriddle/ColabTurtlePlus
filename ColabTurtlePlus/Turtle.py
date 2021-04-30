@@ -264,29 +264,14 @@ def _generateTurtleSvgDrawing():
     turtle_y = turtle_pos[1]
     degrees = turtle_degree + tilt_angle
     template = ''
-
-    if turtle_shape == 'turtle':
-        turtle_x -= 0 #18*stretchfactor[0]
-        turtle_y -= 0 #18*stretchfactor[1]
+    
+    if turtle_shape in ['turtle','turtle2']:
         degrees += 90
-    elif turtle_shape == 'classic':
-        turtle_y -= 0 #4.5*stretchfactor[1]
-        degrees -= 90
     elif turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
         degrees -= 90
-    elif turtle_shape == 'arrow':
-        turtle_y -= 0 #5*stretchfactor[1]
-        degrees -= 90
-    elif turtle_shape == 'square':
-        degrees -= 90
-    elif turtle_shape == 'triangle':
-        turtle_y -= 0 #8.66*stretchfactor[1]
-        degrees -= 90
-    elif turtle_shape == 'circle':
-        degrees -= 90
-    elif turtle_shape == 'turtle2':
-        degrees += 90
+    else:
+        degrees -= 90        
     
     return shapeDict[turtle_shape].format(turtle_color=fill_color,
                            pen_color=pen_color,
@@ -558,7 +543,9 @@ back = backward # alias
 
 
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
-# Uses SVG animation to rotate turtle
+# Uses SVG animation to rotate turtle.
+# But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
+# so in that case break the rotation into pieces of at most 30 degrees.
 def right(degrees):
     global turtle_degree
     global stretchfactor
