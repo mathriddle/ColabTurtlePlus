@@ -568,13 +568,13 @@ def right(degrees):
     global stretchfactor
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')    
-    if turtle_speed != 0 and turtle_shape != 'blank':
+    if turtle_speed != 0 and turtle_shape != 'blank' and stretchfactor[0]==stretchfactor[1]:
         stretchfactor_orig = stretchfactor
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
-                      begin="0s" dur="0.01s"
+                      begin="0s" dur="0.001s"
                       repeatCount="1"
                       additive="sum"
                       fill="freeze"
