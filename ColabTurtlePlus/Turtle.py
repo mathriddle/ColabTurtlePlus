@@ -332,7 +332,7 @@ def _moveToNewPosition(new_pos):
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
     start_pos = turtle_pos
-    dist = (new_pos[0]-start_pos[0])^2 + (new_pos[1]-start_pos[1])^2
+    #dist = (new_pos[0]-start_pos[0])**2 + (new_pos[1]-start_pos[1])**2
   
     if is_pen_down:
         stretchfactor_orig = stretchfactor
