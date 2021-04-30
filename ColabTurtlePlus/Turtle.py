@@ -569,7 +569,7 @@ def right(degrees):
     global timeout
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')    
-    if turtle_speed == 0
+    if turtle_speed == 0:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
     elif turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
