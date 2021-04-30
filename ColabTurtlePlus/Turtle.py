@@ -570,7 +570,7 @@ def right(degrees):
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform"
                       type="scale"
-                      from="1 1" to="{sx} {sy}"
+                      from="1 1" to="{sx}" "{sy}"
                       begin="0s" dur="0.0001s"
                       repeatCount="1"
                       fill="freeze"
