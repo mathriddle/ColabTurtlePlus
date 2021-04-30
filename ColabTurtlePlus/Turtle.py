@@ -573,7 +573,7 @@ def right(degrees):
         tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
-                      begin="0s" dur="0.0001s"
+                      begin="0s" dur="0.01s"
                       repeatCount="1"
                       additive="sum"
                       fill="freeze"
@@ -582,15 +582,18 @@ def right(degrees):
                     from="0 0 0" to ="{extent} 0 0"
                     begin="one.end" dur="{t}s"
                     repeatCount="1"
+                    additive="sum"
                     fill="freeze"
           /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
+        print(pen())
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
+        print(pen())
     else:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
