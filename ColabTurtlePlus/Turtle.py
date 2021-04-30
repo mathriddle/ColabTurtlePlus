@@ -609,7 +609,7 @@ def right(degrees):
                 _updateDrawing()
             else:
                 turtle_degree = (turtle_degree + degrees) % 360
-               _updateDrawing()
+                _updateDrawing()
             degrees = degrees - s*15
 
 
