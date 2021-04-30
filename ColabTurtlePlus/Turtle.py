@@ -251,7 +251,6 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stamplist=[]
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
-    _updateDrawing()
 
 
 # Helper function for generating svg string of the turtle
