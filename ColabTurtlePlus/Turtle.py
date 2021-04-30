@@ -566,9 +566,13 @@ back = backward # alias
 def right(degrees):
     global turtle_degree
     global stretchfactor
+    global timeout
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')    
-    if turtle_speed != 0 and turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
+    if turtle_speed == 0
+        turtle_degree = (turtle_degree + degrees) % 360
+        _updateDrawing()
+    elif turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
         stretchfactor_orig = stretchfactor
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
@@ -593,9 +597,21 @@ def right(degrees):
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
-    else:
-        turtle_degree = (turtle_degree + degrees) % 360
-        _updateDrawing()
+    else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
+        turtle_degree_orig = turtle_degree
+        deg = degrees
+        timeout_orig = timeout
+        timeout = 0.05
+        s = 1 if degrees > 0 else -1
+        while s*degrees > 0:
+            if s*degrees > 15:
+                turtle_degree = (turtle_degree + s*15) % 360
+                _updateDrawing()
+            else:
+                turtle_degree = (turtle_degree + degrees) % 360
+               _updateDrawing()
+            degrees = degrees - s*15
+
 
 rt = right # alias
 
