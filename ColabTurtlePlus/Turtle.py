@@ -118,7 +118,7 @@ TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transfo
 <polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_TRIANGLE_SVG_TEMPLATE = """<g id="triangle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,0 0,17.32 -10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="10,-8.66 0,8.66 -10,-8.66" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <ellipse stroke="{turtle_color}" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" >
@@ -281,7 +281,7 @@ def _generateTurtleSvgDrawing():
     elif turtle_shape == 'square':
         degrees -= 90
     elif turtle_shape == 'triangle':
-        turtle_y -= 8.66*stretchfactor[1]
+        turtle_y -= 0 #8.66*stretchfactor[1]
         degrees -= 90
     elif turtle_shape == 'circle':
         degrees -= 90
@@ -562,12 +562,13 @@ back = backward # alias
 
 
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
+# Uses SVG animation to rotate turtle
 def right(degrees):
     global turtle_degree
     global stretchfactor
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')    
-    if turtle_shape != 'blank':
+    if turtle_speed != 0 and turtle_shape != 'blank':
         stretchfactor_orig = stretchfactor
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
@@ -588,12 +589,10 @@ def right(degrees):
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
-        print(pen())
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
-        print(pen())
     else:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
