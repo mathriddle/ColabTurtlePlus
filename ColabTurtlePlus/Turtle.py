@@ -102,32 +102,42 @@ SVG_TEMPLATE = """
       </svg>
     """
 TURTLE_TURTLE_SVG_TEMPLATE = """<g id="turtle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<path style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="scale({sx},{sy})" d="M 18.214844 0.632812 C 16.109375 1.800781 15.011719 4.074219 15.074219 7.132812 L 15.085938 7.652344 L 14.785156 7.496094 C 13.476562 6.824219 11.957031 6.671875 10.40625 7.066406 C 8.46875 7.550781 6.515625 9.15625 4.394531 11.992188 C 3.0625 13.777344 2.679688 14.636719 3.042969 15.027344 L 3.15625 15.152344 L 3.519531 15.152344 C 4.238281 15.152344 4.828125 14.886719 8.1875 13.039062 C 9.386719 12.378906 10.371094 11.839844 10.378906 11.839844 C 10.386719 11.839844 10.355469 11.929688 10.304688 12.035156 C 9.832031 13.09375 9.257812 14.820312 8.96875 16.078125 C 7.914062 20.652344 8.617188 24.53125 11.070312 27.660156 C 11.351562 28.015625 11.363281 27.914062 10.972656 28.382812 C 8.925781 30.84375 7.945312 33.28125 8.238281 35.1875 C 8.289062 35.527344 8.28125 35.523438 8.917969 35.523438 C 10.941406 35.523438 13.074219 34.207031 15.136719 31.6875 C 15.359375 31.417969 15.328125 31.425781 15.5625 31.574219 C 16.292969 32.042969 18.023438 32.964844 18.175781 32.964844 C 18.335938 32.964844 19.941406 32.210938 20.828125 31.71875 C 20.996094 31.625 21.136719 31.554688 21.136719 31.558594 C 21.203125 31.664062 21.898438 32.414062 22.222656 32.730469 C 23.835938 34.300781 25.5625 35.132812 27.582031 35.300781 C 27.90625 35.328125 27.9375 35.308594 28.007812 34.984375 C 28.382812 33.242188 27.625 30.925781 25.863281 28.425781 L 25.542969 27.96875 L 25.699219 27.785156 C 28.945312 23.960938 29.132812 18.699219 26.257812 11.96875 L 26.207031 11.84375 L 27.945312 12.703125 C 31.53125 14.476562 32.316406 14.800781 33.03125 14.800781 C 33.976562 14.800781 33.78125 13.9375 32.472656 12.292969 C 28.519531 7.355469 25.394531 5.925781 21.921875 7.472656 L 21.558594 7.636719 L 21.578125 7.542969 C 21.699219 6.992188 21.761719 5.742188 21.699219 5.164062 C 21.496094 3.296875 20.664062 1.964844 19.003906 0.855469 C 18.480469 0.503906 18.457031 0.5 18.214844 0.632812" />
+<path style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="scale({sx},{sy})" d="m 1.1536693,-18.56101 c -2.105469,1.167969 -3.203125,3.441407 -3.140625,6.5 l 0.011719,0.519532 -0.300782,-0.15625 c -1.308594,-0.671875 -2.828125,-0.824219 -4.378906,-0.429688 -1.9375,0.484375 -3.8906253,2.089844 -6.0117193,4.9257825 -1.332031,1.785156 -1.714843,2.644531 -1.351562,3.035156 l 0.113281,0.125 h 0.363281 c 0.71875,0 1.308594,-0.265625 4.6679693,-2.113282 1.199219,-0.660156 2.183594,-1.199218 2.191406,-1.199218 0.00781,0 -0.023437,0.089844 -0.074218,0.195312 -0.472657,1.058594 -1.046876,2.785156 -1.335938,4.042969 -1.054688,4.574219 -0.351562,8.453125 2.101562,11.582031 0.28125,0.355469 0.292969,0.253906 -0.097656,0.722656 -2.046875,2.4609375 -3.027344,4.8984375 -2.734375,6.8046875 0.050781,0.339844 0.042969,0.335938 0.679688,0.335938 2.023437,0 4.15625,-1.316407 6.21875,-3.835938 0.222656,-0.269531 0.191406,-0.261719 0.425781,-0.113281 0.730469,0.46875 2.460938,1.390625 2.613281,1.390625 0.160157,0 1.765625,-0.753906 2.652344,-1.246094 0.167969,-0.09375 0.308594,-0.164062 0.308594,-0.160156 0.066406,0.105468 0.761719,0.855468 1.085937,1.171875 1.613282,1.570312 3.339844,2.402343 5.3593747,2.570312 0.324219,0.02734 0.355469,0.0078 0.425781,-0.316406 0.375,-1.742187 -0.382812,-4.058594 -2.1445307,-6.5585935 l -0.320312,-0.457031 0.15625,-0.183594 c 3.2460927,-3.824218 3.4335927,-9.08593704 0.558593,-15.816406 l -0.050781,-0.125 1.7382807,0.859375 c 3.585938,1.773437 4.371094,2.097656 5.085938,2.097656 0.945312,0 0.75,-0.863281 -0.558594,-2.507812 C 11.458356,-11.838353 8.3333563,-13.268041 4.8607003,-11.721166 l -0.363281,0.164063 0.019531,-0.09375 c 0.121094,-0.550781 0.183594,-1.800781 0.121094,-2.378907 -0.203125,-1.867187 -1.035157,-3.199218 -2.695313,-4.308593 -0.523437,-0.351563 -0.546875,-0.355469 -0.789062,-0.222657" >
 </g>"""
 TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <ellipse stroke="{pen_color}" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
 <polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:1" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,0 0,2 5,0 0,9" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-10,0 0,10 10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="-10,-5 0,5 10,-5" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_TRIANGLE_SVG_TEMPLATE = """<g id="triangle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,0 0,17.32 -10,0" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="10,-8.66 0,8.66 -10,-8.66" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<ellipse stroke="{turtle_color}" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" />
+<ellipse stroke="{turtle_color}" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" >
 </g>"""
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" />
+<polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" >
 </g>"""
 
-SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 0.9, 3: 0.7, 4: 0.5, 5: 0.3, 6: 0.18, 7: 0.12, 8: 0.06, 9: 0.04, 10: 0.02, 11: 0.01, 12: 0.001, 13: 0.0001}
+shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
+              "ring":TURTLE_RING_SVG_TEMPLATE, 
+              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
+              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
+              "square":TURTLE_SQUARE_SVG_TEMPLATE,
+              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
+              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
+              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
+              "blank":""}
+
+SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.025, 12: 0.01, 13: 0.005}
 
 # Helper function that maps [0,13] speed values to ms delays
 def _speedToSec(speed):
@@ -254,41 +264,16 @@ def _generateTurtleSvgDrawing():
     turtle_y = turtle_pos[1]
     degrees = turtle_degree + tilt_angle
     template = ''
-
-    if turtle_shape == 'turtle':
-        turtle_x -= 18*stretchfactor[0]
-        turtle_y -= 18*stretchfactor[1]
+    
+    if turtle_shape in ['turtle','turtle2']:
         degrees += 90
-        template = TURTLE_TURTLE_SVG_TEMPLATE
-    elif turtle_shape == 'classic':
-        turtle_y -= 4.5*stretchfactor[1]
-        degrees -= 90
-        template = TURTLE_CLASSIC_SVG_TEMPLATE
     elif turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
         degrees -= 90
-        template = TURTLE_RING_SVG_TEMPLATE
-    elif turtle_shape == 'arrow':
-        turtle_y -= 5*stretchfactor[1]
-        degrees -= 90
-        template = TURTLE_ARROW_SVG_TEMPLATE
-    elif turtle_shape == 'square':
-        degrees -= 90
-        template = TURTLE_SQUARE_SVG_TEMPLATE
-    elif turtle_shape == 'triangle':
-        turtle_y -= 8.66*stretchfactor[1]
-        degrees -= 90
-        template = TURTLE_TRIANGLE_SVG_TEMPLATE
-    elif turtle_shape == 'circle':
-        degrees -= 90
-        template = TURTLE_CIRCLE_SVG_TEMPLATE
-    elif turtle_shape == 'turtle2':
-        degrees += 90
-        template = TURTLE_TURTLE2_SVG_TEMPLATE
-    elif turtle_shape == 'blank':
-        template = ""
-
-    return template.format(turtle_color=fill_color,
+    else:
+        degrees -= 90        
+    
+    return shapeDict[turtle_shape].format(turtle_color=fill_color,
                            pen_color=pen_color,
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
@@ -326,10 +311,10 @@ def _updateDrawing(delay=True):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if (turtle_speed != 0):
-        if delay: time.sleep(timeout)
-        drawing_window.update(HTML(_generateSvgDrawing()))
-
-
+        drawing_window.update(HTML(_generateSvgDrawing()))         
+        if delay: time.sleep(timeout)          
+            
+     
         
 # Convert to world coordinates
 def _convertx(x):
@@ -556,27 +541,60 @@ back = backward # alias
 
 
 # Makes the turtle move right by 'degrees' degrees (NOT radians)
+# Uses SVG animation to rotate turtle.
+# But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
+# so in that case break the rotation into pieces of at most 30 degrees.
 def right(degrees):
     global turtle_degree
+    global stretchfactor
     global timeout
     if not isinstance(degrees, (int,float)):
-        raise ValueError('Degrees must be a number.')
-    turtle_degree_orig = turtle_degree
-    deg = degrees
+        raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    timeout = 0.05
-    s = 1 if degrees > 0 else -1
-    while s*degrees > 0:
-        if s*degrees > 15:
-            turtle_degree = (turtle_degree + s*15) % 360
-            _updateDrawing()
-        else:
-            turtle_degree = (turtle_degree + degrees) % 360
-            _updateDrawing()
-        degrees = degrees - s*15
-    turtle_degree = (turtle_degree_orig + deg) % 360
-    timeout = timeout_orig
-    #_updateDrawing()
+    if turtle_speed == 0:
+        turtle_degree = (turtle_degree + degrees) % 360
+        _updateDrawing()
+    elif turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
+        stretchfactor_orig = stretchfactor
+        template = shapeDict[turtle_shape]        
+        tmp = """<animateTransform id = "one" attributeName="transform" 
+                      type="scale"
+                      from="1 1" to="{sx} {sy}"
+                      begin="0s" dur="0.001s"
+                      repeatCount="1"
+                      additive="sum"
+                      fill="freeze"
+            /><animateTransform attributeName="transform"
+                    type="rotate"
+                    from="0 0 0" to ="{extent} 0 0"
+                    begin="one.end" dur="{t}s"
+                    repeatCount="1"
+                    additive="sum"
+                    fill="freeze"
+          /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+        newtemplate = template.replace("</g>",tmp)
+        shapeDict.update({turtle_shape:newtemplate})
+        stretchfactor = 1,1
+        timeout = timeout*abs(degrees)/90+0.001
+        _updateDrawing()
+        turtle_degree = (turtle_degree + degrees) % 360
+        shapeDict.update({turtle_shape:template})
+        stretchfactor = stretchfactor_orig
+        timeout = timeout_orig
+    else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
+        turtle_degree_orig = turtle_degree
+        timeout = timeout/3
+        s = 1 if degrees > 0 else -1
+        while s*degrees > 0:
+            if s*degrees > 30:
+                turtle_degree = (turtle_degree + s*30) % 360
+                _updateDrawing()
+            else:
+                turtle_degree = (turtle_degree + degrees) % 360
+                _updateDrawing()
+            degrees = degrees - s*30
+        timeout = timeout_orig
+        turtle_degree = (turtle_degree + degrees) % 360
 
 rt = right # alias
 
