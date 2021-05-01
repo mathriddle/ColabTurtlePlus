@@ -344,7 +344,7 @@ def _moveToNewPosition(new_pos, units=0):
         timeout = timeout/3
         while s*units > 0:
             dx = min(10/xscale,s*units)
-            dy = min(10/abs(yscale),s*unit)
+            dy = min(10/abs(yscale),s*units)
             ending_point = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
             svg_lines_string += \
                 """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
