@@ -343,7 +343,7 @@ def _moveToNewPosition(new_pos, units=0):
         s = 1 if units > 0 else -1
         timeout = timeout/3
         tenx, teny = 10/xscale, 10/abs(yscale)
-        dunits = s*10/min(tenx,teny)
+        dunits = s*10/min(xscale,abs(yscale))
         while s*units > 0:
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
