@@ -344,19 +344,12 @@ def _moveToNewPosition(units):
         s = 1 if units > 0 else -1
         timeout = 0.5*timeout
         while s*units > 0:
-            if s*units > 10:
-                ending_point = (initial_pos[0] + 10 * s * xscale * math.cos(alpha), initial_pos[1] + 10 * s * abs(yscale) * math.sin(alpha))
-                svg_lines_string += \
-                """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
-                        x1=initial_pos[0],
-                        y1=initial_pos[1],
-                        x2=ending_point[0],
-                        y2=ending_point[1],
-                        pen_color=pen_color, 
-                        pen_width=pen_width) 
-            else:
-                ending_point = (initial_pos[0] + s * units * xscale * math.cos(alpha), initial_pos[1] + s * units * abs(yscale) * math.sin(alpha))
-                svg_lines_string += \
+            d = min(10,s*units)
+      #      if s*units > 10:
+       #         ending_point = (initial_pos[0] + 10 * s * xscale * math.cos(alpha), initial_pos[1] + 10 * s * abs(yscale) * math.sin(alpha))
+      #      else:
+            ending_point = (initial_pos[0] + s * d * xscale * math.cos(alpha), initial_pos[1] + s * d * abs(yscale) * math.sin(alpha))
+            svg_lines_string += \
                 """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=initial_pos[0],
                         y1=initial_pos[1],
@@ -520,10 +513,11 @@ def circle(radius, extent=360, **kwargs):
         raise ValueError('Extent should be a positive number')
      
     while extent > 0:
-        if extent > 90:
-            _arc(radius, 90)
-        else:
-            _arc(radius, extent)
+   #     if extent > 90:
+    #        _arc(radius, 90)
+    #    else:
+    #        _arc(radius, extent)
+        _arc(radius,min(90,extent))
         extent += -90        
 
         
