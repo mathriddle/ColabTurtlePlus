@@ -720,9 +720,10 @@ def goto(x, y=None):
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
     alpha = towards(x,y)
+    print(alpha)
     if alpha < 90 or alpha > 270:
         units = distance(x,y)
-    else
+    else:
         units = -distance(x,y)
     _moveToNewPosition((_convertx(x), _converty(y)), units)
 
