@@ -342,6 +342,7 @@ def _moveToNewPosition(units):
         timeout_orig = timeout
         initial_pos = turtle_pos
         s = 1 if units > 0 else -1
+        timeout = 0.5*timeout
         while s*units > 0:
             if s*units > 10:
                 ending_point = (initial_pos[0] + 10 * s * xscale * math.cos(alpha), initial_pos[1] + 10 * s * abs(yscale) * math.sin(alpha))
@@ -365,7 +366,6 @@ def _moveToNewPosition(units):
                         pen_width=pen_width) 
             initial_pos = ending_point
             turtle_pos = ending_point
-            timeout = timeout*.75
             _updateDrawing()
             units = units - s*10
         svg_lines_string = svg_lines_string_orig + \
