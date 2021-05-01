@@ -334,16 +334,16 @@ def _moveToNewPosition(new_pos, units=0):
 
     start_pos = turtle_pos
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )    
-    
+    timeout_orig = timeout
+    initial_pos = turtle_pos   
     if is_pen_down:
-        svg_lines_string_orig = svg_lines_string
-        timeout_orig = timeout
-        initial_pos = turtle_pos
-        alpha = math.radians(turtle_degree)
-        s = 1 if units > 0 else -1
-        timeout = timeout/3
-        tenx, teny = 10/xscale, 10/abs(yscale)
-        dunits = s*10/min(xscale,abs(yscale))
+        if units != 0:
+            svg_lines_string_orig = svg_lines_string     
+            alpha = math.radians(turtle_degree)
+            s = 1 if units > 0 else -1
+            timeout = timeout/3
+            tenx, teny = 10/xscale, 10/abs(yscale)
+            dunits = s*10/max(xscale,abs(yscale))
         while s*units > 0:
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
@@ -371,7 +371,7 @@ def _moveToNewPosition(new_pos, units=0):
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
     timeout = timeout_orig
-    #_updateDrawing()
+    _updateDrawing(0)
 
         
 # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
@@ -701,10 +701,10 @@ def sety(y):
 # start-orientation (which depends on the mode).
 def home():
     global turtle_degree
-
-    _moveToNewPosition( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    _updateDrawing()
+    _moveToNewPosition( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
+    
+    #_updateDrawing()
     
 
 # Move the turtle to a designated position.
