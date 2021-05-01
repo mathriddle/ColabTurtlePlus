@@ -342,12 +342,9 @@ def _moveToNewPosition(units):
         timeout_orig = timeout
         initial_pos = turtle_pos
         s = 1 if units > 0 else -1
-        timeout = 0.5*timeout
+        timeout = timeout/3
         while s*units > 0:
             d = min(10,s*units)
-      #      if s*units > 10:
-       #         ending_point = (initial_pos[0] + 10 * s * xscale * math.cos(alpha), initial_pos[1] + 10 * s * abs(yscale) * math.sin(alpha))
-      #      else:
             ending_point = (initial_pos[0] + s * d * xscale * math.cos(alpha), initial_pos[1] + s * d * abs(yscale) * math.sin(alpha))
             svg_lines_string += \
                 """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
@@ -360,7 +357,7 @@ def _moveToNewPosition(units):
             initial_pos = ending_point
             turtle_pos = ending_point
             _updateDrawing()
-            units = units - s*10
+            units -= s*10
         svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
@@ -513,10 +510,6 @@ def circle(radius, extent=360, **kwargs):
         raise ValueError('Extent should be a positive number')
      
     while extent > 0:
-   #     if extent > 90:
-    #        _arc(radius, 90)
-    #    else:
-    #        _arc(radius, extent)
         _arc(radius,min(90,extent))
         extent += -90        
 
@@ -550,10 +543,6 @@ def dot(size = None, *color):
 def forward(units):
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
-     
- #   alpha = math.radians(turtle_degree)
- #   ending_point = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
-
     _moveToNewPosition(units)
 
 fd = forward # alias
@@ -616,11 +605,10 @@ def right(degrees):
         while s*degrees > 0:
             if s*degrees > 30:
                 turtle_degree = (turtle_degree + s*30) % 360
-                _updateDrawing()
             else:
                 turtle_degree = (turtle_degree + degrees) % 360
-                _updateDrawing()
-            degrees = degrees - s*30
+            _updateDrawing()
+            degrees -= s*30
         timeout = timeout_orig
         turtle_degree = (turtle_degree + degrees) % 360
 
