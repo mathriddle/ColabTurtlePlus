@@ -338,6 +338,7 @@ def _moveToNewPosition(new_pos):
   
     if is_pen_down:
         stretchfactor_orig = stretchfactor
+        timeout_orig = timeout
         template = shapeDict[turtle_shape]        
         tmp = """<animate attributeName="x"
             attributeType="XML"
