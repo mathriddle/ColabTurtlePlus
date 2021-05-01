@@ -697,11 +697,12 @@ def sety(y):
         raise ValueError('New y position must be a number.')
     _moveToNewPosition((turtle_pos[0], _converty(y)))
 
-# Move turtle to center of widnow – coordinates (0,0) except for svg mode – and set its heading to its 
+# Move turtle to center of widnow and set its heading to its 
 # start-orientation (which depends on the mode).
 def home():
     global turtle_degree
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    
     _moveToNewPosition( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
     
     #_updateDrawing()
@@ -718,7 +719,8 @@ def goto(x, y=None):
         raise ValueError('New x position must be a number.')
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
-    _moveToNewPosition((_convertx(x), _converty(y)))
+    
+    _moveToNewPosition((_convertx(x), _converty(y)),distance(x,y))
 
 setpos = goto # alias
 setposition = goto # alias
