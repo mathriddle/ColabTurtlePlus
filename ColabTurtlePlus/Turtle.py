@@ -251,7 +251,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stamplist=[]
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
-
+ 
 
 # Helper function for generating svg string of the turtle
 def _generateTurtleSvgDrawing():
@@ -324,47 +324,47 @@ def _converty(y):
 
 
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
-def _moveToNewPosition(new_pos):
+def _moveToNewPosition(units):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
-    global stretchfactor
-    global timeout
 
     # rounding the new_pos to eliminate floating point errors.
-    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
+
     start_pos = turtle_pos
-    #dist = (new_pos[0]-start_pos[0])**2 + (new_pos[1]-start_pos[1])**2
-  
+    alpha = math.radians(turtle_degree)
+    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )    
+    
     if is_pen_down:
-        stretchfactor_orig = stretchfactor
-        timeout_orig = timeout
-        template = shapeDict[turtle_shape]        
-        tmp = """<animate attributeName="x"
-            attributeType="XML"
-            from="{sx}" to="{ex}"
-            begin="0s" dur="{t}s"
-            fill="freeze"
-            repeatCount="1"
-           />
-   <animate attributeName="y"
-            attributeType="XML"
-            from="{sy}" to="{ey}"
-            begin="0s" dur="{t}s"
-            fill="freeze"
-            repeatCount="1"
-           />
-          </g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],ey=new_pos[1],t=5*timeout)
-        newtemplate = template.replace("</g>",tmp)
-        print(newtemplate)
-        shapeDict.update({turtle_shape:newtemplate})
-        stretchfactor = 1,1
-        timeout = 5*timeout
-        _updateDrawing()
-        shapeDict.update({turtle_shape:template})
-        stretchfactor = stretchfactor_orig
-        timeout = timeout_orig
-        svg_lines_string += \
+        svg_lines_string_orig = svg_lines_string
+        initial_pos = turtle_pos
+        s = 1 if units > 0 else -1
+        while s*units > 0:
+            if s*units > 10:
+                ending_point = (initial_pos[0] + 10 * s * xscale * math.cos(alpha), initial_pos[1] + 10 * s * abs(yscale) * math.sin(alpha))
+                svg_lines_string += \
+                """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
+                        x1=initial_pos[0],
+                        y1=initial_pos[1],
+                        x2=ending_point[0],
+                        y2=ending_point[1],
+                        pen_color=pen_color, 
+                        pen_width=pen_width) 
+            else:
+                ending_point = (pos[0] + s * units * xscale * math.cos(alpha), pos[1] + s * units * abs(yscale) * math.sin(alpha))
+                svg_lines_string += \
+                """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
+                        x1=initial_pos[0],
+                        y1=initial_pos[1],
+                        x2=ending_point[0],
+                        y2=ending_point[1],
+                        pen_color=pen_color, 
+                        pen_width=pen_width) 
+            initial_pos = ending_point
+            _updateDrawing()
+            units = units - s*10
+        svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
                         y1=start_pos[1],
@@ -375,7 +375,7 @@ def _moveToNewPosition(new_pos):
     if is_filling:
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
-    _updateDrawing()
+    #_updateDrawing()
 
         
 # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
@@ -552,10 +552,10 @@ def forward(units):
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
      
-    alpha = math.radians(turtle_degree)
-    ending_point = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+ #   alpha = math.radians(turtle_degree)
+ #   ending_point = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
 
-    _moveToNewPosition(ending_point)
+    _moveToNewPosition(units)
 
 fd = forward # alias
 
