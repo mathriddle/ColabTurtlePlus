@@ -316,7 +316,7 @@ def _updateDrawing(delay=True):
             
      
         
-# Convert to world coordinates
+# Convert user coordinates to SVG coordinates
 def _convertx(x):
     return (x-xmin)*xscale 
 def _converty(y):
@@ -343,9 +343,9 @@ def _moveToNewPosition(new_pos, units=0):
         s = 1 if units > 0 else -1
         timeout = timeout/3
         while s*units > 0:
-            dx = min(10*xscale,s*units*xscale)
-            dy = min(10*abs(yscale),s*units*abs(yscale))
-            ending_point = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] + s * dy * math.sin(alpha))
+            dx = min(10/xscale,s*units)
+            dy = min(10/abs(yscale),s*unit)
+            ending_point = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
             svg_lines_string += \
                 """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=initial_pos[0],
@@ -357,7 +357,7 @@ def _moveToNewPosition(new_pos, units=0):
             initial_pos = ending_point
             turtle_pos = ending_point
             _updateDrawing()
-            units -= s*10
+            units -= s*10/min(xscale,abs(yscale))
         svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
@@ -723,19 +723,19 @@ setpos = goto # alias
 setposition = goto # alias
 
 
-# Retrieve the turtle's currrent 'x' x-coordinate
+# Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
 def getx():
     return(turtle_pos[0]/xscale+xmin)
 
 xcor = getx # alias
 
-# Retrieve the turtle's currrent 'y' y-coordinate
+# Retrieve the turtle's currrent 'y' y-coordinate in current coordinate system
 def gety():
     return(ymax-turtle_pos[1]/yscale)
 
 ycor = gety # alias
 
-# Retrieve the turtle's current position as a (x,y) tuple vector
+# Retrieve the turtle's current position as a (x,y) tuple vector in current coordinate system
 def position():
     return (turtle_pos[0]/xscale+xmin, ymax-turtle_pos[1]/yscale)
 
