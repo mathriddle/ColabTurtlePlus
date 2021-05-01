@@ -329,6 +329,7 @@ def _moveToNewPosition(new_pos):
     global svg_lines_string
     global svg_fill_string
     global stretchfactor
+    global timeout
 
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
