@@ -351,7 +351,7 @@ def _moveToNewPosition(new_pos):
             fill="freeze"
             repeatCount="1"
            />
-          /></g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],t=timeout)
+          /></g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],ey=new_pos[1],t=timeout)
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
