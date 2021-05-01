@@ -342,22 +342,23 @@ def _moveToNewPosition(new_pos, units=0):
         alpha = math.radians(turtle_degree)
         s = 1 if units > 0 else -1
         timeout = timeout/3
+        tenx, teny = 10/xscale, 10/abs(yscale)
+        dunits = s*10/min(tenx,teny)
         while s*units > 0:
-            dx = min(10/xscale,s*units)
-            dy = min(10/abs(yscale),s*units)
-            ending_point = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
+            dx = min(tenx,s*units)
+            dy = min(teny,s*units)
+            turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
             svg_lines_string += \
                 """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=initial_pos[0],
                         y1=initial_pos[1],
-                        x2=ending_point[0],
-                        y2=ending_point[1],
+                        x2=turtle_pos[0],
+                        y2=turtle_pos[1],
                         pen_color=pen_color, 
                         pen_width=pen_width) 
-            initial_pos = ending_point
-            turtle_pos = ending_point
+            initial_pos = turtle_pos
             _updateDrawing()
-            units -= s*10/min(xscale,abs(yscale))
+            units -= dunits
         svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
