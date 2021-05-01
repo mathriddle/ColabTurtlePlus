@@ -365,7 +365,7 @@ def _moveToNewPosition(units):
                         pen_width=pen_width) 
             initial_pos = ending_point
             turtle_pos = ending_point
-            timeout = timeout/2
+            timeout = timeout*.75
             _updateDrawing()
             units = units - s*10
         svg_lines_string = svg_lines_string_orig + \
@@ -379,6 +379,7 @@ def _moveToNewPosition(units):
     if is_filling:
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
+    timeout = timeout_orig
     #_updateDrawing()
 
         
