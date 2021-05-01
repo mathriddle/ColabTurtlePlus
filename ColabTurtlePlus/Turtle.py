@@ -344,6 +344,7 @@ def _moveToNewPosition(new_pos):
             attributeType="XML"
             from="{sx}" to="{ex}"
             begin="0s" dur="{t}s"
+            fill="freeze"
             repeatCount="1"
            />
    <animate attributeName="y"
@@ -355,6 +356,7 @@ def _moveToNewPosition(new_pos):
            />
           /></g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],ey=new_pos[1],t=5*timeout)
         newtemplate = template.replace("</g>",tmp)
+        print(newtemplate)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
         timeout = 5*timeout
