@@ -351,15 +351,15 @@ def _moveToNewPosition(new_pos):
             fill="freeze"
             repeatCount="1"
            />
-          /></g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],ey=new_pos[1],t=timeout)
+          /></g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],ey=new_pos[1],t=5*timeout)
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
-        #timeout = timeout*abs(degrees)/90+0.001
+        timeout = 5*timeout
         _updateDrawing()
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
-        #timeout = timeout_orig
+        timeout = timeout_orig
         svg_lines_string += \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
