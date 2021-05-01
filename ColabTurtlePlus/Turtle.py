@@ -324,7 +324,7 @@ def _converty(y):
 
 
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
-def _moveToNewPosition(units):
+def _moveToNewPosition(new_pos, units=0):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
@@ -333,8 +333,6 @@ def _moveToNewPosition(units):
     # rounding the new_pos to eliminate floating point errors.
 
     start_pos = turtle_pos
-    alpha = math.radians(turtle_degree)
-    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )    
     
     if is_pen_down:
@@ -344,8 +342,9 @@ def _moveToNewPosition(units):
         s = 1 if units > 0 else -1
         timeout = timeout/3
         while s*units > 0:
-            d = min(10,s*units)
-            ending_point = (initial_pos[0] + s * d * xscale * math.cos(alpha), initial_pos[1] + s * d * abs(yscale) * math.sin(alpha))
+            dx = min(10*xscale,s*units*xscale)
+            dy = min(10*abs(yscale),s*units*abs(yscale))
+            ending_point = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] + s * dy * math.sin(alpha))
             svg_lines_string += \
                 """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=initial_pos[0],
@@ -543,7 +542,9 @@ def dot(size = None, *color):
 def forward(units):
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
-    _moveToNewPosition(units)
+    alpha = math.radians(turtle_degree)
+    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+    _moveToNewPosition(new_pos,units)
 
 fd = forward # alias
 
