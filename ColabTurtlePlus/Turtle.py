@@ -339,6 +339,7 @@ def _moveToNewPosition(new_pos, units=0):
         svg_lines_string_orig = svg_lines_string
         timeout_orig = timeout
         initial_pos = turtle_pos
+        alpha = math.radians(turtle_degree)
         s = 1 if units > 0 else -1
         timeout = timeout/3
         while s*units > 0:
