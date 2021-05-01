@@ -719,8 +719,12 @@ def goto(x, y=None):
         raise ValueError('New x position must be a number.')
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
-    
-    _moveToNewPosition((_convertx(x), _converty(y)),distance(x,y))
+    alpha = towards(x,y)
+    if alpha < 90 or alpha > 270:
+        units = distance(x,y)
+    else
+        units = -distance(x,y)
+    _moveToNewPosition((_convertx(x), _converty(y)), units)
 
 setpos = goto # alias
 setposition = goto # alias
