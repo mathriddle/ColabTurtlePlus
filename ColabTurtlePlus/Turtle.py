@@ -328,6 +328,7 @@ def _moveToNewPosition(units):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
+    global timeout
 
     # rounding the new_pos to eliminate floating point errors.
 
@@ -338,6 +339,7 @@ def _moveToNewPosition(units):
     
     if is_pen_down:
         svg_lines_string_orig = svg_lines_string
+        timeout_orig = timeout
         initial_pos = turtle_pos
         s = 1 if units > 0 else -1
         while s*units > 0:
@@ -363,6 +365,7 @@ def _moveToNewPosition(units):
                         pen_width=pen_width) 
             initial_pos = ending_point
             turtle_pos = ending_point
+            timeout = timeout/2
             _updateDrawing()
             units = units - s*10
         svg_lines_string = svg_lines_string_orig + \
