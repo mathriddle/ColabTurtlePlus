@@ -354,7 +354,7 @@ def _moveToNewPosition(new_pos):
             fill="freeze"
             repeatCount="1"
            />
-          /></g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],ey=new_pos[1],t=5*timeout)
+          </g>""".format(sx=start_pos[0],ex=new_pos[0],sy=start_pos[1],ey=new_pos[1],t=5*timeout)
         newtemplate = template.replace("</g>",tmp)
         print(newtemplate)
         shapeDict.update({turtle_shape:newtemplate})
