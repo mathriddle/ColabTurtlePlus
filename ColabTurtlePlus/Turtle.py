@@ -710,6 +710,8 @@ def home():
 
 # Move the turtle to a designated position.
 def goto(x, y=None):
+    global turtle_angle
+    global tilt_angle
     if isinstance(x, tuple) and y is None:
         if len(x) != 2:
             raise ValueError('The tuple argument must be of length 2.')
@@ -719,13 +721,19 @@ def goto(x, y=None):
         raise ValueError('New x position must be a number.')
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
+    tilt_angle_orig = tilt_angle
+    turtle_angle_orig = turtle_angle
     alpha = towards(x,y)
     print(alpha)
     if alpha < 90 or alpha > 270:
         units = distance(x,y)
     else:
         units = -distance(x,y)
+    tilt_angle = -alpha
+    turtle_angle = alpha
     _moveToNewPosition((_convertx(x), _converty(y)), units)
+    tilt_angle = tilt_angle_orig
+    turtle_angle = turtle_angle_orig
 
 setpos = goto # alias
 setposition = goto # alias
