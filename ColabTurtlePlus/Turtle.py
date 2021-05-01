@@ -331,9 +331,9 @@ def _moveToNewPosition(new_pos, units=0):
     global timeout
 
     # rounding the new_pos to eliminate floating point errors.
-
+    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )   
     start_pos = turtle_pos
-    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )    
+    units_orig = units 
     timeout_orig = timeout
     svg_lines_string_orig = svg_lines_string           
     if is_pen_down:
@@ -371,7 +371,7 @@ def _moveToNewPosition(new_pos, units=0):
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
     timeout = timeout_orig
-    _updateDrawing(0)
+    if units_orig == 0: _updateDrawing()
 
         
 # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
