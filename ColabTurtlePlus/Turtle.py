@@ -335,16 +335,16 @@ def _moveToNewPosition(new_pos, units=0):
     start_pos = turtle_pos
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )    
     timeout_orig = timeout
-    initial_pos = turtle_pos
-    s = 1 if units > 0 else -1
+    svg_lines_string_orig = svg_lines_string           
     if is_pen_down:
         if units != 0:
-            svg_lines_string_orig = svg_lines_string     
+            s = 1 if units > 0 else -1   
+            initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
             timeout = timeout/3
             tenx, teny = 10/xscale, 10/abs(yscale)
             dunits = s*10/max(xscale,abs(yscale))
-        while s*units > 0:
+        while abs(units) > 0:
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
             turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
