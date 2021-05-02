@@ -726,7 +726,7 @@ def goto(x, y=None):
     alpha = towards(x,y)
     print(alpha)
     #if alpha < 90 or alpha > 270:
-        units = distance(x,y)
+    units = distance(x,y)
     #else:
     #    units = -distance(x,y)
     print(units)
