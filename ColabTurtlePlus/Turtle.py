@@ -251,6 +251,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stamplist=[]
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
+    time.sleep(timeout)   
  
 
 # Helper function for generating svg string of the turtle
@@ -329,7 +330,6 @@ def _moveToNewPosition(new_pos, units=0):
     global svg_lines_string
     global svg_fill_string
     global timeout
-    print(turtle_degree)
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )   
     start_pos = turtle_pos
