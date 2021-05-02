@@ -335,16 +335,16 @@ def _moveToNewPosition(new_pos, units=0):
     start_pos = turtle_pos
     units_orig = units 
     timeout_orig = timeout
-    svg_lines_string_orig = svg_lines_string           
+    svg_lines_string_orig = svg_lines_string 
+    s = 1 if units > 0 else -1   
     if is_pen_down:
         if units != 0:
-            s = 1 if units > 0 else -1   
             initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
             timeout = timeout/3
             tenx, teny = 10/xscale, 10/abs(yscale)
             dunits = s*10/max(xscale,abs(yscale))
-        while abs(units) > 0:
+        while s*units > 0:
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
             turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
@@ -724,14 +724,9 @@ def goto(x, y=None):
     tilt_angle_orig = tilt_angle
     turtle_angle_orig = turtle_degree
     alpha = towards(x,y)
-    print(alpha)
-    #if alpha < 90 or alpha > 270:
     units = distance(x,y)
-    #else:
-    #    units = -distance(x,y)
-    print(units)
     tilt_angle = tilt_angle+alpha
-    turtle_degree = 360 - alpha
+    turtle_degree = setheading(alpha)
     _moveToNewPosition((_convertx(x), _converty(y)),units)
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
