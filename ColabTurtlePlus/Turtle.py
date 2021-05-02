@@ -725,10 +725,10 @@ def goto(x, y=None):
     turtle_angle_orig = turtle_degree
     alpha = towards(x,y)
     print(alpha)
-    if alpha < 90 or alpha > 270:
+    #if alpha < 90 or alpha > 270:
         units = distance(x,y)
-    else:
-        units = -distance(x,y)
+    #else:
+    #    units = -distance(x,y)
     print(units)
     tilt_angle = tilt_angle-alpha
     turtle_degree = alpha
