@@ -702,9 +702,13 @@ def sety(y):
 # start-orientation (which depends on the mode).
 def home():
     global turtle_degree
-    turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    goto( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
+    alpha = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    if turtle_degree < 180:
+        right(turtle_degree-alpha)
+    else
+        left(turtle_degree-alpha)
     
-    _moveToNewPosition( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
     
     #_updateDrawing()
     
@@ -1144,6 +1148,7 @@ def OldDefaults():
     global DEFAULT_MODE
     global DEFAULT_TURTLE_SHAPE
     global DEFAULT_WINDOW_SIZE
+    global DEFAULT_TURTLE_DEGREE
     
     DEFAULT_BACKGROUND_COLOR = "black"
     DEFAULT_PEN_COLOR = "white"
@@ -1151,6 +1156,7 @@ def OldDefaults():
     DEFAULT_MODE = 'svg'
     DEFAULT_TURTLE_SHAPE = "turtle"
     DEFAULT_WINDOW_SIZE = (800, 500)
+    
 
 
 # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
