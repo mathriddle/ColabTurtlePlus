@@ -708,7 +708,6 @@ def home():
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
     alpha = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    print(turtle_degree)
     if turtle_degree < 180:
         right(turtle_degree-alpha)
     else:
@@ -747,6 +746,7 @@ def goto(x, y=None):
     _moveToNewPosition((_convertx(x), _converty(y)),units)
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
+    print(turtle_degree)
 
 setpos = goto # alias
 setposition = goto # alias
