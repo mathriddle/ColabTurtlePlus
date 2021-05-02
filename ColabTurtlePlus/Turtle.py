@@ -725,8 +725,14 @@ def goto(x, y=None):
     turtle_angle_orig = turtle_degree
     alpha = towards(x,y)
     units = distance(x,y)
-    tilt_angle = tilt_angle+alpha
-    setheading(alpha)
+    if _mode in ["standard","world"]: 
+        turtle_degree = (360 - alpha) % 360
+        tilt_angle = tilt_angle+alpha
+    elif _mode == "logo":
+        turtle_degree = (270 + alpha) % 360
+        tilt_angle = tilt_angle-alpha+90
+    else: # mode = "svg"
+        turtle_degree = alpha % 360
     _moveToNewPosition((_convertx(x), _converty(y)),units)
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
