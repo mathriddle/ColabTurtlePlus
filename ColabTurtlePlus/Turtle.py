@@ -674,7 +674,8 @@ def speed(speed = None):
         return turtle_speed
 
     if isinstance(speed,int) == False or speed not in range(0, 14):
-        raise ValueError('Speed must be an integer in the interval [0,13].')
+
+                raise ValueError('Speed must be an integer in the interval [0,13].')
         
     turtle_speed = speed
     timeout = _speedToSec(speed)
@@ -690,20 +691,22 @@ def done():
 def setx(x):
     if not isinstance(x, (int,float)):
         raise ValueError('new x position must be a number.')
-    _moveToNewPosition((_convertx(x), turtle_pos[1]))
+    goto(x, gety())
 
 # Move the turtle to a designated 'y' y-coordinate, x-coordinate stays the same
 def sety(y):
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
-    _moveToNewPosition((turtle_pos[0], _converty(y)))
+    goto(getx(), y)
 
 # Move turtle to center of widnow and set its heading to its 
 # start-orientation (which depends on the mode).
 def home():
     global turtle_degree
-   # goto( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
-    goto(0,0)
+    if _mode != 'svg':
+        goto(0,0)
+    else:
+        goto( (window_size[0] / 2, window_size[1] / 2) )
     alpha = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     if turtle_degree < 180:
         right(turtle_degree-alpha)
