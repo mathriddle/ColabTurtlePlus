@@ -729,7 +729,7 @@ def goto(x, y=None):
         units = distance(x,y)
     else:
         units = -distance(x,y)
-    tilt_angle = -alpha
+    tilt_angle = tilt_angle-alpha
     turtle_angle = alpha
     _moveToNewPosition((_convertx(x), _converty(y)), units)
     tilt_angle = tilt_angle_orig
