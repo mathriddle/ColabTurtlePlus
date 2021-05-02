@@ -813,7 +813,7 @@ def _validateColorTuple(color):
 def _processColor(color):
     if isinstance(color, str):
         if color == "": color = "none"
-        color = color.lower()
+        color = color.lower().strip()
         if not _validateColorString(color):
             raise ValueError('Color is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.')
         return color
