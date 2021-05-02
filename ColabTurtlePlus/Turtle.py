@@ -706,7 +706,7 @@ def home():
     alpha = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     if turtle_degree < 180:
         right(turtle_degree-alpha)
-    else
+    else:
         left(turtle_degree-alpha)
     
     
