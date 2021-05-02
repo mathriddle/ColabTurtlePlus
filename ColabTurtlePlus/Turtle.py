@@ -716,7 +716,7 @@ def home():
     else:
         if 90 <= turtle_degree <= 270:
             right(270-turtle_degree)
-        else
+        else:
             left(abs(turtle_degree-270))
     
     
