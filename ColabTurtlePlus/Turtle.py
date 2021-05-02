@@ -711,7 +711,7 @@ def home():
     if turtle_degree <= 180:
         left(turtle_degree-alpha)
     else:
-        right(turtle_degree-alpha)
+        right(360-turtle_degree-alpha)
     
     
     #_updateDrawing()
