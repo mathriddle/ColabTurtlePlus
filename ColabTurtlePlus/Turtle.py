@@ -702,7 +702,8 @@ def sety(y):
 # start-orientation (which depends on the mode).
 def home():
     global turtle_degree
-    goto( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
+   # goto( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
+    goto(0,0)
     alpha = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     if turtle_degree < 180:
         right(turtle_degree-alpha)
