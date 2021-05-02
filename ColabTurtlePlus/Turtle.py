@@ -329,7 +329,7 @@ def _moveToNewPosition(new_pos, units=0):
     global svg_lines_string
     global svg_fill_string
     global timeout
-
+    print(units)
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )   
     start_pos = turtle_pos
@@ -729,9 +729,10 @@ def goto(x, y=None):
         units = distance(x,y)
     else:
         units = -distance(x,y)
+    print(units)
     tilt_angle = tilt_angle-alpha
     turtle_degree = alpha
-    _moveToNewPosition((_convertx(x), _converty(y)), units)
+    _moveToNewPosition((_convertx(x), _converty(y)))
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
 
@@ -917,7 +918,7 @@ def distance(x, y=None):
 
     if not isinstance(y, (int,float)):
         raise ValueError('The y position must be a number.')
-
+    
     return round(math.sqrt( (getx() - x) ** 2 + (gety() - y) ** 2 ), 8)
 
 
