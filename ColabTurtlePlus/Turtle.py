@@ -648,7 +648,7 @@ def face(degrees):
             else:
                 left(turtle_degree-270)
         else:
-            if turtle_degree <= 180:
+            if alpha <= 180:
                 left(alpha)
             else:
                 right(360-alpha)
