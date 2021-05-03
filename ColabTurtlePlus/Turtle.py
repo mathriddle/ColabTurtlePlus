@@ -339,7 +339,7 @@ def _moveToNewPosition(new_pos, units):
         start_pos = turtle_pos           
         svg_lines_string_orig = svg_lines_string       
         s = 1 if units > 0 else -1            
-        if turtle_speed != 0:
+        if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible:
             initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
             timeout = timeout/3
@@ -572,10 +572,10 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    if turtle_speed == 0:
+    if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
-    elif turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
+    elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
         stretchfactor_orig = stretchfactor
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
