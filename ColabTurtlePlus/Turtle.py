@@ -708,7 +708,7 @@ def home():
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
     alpha = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    if _mode in ['standard','world']:
+    if _mode in ['standard','world','svg']:
         if turtle_degree <= 180:
             left(turtle_degree)
         else:
@@ -716,8 +716,6 @@ def home():
     else:
         if turtle_degree < 90:
             left(turtle_degree+90)
-        elif turtle_degree < 180:
-            right(270-turtle_degree)
         elif turtle_degree < 270:
             right(270-turtle_degree)
         else:
