@@ -637,10 +637,10 @@ def face(degrees):
         new_degree = (270 + degrees) 
     else: # mode = "svg"
         new_degree = degrees % 360
-    alpha = new_degree - turtle_degree
+    alpha = (new_degree - turtle_degree) % 360
     print(new_degree,alpha)
     if turtle_speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
-        if _mode == 'logo':
+        if _mode == 'svg':
             #if turtle_degree < 90:
             #    left(turtle_degree+90)
             #elif turtle_degree < 270:
