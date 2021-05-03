@@ -719,7 +719,7 @@ def home():
         elif turtle_degree < 180:
             right(270-turtle_degree)
         elif turtle_degree < 270:
-            right(270-turtle_degree
+            right(270-turtle_degree)
         else:
             left(turtle_degree-270)
     
