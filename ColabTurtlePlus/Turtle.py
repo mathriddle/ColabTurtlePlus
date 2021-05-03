@@ -632,14 +632,14 @@ def face(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
     if _mode in ["standard","world"]: 
-        new_degree = (360 - degrees) % 360
+        new_degree = (360 - degrees) 
     elif _mode == "logo":
-        new_degree = (270 + degrees) % 360
+        new_degree = (270 + degrees) 
     else: # mode = "svg"
         new_degree = degrees % 360
     alpha = new_degree - turtle_degree
     print(new_degree,alpha)
-    if speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
+    if turtle_speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
         if _mode == 'logo':
             #if turtle_degree < 90:
             #    left(turtle_degree+90)
@@ -727,18 +727,21 @@ def home():
         goto(0,0)
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
-    if _mode == 'logo':
+    if _mode in ['standard','world']:
+        if turtle_degree <= 180:
+            left(turtle_degree)
+        else:
+            right(360-turtle_degree)        
+    else:
         if turtle_degree < 90:
             left(turtle_degree+90)
         elif turtle_degree < 270:
             right(270-turtle_degree)
         else:
             left(turtle_degree-270)
-    else:
-        if turtle_degree <= 180:
-            left(turtle_degree)
-        else:
-            right(360-turtle_degree)
+    
+        
+
     
 
 # Move the turtle to a designated position.
