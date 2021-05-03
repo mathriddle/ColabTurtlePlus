@@ -707,22 +707,18 @@ def home():
         goto(0,0)
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
-    alpha = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    if _mode in ['standard','world','svg']:
-        if turtle_degree <= 180:
-            left(turtle_degree)
-        else:
-            right(360-turtle_degree)
-    else:
+    if _mode == 'logo':
         if turtle_degree < 90:
             left(turtle_degree+90)
         elif turtle_degree < 270:
             right(270-turtle_degree)
         else:
             left(turtle_degree-270)
-    
-    
-    #_updateDrawing()
+    else:
+        if turtle_degree <= 180:
+            left(turtle_degree)
+        else:
+            right(360-turtle_degree)
     
 
 # Move the turtle to a designated position.
@@ -754,7 +750,6 @@ def goto(x, y=None):
     _moveToNewPosition((_convertx(x), _converty(y)),units)
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
-    print(turtle_degree)
 
 setpos = goto # alias
 setposition = goto # alias
