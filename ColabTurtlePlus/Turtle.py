@@ -631,14 +631,21 @@ def face(degrees):
 
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
-
     if _mode in ["standard","world"]: 
-        turtle_degree = (360 - degrees) % 360
+        new_degree = (360 - degrees) % 360
     elif _mode == "logo":
-        turtle_degree = (270 + degrees) % 360
+        new_degree = (270 + degrees) % 360
     else: # mode = "svg"
-        turtle_degree = degrees % 360
-    _updateDrawing()
+        new_degree = degrees % 360
+    alpha = new_degree - turtle_degree
+    if speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
+        if alpha > 0:
+            left(alpha)
+        else:
+            right(alpha)
+    else:
+        turtle_degree = new_degree
+        _updateDrawing()
 
 setheading = face # alias
 seth = face # alias
