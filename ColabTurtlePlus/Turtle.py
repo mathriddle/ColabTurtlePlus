@@ -649,9 +649,9 @@ def face(degrees):
                 left(turtle_degree-270)
         else:
             if alpha <= 180:
-                left(alpha)
+                right(alpha)
             else:
-                right(360-alpha)
+                left(360-alpha)
     else:
         turtle_degree = new_degree
         _updateDrawing()
