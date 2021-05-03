@@ -640,10 +640,18 @@ def face(degrees):
     alpha = new_degree - turtle_degree
     print(new_degree,alpha)
     if speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
-        if alpha > 0:
-            left(alpha)
+        if _mode == 'logo':
+            if turtle_degree < 90:
+                left(turtle_degree+90)
+            elif turtle_degree < 270:
+                right(270-turtle_degree)
+            else:
+                left(turtle_degree-270)
         else:
-            right(alpha)
+            if turtle_degree <= 180:
+                left(alpha)
+            else:
+                right(360-alpha)
     else:
         turtle_degree = new_degree
         _updateDrawing()
