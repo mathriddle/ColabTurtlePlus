@@ -714,10 +714,12 @@ def home():
         else:
             right(360-turtle_degree)
     else:
-        if 90 <= turtle_degree <= 270:
+        if 180 <= turtle_degree:
             right(270-turtle_degree)
+        elif turtle_degree <= 90:
+            left(turtle_degree-270)
         else:
-            left(abs(turtle_degree-270))
+            left(turtle_degree+90)
     
     
     #_updateDrawing()
