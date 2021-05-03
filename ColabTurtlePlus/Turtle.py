@@ -638,6 +638,7 @@ def face(degrees):
     else: # mode = "svg"
         new_degree = degrees % 360
     alpha = new_degree - turtle_degree
+    print(new_degree,alpha)
     if speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
         if alpha > 0:
             left(alpha)
