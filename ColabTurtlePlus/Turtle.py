@@ -507,13 +507,14 @@ def _arc(radius, degrees):
 # This circle function does NOT use the steps argument found in classical turtle.py. The kwargs
 # will ignore any keyword parameter using steps.
 def circle(radius, extent=360, **kwargs):
+    global timeout
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
     if extent < 0:
         raise ValueError('Extent should be a positive number')
-     
+    timeout *= 0.5
     while extent > 0:
         _arc(radius,min(15,extent))
         extent += -15        
