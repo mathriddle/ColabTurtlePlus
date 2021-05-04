@@ -164,6 +164,7 @@ tilt_angle = DEFAULT_TILT_ANGLE
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
+animate = True
 
 drawing_window = None
 
