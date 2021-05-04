@@ -496,7 +496,7 @@ def _arc(radius, degrees):
     ending_point = (round(circle_center[0] - radius*xscale*math.sin(gamma),3) , round(circle_center[1] + radius*abs(yscale)*math.cos(gamma),3))
   
     _arctoNewPosition(radius,ending_point)
-    print(timeout)
+   
     turtle_degree = (turtle_degree - s*degrees) % 360
     _updateDrawing()
 
