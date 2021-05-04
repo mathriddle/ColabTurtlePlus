@@ -46,10 +46,10 @@ Modified the color function to set both the pencolor as well as the fillcolor, j
 Added dot function to draw a dot with given diameter and color.
 Added shapesize function to scale the turtle shape.
 Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
-  delete stamps.
+  delete stamps. Use stamp() or stamp(0) to put stamp at bottom of SVG order while stamp(1) will put it at top of SVG order.
 Added pen function.
 Added tilt and tiltangle functions.
-Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
+Original ColabTurtle defaults can be set by calling oldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
 
@@ -164,6 +164,7 @@ tilt_angle = DEFAULT_TILT_ANGLE
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
+animate = True
 
 drawing_window = None
 
@@ -251,7 +252,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stamplist=[]
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
-    time.sleep(timeout)   
+    #time.sleep(timeout)   
  
 
 # Helper function for generating svg string of the turtle
@@ -335,20 +336,21 @@ def _moveToNewPosition(new_pos, units):
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )   
     timeout_orig = timeout
   
-    if is_pen_down:
-        start_pos = turtle_pos           
-        svg_lines_string_orig = svg_lines_string       
-        s = 1 if units > 0 else -1            
-        if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible:
-            initial_pos = turtle_pos         
-            alpha = math.radians(turtle_degree)
-            timeout = timeout/3
-            tenx, teny = 10/xscale, 10/abs(yscale)
-            dunits = s*10/max(xscale,abs(yscale))
-            while s*units > 0:
-                dx = min(tenx,s*units)
-                dy = min(teny,s*units)
-                turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
+   
+    start_pos = turtle_pos           
+    svg_lines_string_orig = svg_lines_string       
+    s = 1 if units > 0 else -1            
+    if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible and animate:
+        initial_pos = turtle_pos         
+        alpha = math.radians(turtle_degree)
+        timeout = timeout/5
+        tenx, teny = 10/xscale, 10/abs(yscale)
+        dunits = s*10/max(xscale,abs(yscale))
+        while s*units > 0:
+            dx = min(tenx,s*units)
+            dy = min(teny,s*units)
+            turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
+            if is_pen_down:
                 svg_lines_string += \
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=initial_pos[0],
@@ -357,9 +359,10 @@ def _moveToNewPosition(new_pos, units):
                         y2=turtle_pos[1],
                         pen_color=pen_color, 
                         pen_width=pen_width) 
-                initial_pos = turtle_pos
-                _updateDrawing()
-                units -= dunits
+            initial_pos = turtle_pos
+            _updateDrawing()
+            units -= dunits
+    if is_pen_down:
         svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
@@ -372,7 +375,7 @@ def _moveToNewPosition(new_pos, units):
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
     timeout = timeout_orig
-    _updateDrawing()
+    if not animate: _updateDrawing()
 
         
 # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
@@ -493,7 +496,7 @@ def _arc(radius, degrees):
     ending_point = (round(circle_center[0] - radius*xscale*math.sin(gamma),3) , round(circle_center[1] + radius*abs(yscale)*math.cos(gamma),3))
   
     _arctoNewPosition(radius,ending_point)
-    
+   
     turtle_degree = (turtle_degree - s*degrees) % 360
     _updateDrawing()
 
@@ -572,7 +575,7 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible:
+    if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible or not animate:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
     elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
@@ -592,11 +595,11 @@ def right(degrees):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=degrees, t=timeout/3*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
-        timeout = timeout*abs(degrees)/90+0.001
+        timeout = timeout/3*abs(degrees)/90+0.001
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
@@ -727,9 +730,6 @@ def home():
         else:
             left(turtle_degree-270)
     
-        
-
-    
 
 # Move the turtle to a designated position.
 def goto(x, y=None):
@@ -834,9 +834,10 @@ def _validateColorTuple(color):
     return True
 
 def _processColor(color):
-    if isinstance(color, str):
+    if isinstance(color, str):    
         if color == "": color = "none"
         color = color.lower().strip()
+        if 'rgb' not in color: color = color.replace(" ","")
         if not _validateColorString(color):
             raise ValueError('Color is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.')
         return color
@@ -1045,7 +1046,7 @@ def shape(name=None):
         raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES))
     
     turtle_shape = name.lower()
-    _updateDrawing(0)
+    _updateDrawing()
 
 
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
@@ -1139,7 +1140,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     
 
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
-def showBorder(color = None, c2 = None, c3 = None):
+def showborder(color = None, c2 = None, c3 = None):
     global border_color
     if color is None:
         color = "gray"
@@ -1152,14 +1153,14 @@ def showBorder(color = None, c2 = None, c3 = None):
     _updateDrawing(0)
 
 # Hide the border around the graphics window.    
-def hideBorder():
+def hideborder():
     global border_color
     border_color = "none"
     _updateDrawing(0)
 
 
 # Set the defaults used in the original version of ColabTurtle package
-def OldDefaults():
+def oldDefaults():
     global DEFAULT_BACKGROUND_COLOR
     global DEFAULT_PEN_COLOR
     global DEFAULT_PEN_WIDTH
@@ -1408,3 +1409,13 @@ def tiltangle(angle=None):
     else:
         settiltangle(angle)
    
+# Turn off animation. Forward/back makes turtle jump and likewise left/right make the turtle turn instantly.
+def animationOff():
+    global animate
+    animate = False
+        
+# Turn animation on.
+def animationOn():
+    global animate
+    animate = True
+        
