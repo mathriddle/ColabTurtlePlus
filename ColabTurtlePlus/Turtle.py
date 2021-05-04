@@ -575,7 +575,6 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    timeout = timeout/3
     if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible or not animate:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
@@ -596,11 +595,11 @@ def right(degrees):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=degrees, t=timeout*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=degrees, t=timeout/3*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
-        timeout = timeout*abs(degrees)/90+0.001
+        timeout = timeout/3*abs(degrees)/90+0.001
         _updateDrawing()
         turtle_degree = (turtle_degree + degrees) % 360
         shapeDict.update({turtle_shape:template})
