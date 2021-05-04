@@ -837,6 +837,7 @@ def _processColor(color):
     if isinstance(color, str):    
         if color == "": color = "none"
         color = color.lower().strip()
+        print(color)
         if 'rgb' not in color: color = color.replace(" ","")
         if not _validateColorString(color):
             raise ValueError('Color is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.')
