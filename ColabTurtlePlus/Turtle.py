@@ -342,7 +342,7 @@ def _moveToNewPosition(new_pos, units):
         if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible:
             initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
-            timeout = timeout/3
+            timeout = timeout/5
             tenx, teny = 10/xscale, 10/abs(yscale)
             dunits = s*10/max(xscale,abs(yscale))
             while s*units > 0:
@@ -572,6 +572,7 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
+    timeout = timeout/3
     if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
