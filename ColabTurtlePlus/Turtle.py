@@ -533,8 +533,8 @@ def circle(radius, extent=360, **kwargs):
         timeout = timeout_temp
     else:
         while extent > 0:
-            _arc(radius,min(90,extent),True)
-            extent += -90 
+            _arc(radius,min(180,extent),True)
+            extent += -180 
         
 # Draw a dot with diameter size, using color
 # If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
