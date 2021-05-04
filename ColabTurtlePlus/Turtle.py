@@ -516,19 +516,25 @@ def circle(radius, extent=360, **kwargs):
         raise ValueError('Extent should be a number')      
     if extent < 0:
         raise ValueError('Extent should be a positive number')
-    timeout *= 0.5
-    svg_lines_string_temp = svg_lines_string
-    svg_fill_string_temp = svg_fill_string
-    degrees = extent
-    while extent > 0:
-        _arc(radius,min(15,extent),True)
-        extent += -15 
-    svg_lines_string = svg_lines_string_temp
-    svg_fill_string = svg_fill_string_temp
-    while degrees > 0:
-        _arc(radius,min(180,degrees),False)
-        degrees += -180 
-
+    if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible and animate:
+        timeout *= 0.5
+        svg_lines_string_temp = svg_lines_string
+        svg_fill_string_temp = svg_fill_string
+        timeout_temp = timeout
+        degrees = extent
+        while extent > 0:
+            _arc(radius,min(15,extent),True)
+            extent += -15 
+        svg_lines_string = svg_lines_string_temp
+        svg_fill_string = svg_fill_string_temp
+        while degrees > 0:
+            _arc(radius,min(180,degrees),False)
+            degrees += -180 
+        timeout = timeout_temp
+    else:
+        while extent > 0:
+            _arc(radius,min(90,extent),True)
+            extent += -90 
         
 # Draw a dot with diameter size, using color
 # If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
