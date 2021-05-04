@@ -339,7 +339,7 @@ def _moveToNewPosition(new_pos, units):
     start_pos = turtle_pos           
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
-    if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible:
+    if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible and animate:
         initial_pos = turtle_pos         
         alpha = math.radians(turtle_degree)
         timeout = timeout/5
@@ -575,7 +575,7 @@ def right(degrees):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
     timeout = timeout/3
-    if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible:
+    if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible or not animate:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
     elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
@@ -837,7 +837,6 @@ def _processColor(color):
     if isinstance(color, str):    
         if color == "": color = "none"
         color = color.lower().strip()
-        print(color)
         if 'rgb' not in color: color = color.replace(" ","")
         if not _validateColorString(color):
             raise ValueError('Color is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.')
@@ -1141,7 +1140,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     
 
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
-def showBorder(color = None, c2 = None, c3 = None):
+def showborder(color = None, c2 = None, c3 = None):
     global border_color
     if color is None:
         color = "gray"
@@ -1154,14 +1153,14 @@ def showBorder(color = None, c2 = None, c3 = None):
     _updateDrawing(0)
 
 # Hide the border around the graphics window.    
-def hideBorder():
+def hideborder():
     global border_color
     border_color = "none"
     _updateDrawing(0)
 
 
 # Set the defaults used in the original version of ColabTurtle package
-def OldDefaults():
+def olddefaults():
     global DEFAULT_BACKGROUND_COLOR
     global DEFAULT_PEN_COLOR
     global DEFAULT_PEN_WIDTH
@@ -1410,3 +1409,12 @@ def tiltangle(angle=None):
     else:
         settiltangle(angle)
    
+
+def animationOff()
+    global animate
+    animate = False
+        
+def animationOn()
+    global animate
+    animate = True
+        
