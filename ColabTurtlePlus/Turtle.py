@@ -526,8 +526,8 @@ def circle(radius, extent=360, **kwargs):
     svg_lines_string = svg_lines_string_temp
     svg_fill_string = svg_fill_string_temp
     while degrees > 0:
-        _arc(radius,min(90,degrees),False)
-        degrees += -90 
+        _arc(radius,min(180,degrees),False)
+        degrees += -180 
 
         
 # Draw a dot with diameter size, using color
