@@ -1410,11 +1410,11 @@ def tiltangle(angle=None):
         settiltangle(angle)
    
 
-def animationOff()
+def animationOff():
     global animate
     animate = False
         
-def animationOn()
+def animationOn():
     global animate
     animate = True
         
