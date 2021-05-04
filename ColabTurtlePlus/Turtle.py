@@ -349,7 +349,7 @@ def _moveToNewPosition(new_pos, units):
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
             turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
-            if pen_is_down:
+            if is_pen_down:
                 svg_lines_string += \
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=initial_pos[0],
@@ -361,7 +361,7 @@ def _moveToNewPosition(new_pos, units):
             initial_pos = turtle_pos
             _updateDrawing()
             units -= dunits
-    if pen_is_down:
+    if is_pen_down:
         svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
