@@ -730,9 +730,6 @@ def home():
         else:
             left(turtle_degree-270)
     
-        
-
-    
 
 # Move the turtle to a designated position.
 def goto(x, y=None):
@@ -1048,7 +1045,7 @@ def shape(name=None):
         raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES))
     
     turtle_shape = name.lower()
-    _updateDrawing(0)
+    _updateDrawing()
 
 
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
