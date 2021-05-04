@@ -484,7 +484,7 @@ def fillopacity(opacity=None):
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
-def _arc(radius, degrees):
+def _arc(radius, degrees,draw):
     global turtle_degree
     alpha = math.radians(turtle_degree)
     theta = math.radians(degrees)
@@ -498,7 +498,7 @@ def _arc(radius, degrees):
     _arctoNewPosition(radius,ending_point)
    
     turtle_degree = (turtle_degree - s*degrees) % 360
-    _updateDrawing()
+    if draw: _updateDrawing()
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
 # the circle function is broken into chunks of at most 90 degrees.
@@ -508,6 +508,7 @@ def _arc(radius, degrees):
 # will ignore any keyword parameter using steps.
 def circle(radius, extent=360, **kwargs):
     global timeout
+    global svg_lines_string
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if not isinstance(extent, (int,float)):
@@ -515,9 +516,15 @@ def circle(radius, extent=360, **kwargs):
     if extent < 0:
         raise ValueError('Extent should be a positive number')
     timeout *= 0.5
+    svg_lines_string_temp = svg_lines_string
+    degrees = extent
     while extent > 0:
-        _arc(radius,min(15,extent))
-        extent += -15        
+        _arc(radius,min(15,extent),True)
+        extent += -15 
+    svg_lines_string = svg_lines_string_temp
+    while degrees > 0:
+        _arc(radius,min(90,degrees),False)
+        degrees += -90 
 
         
 # Draw a dot with diameter size, using color
