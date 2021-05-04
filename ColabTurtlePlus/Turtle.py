@@ -46,10 +46,10 @@ Modified the color function to set both the pencolor as well as the fillcolor, j
 Added dot function to draw a dot with given diameter and color.
 Added shapesize function to scale the turtle shape.
 Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
-  delete stamps.
+  delete stamps. Use stamp() or stamp(0) to put stamp at bottom of SVG order while stamp(1) will put it at top of SVG order.
 Added pen function.
 Added tilt and tiltangle functions.
-Original ColabTurtle defaults can be set by calling OldDefaults() after importing the ColabTurtle package but before initializeTurtle.
+Original ColabTurtle defaults can be set by calling oldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
 
@@ -1409,11 +1409,12 @@ def tiltangle(angle=None):
     else:
         settiltangle(angle)
    
-
+# Turn off animation. Forward/back makes turtle jump and likewise left/right make the turtle turn instantly.
 def animationOff():
     global animate
     animate = False
         
+# Turn animation on.
 def animationOn():
     global animate
     animate = True
