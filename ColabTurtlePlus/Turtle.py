@@ -1160,7 +1160,7 @@ def hideborder():
 
 
 # Set the defaults used in the original version of ColabTurtle package
-def olddefaults():
+def oldDefaults():
     global DEFAULT_BACKGROUND_COLOR
     global DEFAULT_PEN_COLOR
     global DEFAULT_PEN_WIDTH
