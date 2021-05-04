@@ -509,6 +509,7 @@ def _arc(radius, degrees,draw):
 def circle(radius, extent=360, **kwargs):
     global timeout
     global svg_lines_string
+    global svg_fill_string
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if not isinstance(extent, (int,float)):
@@ -517,11 +518,13 @@ def circle(radius, extent=360, **kwargs):
         raise ValueError('Extent should be a positive number')
     timeout *= 0.5
     svg_lines_string_temp = svg_lines_string
+    svg_fill_string_temp = svg_fill_string
     degrees = extent
     while extent > 0:
         _arc(radius,min(15,extent),True)
         extent += -15 
     svg_lines_string = svg_lines_string_temp
+    svg_fill_string = svg_fill_string_temp
     while degrees > 0:
         _arc(radius,min(90,degrees),False)
         degrees += -90 
