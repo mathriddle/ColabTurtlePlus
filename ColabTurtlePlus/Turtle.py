@@ -251,7 +251,8 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stamplist=[]
 
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
-
+    time.sleep(timeout)   
+ 
 
 # Helper function for generating svg string of the turtle
 def _generateTurtleSvgDrawing():
@@ -316,7 +317,7 @@ def _updateDrawing(delay=True):
             
      
         
-# Convert to world coordinates
+# Convert user coordinates to SVG coordinates
 def _convertx(x):
     return (x-xmin)*xscale 
 def _converty(y):
@@ -324,18 +325,42 @@ def _converty(y):
 
 
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
-def _moveToNewPosition(new_pos):
+# Animate turtle motion along line
+def _moveToNewPosition(new_pos, units):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
-
+    global timeout
     # rounding the new_pos to eliminate floating point errors.
-    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )
-    
-    start_pos = turtle_pos
+    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )   
+    timeout_orig = timeout
   
     if is_pen_down:
-        svg_lines_string += \
+        start_pos = turtle_pos           
+        svg_lines_string_orig = svg_lines_string       
+        s = 1 if units > 0 else -1            
+        if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible:
+            initial_pos = turtle_pos         
+            alpha = math.radians(turtle_degree)
+            timeout = timeout/3
+            tenx, teny = 10/xscale, 10/abs(yscale)
+            dunits = s*10/max(xscale,abs(yscale))
+            while s*units > 0:
+                dx = min(tenx,s*units)
+                dy = min(teny,s*units)
+                turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
+                svg_lines_string += \
+                    """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
+                        x1=initial_pos[0],
+                        y1=initial_pos[1],
+                        x2=turtle_pos[0],
+                        y2=turtle_pos[1],
+                        pen_color=pen_color, 
+                        pen_width=pen_width) 
+                initial_pos = turtle_pos
+                _updateDrawing()
+                units -= dunits
+        svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
                         y1=start_pos[1],
@@ -346,6 +371,7 @@ def _moveToNewPosition(new_pos):
     if is_filling:
         svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
     turtle_pos = new_pos
+    timeout = timeout_orig
     _updateDrawing()
 
         
@@ -486,10 +512,7 @@ def circle(radius, extent=360, **kwargs):
         raise ValueError('Extent should be a positive number')
      
     while extent > 0:
-        if extent > 90:
-            _arc(radius, 90)
-        else:
-            _arc(radius, extent)
+        _arc(radius,min(90,extent))
         extent += -90        
 
         
@@ -522,11 +545,9 @@ def dot(size = None, *color):
 def forward(units):
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
-     
     alpha = math.radians(turtle_degree)
-    ending_point = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
-
-    _moveToNewPosition(ending_point)
+    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+    _moveToNewPosition(new_pos,units)
 
 fd = forward # alias
 
@@ -551,10 +572,10 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    if turtle_speed == 0:
+    if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
-    elif turtle_shape not in ['blank','ring'] and stretchfactor[0]==stretchfactor[1]:
+    elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
         stretchfactor_orig = stretchfactor
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
@@ -588,11 +609,10 @@ def right(degrees):
         while s*degrees > 0:
             if s*degrees > 30:
                 turtle_degree = (turtle_degree + s*30) % 360
-                _updateDrawing()
             else:
                 turtle_degree = (turtle_degree + degrees) % 360
-                _updateDrawing()
-            degrees = degrees - s*30
+            _updateDrawing()
+            degrees -= s*30
         timeout = timeout_orig
         turtle_degree = (turtle_degree + degrees) % 360
 
@@ -611,14 +631,21 @@ def face(degrees):
 
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
-
     if _mode in ["standard","world"]: 
-        turtle_degree = (360 - degrees) % 360
+        new_degree = (360 - degrees) 
     elif _mode == "logo":
-        turtle_degree = (270 + degrees) % 360
+        new_degree = (270 + degrees) 
     else: # mode = "svg"
-        turtle_degree = degrees % 360
-    _updateDrawing()
+        new_degree = degrees % 360
+    alpha = (new_degree - turtle_degree) % 360
+    if turtle_speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
+        if alpha <= 180:
+            right(alpha)
+        else:
+            left(360-alpha)
+    else:
+        turtle_degree = new_degree
+        _updateDrawing()
 
 setheading = face # alias
 seth = face # alias
@@ -654,7 +681,8 @@ def speed(speed = None):
         return turtle_speed
 
     if isinstance(speed,int) == False or speed not in range(0, 14):
-        raise ValueError('Speed must be an integer in the interval [0,13].')
+
+                raise ValueError('Speed must be an integer in the interval [0,13].')
         
     turtle_speed = speed
     timeout = _speedToSec(speed)
@@ -670,26 +698,43 @@ def done():
 def setx(x):
     if not isinstance(x, (int,float)):
         raise ValueError('new x position must be a number.')
-    _moveToNewPosition((_convertx(x), turtle_pos[1]))
+    goto(x, gety())
 
 # Move the turtle to a designated 'y' y-coordinate, x-coordinate stays the same
 def sety(y):
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
-    _moveToNewPosition((turtle_pos[0], _converty(y)))
+    goto(getx(), y)
 
-# Move turtle to center of widnow – coordinates (0,0) except for svg mode – and set its heading to its 
+# Move turtle to center of widnow and set its heading to its 
 # start-orientation (which depends on the mode).
 def home():
     global turtle_degree
+    if _mode != 'svg':
+        goto(0,0)
+    else:
+        goto( (window_size[0] / 2, window_size[1] / 2) )
+    if _mode in ['standard','world']:
+        if turtle_degree <= 180:
+            left(turtle_degree)
+        else:
+            right(360-turtle_degree)        
+    else:
+        if turtle_degree < 90:
+            left(turtle_degree+90)
+        elif turtle_degree < 270:
+            right(270-turtle_degree)
+        else:
+            left(turtle_degree-270)
+    
+        
 
-    _moveToNewPosition( (window_size[0] / 2, window_size[1] / 2) ) # this will handle updating the drawing.
-    turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    _updateDrawing()
     
 
 # Move the turtle to a designated position.
 def goto(x, y=None):
+    global turtle_degree
+    global tilt_angle
     if isinstance(x, tuple) and y is None:
         if len(x) != 2:
             raise ValueError('The tuple argument must be of length 2.')
@@ -699,25 +744,40 @@ def goto(x, y=None):
         raise ValueError('New x position must be a number.')
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
-    _moveToNewPosition((_convertx(x), _converty(y)))
+    tilt_angle_orig = tilt_angle
+    turtle_angle_orig = turtle_degree
+    alpha = towards(x,y)
+    units = distance(x,y)
+    if _mode in ["standard","world"]: 
+        turtle_degree = (360 - alpha) % 360
+        tilt_angle = turtle_angle_orig+tilt_angle+alpha
+    elif _mode == "logo":
+        turtle_degree = (270 + alpha) % 360
+        tilt_angle = turtle_angle_orig+tilt_angle-alpha-270
+    else: # mode = "svg"
+        turtle_degree = alpha % 360
+        tilt_angle = turtle_angle_orig+tilt_angle-alpha
+    _moveToNewPosition((_convertx(x), _converty(y)),units)
+    tilt_angle = tilt_angle_orig
+    turtle_degree = turtle_angle_orig
 
 setpos = goto # alias
 setposition = goto # alias
 
 
-# Retrieve the turtle's currrent 'x' x-coordinate
+# Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
 def getx():
     return(turtle_pos[0]/xscale+xmin)
 
 xcor = getx # alias
 
-# Retrieve the turtle's currrent 'y' y-coordinate
+# Retrieve the turtle's currrent 'y' y-coordinate in current coordinate system
 def gety():
     return(ymax-turtle_pos[1]/yscale)
 
 ycor = gety # alias
 
-# Retrieve the turtle's current position as a (x,y) tuple vector
+# Retrieve the turtle's current position as a (x,y) tuple vector in current coordinate system
 def position():
     return (turtle_pos[0]/xscale+xmin, ymax-turtle_pos[1]/yscale)
 
@@ -776,7 +836,7 @@ def _validateColorTuple(color):
 def _processColor(color):
     if isinstance(color, str):
         if color == "": color = "none"
-        color = color.lower().replace(" ","")
+        color = color.lower().strip()
         if not _validateColorString(color):
             raise ValueError('Color is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.')
         return color
@@ -883,7 +943,7 @@ def distance(x, y=None):
 
     if not isinstance(y, (int,float)):
         raise ValueError('The y position must be a number.')
-
+    
     return round(math.sqrt( (getx() - x) ** 2 + (gety() - y) ** 2 ), 8)
 
 
@@ -1106,6 +1166,7 @@ def OldDefaults():
     global DEFAULT_MODE
     global DEFAULT_TURTLE_SHAPE
     global DEFAULT_WINDOW_SIZE
+    global DEFAULT_TURTLE_DEGREE
     
     DEFAULT_BACKGROUND_COLOR = "black"
     DEFAULT_PEN_COLOR = "white"
@@ -1113,6 +1174,7 @@ def OldDefaults():
     DEFAULT_MODE = 'svg'
     DEFAULT_TURTLE_SHAPE = "turtle"
     DEFAULT_WINDOW_SIZE = (800, 500)
+    
 
 
 # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
