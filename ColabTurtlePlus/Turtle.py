@@ -251,10 +251,7 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stampnum = 0
     stamplist=[]
 
-    is_turtle_visible = False
-    drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
-    is_turtle_visible = True
-    #time.sleep(timeout)   
+    drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)  
  
 
 # Helper function for generating svg string of the turtle
@@ -648,7 +645,7 @@ lt = left
 
 
 # Makes the turtle face a given direction
-def face(degrees):
+def setheading(degrees):
     global turtle_degree
 
     if not isinstance(degrees, (int,float)):
@@ -669,7 +666,7 @@ def face(degrees):
         turtle_degree = new_degree
         _updateDrawing()
 
-setheading = face # alias
+face = setheading # alias
 seth = face # alias
 
 
@@ -785,16 +782,16 @@ setposition = goto # alias
 
 
 # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
-def getx():
+def xcor():
     return(turtle_pos[0]/xscale+xmin)
 
-xcor = getx # alias
+getx = xcor # alias
 
 # Retrieve the turtle's currrent 'y' y-coordinate in current coordinate system
-def gety():
+def ycor():
     return(ymax-turtle_pos[1]/yscale)
 
-ycor = gety # alias
+gety = ycor # alias
 
 # Retrieve the turtle's current position as a (x,y) tuple vector in current coordinate system
 def position():
@@ -803,7 +800,7 @@ def position():
 pos = position # alias
 
 # Retrieve the turtle's current angle
-def getheading():
+def heading():
     if _mode in ["standard","world"]:
         return (360 - turtle_degree) % 360
     elif _mode == "logo":
@@ -811,7 +808,7 @@ def getheading():
     else: # mode = "svg"
         return turtle_degree % 360
 
-heading = getheading # alias
+getheading = heading # alias
 
 
 # Switch turtle visibility to ON
@@ -933,7 +930,7 @@ def color(*args):
         
 # Change the width of the lines drawn by the turtle, in pixels
 # If the function is called without arguments, it returns the current width
-def width(width = None):
+def pensize(width = None):
     global pen_width
 
     if width is None:
@@ -947,7 +944,7 @@ def width(width = None):
         pen_width = width
     _updateDrawing(0)
 
-pensize = width  #alias
+width = pensize  #alias
 
 
 # Calculate the distance between the turtle and a given point
@@ -1336,8 +1333,11 @@ def clearstamps(n=None):
 
 # Get the color corresponding to position n in the valid color list
 def getcolor(n):
+    if not isinstance(n,(int,float)):
+        raise valueError("color index must be an integer between 0 and 139")
+    n = int(round(n))
     if (n < 0) or (n > 139):
-        raise valueError("color request must be between 0 and 139")
+        raise valueError("color index must be an integer between 0 and 139")
     return VALID_COLORS[n]
 
 
