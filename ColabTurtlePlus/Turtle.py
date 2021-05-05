@@ -340,7 +340,7 @@ def _moveToNewPosition(new_pos, units):
     start_pos = turtle_pos           
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
-    if turtle_speed != 0 and turtle_shape != 'blank' and is_turtle_visible and animate:
+    if turtle_speed != 0 and animate:
         initial_pos = turtle_pos         
         alpha = math.radians(turtle_degree)
         timeout = timeout/5
@@ -484,7 +484,7 @@ def fillopacity(opacity=None):
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
-def _arc(radius, degrees):
+def _arc(radius, degrees,draw):
     global turtle_degree
     alpha = math.radians(turtle_degree)
     theta = math.radians(degrees)
@@ -498,7 +498,7 @@ def _arc(radius, degrees):
     _arctoNewPosition(radius,ending_point)
    
     turtle_degree = (turtle_degree - s*degrees) % 360
-    _updateDrawing()
+    if draw: _updateDrawing()
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
 # the circle function is broken into chunks of at most 90 degrees.
@@ -507,17 +507,34 @@ def _arc(radius, degrees):
 # This circle function does NOT use the steps argument found in classical turtle.py. The kwargs
 # will ignore any keyword parameter using steps.
 def circle(radius, extent=360, **kwargs):
+    global timeout
+    global svg_lines_string
+    global svg_fill_string
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
     if extent < 0:
         raise ValueError('Extent should be a positive number')
-     
-    while extent > 0:
-        _arc(radius,min(90,extent))
-        extent += -90        
-
+    if turtle_speed != 0 and animate:
+        timeout *= 0.5
+        svg_lines_string_temp = svg_lines_string
+        svg_fill_string_temp = svg_fill_string
+        timeout_temp = timeout
+        degrees = extent
+        while extent > 0:
+            _arc(radius,min(15,extent),True)
+            extent += -15 
+        svg_lines_string = svg_lines_string_temp
+        svg_fill_string = svg_fill_string_temp
+        while degrees > 0:
+            _arc(radius,min(180,degrees),False)
+            degrees += -180 
+        timeout = timeout_temp
+    else:
+        while extent > 0:
+            _arc(radius,min(180,extent),True)
+            extent += -180 
         
 # Draw a dot with diameter size, using color
 # If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
@@ -575,7 +592,7 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    if turtle_speed == 0 or turtle_shape == 'blank' or not is_turtle_visible or not animate:
+    if turtle_speed == 0 or not animate:
         turtle_degree = (turtle_degree + degrees) % 360
         _updateDrawing()
     elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
@@ -641,7 +658,7 @@ def face(degrees):
     else: # mode = "svg"
         new_degree = degrees % 360
     alpha = (new_degree - turtle_degree) % 360
-    if turtle_speed !=0 and turtle_shape != 'blank' and is_turtle_visible:
+    if turtle_speed !=0 and turtle_shape != 'blank' and is_turtle_visible and animate:
         if alpha <= 180:
             right(alpha)
         else:
@@ -1168,6 +1185,7 @@ def oldDefaults():
     global DEFAULT_TURTLE_SHAPE
     global DEFAULT_WINDOW_SIZE
     global DEFAULT_TURTLE_DEGREE
+    global DEFAULT_SPEED
     
     DEFAULT_BACKGROUND_COLOR = "black"
     DEFAULT_PEN_COLOR = "white"
@@ -1175,6 +1193,7 @@ def oldDefaults():
     DEFAULT_MODE = 'svg'
     DEFAULT_TURTLE_SHAPE = "turtle"
     DEFAULT_WINDOW_SIZE = (800, 500)
+    DEFAULT_SPEED = 4
     
 
 
@@ -1182,7 +1201,6 @@ def oldDefaults():
 def reset():
     global is_turtle_visible
     global pen_color
-    global background_color
     global is_pen_down
     global pen_width
     global svg_lines_string
@@ -1192,7 +1210,6 @@ def reset():
     global turtle_pos
     global fill_color
     global border_color
-    global turtle_shape
     global stretchfactor
     global tilt_angle
     global outline_width
@@ -1200,9 +1217,6 @@ def reset():
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
     fill_color = DEFAULT_FILL_COLOR
-    border_color = DEFAULT_BORDER_COLOR
-    background_color = DEFAULT_BACKGROUND_COLOR
-    #turtle_shape = DEFAULT_TURTLE_SHAPE
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
     stretchfactor = DEFAULT_STRETCHFACTOR
@@ -1409,7 +1423,7 @@ def tiltangle(angle=None):
     else:
         settiltangle(angle)
    
-# Turn off animation. Forward/back makes turtle jump and likewise left/right make the turtle turn instantly.
+# Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
 def animationOff():
     global animate
     animate = False
