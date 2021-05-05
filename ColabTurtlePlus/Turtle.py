@@ -251,7 +251,9 @@ def initializeTurtle(window=None, speed=None, mode=None):
     stampnum = 0
     stamplist=[]
 
+    is_turtle_visible = False
     drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)
+    is_turtle_visible = True
     #time.sleep(timeout)   
  
 
