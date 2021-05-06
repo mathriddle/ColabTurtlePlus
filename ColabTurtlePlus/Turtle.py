@@ -835,7 +835,7 @@ def towards(x, y=None):
     if angle_mode == "degrees":
         return angle
     else:
-        return round(angle*pi/180)
+        return round(angle*pi/180,10)
 
 # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
 def xcor():
