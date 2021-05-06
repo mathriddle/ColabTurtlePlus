@@ -1436,6 +1436,7 @@ def mode(mode=None):
 def radians():
     global angle_conv
     global angle_mode
+    global fullcircle
     angle_mode = 'radians'
     angle_conv = 180/pi
     fullcircle = 2*pi
@@ -1443,6 +1444,7 @@ def radians():
 def degrees():
     global angle_conv
     global angle_mode
+    global fullcircle
     angle_mode = 'degrees'
     angle_conv = 1
     fullcircle = 360
