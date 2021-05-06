@@ -880,7 +880,7 @@ def pensize(width = None):
     if width is None:
         return pen_width
     else:
-        if not isinstance(width, int):
+        if not isinstance(width, (int,float)):
             raise ValueError('New width value must be an integer.')
         if not width > 0:
             raise ValueError('New width value must be positive.')
