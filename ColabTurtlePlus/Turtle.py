@@ -460,11 +460,7 @@ def _arctoNewPosition(r,new_pos):
 def _arc(radius, degrees, draw):
     global turtle_degree
     alpha = math.radians(turtle_degree)
-    if angle_mode == "degrees":
-        theta = math.radians(degrees)
-    else:
-        theta = degrees
-    
+    theta = math.radians(degrees)
     s = radius/abs(radius)  # 1=left, -1=right
     gamma = alpha-s*theta
 
@@ -473,7 +469,7 @@ def _arc(radius, degrees, draw):
   
     _arctoNewPosition(radius,ending_point)
    
-    turtle_degree = (turtle_degree - s*degrees*angle_conv) % 360
+    turtle_degree = (turtle_degree - s*degrees) % 360
     if draw: _updateDrawing()
         
 # Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
@@ -680,18 +676,18 @@ def circle(radius, extent=fullcircle, **kwargs):
         print(degrees,extent)
         while extent > 0:
             _arc(radius,min(15,extent),True)
-            extent += -15 
+            extent -= 15 
         svg_lines_string = svg_lines_string_temp
         svg_fill_string = svg_fill_string_temp
         while degrees > 0:
             _arc(radius,min(180,degrees),False)
-            degrees += -180 
+            degrees -= 180 
         timeout = timeout_temp
     else:
         extent = extent*angle_conv
         while extent > 0:
             _arc(radius,min(180,extent),True)
-            extent += -180         
+            extent -= 180         
 
 # Draw a dot with diameter size, using color
 # If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
