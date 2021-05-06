@@ -677,6 +677,7 @@ def circle(radius, extent=fullcircle, **kwargs):
         timeout_temp = timeout
         degrees = extent*angle_conv
         extent = degrees
+        print(degrees,extent)
         while extent > 0:
             _arc(radius,min(15,extent),True)
             extent += -15 
