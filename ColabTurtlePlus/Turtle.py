@@ -832,7 +832,7 @@ def towards(x, y=None):
         angle = (90 - result) % 360
     else:  # mode = "svg"
         angle = (360 - result) % 360
-    if angle_mode = "degrees":
+    if angle_mode == "degrees":
         return angle
     else:
         return round(angle*pi/180)
@@ -855,7 +855,7 @@ def heading():
         angle = (turtle_degree - 270) % 360
     else: # mode = "svg"
         angle = turtle_degree % 360
-    if angle_mode = "degrees":
+    if angle_mode == "degrees":
         return angle
     else:
         return angle*pi/180
