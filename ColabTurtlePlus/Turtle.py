@@ -168,8 +168,7 @@ fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
 animate = True
 pi = math.pi
-d2r = 180/pi
-r2D = pi/180
+fullcircle = 360
 
 drawing_window = None
 
@@ -688,6 +687,7 @@ def circle(radius, extent=fullcircle, **kwargs):
             degrees += -180 
         timeout = timeout_temp
     else:
+        extent = extent*angle_conv
         while extent > 0:
             _arc(radius,min(180,extent),True)
             extent += -180         
@@ -1438,12 +1438,14 @@ def radians():
     global angle_mode
     angle_mode = 'radians'
     angle_conv = 180/pi
+    fullcircle = 2*pi
     
 def degrees():
     global angle_conv
     global angle_mode
     angle_mode = 'degrees'
-    angle_conv = 1  
+    angle_conv = 1
+    fullcircle = 360
 
 
 
