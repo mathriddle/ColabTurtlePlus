@@ -461,7 +461,7 @@ def _arctoNewPosition(r,new_pos):
 def _arc(radius, degrees, draw):
     global turtle_degree
     alpha = math.radians(turtle_degree)
-    if angle_mode = 'degrees':
+    if angle_mode == "degrees":
         theta = math.radians(degrees)
     else:
         theta = degrees
