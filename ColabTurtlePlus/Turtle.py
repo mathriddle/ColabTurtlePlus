@@ -609,6 +609,7 @@ def sety(y):
 def setheading(degrees):
     global turtle_degree
     deg = degrees*angle_conv
+    print(degrees,deg)
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
     if _mode in ["standard","world"]: 
