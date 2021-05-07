@@ -49,6 +49,9 @@ Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape ont
   delete stamps. Use stamp() or stamp(0) to put stamp at bottom of SVG order while stamp(1) will put it at top of SVG order.
 Added pen function.
 Added tilt and tiltangle functions.
+Added degrees and radians functions.
+Added animated motion along lines and circles, and for rotating right or left. Animation can be turned off/on using animationOff
+  and animationOn. Default is animationOn.
 Original ColabTurtle defaults can be set by calling oldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -678,6 +681,7 @@ def circle(radius, extent=fullcircle, **kwargs):
         timeout_temp = timeout
         degrees = extent*angle_conv
         extent = degrees
+        print(extent,degrees)
         while extent > 0:
             _arc(radius,min(15,extent),True)
             extent -= 15 
