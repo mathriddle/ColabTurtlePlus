@@ -609,7 +609,6 @@ def sety(y):
 def setheading(degrees):
     global turtle_degree
     deg = degrees*angle_conv
-    print(degrees,deg)
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
     if _mode in ["standard","world"]: 
@@ -621,9 +620,15 @@ def setheading(degrees):
     alpha = (new_degree - turtle_degree) % 360
     if turtle_speed !=0 and animate:
         if alpha <= 180:
-            right(alpha)
+            if angle_mode == "degrees":
+                right(alpha)
+            else:
+                right(alpha*pi/180)
         else:
-            left(360-alpha)
+            if angle_mode == "degrees":
+                left(360-alpha)
+            else:
+                left((360-alpha)*pi/180)
     else:
         turtle_degree = new_degree
         _updateDrawing()
@@ -643,6 +648,7 @@ def home():
             left(turtle_degree)
         else:
             right(360-turtle_degree)        
+            
     else:
         if turtle_degree < 90:
             left(turtle_degree+90)
@@ -674,7 +680,6 @@ def circle(radius, extent=fullcircle, **kwargs):
         timeout_temp = timeout
         degrees = extent*angle_conv
         extent = degrees
-        print(degrees,extent)
         while extent > 0:
             _arc(radius,min(15,extent),True)
             extent -= 15 
@@ -831,9 +836,9 @@ def towards(x, y=None):
     else:  # mode = "svg"
         angle = (360 - result) % 360
     if angle_mode == "degrees":
-        return angle
+        return round(angle,5)
     else:
-        return round(angle*pi/180,10)
+        return round(angle*pi/180,5)
 
 # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
 def xcor():
