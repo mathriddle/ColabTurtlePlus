@@ -167,7 +167,6 @@ outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
 animate = True
-pi = math.pi
 fullcircle = 360
 
 drawing_window = None
@@ -499,7 +498,7 @@ def backward(units):
 bk = backward # alias
 back = backward # alias
 
-# Makes the turtle move right by 'degrees' degrees (NOT radians)
+# Makes the turtle move right by 'degrees' degrees or radians
 # Uses SVG animation to rotate turtle.
 # But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
 # so in that case break the rotation into pieces of at most 30 degrees.
@@ -556,7 +555,7 @@ def right(degrees):
         turtle_degree = (turtle_degree + deg) % 360
 rt = right # alias
 
-# Makes the turtle move right by 'degrees' degrees (NOT radians, this library does not support radians right now)
+# Makes the turtle move right by 'degrees' degrees 
 def left(degrees):
     right(-1 * degrees)
 lt = left
@@ -623,12 +622,12 @@ def setheading(degrees):
             if angle_mode == "degrees":
                 right(alpha)
             else:
-                right(alpha*pi/180)
+                right(math.degrees(alpha))
         else:
             if angle_mode == "degrees":
                 left(360-alpha)
             else:
-                left((360-alpha)*pi/180)
+                left(math.degrees(360-alpha))
     else:
         turtle_degree = new_degree
         _updateDrawing()
@@ -647,8 +646,7 @@ def home():
         if turtle_degree <= 180:
             left(turtle_degree)
         else:
-            right(360-turtle_degree)        
-            
+            right(360-turtle_degree)                  
     else:
         if turtle_degree < 90:
             left(turtle_degree+90)
@@ -836,9 +834,9 @@ def towards(x, y=None):
     else:  # mode = "svg"
         angle = (360 - result) % 360
     if angle_mode == "degrees":
-        return round(angle,5)
+        return round(angle,7)
     else:
-        return round(angle*pi/180,5)
+        return round(math.radians(angle),7)
 
 # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
 def xcor():
@@ -861,7 +859,7 @@ def heading():
     if angle_mode == "degrees":
         return angle
     else:
-        return angle*pi/180
+        return math.radians(angle)
 getheading = heading # alias
  
 # Calculate the distance between the turtle and a given point
@@ -1441,8 +1439,8 @@ def radians():
     global angle_mode
     global fullcircle
     angle_mode = 'radians'
-    angle_conv = 180/pi
-    fullcircle = 2*pi
+    angle_conv = 180/math.pi
+    fullcircle = 2*math.pi
     
 def degrees():
     global angle_conv
