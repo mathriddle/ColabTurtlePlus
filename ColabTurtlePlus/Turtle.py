@@ -387,7 +387,7 @@ def _moveToNewPosition(new_pos, units):
     if turtle_speed != 0 and animate:
         initial_pos = turtle_pos         
         alpha = math.radians(turtle_degree)
-        timeout = timeout/5
+        timeout = timeout/3
         tenx, teny = 10/xscale, 10/abs(yscale)
         dunits = s*10/max(xscale,abs(yscale))
         while s*units > 0:
@@ -530,11 +530,11 @@ def right(degrees):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=degrees, t=timeout/3*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=degrees, t=timeout/2*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
-        timeout = timeout/3*abs(deg)/90+0.001
+        timeout = timeout/2*abs(deg)/90+0.001
         _updateDrawing()
         turtle_degree = (turtle_degree + deg) % 360
         shapeDict.update({turtle_shape:template})
@@ -542,7 +542,7 @@ def right(degrees):
         timeout = timeout_orig
     else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
         turtle_degree_orig = turtle_degree
-        timeout = timeout/3
+        timeout = timeout/2
         s = 1 if degrees > 0 else -1
         while s*deg > 0:
             if s*deg > 30:
