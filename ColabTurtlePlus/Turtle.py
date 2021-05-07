@@ -622,12 +622,12 @@ def setheading(degrees):
             if angle_mode == "degrees":
                 right(alpha)
             else:
-                right(math.degrees(alpha))
+                right(math.radians(alpha))
         else:
             if angle_mode == "degrees":
                 left(360-alpha)
             else:
-                left(math.degrees(360-alpha))
+                left(math.radians(360-alpha))
     else:
         turtle_degree = new_degree
         _updateDrawing()
