@@ -49,6 +49,9 @@ Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape ont
   delete stamps. Use stamp() or stamp(0) to put stamp at bottom of SVG order while stamp(1) will put it at top of SVG order.
 Added pen function.
 Added tilt and tiltangle functions.
+Added degrees and radians functions.
+Added animated motion along lines and circles, and for rotating right or left. Animation can be turned off/on using animationOff
+  and animationOn. Default is animationOn.
 Original ColabTurtle defaults can be set by calling oldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -91,6 +94,7 @@ VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
 VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank') 
 DEFAULT_MODE = 'standard'
+DEFAULT_ANGLE_MODE = 'degrees'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{background_color};stroke:{kolor};stroke-width:1"/>
@@ -156,6 +160,7 @@ svg_lines_string = DEFAULT_SVG_LINES_STRING
 pen_width = DEFAULT_PEN_WIDTH
 turtle_shape = DEFAULT_TURTLE_SHAPE
 _mode = DEFAULT_MODE
+angle_mode = DEFAULT_ANGLE_MODE
 border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
@@ -165,6 +170,7 @@ outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
 animate = True
+angle_conv = 1
 
 drawing_window = None
 
@@ -239,6 +245,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     pen_width = DEFAULT_PEN_WIDTH
     turtle_shape = DEFAULT_TURTLE_SHAPE
     tilt_angle = DEFAULT_TILT_ANGLE
+    angle_mode = DEFAULT_ANGLE_MODE
     is_filling = False
     svg_fill_string = ''
     svg_dots_string = ''
@@ -381,9 +388,10 @@ def _moveToNewPosition(new_pos, units):
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
+        # create temporary svg string to show the animation
         initial_pos = turtle_pos         
         alpha = math.radians(turtle_degree)
-        timeout = timeout/5
+        timeout = timeout/3
         tenx, teny = 10/xscale, 10/abs(yscale)
         dunits = s*10/max(xscale,abs(yscale))
         while s*units > 0:
@@ -403,6 +411,7 @@ def _moveToNewPosition(new_pos, units):
             _updateDrawing()
             units -= dunits
     if is_pen_down:
+        # now create the permanent svg string that does not display the animation
         svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
@@ -452,11 +461,10 @@ def _arctoNewPosition(r,new_pos):
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
-def _arc(radius, degrees,draw):
+def _arc(radius, degrees, draw):
     global turtle_degree
     alpha = math.radians(turtle_degree)
     theta = math.radians(degrees)
-    
     s = radius/abs(radius)  # 1=left, -1=right
     gamma = alpha-s*theta
 
@@ -495,7 +503,7 @@ def backward(units):
 bk = backward # alias
 back = backward # alias
 
-# Makes the turtle move right by 'degrees' degrees (NOT radians)
+# Makes the turtle move right by 'degrees' degrees or radians
 # Uses SVG animation to rotate turtle.
 # But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
 # so in that case break the rotation into pieces of at most 30 degrees.
@@ -506,8 +514,9 @@ def right(degrees):
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
+    deg = degrees*angle_conv
     if turtle_speed == 0 or not animate:
-        turtle_degree = (turtle_degree + degrees) % 360
+        turtle_degree = (turtle_degree + deg) % 360
         _updateDrawing()
     elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
         stretchfactor_orig = stretchfactor
@@ -526,32 +535,32 @@ def right(degrees):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=degrees, t=timeout/3*abs(degrees)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=degrees, t=timeout/2*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
-        timeout = timeout/3*abs(degrees)/90+0.001
+        timeout = timeout/2*abs(deg)/90+0.001
         _updateDrawing()
-        turtle_degree = (turtle_degree + degrees) % 360
+        turtle_degree = (turtle_degree + deg) % 360
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
         timeout = timeout_orig
     else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
         turtle_degree_orig = turtle_degree
-        timeout = timeout/3
+        timeout = timeout/2
         s = 1 if degrees > 0 else -1
-        while s*degrees > 0:
-            if s*degrees > 30:
+        while s*deg > 0:
+            if s*deg > 30:
                 turtle_degree = (turtle_degree + s*30) % 360
             else:
-                turtle_degree = (turtle_degree + degrees) % 360
+                turtle_degree = (turtle_degree + deg) % 360
             _updateDrawing()
-            degrees -= s*30
+            deg -= s*30
         timeout = timeout_orig
-        turtle_degree = (turtle_degree + degrees) % 360
+        turtle_degree = (turtle_degree + deg) % 360
 rt = right # alias
 
-# Makes the turtle move right by 'degrees' degrees (NOT radians, this library does not support radians right now)
+# Makes the turtle move right by 'degrees' degrees 
 def left(degrees):
     right(-1 * degrees)
 lt = left
@@ -603,21 +612,27 @@ def sety(y):
 # Makes the turtle face a given direction
 def setheading(degrees):
     global turtle_degree
-
+    deg = degrees*angle_conv
     if not isinstance(degrees, (int,float)):
         raise ValueError('Degrees must be a number.')
     if _mode in ["standard","world"]: 
-        new_degree = (360 - degrees) 
+        new_degree = (360 - deg) 
     elif _mode == "logo":
-        new_degree = (270 + degrees) 
+        new_degree = (270 + deg) 
     else: # mode = "svg"
-        new_degree = degrees % 360
+        new_degree = deg % 360
     alpha = (new_degree - turtle_degree) % 360
-    if turtle_speed !=0 and turtle_shape != 'blank' and is_turtle_visible and animate:
+    if turtle_speed !=0 and animate:
         if alpha <= 180:
-            right(alpha)
+            if angle_mode == "degrees":
+                right(alpha)
+            else:
+                right(math.radians(alpha))
         else:
-            left(360-alpha)
+            if angle_mode == "degrees":
+                left(360-alpha)
+            else:
+                left(math.radians(360-alpha))
     else:
         turtle_degree = new_degree
         _updateDrawing()
@@ -636,7 +651,7 @@ def home():
         if turtle_degree <= 180:
             left(turtle_degree)
         else:
-            right(360-turtle_degree)        
+            right(360-turtle_degree)                  
     else:
         if turtle_degree < 90:
             left(turtle_degree+90)
@@ -651,35 +666,47 @@ def home():
 # Positive radius has circle to left of turtle, negative radius has circle to right of turtle.
 # This circle function does NOT use the steps argument found in classical turtle.py. The kwargs
 # will ignore any keyword parameter using steps.
-def circle(radius, extent=360, **kwargs):
+def circle(radius, extent=None, **kwargs):
     global timeout
     global svg_lines_string
     global svg_fill_string
+    global turtle_degree
+    global turtle_pos
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
-    if not isinstance(extent, (int,float)):
+    if extent is None:
+        extent = 360 if angle_mode == "degrees" else 2*math.pi 
+    elif not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
-    if extent < 0:
+    elif extent < 0:
         raise ValueError('Extent should be a positive number')
     if turtle_speed != 0 and animate:
-        timeout *= 0.5
+        timeout_temp = timeout 
+        timeout *= 0.65
+        degrees = extent*angle_conv
+        extent = degrees
+        # Use temporary svg strings for animation
         svg_lines_string_temp = svg_lines_string
-        svg_fill_string_temp = svg_fill_string
-        timeout_temp = timeout
-        degrees = extent
+        svg_fill_string_temp = svg_fill_string 
+        turtle_degree_orig = turtle_degree
+        turtle_pos_orig = turtle_pos        
         while extent > 0:
             _arc(radius,min(15,extent),True)
-            extent += -15 
+            extent -= 15 
+        # return to original position and redo circle for svg strings without animation
         svg_lines_string = svg_lines_string_temp
         svg_fill_string = svg_fill_string_temp
+        turtle_degree = turtle_degree_orig
+        turtle_pos = turtle_pos_orig
         while degrees > 0:
             _arc(radius,min(180,degrees),False)
-            degrees += -180 
+            degrees -= 180 
         timeout = timeout_temp
-    else:
+    else:  # no animation
+        extent = extent*angle_conv
         while extent > 0:
             _arc(radius,min(180,extent),True)
-            extent += -180         
+            extent -= 180         
 
 # Draw a dot with diameter size, using color
 # If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
@@ -816,11 +843,15 @@ def towards(x, y=None):
         dy = -dy
     result = round(math.atan2(dy,dx)*180.0/math.pi, 10) % 360.0
     if _mode in ["standard","world"]:
-        return result
+        angle = result
     elif _mode == "logo":
-        return (90 - result) % 360
+        angle = (90 - result) % 360
     else:  # mode = "svg"
-        return (360 - result) % 360
+        angle = (360 - result) % 360
+    if angle_mode == "degrees":
+        return round(angle,7)
+    else:
+        return round(math.radians(angle),7)
 
 # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
 def xcor():
@@ -832,14 +863,18 @@ def ycor():
     return(ymax-turtle_pos[1]/yscale)
 gety = ycor # alias
 
-# Retrieve the turtle's current angle
+# Retrieve the turtle's current angle in current angle_mode
 def heading():
     if _mode in ["standard","world"]:
-        return (360 - turtle_degree) % 360
+        angle = (360 - turtle_degree) % 360
     elif _mode == "logo":
-        return (turtle_degree - 270) % 360
+        angle = (turtle_degree - 270) % 360
     else: # mode = "svg"
-        return turtle_degree % 360
+        angle = turtle_degree % 360
+    if angle_mode == "degrees":
+        return angle
+    else:
+        return math.radians(angle)
 getheading = heading # alias
  
 # Calculate the distance between the turtle and a given point
@@ -1085,8 +1120,12 @@ def end_fill():
     global svg_fill_string
     if is_filling:
         is_filling = False
+        if is_pen_down:
+            bddry = pen_color
+        else:
+            bddry = 'none'
         svg_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(
-                pencolor=pen_color,
+                pencolor=bddry,
                 penwidth=pen_width,
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
@@ -1309,9 +1348,9 @@ turtlesize = shapesize #alias
 def settiltangle(angle):
     global tilt_angle
     if _mode in ["standard","world"]:
-        tilt_angle = -angle
+        tilt_angle = -angle*angle_mode
     else:
-        tilt_angle = angle
+        tilt_angle = angle*angle_mode
     _updateDrawing(0)  
 
 # Set or return the current tilt-angle. 
@@ -1329,9 +1368,9 @@ def tiltangle(angle=None):
 def tilt(angle):
     global tilt_angle
     if _mode in ["standard","world"]:
-        tilt_angle -= angle
+        tilt_angle -= angle*angle_conv
     else:
-        tilt_angle += angle
+        tilt_angle += angle*angle_conv 
     _updateDrawing(0)
 
 #=====================
@@ -1414,4 +1453,23 @@ def mode(mode=None):
     _mode = mode.lower()   
     reset()
    
-  
+def radians():
+    global angle_conv
+    global angle_mode
+    global fullcircle
+    angle_mode = 'radians'
+    angle_conv = 180/math.pi
+    
+def degrees():
+    global angle_conv
+    global angle_mode
+    global fullcircle
+    angle_mode = 'degrees'
+    angle_conv = 1
+
+
+
+
+
+
+
