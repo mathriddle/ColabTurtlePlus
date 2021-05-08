@@ -388,6 +388,7 @@ def _moveToNewPosition(new_pos, units):
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
+        # create temporary svg string to show the animation
         initial_pos = turtle_pos         
         alpha = math.radians(turtle_degree)
         timeout = timeout/3
@@ -410,6 +411,7 @@ def _moveToNewPosition(new_pos, units):
             _updateDrawing()
             units -= dunits
     if is_pen_down:
+        # now create the permanent svg string that does not display the animation
         svg_lines_string = svg_lines_string_orig + \
             """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=start_pos[0],
@@ -680,8 +682,7 @@ def circle(radius, extent=None, **kwargs):
         raise ValueError('Extent should be a positive number')
     if turtle_speed != 0 and animate:
         timeout_temp = timeout 
-        timeout *= 0.5
-
+        timeout *= 0.75
         degrees = extent*angle_conv
         extent = degrees
         # Use temporary svg strings for animation
@@ -1119,8 +1120,12 @@ def end_fill():
     global svg_fill_string
     if is_filling:
         is_filling = False
+        if is_pen_down:
+            bddry = pen_color
+        else:
+            bddry = 'none'
         svg_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(
-                pencolor=pen_color,
+                pencolor=bddry,
                 penwidth=pen_width,
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
