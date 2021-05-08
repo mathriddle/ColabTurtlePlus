@@ -170,6 +170,7 @@ outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
 animate = True
+angle_conv = 1
 
 drawing_window = None
 
