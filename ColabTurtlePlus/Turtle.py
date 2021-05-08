@@ -170,7 +170,6 @@ outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
 fill_opacity = DEFAULT_FILL_OPACITY
 animate = True
-fullcircle = 360
 
 drawing_window = None
 
@@ -671,10 +670,7 @@ def circle(radius, extent=None, **kwargs):
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if extent is None:
-        if angle_mode == "degrees":
-            extent = 360
-        else:
-            extent = 2*math.pi    
+        extent = 360 if angle_mode == "degrees" else 2*math.pi 
     elif not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
@@ -686,7 +682,6 @@ def circle(radius, extent=None, **kwargs):
         timeout_temp = timeout       
         degrees = extent*angle_conv
         extent = degrees
-        print(extent,degrees)
         while extent > 0:
             _arc(radius,min(15,extent),True)
             extent -= 15 
@@ -1449,7 +1444,6 @@ def radians():
     global fullcircle
     angle_mode = 'radians'
     angle_conv = 180/math.pi
-    fullcircle = 2*math.pi
     
 def degrees():
     global angle_conv
@@ -1457,7 +1451,7 @@ def degrees():
     global fullcircle
     angle_mode = 'degrees'
     angle_conv = 1
-    fullcircle = 360
+
 
 
 
