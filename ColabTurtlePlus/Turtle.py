@@ -676,22 +676,29 @@ def circle(radius, extent=None, **kwargs):
     elif extent < 0:
         raise ValueError('Extent should be a positive number')
     if turtle_speed != 0 and animate:
+        timeout_temp = timeout 
         timeout *= 0.5
-        svg_lines_string_temp = svg_lines_string
-        svg_fill_string_temp = svg_fill_string
-        timeout_temp = timeout       
+
         degrees = extent*angle_conv
         extent = degrees
+        # Use temporary svg strings for animation
+        svg_lines_string_temp = svg_lines_string
+        svg_fill_string_temp = svg_fill_string 
+        turtle_degree_orig = turtle_degree
+        turtle_pos_orig = turtle_pos        
         while extent > 0:
             _arc(radius,min(15,extent),True)
             extent -= 15 
+        # return to original position and redo circle for svg strings without animation
         svg_lines_string = svg_lines_string_temp
         svg_fill_string = svg_fill_string_temp
+        turtle_degree = turtle_degree_orig
+        turtle_pos = turtle_pos_orig
         while degrees > 0:
             _arc(radius,min(180,degrees),False)
             degrees -= 180 
         timeout = timeout_temp
-    else:
+    else:  # no animation
         extent = extent*angle_conv
         while extent > 0:
             _arc(radius,min(180,extent),True)
