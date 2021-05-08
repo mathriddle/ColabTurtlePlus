@@ -679,6 +679,7 @@ def circle(radius, extent=fullcircle, **kwargs):
         svg_lines_string_temp = svg_lines_string
         svg_fill_string_temp = svg_fill_string
         timeout_temp = timeout
+        print(extent)
         degrees = extent*angle_conv
         extent = degrees
         print(extent,degrees)
