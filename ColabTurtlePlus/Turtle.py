@@ -664,7 +664,7 @@ def home():
 # Positive radius has circle to left of turtle, negative radius has circle to right of turtle.
 # This circle function does NOT use the steps argument found in classical turtle.py. The kwargs
 # will ignore any keyword parameter using steps.
-def circle(radius, extent=fullcircle, **kwargs):
+def circle(radius, extent=None, **kwargs):
     global timeout
     global svg_lines_string
     global svg_fill_string
@@ -674,12 +674,16 @@ def circle(radius, extent=fullcircle, **kwargs):
         raise ValueError('Extent should be a number')      
     if extent < 0:
         raise ValueError('Extent should be a positive number')
+    if extent is None:
+        if angle_mode == "degrees":
+            extent = 360
+        else:
+            extent = 2*pi
     if turtle_speed != 0 and animate:
         timeout *= 0.5
         svg_lines_string_temp = svg_lines_string
         svg_fill_string_temp = svg_fill_string
-        timeout_temp = timeout
-        print(extent)
+        timeout_temp = timeout       
         degrees = extent*angle_conv
         extent = degrees
         print(extent,degrees)
