@@ -670,15 +670,15 @@ def circle(radius, extent=None, **kwargs):
     global svg_fill_string
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
-    if not isinstance(extent, (int,float)):
-        raise ValueError('Extent should be a number')      
-    if extent < 0:
-        raise ValueError('Extent should be a positive number')
     if extent is None:
         if angle_mode == "degrees":
             extent = 360
         else:
-            extent = 2*pi
+            extent = 2*pi    
+    elif not isinstance(extent, (int,float)):
+        raise ValueError('Extent should be a number')      
+    elif extent < 0:
+        raise ValueError('Extent should be a positive number')
     if turtle_speed != 0 and animate:
         timeout *= 0.5
         svg_lines_string_temp = svg_lines_string
