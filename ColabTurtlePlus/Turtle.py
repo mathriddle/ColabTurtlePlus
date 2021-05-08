@@ -674,7 +674,7 @@ def circle(radius, extent=None, **kwargs):
         if angle_mode == "degrees":
             extent = 360
         else:
-            extent = 2*pi    
+            extent = 2*math.pi    
     elif not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
