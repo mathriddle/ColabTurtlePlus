@@ -668,6 +668,8 @@ def circle(radius, extent=None, **kwargs):
     global timeout
     global svg_lines_string
     global svg_fill_string
+    global turtle_degree
+    global turtle_pos
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if extent is None:
