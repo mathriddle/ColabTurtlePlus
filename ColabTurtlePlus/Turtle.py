@@ -1467,7 +1467,17 @@ def degrees():
     angle_mode = 'degrees'
     angle_conv = 1
 
-
+# Draw a line from diego2500garza
+def drawline(x_1,y_1,x_2,y_2):
+    global svg_lines_string
+    svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
+        x1=_convertx(x_1),
+        y1=_converty(y_1),
+        x2=_convertx(x_2),
+        y2=_converty(y_2),
+        pencolor = pen_color,
+        penwidth = pen_width)
+    _updateDrawing()
 
 
 
