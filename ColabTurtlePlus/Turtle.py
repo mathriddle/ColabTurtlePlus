@@ -141,7 +141,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
 
-SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.025, 12: 0.01, 13: 0.005}
+SPEED_TO_SEC_MAP = {0: 0, 1: 1.25, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.04, 12: 0.02, 13: 0.005}
 
 # Helper function that maps [0,13] speed values to ms delays
 def _speedToSec(speed):
