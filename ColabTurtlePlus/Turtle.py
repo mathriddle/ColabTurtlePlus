@@ -1477,9 +1477,11 @@ def drawline(x_1,y_1,x_2,y_2):
         y2=_converty(y_2),
         pencolor = pen_color,
         penwidth = pen_width)
-    _updateDrawing()
+    _updateDrawing(0)
 
-
+# Delay execution of next object for given delay time
+def delay(delay_time):
+   time.sleep(delay_time)
 
 
 
