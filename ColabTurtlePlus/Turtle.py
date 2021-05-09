@@ -141,7 +141,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
 
-SPEED_TO_SEC_MAP = {0: 0, 1: 1.5, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.025, 12: 0.01, 13: 0.005}
+SPEED_TO_SEC_MAP = {0: 0, 1: 1.25, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.04, 12: 0.02, 13: 0.005}
 
 # Helper function that maps [0,13] speed values to ms delays
 def _speedToSec(speed):
@@ -391,7 +391,7 @@ def _moveToNewPosition(new_pos, units):
         # create temporary svg string to show the animation
         initial_pos = turtle_pos         
         alpha = math.radians(turtle_degree)
-        timeout = timeout/3
+        timeout = timeout*0.25
         tenx, teny = 10/xscale, 10/abs(yscale)
         dunits = s*10/max(xscale,abs(yscale))
         while s*units > 0:
@@ -535,11 +535,11 @@ def right(degrees):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=degrees, t=timeout/2*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=degrees, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
-        timeout = timeout/2*abs(deg)/90+0.001
+        timeout = timeout*abs(deg)/90+0.001
         _updateDrawing()
         turtle_degree = (turtle_degree + deg) % 360
         shapeDict.update({turtle_shape:template})
@@ -547,7 +547,7 @@ def right(degrees):
         timeout = timeout_orig
     else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
         turtle_degree_orig = turtle_degree
-        timeout = timeout/2
+        timeout = timeout
         s = 1 if degrees > 0 else -1
         while s*deg > 0:
             if s*deg > 30:
@@ -636,8 +636,8 @@ def setheading(degrees):
     else:
         turtle_degree = new_degree
         _updateDrawing()
+seth = setheading # alias
 face = setheading # alias
-seth = face # alias
 
 # Move turtle to center of widnow and set its heading to its 
 # start-orientation (which depends on the mode).
@@ -682,7 +682,7 @@ def circle(radius, extent=None, **kwargs):
         raise ValueError('Extent should be a positive number')
     if turtle_speed != 0 and animate:
         timeout_temp = timeout 
-        timeout *= 0.65
+        timeout = timeout*0.5
         degrees = extent*angle_conv
         extent = degrees
         # Use temporary svg strings for animation
