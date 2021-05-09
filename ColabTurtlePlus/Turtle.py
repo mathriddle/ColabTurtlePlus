@@ -119,7 +119,7 @@ TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform
 <polygon points="-10,-5 0,5 10,-5" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="10,-10 10,10 -10,10 -10,-10" transform="skewX(315) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_TRIANGLE_SVG_TEMPLATE = """<g id="triangle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="10,-8.66 0,8.66 -10,-8.66" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
