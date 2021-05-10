@@ -278,7 +278,7 @@ def _generateTurtleSvgDrawing():
     degrees = turtle_degree + tilt_angle
     template = ''
     
-    if turtle_shape in ['turtle','turtle2']:
+    if turtle_shape in ['turtle']:
         degrees += 90
     elif turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
