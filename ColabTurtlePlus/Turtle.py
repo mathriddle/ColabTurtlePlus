@@ -1495,12 +1495,12 @@ def shearfactor(shear=None):
  #           angle = (shear_factor - 270) % 360
  #       else: # mode = "svg"
  #           angle = shear_factor % 360                
-        return round(math.tan(shear_factor*math.pi/180),8)
+        return round(math.tan((shear_factor*math-360).pi/180),8)
     alpha = math.atan(shear)*180/math.pi
 ##        angle = (360 - alpha) % 360
 #   elif _mode == "logo":
 #        angle = (270 + alpha) % 360
 #    else: # mode = "svg"
 #        angle = alpha % 360
-    shear_factor = alpha
+    shear_factor = (360 - alpha) % 360
 
