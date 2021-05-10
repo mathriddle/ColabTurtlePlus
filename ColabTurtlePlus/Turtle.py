@@ -1487,15 +1487,21 @@ def delay(delay_time):
    time.sleep(delay_time)
 
 def shearfactor(shear=None):
-   global shear_factor
-   if shear is None:
-       return shear_factor*math.pi/180
-   alpha = math.atan(shear)*180/math.pi
-   if _mode in ["standard","world"]:
-        angle = (360 - alpha) % 360
-   elif _mode == "logo":
-        angle = (alpha - 270) % 360
-   else: # mode = "svg"
-        angle = alpha % 360
-   shear_factor = angle
+    global shear_factor
+    if shear is None:
+        if _mode in ["standard","world"]:
+            angle = (360 - alpha) % 360
+        elif _mode == "logo":
+            angle = (alpha - 270) % 360
+        else: # mode = "svg"
+            angle = alpha % 360                
+       return tan(angle*math.pi/180)
+    alpha = math.atan(shear)*180/math.pi
+    if _mode in ["standard","world"]: 
+        angle = (360 - deg) % 360
+    elif _mode == "logo":
+        angle = (270 + deg) % 360
+    else: # mode = "svg"
+        angle = deg % 360
+    shear_factor = angle
 
