@@ -1490,5 +1490,5 @@ def shearfactor(shear=None):
    global shear_factor
    if shear is None:
        return shear_factor
-   shear_factor = math.atan2(shear)
+   shear_factor = math.atan(shear)
 
