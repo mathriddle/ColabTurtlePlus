@@ -1495,7 +1495,7 @@ def shearfactor(shear=None):
             angle = (alpha - 270) % 360
         else: # mode = "svg"
             angle = alpha % 360                
-       return tan(angle*math.pi/180)
+        return tan(angle*math.pi/180)
     alpha = math.atan(shear)*180/math.pi
     if _mode in ["standard","world"]: 
         angle = (360 - deg) % 360
