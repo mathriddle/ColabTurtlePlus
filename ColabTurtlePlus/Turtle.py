@@ -1016,6 +1016,7 @@ def pen(dictname=None, **pendict):
         shear_factor = p["shearfactor"]
     if "tilt" in p:
         tilt_angle = p["tilt"]
+        print(tilt_angle)
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
