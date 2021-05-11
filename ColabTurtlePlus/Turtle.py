@@ -45,6 +45,7 @@ Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified the
 Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 Added dot function to draw a dot with given diameter and color.
 Added shapesize function to scale the turtle shape.
+Added shearfactor function.
 Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
   delete stamps. Use stamp() or stamp(0) to put stamp at bottom of SVG order while stamp(1) will put it at top of SVG order.
 Added pen function.
@@ -71,6 +72,7 @@ DEFAULT_SVG_LINES_STRING = ""
 DEFAULT_PEN_WIDTH = 1
 DEFAULT_OUTLINE_WIDTH = 1
 DEFAULT_STRETCHFACTOR = (1,1)
+DEFAULT_SHEARFACTOR = 0
 DEFAULT_TILT_ANGLE = 0
 DEFAULT_FILL_RULE = 'evenodd'
 DEFAULT_FILL_OPACITY = 1
@@ -106,29 +108,29 @@ SVG_TEMPLATE = """
       </svg>
     """
 TURTLE_TURTLE_SVG_TEMPLATE = """<g id="turtle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<path style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="scale({sx},{sy})" d="m 1.1536693,-18.56101 c -2.105469,1.167969 -3.203125,3.441407 -3.140625,6.5 l 0.011719,0.519532 -0.300782,-0.15625 c -1.308594,-0.671875 -2.828125,-0.824219 -4.378906,-0.429688 -1.9375,0.484375 -3.8906253,2.089844 -6.0117193,4.9257825 -1.332031,1.785156 -1.714843,2.644531 -1.351562,3.035156 l 0.113281,0.125 h 0.363281 c 0.71875,0 1.308594,-0.265625 4.6679693,-2.113282 1.199219,-0.660156 2.183594,-1.199218 2.191406,-1.199218 0.00781,0 -0.023437,0.089844 -0.074218,0.195312 -0.472657,1.058594 -1.046876,2.785156 -1.335938,4.042969 -1.054688,4.574219 -0.351562,8.453125 2.101562,11.582031 0.28125,0.355469 0.292969,0.253906 -0.097656,0.722656 -2.046875,2.4609375 -3.027344,4.8984375 -2.734375,6.8046875 0.050781,0.339844 0.042969,0.335938 0.679688,0.335938 2.023437,0 4.15625,-1.316407 6.21875,-3.835938 0.222656,-0.269531 0.191406,-0.261719 0.425781,-0.113281 0.730469,0.46875 2.460938,1.390625 2.613281,1.390625 0.160157,0 1.765625,-0.753906 2.652344,-1.246094 0.167969,-0.09375 0.308594,-0.164062 0.308594,-0.160156 0.066406,0.105468 0.761719,0.855468 1.085937,1.171875 1.613282,1.570312 3.339844,2.402343 5.3593747,2.570312 0.324219,0.02734 0.355469,0.0078 0.425781,-0.316406 0.375,-1.742187 -0.382812,-4.058594 -2.1445307,-6.5585935 l -0.320312,-0.457031 0.15625,-0.183594 c 3.2460927,-3.824218 3.4335927,-9.08593704 0.558593,-15.816406 l -0.050781,-0.125 1.7382807,0.859375 c 3.585938,1.773437 4.371094,2.097656 5.085938,2.097656 0.945312,0 0.75,-0.863281 -0.558594,-2.507812 C 11.458356,-11.838353 8.3333563,-13.268041 4.8607003,-11.721166 l -0.363281,0.164063 0.019531,-0.09375 c 0.121094,-0.550781 0.183594,-1.800781 0.121094,-2.378907 -0.203125,-1.867187 -1.035157,-3.199218 -2.695313,-4.308593 -0.523437,-0.351563 -0.546875,-0.355469 -0.789062,-0.222657" >
+<path style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})" d="m 1.1536693,-18.56101 c -2.105469,1.167969 -3.203125,3.441407 -3.140625,6.5 l 0.011719,0.519532 -0.300782,-0.15625 c -1.308594,-0.671875 -2.828125,-0.824219 -4.378906,-0.429688 -1.9375,0.484375 -3.8906253,2.089844 -6.0117193,4.9257825 -1.332031,1.785156 -1.714843,2.644531 -1.351562,3.035156 l 0.113281,0.125 h 0.363281 c 0.71875,0 1.308594,-0.265625 4.6679693,-2.113282 1.199219,-0.660156 2.183594,-1.199218 2.191406,-1.199218 0.00781,0 -0.023437,0.089844 -0.074218,0.195312 -0.472657,1.058594 -1.046876,2.785156 -1.335938,4.042969 -1.054688,4.574219 -0.351562,8.453125 2.101562,11.582031 0.28125,0.355469 0.292969,0.253906 -0.097656,0.722656 -2.046875,2.4609375 -3.027344,4.8984375 -2.734375,6.8046875 0.050781,0.339844 0.042969,0.335938 0.679688,0.335938 2.023437,0 4.15625,-1.316407 6.21875,-3.835938 0.222656,-0.269531 0.191406,-0.261719 0.425781,-0.113281 0.730469,0.46875 2.460938,1.390625 2.613281,1.390625 0.160157,0 1.765625,-0.753906 2.652344,-1.246094 0.167969,-0.09375 0.308594,-0.164062 0.308594,-0.160156 0.066406,0.105468 0.761719,0.855468 1.085937,1.171875 1.613282,1.570312 3.339844,2.402343 5.3593747,2.570312 0.324219,0.02734 0.355469,0.0078 0.425781,-0.316406 0.375,-1.742187 -0.382812,-4.058594 -2.1445307,-6.5585935 l -0.320312,-0.457031 0.15625,-0.183594 c 3.2460927,-3.824218 3.4335927,-9.08593704 0.558593,-15.816406 l -0.050781,-0.125 1.7382807,0.859375 c 3.585938,1.773437 4.371094,2.097656 5.085938,2.097656 0.945312,0 0.75,-0.863281 -0.558594,-2.507812 C 11.458356,-11.838353 8.3333563,-13.268041 4.8607003,-11.721166 l -0.363281,0.164063 0.019531,-0.09375 c 0.121094,-0.550781 0.183594,-1.800781 0.121094,-2.378907 -0.203125,-1.867187 -1.035157,-3.199218 -2.695313,-4.308593 -0.523437,-0.351563 -0.546875,-0.355469 -0.789062,-0.222657" >
 </g>"""
 TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<ellipse stroke="{pen_color}" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
-<polygon points="0,5 5,0 -5,0" transform="scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:1" />
+<ellipse stroke="{pen_color}" transform="skewX({sk})" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
+<polygon points="0,5 5,0 -5,0" transform="skewX({sk}) scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:1" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-10,-5 0,5 10,-5" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="-10,-5 0,5 10,-5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,-10 10,10 -10,10 -10,-10" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="10,-10 10,10 -10,10 -10,-10" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_TRIANGLE_SVG_TEMPLATE = """<g id="triangle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,-8.66 0,8.66 -10,-8.66" transform="scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
+<polygon points="10,-8.66 0,8.66 -10,-8.66" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" >
 </g>"""
 TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<ellipse stroke="{turtle_color}" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" >
+<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" >
 </g>"""
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="0,-16 2,-14 1,-10 4,-7 7,-9 9,-8 6,-5 7,-1 5,3 8,6 6,8 4,5 0,7 -4,5 -6,8 -8,6 -5,3 -7,-1 -6,-5 -9,-8 -7,-9 -4,-7 -1,-10 -2,-14" transform="scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" >
+<polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" >
 </g>"""
 
 shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
@@ -165,6 +167,7 @@ border_color = DEFAULT_BORDER_COLOR
 is_filling = False
 fill_color = DEFAULT_FILL_COLOR
 stretchfactor = DEFAULT_STRETCHFACTOR
+shear_factor = DEFAULT_SHEARFACTOR
 tilt_angle = DEFAULT_TILT_ANGLE
 outline_width = DEFAULT_OUTLINE_WIDTH
 fill_rule = DEFAULT_FILL_RULE
@@ -202,6 +205,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
     global stampnum
     global stamplist
     global tilt_angle
+    global stretchfactor
+    global shear_factor
     
     if window == None:
         window_size = DEFAULT_WINDOW_SIZE
@@ -246,6 +251,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
     turtle_shape = DEFAULT_TURTLE_SHAPE
     tilt_angle = DEFAULT_TILT_ANGLE
     angle_mode = DEFAULT_ANGLE_MODE
+    stretchfactor = DEFAULT_STRETCHFACTOR
+    shear_factor = DEFAULT_SHEARFACTOR
     is_filling = False
     svg_fill_string = ''
     svg_dots_string = ''
@@ -273,10 +280,13 @@ def _generateTurtleSvgDrawing():
 
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
-    degrees = turtle_degree + tilt_angle
+    if _mode in ["standard","world"]:
+        degrees = turtle_degree - tilt_angle
+    else:
+        degrees = turtle_degree + tilt_angle
     template = ''
     
-    if turtle_shape in ['turtle','turtle2']:
+    if turtle_shape in ['turtle']:
         degrees += 90
     elif turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
@@ -292,6 +302,7 @@ def _generateTurtleSvgDrawing():
                            degrees=degrees,
                            sx=stretchfactor[0],
                            sy=stretchfactor[1],
+                           sk=shear_factor,
                            rx=10*stretchfactor[0],
                            ry=10*stretchfactor[1],
                            cy=-(10*stretchfactor[1]+4),
@@ -476,16 +487,6 @@ def _arc(radius, degrees, draw):
     turtle_degree = (turtle_degree - s*degrees) % 360
     if draw: _updateDrawing()
         
-# Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
-def animationOff():
-    global animate
-    animate = False
-        
-# Turn animation on.
-def animationOn():
-    global animate
-    animate = True
-
 # Makes the turtle move forward by 'units' units
 def forward(units):
     if not isinstance(units, (int,float)):
@@ -816,6 +817,19 @@ def done():
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     drawing_window.update(HTML(_generateSvgDrawing()))   
 
+# Draw a line from diego2500garza
+def drawline(x_1,y_1,x_2,y_2):
+    global svg_lines_string
+    svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
+        x1=_convertx(x_1),
+        y1=_converty(y_1),
+        x2=_convertx(x_2),
+        y2=_converty(y_2),
+        pencolor = pen_color,
+        penwidth = pen_width)
+    _updateDrawing(0)   
+    
+    
 #====================================
 # Turtle Motion - Tell Turtle's State
 #====================================
@@ -889,7 +903,27 @@ def distance(x, y=None):
     if not isinstance(y, (int,float)):
         raise ValueError('The y position must be a number.')    
     return round(math.sqrt( (getx() - x) ** 2 + (gety() - y) ** 2 ), 8)        
-        
+
+#========================================
+# Turtle Motion - Setting and Measurement
+#========================================
+
+# Set the angle measurement units to radians.
+def radians():
+    global angle_conv
+    global angle_mode
+    global fullcircle
+    angle_mode = 'radians'
+    angle_conv = 180/math.pi
+
+# Set the angle measurement units to degrees.
+def degrees():
+    global angle_conv
+    global angle_mode
+    global fullcircle
+    angle_mode = 'degrees'
+    angle_conv = 1
+
 #============================
 # Pen Control - Drawing State
 #============================
@@ -932,6 +966,7 @@ def pen(dictname=None, **pendict):
     global pen_width
     global turtle_speed
     global stretchfactor
+    global shear_factor
     global outline_width
     global tilt_angle
     global timeout
@@ -942,15 +977,20 @@ def pen(dictname=None, **pendict):
            "pensize"        : pen_width,
            "speed"          : turtle_speed,
            "stretchfactor"  : stretchfactor,
+           "shearfactor"    : shear_factor,
            "tilt"           : tilt_angle,
            "outline"        : outline_width
           }
     if not (dictname or pendict):
+        sf_tmp = shear_factor
+        _pd["shearfactor"] = round(math.tan((360-shear_factor)*math.pi/180),8)
         return _pd
+        _pd["shearfactor"] = sf_tmp
     if isinstance(dictname,dict):
         p = dictname
     else:
         p = {}
+
     p.update(pendict)
     if "shown" in p:
         is_turtle_visible = p["shown"]
@@ -970,8 +1010,12 @@ def pen(dictname=None, **pendict):
         if isinstance(sf, (int,float)):
             sf = (sf,sf)
         stretchfactor = sf
+    if "shearfactor" in p:
+        alpha = math.atan(p["shearfactor"])*180/math.pi
+        shear_factor = (360 - alpha) % 360
+        p["shearfactor"] = shear_factor
     if "tilt" in p:
-        tilt_angle = tilt
+        tilt_angle = p["tilt"]*angle_conv
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
@@ -1174,6 +1218,7 @@ def reset():
     global fill_color
     global border_color
     global stretchfactor
+    global shear_factor
     global tilt_angle
     global outline_width
 
@@ -1183,6 +1228,7 @@ def reset():
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
     stretchfactor = DEFAULT_STRETCHFACTOR
+    shear_factor = DEFAULT_SHEARFACTOR
     tilt_angle = DEFAULT_TILT_ANGLE
     outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
@@ -1343,14 +1389,21 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     outline_width = outline   
 turtlesize = shapesize #alias
 
+# Set or return the current shearfactor. Shear the turtleshape according to the given shearfactor shear, which is the tangent of the shear angle. 
+# Do not change the turtle’s heading (direction of movement). If shear is not given: return the current shearfactor, i. e. 
+# the tangent of the shear angle, by which lines parallel to the heading of the turtle are sheared.
+def shearfactor(shear=None):
+    global shear_factor
+    if shear is None:              
+        return round(math.tan((360-shear_factor)*math.pi/180),8)
+    alpha = math.atan(shear)*180/math.pi
+    shear_factor = (360 - alpha) % 360
+
 # Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
 # DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
 def settiltangle(angle):
     global tilt_angle
-    if _mode in ["standard","world"]:
-        tilt_angle = -angle*angle_mode
-    else:
-        tilt_angle = angle*angle_mode
+    tilt_angle = angle*angle_conv
     _updateDrawing(0)  
 
 # Set or return the current tilt-angle. 
@@ -1362,15 +1415,13 @@ def tiltangle(angle=None):
     if angle == None:
         return tilt_angle
     else:
-        settiltangle(angle)
+        tilt_angle = angle*angle_conv
+        _updateDrawing(0) 
 
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
-    if _mode in ["standard","world"]:
-        tilt_angle -= angle*angle_conv
-    else:
-        tilt_angle += angle*angle_conv 
+    tilt_angle += angle*angle_conv
     _updateDrawing(0)
 
 #=====================
@@ -1453,35 +1504,23 @@ def mode(mode=None):
     _mode = mode.lower()   
     reset()
    
-def radians():
-    global angle_conv
-    global angle_mode
-    global fullcircle
-    angle_mode = 'radians'
-    angle_conv = 180/math.pi
-    
-def degrees():
-    global angle_conv
-    global angle_mode
-    global fullcircle
-    angle_mode = 'degrees'
-    angle_conv = 1
-
-# Draw a line from diego2500garza
-def drawline(x_1,y_1,x_2,y_2):
-    global svg_lines_string
-    svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
-        x1=_convertx(x_1),
-        y1=_converty(y_1),
-        x2=_convertx(x_2),
-        y2=_converty(y_2),
-        pencolor = pen_color,
-        penwidth = pen_width)
-    _updateDrawing(0)
+#===========================
+# Animation Controls
+#===========================
 
 # Delay execution of next object for given delay time (in seconds)
 def delay(delay_time):
    time.sleep(delay_time)
+
+# Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
+def animationOff():
+    global animate
+    animate = False
+        
+# Turn animation on.
+def animationOn():
+    global animate
+    animate = True
 
 
 
