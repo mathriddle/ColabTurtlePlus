@@ -205,6 +205,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
     global stampnum
     global stamplist
     global tilt_angle
+    global stretchfactor
+    global shear_factor
     
     if window == None:
         window_size = DEFAULT_WINDOW_SIZE
@@ -249,6 +251,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
     turtle_shape = DEFAULT_TURTLE_SHAPE
     tilt_angle = DEFAULT_TILT_ANGLE
     angle_mode = DEFAULT_ANGLE_MODE
+    stretchfactor = DEFAULT_STRETCHFACTOR
+    shear_factor = DEFAULT_SHEARFACTOR
     is_filling = False
     svg_fill_string = ''
     svg_dots_string = ''
