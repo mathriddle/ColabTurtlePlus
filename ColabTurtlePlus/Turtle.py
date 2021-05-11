@@ -989,6 +989,7 @@ def pen(dictname=None, **pendict):
         p = {}
     if "tilt" in pendict:
         angle = pendict["tilt"]
+        print(angle)
         if _mode in ["standard","world"]:
             pendict["tilt"] = -angle*angle_mode
         else:
@@ -1016,7 +1017,6 @@ def pen(dictname=None, **pendict):
         shear_factor = p["shearfactor"]
     if "tilt" in p:
         tilt_angle = p["tilt"]
-        print(tilt_angle)
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
