@@ -989,11 +989,10 @@ def pen(dictname=None, **pendict):
         p = {}
     if "tilt" in pendict:
         angle = pendict["tilt"]
-        print(angle_mode)
         if _mode in ["standard","world"]:
-            pendict.update({"tilt":-angle*angle_mode})
+            pendict.update({"tilt":-angle*angle_conv})
         else:
-            pendict.update({"tilt":angle*angle_mode})
+            pendict.update({"tilt":angle*angle_conv})
     p.update(pendict)
     if "shown" in p:
         is_turtle_visible = p["shown"]
@@ -1017,7 +1016,6 @@ def pen(dictname=None, **pendict):
         shear_factor = p["shearfactor"]
     if "tilt" in p:
         tilt_angle = p["tilt"]
-        print(tilt_angle)
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
@@ -1406,9 +1404,9 @@ def shearfactor(shear=None):
 def settiltangle(angle):
     global tilt_angle
     if _mode in ["standard","world"]:
-        tilt_angle = -angle*angle_mode
+        tilt_angle = -angle*angle_conv
     else:
-        tilt_angle = angle*angle_mode
+        tilt_angle = angle*angle_conv
     _updateDrawing(0)  
 
 # Set or return the current tilt-angle. 
