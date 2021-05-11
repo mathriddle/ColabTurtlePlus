@@ -1011,7 +1011,7 @@ def pen(dictname=None, **pendict):
             sf = (sf,sf)
         stretchfactor = sf
     if "shearfactor" in p:
-        shear_factor = p["shearfactor"]
+        shear_factor = shearfactor(p["shearfactor"])
     if "tilt" in p:
         tilt_angle = p["tilt"]*angle_conv
     if "outline" in p:
