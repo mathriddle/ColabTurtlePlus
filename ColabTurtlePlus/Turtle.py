@@ -280,7 +280,10 @@ def _generateTurtleSvgDrawing():
 
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
-    degrees = turtle_degree + tilt_angle
+    if _mode in ["standard","world"]:
+        degrees = turtle_degree - tilt_angle
+    else:
+        degrees = turtle_degree + tilt_angle
     template = ''
     
     if turtle_shape in ['turtle']:
@@ -987,12 +990,7 @@ def pen(dictname=None, **pendict):
         p = dictname
     else:
         p = {}
- #   if "tilt" in pendict:
- #       angle = pendict["tilt"]
- #       if _mode in ["standard","world"]:
- #           pendict.update({"tilt":-angle*angle_conv})
-  #      else:
- #           pendict.update({"tilt":angle*angle_conv})
+
     p.update(pendict)
     if "shown" in p:
         is_turtle_visible = p["shown"]
@@ -1406,10 +1404,7 @@ def shearfactor(shear=None):
 # DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
 def settiltangle(angle):
     global tilt_angle
-    if _mode in ["standard","world"]:
-        tilt_angle = -angle*angle_conv
-    else:
-        tilt_angle = angle*angle_conv
+    tilt_angle = angle*angle_conv
     _updateDrawing(0)  
 
 # Set or return the current tilt-angle. 
