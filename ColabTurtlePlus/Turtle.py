@@ -1013,10 +1013,7 @@ def pen(dictname=None, **pendict):
     if "shearfactor" in p:
         shear_factor = p["shearfactor"]
     if "tilt" in p:
-        if _mode in ["standard","world"]:
-            tilt_angle = -p["tilt"]*angle_conv
-        else:
-            tilt_angle = p["tilt"]*angle_conv
+        tilt_angle = p["tilt"]
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
@@ -1421,10 +1418,7 @@ def tiltangle(angle=None):
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
-    if _mode in ["standard","world"]:
-        tilt_angle -= angle*angle_conv
-    else:
-        tilt_angle += angle*angle_conv 
+    tilt_angle = angle*angle_conv
     _updateDrawing(0)
 
 #=====================
