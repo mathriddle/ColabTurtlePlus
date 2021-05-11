@@ -1017,7 +1017,7 @@ def pen(dictname=None, **pendict):
     if "tilt" in p:
         if _mode in ["standard","world"]:
             tilt_angle = -p["tilt"]*angle_conv
-        else
+        else:
             tilt_angle = p["tilt"]*angle_conv
     if "outline" in p:
         outline_width = p["outline"]
