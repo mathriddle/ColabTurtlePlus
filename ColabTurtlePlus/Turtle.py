@@ -978,7 +978,7 @@ def pen(dictname=None, **pendict):
         sf_tmp = shear_factor
         _pd["shearfactor"] = round(math.tan((360-shear_factor)*math.pi/180),8)
         return _pd
-        -pd["shearfactor"] = sf_tmp
+        _pd["shearfactor"] = sf_tmp
     if isinstance(dictname,dict):
         p = dictname
     else:
