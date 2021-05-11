@@ -45,6 +45,7 @@ Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified the
 Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 Added dot function to draw a dot with given diameter and color.
 Added shapesize function to scale the turtle shape.
+Added shearfactor function.
 Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
   delete stamps. Use stamp() or stamp(0) to put stamp at bottom of SVG order while stamp(1) will put it at top of SVG order.
 Added pen function.
@@ -479,16 +480,6 @@ def _arc(radius, degrees, draw):
     turtle_degree = (turtle_degree - s*degrees) % 360
     if draw: _updateDrawing()
         
-# Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
-def animationOff():
-    global animate
-    animate = False
-        
-# Turn animation on.
-def animationOn():
-    global animate
-    animate = True
-
 # Makes the turtle move forward by 'units' units
 def forward(units):
     if not isinstance(units, (int,float)):
@@ -819,6 +810,19 @@ def done():
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     drawing_window.update(HTML(_generateSvgDrawing()))   
 
+# Draw a line from diego2500garza
+def drawline(x_1,y_1,x_2,y_2):
+    global svg_lines_string
+    svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
+        x1=_convertx(x_1),
+        y1=_converty(y_1),
+        x2=_convertx(x_2),
+        y2=_converty(y_2),
+        pencolor = pen_color,
+        penwidth = pen_width)
+    _updateDrawing(0)   
+    
+    
 #====================================
 # Turtle Motion - Tell Turtle's State
 #====================================
@@ -892,7 +896,27 @@ def distance(x, y=None):
     if not isinstance(y, (int,float)):
         raise ValueError('The y position must be a number.')    
     return round(math.sqrt( (getx() - x) ** 2 + (gety() - y) ** 2 ), 8)        
-        
+
+#========================================
+# Turtle Motion - Setting and Measurement
+#========================================
+
+# Set the angle measurement units to radians.
+def radians():
+    global angle_conv
+    global angle_mode
+    global fullcircle
+    angle_mode = 'radians'
+    angle_conv = 180/math.pi
+
+# Set the angle measurement units to degrees.
+def degrees():
+    global angle_conv
+    global angle_mode
+    global fullcircle
+    angle_mode = 'degrees'
+    angle_conv = 1
+
 #============================
 # Pen Control - Drawing State
 #============================
@@ -935,6 +959,7 @@ def pen(dictname=None, **pendict):
     global pen_width
     global turtle_speed
     global stretchfactor
+    global shear_factor
     global outline_width
     global tilt_angle
     global timeout
@@ -945,6 +970,7 @@ def pen(dictname=None, **pendict):
            "pensize"        : pen_width,
            "speed"          : turtle_speed,
            "stretchfactor"  : stretchfactor,
+           "shearfactor"    : shear_factor,
            "tilt"           : tilt_angle,
            "outline"        : outline_width
           }
@@ -973,8 +999,10 @@ def pen(dictname=None, **pendict):
         if isinstance(sf, (int,float)):
             sf = (sf,sf)
         stretchfactor = sf
+    if "shearfactor" in p:
+        shear_factor = p["shearfactor"]
     if "tilt" in p:
-        tilt_angle = tilt
+        tilt_angle = p["tilt"]
     if "outline" in p:
         outline_width = p["outline"]
     _updateDrawing(0)
@@ -1346,6 +1374,16 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
     outline_width = outline   
 turtlesize = shapesize #alias
 
+# Set or return the current shearfactor. Shear the turtleshape according to the given shearfactor shear, which is the tangent of the shear angle. 
+# Do not change the turtle’s heading (direction of movement). If shear is not given: return the current shearfactor, i. e. 
+# the tangent of the shear angle, by which lines parallel to the heading of the turtle are sheared.
+def shearfactor(shear=None):
+    global shear_factor
+    if shear is None:              
+        return round(math.tan((360-shear_factor)*math.pi/180),8)
+    alpha = math.atan(shear)*180/math.pi
+    shear_factor = (360 - alpha) % 360
+
 # Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
 # DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
 def settiltangle(angle):
@@ -1456,51 +1494,23 @@ def mode(mode=None):
     _mode = mode.lower()   
     reset()
    
-def radians():
-    global angle_conv
-    global angle_mode
-    global fullcircle
-    angle_mode = 'radians'
-    angle_conv = 180/math.pi
-    
-def degrees():
-    global angle_conv
-    global angle_mode
-    global fullcircle
-    angle_mode = 'degrees'
-    angle_conv = 1
-
-# Draw a line from diego2500garza
-def drawline(x_1,y_1,x_2,y_2):
-    global svg_lines_string
-    svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
-        x1=_convertx(x_1),
-        y1=_converty(y_1),
-        x2=_convertx(x_2),
-        y2=_converty(y_2),
-        pencolor = pen_color,
-        penwidth = pen_width)
-    _updateDrawing(0)
+#===========================
+# Animation Controls
+#===========================
 
 # Delay execution of next object for given delay time (in seconds)
 def delay(delay_time):
    time.sleep(delay_time)
 
-def shearfactor(shear=None):
-    global shear_factor
-    if shear is None:
-#        if _mode in ["standard","world"]:
-#            angle = (360 - shear_factor) % 360
-#        elif _mode == "logo":
- #           angle = (shear_factor - 270) % 360
- #       else: # mode = "svg"
- #           angle = shear_factor % 360                
-        return round(math.tan((360-shear_factor)*math.pi/180),8)
-    alpha = math.atan(shear)*180/math.pi
-##        angle = (360 - alpha) % 360
-#   elif _mode == "logo":
-#        angle = (270 + alpha) % 360
-#    else: # mode = "svg"
-#        angle = alpha % 360
-    shear_factor = (360 - alpha) % 360
+# Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
+def animationOff():
+    global animate
+    animate = False
+        
+# Turn animation on.
+def animationOn():
+    global animate
+    animate = True
+
+
 
