@@ -1413,12 +1413,13 @@ def tiltangle(angle=None):
     if angle == None:
         return tilt_angle
     else:
-        settiltangle(angle)
+        tilt_angle = angle*angle_conv
+        _updateDrawing(0) 
 
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
-    tilt_angle = angle*angle_conv
+    tilt_angle += angle*angle_conv
     _updateDrawing(0)
 
 #=====================
