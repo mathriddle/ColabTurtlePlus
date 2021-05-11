@@ -987,6 +987,11 @@ def pen(dictname=None, **pendict):
         p = dictname
     else:
         p = {}
+    if "tilt" in pendict:
+        if _mode in ["standard","world"]:
+            pendict["tilt"] = -angle*angle_mode
+        else:
+            pendict["tilt"] = angle*angle_mode
     p.update(pendict)
     if "shown" in p:
         is_turtle_visible = p["shown"]
@@ -1212,6 +1217,7 @@ def reset():
     global fill_color
     global border_color
     global stretchfactor
+    global shear_factor
     global tilt_angle
     global outline_width
 
@@ -1221,6 +1227,7 @@ def reset():
     is_pen_down = True
     pen_width = DEFAULT_PEN_WIDTH
     stretchfactor = DEFAULT_STRETCHFACTOR
+    shear_factor = DEFAULT_SHEARFACTOR
     tilt_angle = DEFAULT_TILT_ANGLE
     outline_width = DEFAULT_OUTLINE_WIDTH
     svg_lines_string = ""
