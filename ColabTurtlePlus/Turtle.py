@@ -989,6 +989,7 @@ def pen(dictname=None, **pendict):
         p = {}
     if "tilt" in pendict:
         angle = pendict["tilt"]
+        print(angle_mode)
         if _mode in ["standard","world"]:
             pendict.update({"tilt":-angle*angle_mode})
         else:
