@@ -38,6 +38,7 @@ Some of the default values have been changed to mirror those in turtle.py. In pa
    * center of window has coordinates (0,0)
    * initial turtle heading is to the right (east)
    * positive angles are measured counterclockwise with 0° pointing right
+   
 The original default values in ColabTurtle can be used by calling turtle.oldDefaults() **before** the initializeTurtle() command.
 
 This version extends ColabTurtle to include more of the commands found in the classic turtle.py package and some additional features.
