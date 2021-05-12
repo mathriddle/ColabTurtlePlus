@@ -799,17 +799,17 @@ def clearstamps(n=None):
 # If argument is omitted, it returns the speed.
 def speed(speed = None):
     global timeout
-    global turtle_speed
-    
+    global turtle_speed    
     if speed is None:
         return turtle_speed
-
     if isinstance(speed,int) == False or speed not in range(0, 14):
-
-                raise ValueError('Speed must be an integer in the interval [0,13].')
-        
-    turtle_speed = speed
-    timeout = _speedToSec(speed) 
+        raise ValueError('Speed must be an integer in the interval [0,13].')
+    sppeds = {'fastest':0, 'fast':10, 'normal':6, 'slow':3, 'slowest':1)
+    if speed in speeds:
+        turtle_speed = speeds[speed]
+    else:
+        turtle_speed = speed
+    timeout = _speedToSec(turtle_speed) 
         
 # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
 def done():
