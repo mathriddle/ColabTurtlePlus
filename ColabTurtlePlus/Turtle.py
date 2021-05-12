@@ -284,7 +284,7 @@ def _generateTurtleSvgDrawing():
         degrees = turtle_degree - tilt_angle
     else:
         degrees = turtle_degree + tilt_angle
-    template = ''
+    #template = ''
     
     if turtle_shape in ['turtle']:
         degrees += 90
@@ -294,7 +294,8 @@ def _generateTurtleSvgDrawing():
     else:
         degrees -= 90        
     
-    return shapeDict[turtle_shape].format(turtle_color=fill_color,
+    return shapeDict[turtle_shape].format(
+                           turtle_color=fill_color,
                            pen_color=pen_color,
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
@@ -1413,16 +1414,16 @@ def settiltangle(angle):
 def tiltangle(angle=None):
     global tilt_angle
     global turtle_degree
+    global tilt_angle
     if angle == None:
         return tilt_angle
     else:
         tilt_angle = angle*angle_conv
-    if turtle_speed != 0 and animate:
-        turtle_degree_temp = turtle_degree
+    if turtle_speed != 0 and animate:       
         if _mode in ["standard","world"]:
-            left(turtle_degree-angle*angle_conv)
+            left(-angle*angle_conv)
         else:
-            right(angle*angle_conv-turtle_degree)
+            right(angle*angle_conv)
         turtle_degree = turtle_degree_temp 
     else:
         _updateDrawing() 
@@ -1433,9 +1434,12 @@ def tilt(angle):
     global turtle_degree
     if turtle_speed != 0 and animate:
         turtle_degree_temp = turtle_degree
+        turtle_degree = turtle_degree+tilt_angle
         if _mode in ["standard","world"]:
+            turtle_degree_temp = turtle_degree - tilt_angle
             left(angle*angle_conv)
         else:
+            turtle_degree_temp = turtle_degree + tilt_angle
             right(angle*angle_conv)
         turtle_degree = turtle_degree_temp
         tilt_angle += angle*angle_conv
