@@ -805,7 +805,7 @@ def speed(speed = None):
     speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
     if speed in speeds:
         turtle_speed = speeds[speed]
-    elif isinstance(speed,(int,float)):
+    elif not isinstance(speed,(int,float)):
         raise ValueError("speed should be a number between 0 and 13")
     elif 0.5 < speed < 13.5:
         turtle_speed = int(round(speed))
