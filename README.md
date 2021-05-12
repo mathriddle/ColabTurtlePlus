@@ -73,6 +73,7 @@ Main differences with classic turtle.py
 * Setting speed = 0 draws only the final image with no intermediate animations. This is usually very quick. To turn off the animation but still show the turtle motion (equivalent to speed=0 in classic turtle.py), call animationOff(). This will use the current speed, but forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly.
 * There is a fillrule function to set nonzero or evenodd as the options used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The begin_fill() function can take an argument of 'nonzero' or 'evenodd' to set the fill-rule just for that fill.
 * There is a fillopacity function that sets the global fill-opacity used by SVG to fill an object. The default is 1. The begin_fill() function can take an argument between 0 and 1 to set the fill_opacity just for that fill. See details below.
+* The stamp function has an optional layer argument. The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
 * Not all the functions from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
 
 Functions
@@ -115,7 +116,7 @@ Moves the turtle to the point defined by x,y. The coordinates can be given separ
 
 `dot(size,color)` -> Draw a circular dot with diameter size, using color.
 
-`stamp()` -> Stamp a copy of the turtle shape onto the canvas at the current turtle position. Return a stamp_id for that stamp, which can be used to delete it by calling clearstamp(stamp_id).
+`stamp(layer)` -> Stamp a copy of the turtle shape onto the canvas at the current turtle position. Return a stamp_id for that stamp, which can be used to delete it by calling clearstamp(stamp_id). The optional layer argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
 
 `clearstamp(stampid)` -> Delete stamp with given stampid, which can be an integer or a tuple of integers.
 
