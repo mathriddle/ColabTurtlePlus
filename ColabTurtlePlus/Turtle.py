@@ -464,11 +464,9 @@ def _arctoNewPosition(r,new_pos):
             pen_width=pen_width,
             s=sweep)    
     if is_filling:
-        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
-    
+        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)  
     turtle_pos = new_pos
-    #_updateDrawing()    
-    
+     
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
@@ -582,10 +580,12 @@ def goto(x, y=None):
     tilt_angle_orig = tilt_angle
     turtle_angle_orig = turtle_degree
     alpha = towards(x,y)
+    print(alpha, tilt_angle)
     units = distance(x,y)
     if _mode in ["standard","world"]: 
         turtle_degree = (360 - alpha) % 360
         tilt_angle = turtle_angle_orig+tilt_angle+alpha
+        print(tilt_angle)
     elif _mode == "logo":
         turtle_degree = (270 + alpha) % 360
         tilt_angle = turtle_angle_orig+tilt_angle-alpha-270
