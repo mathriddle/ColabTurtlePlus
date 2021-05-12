@@ -802,13 +802,15 @@ def speed(speed = None):
     global turtle_speed    
     if speed is None:
         return turtle_speed
-    speeds = {'fastest':0, 'fast':10, 'normal':6, 'slow':3, 'slowest':1}
+    speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
     if speed in speeds:
         turtle_speed = speeds[speed]
+    elif isinstance(speed,(int,float)):
+        raise ValueError("speed should be a number between 0 and 13")
     elif 0.5 < speed < 13.5:
         turtle_speed = int(round(speed))
     else:
-        turtle_speed = 0
+        turtle_speed = 13
     timeout = _speedToSec(turtle_speed) 
         
 # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
