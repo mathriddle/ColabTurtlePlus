@@ -649,17 +649,17 @@ def home():
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
     if _mode in ['standard','world']:
-        if turtle_degree <= 180:
-            left(turtle_degree)
+        if turtle_degree-tilt_angle <= 180:
+            left(turtle_degree-tilt_angle)
         else:
-            right(360-turtle_degree)                  
+            right(360-turtle_degree+tilt_angle)                  
     else:
-        if turtle_degree < 90:
-            left(turtle_degree+90)
-        elif turtle_degree < 270:
-            right(270-turtle_degree)
+        if turtle_degree+tilt_angle < 90:
+            left(turtle_degree+tilt_angle+90)
+        elif turtle_degree+tilt_angle < 270:
+            right(270-turtle_degree-tilt_angle)
         else:
-            left(turtle_degree-270)
+            left(turtle_degree+tilt_angle-270)
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
 # the circle function is broken into chunks of at most 90 degrees.
