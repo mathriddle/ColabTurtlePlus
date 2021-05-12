@@ -1412,6 +1412,7 @@ def settiltangle(angle):
 # i. e. the angle between the orientation of the turtleshape and the heading of the turtle (its direction of movement).
 def tiltangle(angle=None):
     global tilt_angle
+    global turtle_degree
     if angle == None:
         return tilt_angle
     else:
