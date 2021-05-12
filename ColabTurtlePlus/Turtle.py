@@ -1419,11 +1419,10 @@ def tiltangle(angle=None):
         return tilt_angle
     if turtle_speed != 0 and animate: 
         turtle_degree_temp = turtle_degree
-        tilt_angle = 0
         if _mode in ["standard","world"]:
-            left(-angle*angle_conv)
+            left(-(tilt_angle-angle*angle_conv))
         else:
-            right(angle*angle_conv)
+            right(tilt_angle-angle*angle_conv)
         turtle_degree = turtle_degree_temp
         tilt_angle = angle*angle_conv
     else:
