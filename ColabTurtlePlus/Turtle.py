@@ -1416,20 +1416,31 @@ def tiltangle(angle=None):
         return tilt_angle
     else:
         tilt_angle = angle*angle_conv
+    if turtle_speed != 0 and animate:
+        turtle_degree_temp = turtle_degree
+        if _mode in ["standard","world"]:
+            left(turtle_degree-angle*angle_conv)
+        else:
+            right(angle*angle_conv-turtle_degree)
+        turtle_degree = turtle_degree_temp 
+    else:
         _updateDrawing() 
 
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
     global turtle_degree
-    turtle_degree_temp = turtle_degree
-    if _mode in ["standard","world"]:
-        left(angle*angle_conv)
+    if turtle_speed != 0 and animate:
+        turtle_degree_temp = turtle_degree
+        if _mode in ["standard","world"]:
+            left(angle*angle_conv)
+        else:
+            right(angle*angle_conv)
+        turtle_degree = turtle_degree_temp
+        tilt_angle += angle*angle_conv
     else:
-        right(angle*angle_conv)
-    tilt_angle += angle*angle_conv
-    turtle_degree = turtle_degree_temp
-    _updateDrawing()
+        tilt_angle += angle*angle_conv
+        _updateDrawing()
 
 #=====================
 # Window Control
