@@ -55,13 +55,24 @@ This version extends ColabTurtle to include more of the commands found in the cl
 * Implemented circle function from aronma/ColabTurtle_2 github. Modified this to match behavior of circle function in classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using the svg circle function.
 * Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
 * Added dot function to draw a dot with given diameter and color.
-* Added shapesize function to scale the turtle shape.
+* Added shapesize and shearfactor functions to scale/shear the turtle shape.
 * Added stamp, clearstamp, and clearstamps functions.
 * Added getcolor function to return a color string from the list of 140 valid HTML colors that are allowed as valid colors. 
 * Added radians and degrees functions to allow user to specify angle measurement for arguments to right/left/circle. 
   All internal calculations are done in degrees.
 * Added animated motion along lines and circles, and for rotating right or left. Animation can be turned off/on using animationOff
   and animationOn. Default is animationOn.
+  
+Main differences with classic turtle.py
+----
+
+* Classes are not implemented, so only one turtle can be drawn at a time.
+* The circle function draws smooth arcs using SVG. The step parameter is ignored, so circle cannot be used to draw regular polygons.
+* A function to draw lines has been included.
+* Setting speed = 0 draws only the final image with no intermediate animations. This is usually very quick. To turn off the animation but still show the turtle motion (equivalent to speed=0 in classic turtle.py), call animationOff(). This will use the current speed, but forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly.
+* There is a fillrule function to set nonzero or evenodd as the options used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The begin_fill() function can take an argument of 'nonzero' or 'evenodd' to set the fill-rule just for that fill.
+* There is a fillopacity function that sets the global fill-opacity used by SVG to fill an object. The default is 1. The begin_fill() function can take an argument between 0 and 1 to set the fill_opacity just for that fill. See details below.
+* Not all the functions from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
 
 Functions
 ----
@@ -110,6 +121,8 @@ Moves the turtle to the point defined by x,y. The coordinates can be given separ
 `clearstamps(n)` -> Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps, else if n < 0 delete last n stamps.
 
 `speed(s)` -> Sets the speed of turtle's movements. `s` can be a value in interval [0,13] where 1 is the slowest and 13 is the fastest for animation. If the speed is 0, no animation is drawn and only the final result is shown. The command `done()` must be executed to see the final image if speed=0. If `s` is omitted, the function returns the current speed.
+
+`drawline(x1,y1,x2,y2)` -> Draw a line from (x1,y1) to (x2.y2)
 
 #### Turtle Motion - Tell Turtle's State
 
@@ -206,6 +219,8 @@ Because the fill is controlled by svg rules, the result may differ from classic 
 
 `shapesize(stretch_wid=None, stretch_len=None, outline=None) | turtlesize()` -> Scale the size of the turtle. The turtle will be displayed stretched according to its stretchfactors: `stretch_wid` is stretchfactor perpendicular to its orientation, `stretch_len` is stretchfactor in direction of its orientation, `outline` determines the width of the shapes’s outline.
 
+`shearfactor(shear)` -> Set or return the current shearfactor. Shear the turtleshape according to the given shearfactor shear, which is the tangent of the shear angle. Do not change the turtle’s heading (direction of movement). If shear is not given: return the current shearfactor, i. e. the tangent of the shear angle, by which lines parallel to the heading of the turtle are sheared.
+
 `tiltangle(angle)` -> Set or return the current tilt-angle. If angle is given, rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle. Do not change the turtle’s heading (direction of movement). If angle is not given, return the current tilt-angle, i. e. the angle between the orientation of the turtleshape and the heading of the turtle (its direction of movement).
 
 `tilt(angle)` -> Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
@@ -236,3 +251,10 @@ Works the same as `pencolor` for the background color.
 
 `mode(mode)` -> Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
 
+#### Animation Controls
+
+`delay(delay_time)` -> Delay execution of next object for given delay time (in seconds)
+
+`animationOff()`\
+`animationOn`\
+Turn off\on animation. When off, forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
