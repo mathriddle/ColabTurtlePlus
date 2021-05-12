@@ -649,17 +649,17 @@ def home():
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
     if _mode in ['standard','world']:
-        if turtle_degree-tilt_angle <= 180:
-            left(turtle_degree-tilt_angle)
+        if turtle_degree <= 180:
+            left(turtle_degree)
         else:
-            right(360-turtle_degree+tilt_angle)                  
+            right(360-turtle_degree)                  
     else:
-        if turtle_degree+tilt_angle < 90:
-            left(turtle_degree+tilt_angle+90)
-        elif turtle_degree+tilt_angle < 270:
-            right(270-turtle_degree-tilt_angle)
+        if turtle_degree < 90:
+            left(turtle_degree+90)
+        elif turtle_degree< 270:
+            right(270-turtle_degree)
         else:
-            left(turtle_degree+tilt_angle-270)
+            left(turtle_degree-270)
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
 # the circle function is broken into chunks of at most 90 degrees.
@@ -1418,13 +1418,13 @@ def tiltangle(angle=None):
         return tilt_angle
     else:
         tilt_angle = angle*angle_conv
-        _updateDrawing(0) 
+        _updateDrawing() 
 
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
     tilt_angle += angle*angle_conv
-    _updateDrawing(0)
+    _updateDrawing()
 
 #=====================
 # Window Control
