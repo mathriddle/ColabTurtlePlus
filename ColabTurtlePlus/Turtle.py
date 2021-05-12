@@ -284,7 +284,6 @@ def _generateTurtleSvgDrawing():
         degrees = turtle_degree - tilt_angle
     else:
         degrees = turtle_degree + tilt_angle
-    #template = ''
     
     if turtle_shape in ['turtle']:
         degrees += 90
