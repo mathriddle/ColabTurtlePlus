@@ -804,7 +804,7 @@ def speed(speed = None):
         return turtle_speed
     if isinstance(speed,int) == False or speed not in range(0, 14):
         raise ValueError('Speed must be an integer in the interval [0,13].')
-    sppeds = {'fastest':0, 'fast':10, 'normal':6, 'slow':3, 'slowest':1)
+    sppeds = {'fastest':0, 'fast':10, 'normal':6, 'slow':3, 'slowest':1}
     if speed in speeds:
         turtle_speed = speeds[speed]
     else:
