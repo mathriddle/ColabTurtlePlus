@@ -506,14 +506,14 @@ back = backward # alias
 # Uses SVG animation to rotate turtle.
 # But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
 # so in that case break the rotation into pieces of at most 30 degrees.
-def right(degrees):
+def right(angle):
     global turtle_degree
     global stretchfactor
     global timeout
-    if not isinstance(degrees, (int,float)):
+    if not isinstance(angle, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    deg = degrees*angle_conv
+    deg = angle*angle_conv
     if turtle_speed == 0 or not animate:
         turtle_degree = (turtle_degree + deg) % 360
         _updateDrawing()
@@ -547,7 +547,7 @@ def right(degrees):
     else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
         turtle_degree_orig = turtle_degree
         timeout = timeout
-        s = 1 if degrees > 0 else -1
+        s = 1 if angle > 0 else -1
         while s*deg > 0:
             if s*deg > 30:
                 turtle_degree = (turtle_degree + s*30) % 360
@@ -560,8 +560,8 @@ def right(degrees):
 rt = right # alias
 
 # Makes the turtle move right by 'degrees' degrees 
-def left(degrees):
-    right(-1 * degrees)
+def left(angle):
+    right(-1 * angle)
 lt = left
 
 # Move the turtle to a designated position.
@@ -609,10 +609,10 @@ def sety(y):
     goto(getx(), y)
 
 # Makes the turtle face a given direction
-def setheading(degrees):
+def setheading(angle):
     global turtle_degree
-    deg = degrees*angle_conv
-    if not isinstance(degrees, (int,float)):
+    deg = angle*angle_conv
+    if not isinstance(angle, (int,float)):
         raise ValueError('Degrees must be a number.')
     if _mode in ["standard","world"]: 
         new_degree = (360 - deg) 
