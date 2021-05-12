@@ -580,12 +580,10 @@ def goto(x, y=None):
     tilt_angle_orig = tilt_angle
     turtle_angle_orig = turtle_degree
     alpha = towards(x,y)
-    print(alpha, tilt_angle)
     units = distance(x,y)
     if _mode in ["standard","world"]: 
         turtle_degree = (360 - alpha) % 360
         tilt_angle = -((turtle_angle_orig-tilt_angle+alpha) % 360)
-        print(tilt_angle)
     elif _mode == "logo":
         turtle_degree = (270 + alpha) % 360
         tilt_angle = turtle_angle_orig+tilt_angle-alpha-270
@@ -1423,6 +1421,10 @@ def tiltangle(angle=None):
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
+    if _mode in ["standard","world"]:
+        left(angle*angle_conv)
+    else:
+        right(angle*angle_conv)
     tilt_angle += angle*angle_conv
     _updateDrawing()
 
