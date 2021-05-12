@@ -13,7 +13,7 @@ It uses html capabilites of IPython library to draw svg shapes inline.
 Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.appspot.com/turtle)
 
 --------
-Modified April 2021 by Larry Riddle
+Modified April/May 2021 by Larry Riddle
 Changed some default values to match classic turtle.py package
   default background color is white, default pen color is black, default pen thickness is 1
   default mode is "standard"
@@ -284,7 +284,6 @@ def _generateTurtleSvgDrawing():
         degrees = turtle_degree - tilt_angle
     else:
         degrees = turtle_degree + tilt_angle
-    template = ''
     
     if turtle_shape in ['turtle']:
         degrees += 90
@@ -294,7 +293,8 @@ def _generateTurtleSvgDrawing():
     else:
         degrees -= 90        
     
-    return shapeDict[turtle_shape].format(turtle_color=fill_color,
+    return shapeDict[turtle_shape].format(
+                           turtle_color=fill_color,
                            pen_color=pen_color,
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
@@ -464,11 +464,9 @@ def _arctoNewPosition(r,new_pos):
             pen_width=pen_width,
             s=sweep)    
     if is_filling:
-        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)
-    
+        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)  
     turtle_pos = new_pos
-    #_updateDrawing()    
-    
+     
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
@@ -585,7 +583,7 @@ def goto(x, y=None):
     units = distance(x,y)
     if _mode in ["standard","world"]: 
         turtle_degree = (360 - alpha) % 360
-        tilt_angle = turtle_angle_orig+tilt_angle+alpha
+        tilt_angle = -((turtle_angle_orig-tilt_angle+alpha) % 360)
     elif _mode == "logo":
         turtle_degree = (270 + alpha) % 360
         tilt_angle = turtle_angle_orig+tilt_angle-alpha-270
@@ -656,7 +654,7 @@ def home():
     else:
         if turtle_degree < 90:
             left(turtle_degree+90)
-        elif turtle_degree < 270:
+        elif turtle_degree< 270:
             right(270-turtle_degree)
         else:
             left(turtle_degree-270)
@@ -799,17 +797,19 @@ def clearstamps(n=None):
 # If argument is omitted, it returns the speed.
 def speed(speed = None):
     global timeout
-    global turtle_speed
-    
+    global turtle_speed    
     if speed is None:
         return turtle_speed
-
-    if isinstance(speed,int) == False or speed not in range(0, 14):
-
-                raise ValueError('Speed must be an integer in the interval [0,13].')
-        
-    turtle_speed = speed
-    timeout = _speedToSec(speed) 
+    speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
+    if speed in speeds:
+        turtle_speed = speeds[speed]
+    elif not isinstance(speed,(int,float)):
+        raise ValueError("speed should be a number between 0 and 13")
+    elif 0.5 < speed < 13.5:
+        turtle_speed = int(round(speed))
+    else:
+        turtle_speed = 13
+    timeout = _speedToSec(turtle_speed) 
         
 # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
 def done():
@@ -1412,17 +1412,39 @@ def settiltangle(angle):
 # i. e. the angle between the orientation of the turtleshape and the heading of the turtle (its direction of movement).
 def tiltangle(angle=None):
     global tilt_angle
+    global turtle_degree
+    global tilt_angle
     if angle == None:
         return tilt_angle
+    if turtle_speed != 0 and animate: 
+        turtle_degree_temp = turtle_degree
+        if _mode in ["standard","world"]:
+            left(-(tilt_angle-angle*angle_conv))
+        else:
+            right(tilt_angle-angle*angle_conv)
+        turtle_degree = turtle_degree_temp
+        tilt_angle = angle*angle_conv
     else:
         tilt_angle = angle*angle_conv
-        _updateDrawing(0) 
+        _updateDrawing() 
 
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
     global tilt_angle
-    tilt_angle += angle*angle_conv
-    _updateDrawing(0)
+    global turtle_degree
+    if turtle_speed != 0 and animate:
+        turtle_degree_temp = turtle_degree
+        if _mode in ["standard","world"]:
+
+            left(angle*angle_conv)
+        else:
+
+            right(angle*angle_conv)
+        turtle_degree = turtle_degree_temp
+        tilt_angle += angle*angle_conv
+    else:
+        tilt_angle += angle*angle_conv
+        _updateDrawing()
 
 #=====================
 # Window Control
