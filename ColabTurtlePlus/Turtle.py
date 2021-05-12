@@ -584,7 +584,7 @@ def goto(x, y=None):
     units = distance(x,y)
     if _mode in ["standard","world"]: 
         turtle_degree = (360 - alpha) % 360
-        tilt_angle = turtle_angle_orig+tilt_angle+alpha
+        tilt_angle = -((turtle_angle_orig-tilt_angle+alpha) % 360)
         print(tilt_angle)
     elif _mode == "logo":
         turtle_degree = (270 + alpha) % 360
