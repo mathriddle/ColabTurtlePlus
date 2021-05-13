@@ -1544,5 +1544,15 @@ def animationOn():
     global animate
     animate = True
 
-
+def regularpoly(sides, length, n=None):
+    if n is None:
+        n = sides
+    alpha = 360/sides
+    if sides < 0: alpha = -alpha
+    t.left(alpha/2)
+    for _ in range(n-1):
+        t.forward(len)
+        t.left(alpha)
+    t.forward(len)
+    t.left(alpha/2)
 
