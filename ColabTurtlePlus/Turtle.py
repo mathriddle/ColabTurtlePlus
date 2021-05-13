@@ -1549,10 +1549,10 @@ def regularpoly(sides, length, n=None):
         n = sides
     alpha = 360/sides
     if sides < 0: alpha = -alpha
-    t.left(alpha/2)
+    left(alpha/2)
     for _ in range(n-1):
-        t.forward(len)
-        t.left(alpha)
-    t.forward(len)
-    t.left(alpha/2)
+        forward(len)
+        left(alpha)
+    forward(len)
+    left(alpha/2)
 
