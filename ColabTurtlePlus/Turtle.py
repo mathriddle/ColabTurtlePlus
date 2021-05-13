@@ -516,16 +516,14 @@ def right(angle):
     deg = angle*angle_conv
     if turtle_speed == 0 or not animate:
         turtle_degree = (turtle_degree + deg) % 360
-        print("I'm not animating")
         _updateDrawing()
     elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
-        print("I'm animating")
         stretchfactor_orig = stretchfactor
         template = shapeDict[turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
-                      begin="0s" dur="0.001s"
+                      begin="0s" dur="0.000001s"
                       repeatCount="1"
                       additive="sum"
                       fill="freeze"
