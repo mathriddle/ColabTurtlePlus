@@ -53,6 +53,8 @@ Added tilt and tiltangle functions.
 Added degrees and radians functions.
 Added animated motion along lines and circles, and for rotating right or left. Animation can be turned off/on using animationOff
   and animationOn. Default is animationOn.
+Added a function to draw a line segment independent of the turtle motion.
+Added a function for the turtle to move along a regular polygon.
 Original ColabTurtle defaults can be set by calling oldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
@@ -188,6 +190,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     global turtle_degree
     global background_color
     global is_pen_down
+    global is_filling
     global svg_lines_string
     global svg_fill_string
     global fill_rule
@@ -523,7 +526,7 @@ def right(angle):
         tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
-                      begin="0s" dur="0.001s"
+                      begin="0s" dur="0.01s"
                       repeatCount="1"
                       additive="sum"
                       fill="freeze"
@@ -534,7 +537,7 @@ def right(angle):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=degrees, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=angle, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
@@ -828,7 +831,35 @@ def drawline(x_1,y_1,x_2,y_2):
         pencolor = pen_color,
         penwidth = pen_width)
     _updateDrawing(0)   
-    
+
+# Move along a regular polygon of size sides, with length being the length of each side. The steps indicates how many sides are drawn.
+# The initial and concluding angle is half of the exteral angle.
+# A positive length draws the polygon to the left of the turtle's current direction and a negative length draws it to the right
+# of the turtle's current direction.
+def regularpolygon(sides, length, steps=None):
+    polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
+    if sides in polygons:
+        sides = polygons[sides]
+    if steps is None:
+        steps = sides   
+    if not isinstance(sides, int):
+        raise ValueError('The number of sides should be a positive integer greater than 2')
+    elif sides < 3:
+        raise ValueError('The number of sides should be a positive integer greater than 2')
+    elif not isinstance(steps, int):
+        raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
+    elif steps < 1 or steps > sides:
+        raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
+    alpha = 360/sides
+    if length < 0: 
+        alpha = -alpha
+        length = -length
+    left(alpha/2)
+    for _ in range(steps-1):
+        forward(length)
+        left(alpha)
+    forward(length)
+    left(alpha/2)
     
 #====================================
 # Turtle Motion - Tell Turtle's State
