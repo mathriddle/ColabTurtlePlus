@@ -523,7 +523,7 @@ def right(angle):
         tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
-                      begin="0s" dur="0.000001s"
+                      begin="0s" dur="0.01s"
                       repeatCount="1"
                       additive="sum"
                       fill="freeze"
