@@ -539,6 +539,7 @@ def right(angle):
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
         timeout = timeout*abs(deg)/90+0.001
+        print(timeout)
         _updateDrawing()
         turtle_degree = (turtle_degree + deg) % 360
         shapeDict.update({turtle_shape:template})
