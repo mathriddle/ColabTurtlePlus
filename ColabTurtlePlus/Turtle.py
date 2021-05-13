@@ -1551,8 +1551,8 @@ def regularpoly(sides, length, n=None):
     if sides < 0: alpha = -alpha
     left(alpha/2)
     for _ in range(n-1):
-        forward(len)
+        forward(length)
         left(alpha)
-    forward(len)
+    forward(length)
     left(alpha/2)
 
