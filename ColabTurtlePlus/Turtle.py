@@ -188,6 +188,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     global turtle_degree
     global background_color
     global is_pen_down
+    global is_filling
     global svg_lines_string
     global svg_fill_string
     global fill_rule
