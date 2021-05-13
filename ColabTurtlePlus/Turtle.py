@@ -1554,11 +1554,11 @@ def regularpolygon(sides, length, steps=None):
         sides = polygons[sides]
     if steps is None:
         steps = sides   
-    if not ininstance(sides, int):
+    if not isinstance(sides, int):
         raise ValueError('The number of sides should be a positive integer greater than 2')
     elif sides < 3:
         raise ValueError('The number of sides should be a positive integer greater than 2')
-    elif not ininstance(steps, int):
+    elif not isinstance(steps, int):
         raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
     elif steps < 1 or steps > sides:
         raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
