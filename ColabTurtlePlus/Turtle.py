@@ -682,7 +682,7 @@ def circle(radius, extent=None, **kwargs):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
         raise ValueError('Extent should be a positive number')
-    if 'steps' in kwargs:
+    if 'steps' in kwargs and kwargs['steps'] <= 10:
         steps = kwargs['steps']
         alpha = extent/steps
         length = radius
