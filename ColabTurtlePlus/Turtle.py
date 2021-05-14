@@ -666,9 +666,9 @@ def home():
 # the circle function is broken into chunks of at most 90 degrees.
 # From aronma/ColabTurtle_2 github
 # Positive radius has circle to left of turtle, negative radius has circle to right of turtle.
-# This circle function does NOT use the steps argument found in classical turtle.py. The kwargs
-# will ignore any keyword parameter using steps.
-def circle(radius, extent=None, **kwargs):
+# The keyword arguments (kwargs) is here only for backward compatability with classic turtle.py circle.
+# 
+def circle(radius, extent=None, steps=None):
     global timeout
     global svg_lines_string
     global svg_fill_string
@@ -682,8 +682,7 @@ def circle(radius, extent=None, **kwargs):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
         raise ValueError('Extent should be a positive number')
-    if 'steps' in kwargs and kwargs['steps'] <= 10:
-        steps = kwargs['steps']
+    if (steps is not None) and (steps <= 10):
         alpha = extent/steps
         length = radius
         if radius < 0: 
