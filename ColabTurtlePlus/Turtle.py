@@ -836,20 +836,18 @@ def drawline(x_1,y_1,x_2,y_2):
 # The initial and concluding angle is half of the exteral angle.
 # A positive length draws the polygon to the left of the turtle's current direction and a negative length draws it to the right
 # of the turtle's current direction.
-def regularpolygon(sides, length, steps=None):
+def regularPolygon(sides, length, steps=None):
     polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
     if sides in polygons:
         sides = polygons[sides]
     if steps is None:
-        steps = sides   
+        steps = abs(sides)   
     if not isinstance(sides, int):
-        raise ValueError('The number of sides should be a positive integer greater than 2')
-    elif sides < 3:
-        raise ValueError('The number of sides should be a positive integer greater than 2')
+        raise ValueError('The number of sides should be an integer.')
     elif not isinstance(steps, int):
-        raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
-    elif steps < 1 or steps > sides:
-        raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
+        raise ValueError('The number of steps should be a positive integer.')
+    elif steps < 1:
+        raise ValueError('The number of steps should be a positive integer.')
     alpha = 360/sides
     if length < 0: 
         alpha = -alpha
