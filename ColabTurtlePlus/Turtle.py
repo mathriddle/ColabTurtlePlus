@@ -682,7 +682,18 @@ def circle(radius, extent=None, **kwargs):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
         raise ValueError('Extent should be a positive number')
-    if turtle_speed != 0 and animate:
+    if steps in kwargs:
+        alpha = extent/sides
+        if radius < 0: 
+            alpha = -alpha
+            length = -radius
+        left(alpha/2)
+        for _ in range(steps-1):
+            forward(length)
+            left(alpha)
+        forward(length)
+        left(alpha/2)  
+    elif turtle_speed != 0 and animate:
         timeout_temp = timeout 
         timeout = timeout*0.5
         degrees = extent*angle_conv
