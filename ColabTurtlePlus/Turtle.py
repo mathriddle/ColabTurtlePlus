@@ -841,16 +841,14 @@ def regularpolygon(sides, length, steps=None):
     if sides in polygons:
         sides = polygons[sides]
     if steps is None:
-        steps = sides   
+        steps = abs(sides)   
     if not isinstance(sides, int):
-        raise ValueError('The number of sides should be a positive integer greater than 2')
-    elif sides < 3:
-        raise ValueError('The number of sides should be a positive integer greater than 2')
+        raise ValueError('The number of sides should be an integer.')
     elif not isinstance(steps, int):
-        raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
-    elif steps < 1 or steps > sides:
-        raise ValueError('The number of steps should be a positive integer less than or equal to the number of sides')
-    alpha = 360/sides
+        raise ValueError('The number of steps should be a positive integer.')
+    elif steps < 1:
+        raise ValueError('The number of steps should be a positive integer.')
+    alpha = 360/abs(sides)
     if length < 0: 
         alpha = -alpha
         length = -length
