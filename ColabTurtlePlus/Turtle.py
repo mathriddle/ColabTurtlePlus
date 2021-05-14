@@ -685,6 +685,7 @@ def circle(radius, extent=None, **kwargs):
     if 'steps' in kwargs:
         steps = kwargs['steps']
         alpha = extent/steps
+        length = radius
         if radius < 0: 
             alpha = -alpha
             length = -radius
