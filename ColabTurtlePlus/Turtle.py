@@ -677,14 +677,14 @@ def circle(radius, extent=None, steps=None):
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if extent is None:
-        extent = 360 if angle_mode == "degrees" else 2*math.pi 
+        extent = 360 #if angle_mode == "degrees" else 2*math.pi 
     elif not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
         raise ValueError('Extent should be a positive number')
     if (steps is not None) and (steps <= 10):
-        alpha = extent/steps
-        length = radius
+        alpha = 1.0*extent/steps
+        length = 2*radius*math.sin(alpha/2*math.pi/180)
         if radius < 0: 
             alpha = -alpha
             length = -radius
@@ -697,8 +697,8 @@ def circle(radius, extent=None, steps=None):
     elif turtle_speed != 0 and animate:
         timeout_temp = timeout 
         timeout = timeout*0.5
-        degrees = extent*angle_conv
-        extent = degrees
+        degrees = extent #*angle_conv
+        #extent = degrees
         # Use temporary svg strings for animation
         svg_lines_string_temp = svg_lines_string
         svg_fill_string_temp = svg_fill_string 
