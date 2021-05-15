@@ -2161,10 +2161,10 @@ def mode(mode=None):
     "logo"     : initial turtle heading is upward (north) and positive angles
                  are measured clockwise with 0° pointing up.
     "world"    : used with user-defined coordinates. Setup is same as "standard".
-    "svg"      : This is a special mode to handle how the original ColabTurtle 
-                 worked.The coordinate system is the same as that used with SVG. 
-                 The upper left corner is (0,0) with positive x direction going 
-                 left to right, and the positive y direction going top to bottom. 
+    "svg"      : This is a special mode to handle how the original ColabTurtle
+                 worked. The coordinate system is the same as that used with SVG.
+                 The upper left corner is (0,0) with positive x direction going
+                 left to right, and the positive y direction going top to bottom.
                  Positive angles are measured clockwise with 0° pointing right.
     """
     global _mode
