@@ -1096,8 +1096,7 @@ def regularPolygon(sides, length, steps=None):
     
     Arguments:
     sides -- an integer giving the number of sides of the polygon, or
-             a string with the name of a regular polygon of at most 10 
-             sides
+             a string with the name of a regular polygon of at most 10 sides
     length -- a number giving the length of each side
     steps (optional) -- an integer indicating how many sides of the
              polygon to draw
@@ -2065,7 +2064,7 @@ def bgcolor(color = None, c2 = None, c3 = None):
     """Set or return the background color of the drawing area
 
     Arguments (if given): a color string or three numbers
-    in the range 0..colormode or a 3-tuple of such numbers.
+    in the range 0..255 or a 3-tuple of such numbers.
     """
     global background_color
     if color is None:
@@ -2101,8 +2100,6 @@ def setworldcoordinates(llx, lly, urx, ury):
     urx -- a number, x-coordinate of upper right corner of canvas
     ury -- a number, y-coordinate of upper right corner of canvas
 
-    Set up user coodinat-system.
-
     ATTENTION: in user-defined coordinate systems angles may appear
     distorted.
     """
@@ -2131,8 +2128,8 @@ def setworldcoordinates(llx, lly, urx, ury):
 def showborder(color = None, c2 = None, c3 = None):
     """Show a border around the graphics window.
     
-    Default (no parameters) is gray. A border can be turned off by setting 
-    color='none'.
+    Default (no parameters) is gray. A border can be turned off by 
+    setting color='none' (or use hideborder())
     """
     global border_color
     if color is None:
