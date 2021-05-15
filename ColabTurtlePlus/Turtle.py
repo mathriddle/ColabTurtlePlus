@@ -677,12 +677,12 @@ def circle(radius, extent=None, steps=None):
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if extent is None:
-        extent = 360 #if angle_mode == "degrees" else 2*math.pi 
+        extent = 360 if angle_mode == "degrees" else 2*math.pi 
     elif not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
         raise ValueError('Extent should be a positive number')
-    if (steps is not None) and (steps <= 10):
+    if (steps is not None) and (steps <= 20):
         alpha = 1.0*extent/steps
         length = 2*radius*math.sin(alpha/2*math.pi/180)
         if radius < 0: 
@@ -697,8 +697,8 @@ def circle(radius, extent=None, steps=None):
     elif turtle_speed != 0 and animate:
         timeout_temp = timeout 
         timeout = timeout*0.5
-        degrees = extent #*angle_conv
-        #extent = degrees
+        degrees = extent*angle_conv
+        extent = degrees
         # Use temporary svg strings for animation
         svg_lines_string_temp = svg_lines_string
         svg_fill_string_temp = svg_fill_string 
@@ -849,6 +849,7 @@ def drawline(x_1,y_1,x_2,y_2):
 # A positive length draws the polygon to the left of the turtle's current direction and a negative length draws it to the right
 # of the turtle's current direction.
 def regularPolygon(sides, length, steps=None):
+    global fill_color
     polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
     if sides in polygons:
         sides = polygons[sides]
@@ -860,6 +861,11 @@ def regularPolygon(sides, length, steps=None):
         raise ValueError('The number of steps should be a positive integer.')
     elif steps < 1:
         raise ValueError('The number of steps should be a positive integer.')
+    if not is_filling:
+        polyfilling = True
+        fillcolor_temp = fill_color
+        fill_color = "none"
+        begin_filling()
     alpha = 360/sides
     if length < 0: 
         alpha = -alpha
@@ -870,6 +876,9 @@ def regularPolygon(sides, length, steps=None):
         left(alpha)
     forward(length)
     left(alpha/2)
+    if polyfilling: 
+        end_filling()
+        fill_color = fillcolor_temp
     
 #====================================
 # Turtle Motion - Tell Turtle's State
