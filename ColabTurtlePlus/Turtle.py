@@ -865,7 +865,7 @@ def regularPolygon(sides, length, steps=None):
         polyfilling = True
         fillcolor_temp = fill_color
         fill_color = "none"
-        begin_filling()
+        begin_fill()
     alpha = 360/sides
     if length < 0: 
         alpha = -alpha
