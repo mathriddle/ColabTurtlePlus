@@ -664,11 +664,19 @@ def home():
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
 # the circle function is broken into chunks of at most 90 degrees.
-# From aronma/ColabTurtle_2 github
+# This is modified from aronma/ColabTurtle_2 github.
 # Positive radius has circle to left of turtle, negative radius has circle to right of turtle.
-# This circle function does NOT use the steps argument found in classical turtle.py. The kwargs
-# will ignore any keyword parameter using steps.
-def circle(radius, extent=None, **kwargs):
+# The keyword arguments (kwargs) is here only for backward compatability with classic turtle.py circle.
+# To get a true circular arc, do NOT use steps. Can still be used to draw a regular polygon, but better
+# to use the regularpolygon() function.
+def circle(radius, extent=None, steps=None):
+    """ Draw a circle with given radius.
+
+        Arguments:
+        radius -- a number
+        extent (optional) -- a number
+        steps (optional) -- an integer
+    """
     global timeout
     global svg_lines_string
     global svg_fill_string
@@ -682,7 +690,21 @@ def circle(radius, extent=None, **kwargs):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
         raise ValueError('Extent should be a positive number')
-    if turtle_speed != 0 and animate:
+    # If steps is used, only draw polygon if less than 20 sides.
+    # Otherwise, assume user really wants a circular arc.
+    if (steps is not None) and (steps <= 20):
+        alpha = 1.0*extent/steps
+        length = 2*radius*math.sin(alpha/2*math.pi/180)
+        if radius < 0: 
+            alpha = -alpha
+            length = -radius
+        left(alpha/2)
+        for _ in range(steps-1):
+            forward(length)
+            left(alpha)
+        forward(length)
+        left(alpha/2)  
+    elif turtle_speed != 0 and animate:
         timeout_temp = timeout 
         timeout = timeout*0.5
         degrees = extent*angle_conv
@@ -836,7 +858,10 @@ def drawline(x_1,y_1,x_2,y_2):
 # The initial and concluding angle is half of the exteral angle.
 # A positive length draws the polygon to the left of the turtle's current direction and a negative length draws it to the right
 # of the turtle's current direction.
+# Set fillcolor to "none" if necessary and turn on filling so that the polygon is coded as one path for SVG purposes rather than
+# as a sequence of line segments.
 def regularPolygon(sides, length, steps=None):
+    global fill_color
     polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
     if sides in polygons:
         sides = polygons[sides]
@@ -848,6 +873,11 @@ def regularPolygon(sides, length, steps=None):
         raise ValueError('The number of steps should be a positive integer.')
     elif steps < 1:
         raise ValueError('The number of steps should be a positive integer.')
+    polyfilling = False
+    if not is_filling:
+        polyfilling = True
+        fillcolor_temp = fill_color
+        begin_fill()
     alpha = 360/sides
     if length < 0: 
         alpha = -alpha
@@ -858,6 +888,11 @@ def regularPolygon(sides, length, steps=None):
         left(alpha)
     forward(length)
     left(alpha/2)
+    if polyfilling: 
+        fill_color = "none"
+        end_fill()       
+        fill_color = fillcolor_temp
+        _updateDrawing()
     
 #====================================
 # Turtle Motion - Tell Turtle's State
@@ -1202,7 +1237,7 @@ def end_fill():
                 penwidth=pen_width,
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
-        _updateDrawing()
+        _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
 # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
