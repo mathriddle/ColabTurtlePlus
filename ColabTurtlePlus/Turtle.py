@@ -864,7 +864,6 @@ def regularPolygon(sides, length, steps=None):
     if not is_filling:
         polyfilling = True
         fillcolor_temp = fill_color
-        fill_color = "none"
         begin_fill()
     alpha = 360/sides
     if length < 0: 
@@ -877,8 +876,10 @@ def regularPolygon(sides, length, steps=None):
     forward(length)
     left(alpha/2)
     if polyfilling: 
-        end_filling()
+        fill_color = "none"
+        end_fill()       
         fill_color = fillcolor_temp
+        _updateDrawing()
     
 #====================================
 # Turtle Motion - Tell Turtle's State
@@ -1223,7 +1224,7 @@ def end_fill():
                 penwidth=pen_width,
                 fillcolor=fill_color)
         svg_lines_string = svg_lines_string_orig + svg_fill_string
-        _updateDrawing()
+        _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
 # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
