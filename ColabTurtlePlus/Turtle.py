@@ -861,6 +861,7 @@ def regularPolygon(sides, length, steps=None):
         raise ValueError('The number of steps should be a positive integer.')
     elif steps < 1:
         raise ValueError('The number of steps should be a positive integer.')
+    polyfilling = False
     if not is_filling:
         polyfilling = True
         fillcolor_temp = fill_color
