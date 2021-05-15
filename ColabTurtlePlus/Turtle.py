@@ -181,6 +181,15 @@ drawing_window = None
 
 # Construct the display for turtle
 def initializeTurtle(window=None, mode=None, speed=None):
+    """Initialize the turtle and drawing window
+    
+    Arguments:
+    window (optional) -- (width,height) in pixels
+    mode (optional) -- one of "standard, "logo", or "svg"
+    speed (optional) -- integer in range 0..13
+    
+    The defaults are (800,500), "standard", and 5.
+    """
     global window_size
     global drawing_window
     global turtle_speed
@@ -331,11 +340,14 @@ def saveSVG(file, turtle=False):
     """Save the image as an SVG file.
     
     Arguments:
-    file -- a string giving filename for saved file. The extension ".svg" will be added if missing.
-    turtle (optional) -- a boolean that determines if the turtle is included in the svg output saved to the file.
+    file -- a string giving filename for saved file. The extension 
+            ".svg" will be added if missing.
+    turtle (optional) -- a boolean that determines if the turtle 
+            is included in the svg output saved to the file.
     
-    The SVG commands can be printed on screen (after the drawing is completed) or saved to a 
-    file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
+    The SVG commands can be printed on screen (after the drawing is 
+    completed) or saved to a file for use in a program like inkscape 
+    or Adobe Illustrator, or displaying the image in a webpage.
     """
     
     if drawing_window == None:
@@ -365,10 +377,12 @@ def showSVG(turtle=False):
     """Show the SVG code for the image to the screen.
     
     Arguments:
-    turtle (optional) -- a boolean that determines if the turtle is included in the svg output
+    turtle (optional) -- a boolean that determines if the turtle
+          is included in the svg output
     
-    The SVG commands can be printed on screen (after the drawing is completed) or saved to a 
-    file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
+    The SVG commands can be printed on screen (after the drawing is 
+    completed) or saved to a file for use in a program like inkscape 
+    or Adobe Illustrator, or displaying the image in a webpage.
     """
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
@@ -515,8 +529,8 @@ def forward(units):
     Argument:
     distance -- a number (integer or float)
 
-    Move the turtle forward by the specified distance, in the direction
-    the turtle is headed.
+    Move the turtle forward by the specified distance, in the 
+    direction the turtle is headed.
     """
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
@@ -534,9 +548,9 @@ def backward(units):
     Argument:
     distance -- a number (integer or float)
 
-    Move the turtle backward by the specified distance, opposite to the direction
-    the turtle is headed. Do not change the turtle's heading.
-    
+    Move the turtle backward by the specified distance, opposite
+    to the direction the turtle is headed. Do not change the turtle's 
+    heading.
     """
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
@@ -805,11 +819,11 @@ def circle(radius, extent=None, steps=None):
     the direction of the turtle is changed by the amount of extent.
     
     The step argument is here only for backward compatability with 
-    classic turtle.py circle. To get a true circular arc, do NOT use steps
-    since the circle will be drawn using SVG commands. If steps > 20, it 
-    will assumed that an arc of a circle was intended. This can still
-    be used to draw a regular polygon with 20 or fewer sides, but better
-    to use the regularpolygon() function. 
+    classic turtle.py circle. To get a true circular arc, do NOT use
+    steps since the circle will be drawn using SVG commands.
+    If steps > 20, it will be assumed that an arc of a circle was
+    intended. This can still be used to draw a regular polygon with 
+    20 or fewer sides, but better to use the regularpolygon() function. 
     """
     global timeout
     global svg_lines_string
@@ -876,7 +890,8 @@ def dot(size = None, *color):
     color -- a colorstring or a numeric color tuple
 
     Draw a circular dot with diameter size, using color.
-    If size is not given, the maximum of pensize+4 and 2*pensize is used.
+    If size is not given, the maximum of pensize+4 and 2*pensize 
+    is used.
     """
     global svg_dots_string
 
@@ -908,17 +923,17 @@ def stamp(layer=0):
     """Stamp a copy of the turtleshape onto the canvas and return its id.
 
     Argument:
-    layer (optional) -- an integer that determines whether the stamp appears 
-    below other items (layer=0) or above other items (layer=1) in the order 
-    that SVG draws items.
+    layer (optional) -- an integer that determines whether the stamp 
+    appears below other items (layer=0) or above other items (layer=1) 
+    in the order that SVG draws items.
 
     Stamp a copy of the turtle shape onto the canvas at the current
     turtle position. Return a stamp_id for that stamp, which can be
     used to delete it by calling clearstamp(stamp_id).
     
     If layer=0, a stamp may be covered by a filled object, for example, 
-    even if the stamp is originally drawn on top of that object during the animation.
-    To prevent this, set layer=1 or any nonzero number.
+    even if the stamp is originally drawn on top of that object during 
+    the animation. To prevent this, set layer=1 or any nonzero number.
     """
     global svg_stampsB_string
     global svg_stampsT_string
@@ -1042,8 +1057,8 @@ def done():
     
     No argument
     
-    speed = 0 displays final image with no animation. Need to call done() 
-    at the end so the final image is displayed.
+    speed = 0 displays final image with no animation. Need to
+    call done() at the end so the final image is displayed.
     """
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
@@ -1057,8 +1072,8 @@ def drawline(x_1,y_1,x_2,y_2):
     x_1,y_1 -- coordinates of first point
     x_2,y_2 -- coordinates of second point
     
-    Draws a line from (x_1,y_1) to (x_2,y_2). This line is independent of
-    the turtle motion.
+    Draws a line from (x_1,y_1) to (x_2,y_2). This line is 
+    independent of the turtle motion.
     """
     global svg_lines_string
     svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
@@ -1081,15 +1096,19 @@ def regularPolygon(sides, length, steps=None):
     
     Arguments:
     sides -- an integer giving the number of sides of the polygon, or
-             a string with the name of a regular polygon of at most 10 sides
+             a string with the name of a regular polygon of at most 10 
+             sides
     length -- a number giving the length of each side
-    steps (optional) -- an integer indicating how many sides of the polygon to draw
+    steps (optional) -- an integer indicating how many sides of the
+             polygon to draw
     
-    Move along a regular polygon of size sides, with length being the length of each side. 
-    The steps indicates how many sides are drawn. The initial and concluding angle is half
-    of the exteral angle. Positive values for sides or length draws the polygon to the 
-    left of the turtle's current direction, and a negative value for either sides or length 
-    draws it to the right of the turtle's current direction.
+    Move along a regular polygon of size sides, with length being the 
+    length of each side. The steps indicates how many sides are drawn.
+    The initial and concluding angle is half of the exteral angle. 
+    Positive values for sides or length draws the polygon to the 
+    left of the turtle's current direction, and a negative value for
+    either sides or length draws it to the right of the turtle's current 
+    direction.
     """
     global fill_color
     polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
@@ -1429,16 +1448,16 @@ def color(*args):
     They use 0, 1, 2, or 3 arguments as follows:
 
     color()
-        Return the current pencolor and the current fillcolor
-        as a pair of color specification strings as are returned
-        by pencolor and fillcolor.
+       Return the current pencolor and the current fillcolor
+       as a pair of color specification strings as are returned
+       by pencolor and fillcolor.
     color(colorstring), color((r,g,b)), color(r,g,b)
-        inputs as in pencolor, set both, fillcolor and pencolor,
-        to the given value.
+       inputs as in pencolor, set both, fillcolor and pencolor,
+       to the given value.
     color(colorstring1, colorstring2),
     color((r1,g1,b1), (r2,g2,b2))
-        equivalent to pencolor(colorstring1) and fillcolor(colorstring2)
-        and analogously, if the other input format is used.
+       equivalent to pencolor(colorstring1) and fillcolor(colorstring2)
+       and analogously, if the other input format is used.
     """
     global pen_color
     global fill_color
@@ -1470,9 +1489,10 @@ def pencolor(color = None, c2 = None, c3 = None):
         possibly in hex-number format.
         May be used as input to another color/pencolor/fillcolor call.
       - pencolor(colorstring)
-        colorstring is an htmlcolor specification string, such as "red" or "yellow"
+        colorstring is an htmlcolor specification string, such as "red"
+        or "yellow"
       - pencolor((r, g, b))
-        *a tuple* of r, g, and b, which represent an RGB color,
+        a tuple of r, g, and b, which represent an RGB color,
         and each of r, g, and b are in the range 0..255
       - pencolor(r, g, b)
         r, g, and b represent an RGB color, and each of r, g, and b
@@ -1501,9 +1521,10 @@ def fillcolor(color = None, c2 = None, c3 = None):
         possibly in hex-number format.
         May be used as input to another color/pencolor/fillcolor call.
       - pencolor(colorstring)
-        colorstring is an htmlcolor specification string, such as "red" or "yellow"
+        colorstring is an htmlcolor specification string, such as "red" 
+        or "yellow"
       - pencolor((r, g, b))
-        *a tuple* of r, g, and b, which represent an RGB color,
+        a tuple of r, g, and b, which represent an RGB color,
         and each of r, g, and b are in the range 0..255
       - pencolor(r, g, b)
         r, g, and b represent an RGB color, and each of r, g, and b
@@ -1595,11 +1616,12 @@ def begin_fill(rule=None, opacity=None):
     rule (optional) -- Either evenodd or nonzero
     opacity (optional) -- a number between 0 and 1
     
-    Because the fill is controlled by svg rules, the result may differ from classic turtle fill. 
-    The fill-rule and fill-opacity can be set as arguments to the begin_fill() function and will
-    apply only to objects filled before the end_fill is called. There are two possible arguments
-    to specify for the SVG fill-rule: 'nonzero' (default) and 'evenodd'. The fill-opacity 
-    attribute ranges from 0 (transparent) to 1 (solid). 
+    Because the fill is controlled by svg rules, the result may differ
+    from classic turtle fill. The fill-rule and fill-opacity can be set 
+    as arguments to the begin_fill() function and will apply only to objects 
+    filled before the end_fill is called. There are two possible arguments
+    to specify for the SVG fill-rule: 'nonzero' (default) and 'evenodd'. 
+    The fill-opacity attribute ranges from 0 (transparent) to 1 (solid). 
     """
     global is_filling
     global svg_lines_string_orig
@@ -2109,7 +2131,8 @@ def setworldcoordinates(llx, lly, urx, ury):
 def showborder(color = None, c2 = None, c3 = None):
     """Show a border around the graphics window.
     
-    Default (no parameters) is gray. A border can be turned off by setting color='none'.
+    Default (no parameters) is gray. A border can be turned off by setting 
+    color='none'.
     """
     global border_color
     if color is None:
@@ -2141,11 +2164,11 @@ def mode(mode=None):
     "logo"     : initial turtle heading is upward (north) and positive angles
                  are measured clockwise with 0° pointing up.
     "world"    : used with user-defined coordinates. Setup is same as "standard".
-    "svg"      : This is a special mode to handle how the original ColabTurtle worked.
-                 The coordinate system is the same as that used with SVG. The upper left 
-                 corner is (0,0) with positive x direction going left to right, and the 
-                 positive y direction going top to bottom. Positive angles are measured 
-                 clockwise with 0° pointing right.
+    "svg"      : This is a special mode to handle how the original ColabTurtle 
+                 worked.The coordinate system is the same as that used with SVG. 
+                 The upper left corner is (0,0) with positive x direction going 
+                 left to right, and the positive y direction going top to bottom. 
+                 Positive angles are measured clockwise with 0° pointing right.
     """
     global _mode
     if mode is None:
@@ -2174,7 +2197,8 @@ def animationOff():
     
     No argument.
     
-    Forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly.
+    Forward/back/circle makes the turtle jump and likewise left/right 
+    makes the turtle turn instantly.
     """
     global animate
     animate = False
