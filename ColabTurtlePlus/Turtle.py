@@ -184,9 +184,9 @@ def initializeTurtle(window=None, mode=None, speed=None):
     """Initializes the turtle and drawing window
     
     Args:
-      window: (optional) the (width,height) in pixels
-      mode: (optional) one of "standard, "logo", or "svg"
-      speed: (optional) integer in range 0..13
+        window: (optional) the (width,height) in pixels
+        mode: (optional) one of "standard, "logo", or "svg"
+        speed: (optional) integer in range 0..13
     
     The defaults are (800,500), "standard", and 5.
     """
@@ -341,10 +341,11 @@ def saveSVG(file, turtle=False):
     """Saves the image as an SVG file.
     
     Args:
-      file: a string giving filename for saved file. The extension 
-        ".svg" will be added if missing.
-      turtle: (optional) a boolean that determines if the turtle 
-        is included in the svg output saved to the file.
+        file: a string giving filename for saved file. The extension 
+            ".svg" will be added if missing.
+        turtle: an optional boolean that determines if the turtle 
+            is included in the svg output saved to the file.
+            Default is False.
     
     The SVG commands can be printed on screen (after the drawing is 
     completed) or saved to a file for use in a program like inkscape 
@@ -378,8 +379,8 @@ def showSVG(turtle=False):
     """Shows the SVG code for the image to the screen.
     
     Args:
-      turtle: (optional) a boolean that determines if the turtle
-        is included in the svg output
+        turtle: (optional) a boolean that determines if the turtle
+            is included in the svg output
     
     The SVG commands can be printed on screen (after the drawing is 
     completed) or saved to a file for use in a program like inkscape 
@@ -529,7 +530,7 @@ def forward(units):
     Aliases: forward | fd
 
     Args:
-      units: a number (integer or float)
+        units: a number (integer or float)
 
     Moves the turtle forward by the specified distance, in the 
     direction the turtle is headed.
@@ -549,7 +550,7 @@ def backward(units):
     Aliases: backward | back | bk
 
     Args:
-      units: a number (integer or float)
+        units: a number (integer or float)
 
     Move the turtle backward by the specified distance, opposite
     to the direction the turtle is headed. Do not change the turtle's 
@@ -572,7 +573,7 @@ def right(angle):
     Aliases: right | rt
 
     Args:
-      angle: a number (integer or float)
+        angle: a number (integer or float)
 
     Turns the turtle right by angle units. (Units are by default 
     degrees, but can be set via the degrees() and radians() functions.)
@@ -638,7 +639,7 @@ def left(angle):
     Aliases: left | lt
 
     Args:
-      angle: a number (integer or float)
+        angle: a number (integer or float)
 
     Turns turtle left by angle units. (Units are by default 
     degrees, but can be set via the degrees() and radians() functions.)
@@ -699,7 +700,7 @@ def setx(x):
     """Set the turtle's first coordinate to x
 
     Args:
-      x: a number (integer or float)
+        x: a number (integer or float)
 
     Set the turtle's first coordinate to x, leave second coordinate
     unchanged.
@@ -714,7 +715,7 @@ def sety(y):
     """Set the turtle's second coordinate to y
 
     Args:
-      y: a number (integer or float)
+        y: a number (integer or float)
 
     Set the turtle's second coordinate to y, leave first coordinate
     unchanged.
@@ -731,18 +732,13 @@ def setheading(angle):
     Aliases:  setheading | seth
 
     Args:
-      angle: a number (integer or float) (Units are by default degrees,
-        but can be set via the degrees() and radians() functions.)
+        angle: a number (integer or float) 
+    
+    Units are by default degrees, but can be set via 
+    the degrees() and radians() functions.)
 
     Set the orientation of the turtle to angle.
-    Here are some common directions in degrees:
-
-     standard - mode:          logo-mode:
-    -------------------|--------------------
-           0 - east                0 - north
-          90 - north              90 - east
-         180 - west              180 - south
-         270 - south             270 - west
+    This depends on the mode.
     """
 
     global turtle_degree
@@ -776,16 +772,17 @@ face = setheading # alias
 # Move turtle to the origin and set its heading to its 
 # start-orientation (which depends on the mode).
 def home():
-    """Move turtle to the origin - coordinates (0,0).
+    """Moves turtle to the origin - coordinates (0,0).
 
     No arguments.
 
-    Move turtle to the origin - coordinates (0,0) and set its
+    Moves the turtle to the origin (0,0) and sets its
     heading to its start-orientation (which depends on mode).
     
-    (If the mode is "svg", move turtle to the center of the drawing
-    window.)
+    If the mode is "svg", moves the turtle to the center of 
+    the drawing window.)
     """
+
     global turtle_degree
     if _mode != 'svg':
         goto(0,0)
@@ -812,18 +809,18 @@ def home():
 # To get a true circular arc, do NOT use steps. Can still be used to draw a regular polygon, but better
 # to use the regularpolygon() function.
 def circle(radius, extent=None, steps=None):
-    """ Draw a circle with given radius.
+    """ Draws a circle with the given radius.
 
-    Arguments:
-    radius -- a number
-    extent (optional) -- a number
-    steps (optional) -- an integer
+    Args:
+        radius: a number
+        extent: (optional) a number
+        steps: (optional) a positive integer
     
-    Draw a circle with given radius. The center is radius units left
-    of the turtle; extent - an angle - determines which part of the
-    circle is drawn. If extent is not given, draw the entire circle.
+    Draws a circle with given radius. The center is radius units left
+    of the turtle. The extent, an angle, determines which part of the
+    circle is drawn. If extent is not given, draws the entire circle.
     If extent is not a full circle, one endpoint of the arc is the
-    current pen position. Draw the arc in counterclockwise direction
+    current pen position. Draws the arc in counterclockwise direction
     if radius is positive, otherwise in clockwise direction. Finally
     the direction of the turtle is changed by the amount of extent.
     
@@ -831,9 +828,13 @@ def circle(radius, extent=None, steps=None):
     classic turtle.py circle. To get a true circular arc, do NOT use
     steps since the circle will be drawn using SVG commands.
     If steps > 20, it will be assumed that an arc of a circle was
-    intended. This can still be used to draw a regular polygon with 
-    20 or fewer sides, but better to use the regularpolygon() function. 
+    intended. 
+    
+    This function can still be used to draw a regular polygon with 
+    20 or fewer sides, but it is better to use the regularpolygon() 
+    function. 
     """
+
     global timeout
     global svg_lines_string
     global svg_fill_string
@@ -892,16 +893,17 @@ def circle(radius, extent=None, steps=None):
 # Draw a dot with diameter size, using color
 # If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
 def dot(size = None, *color):
-    """Draw a dot with diameter size, using color.
+    """Draws a dot with diameter size, using color.
 
-    Optional arguments:
-    size -- an integer >= 1 (if given)
-    color -- a colorstring or a numeric color tuple
+    Args:
+        size: (optional) a positive integer
+        *color: (optional) a colorstring or a numeric color tuple
 
     Draw a circular dot with diameter size, using color.
     If size is not given, the maximum of pensize+4 and 2*pensize 
-    is used.
+    is used. If no color is given, the pencolor is used.
     """
+
     global svg_dots_string
 
     if not color:
@@ -929,21 +931,25 @@ def dot(size = None, *color):
 # the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number).
 # Returns a stamp_id for that stamp, which can be used to delete it by calling clearstamp(stamp_id).
 def stamp(layer=0):
-    """Stamp a copy of the turtleshape onto the canvas and return its id.
+    """Stamps a copy of the turtleshape onto the canvas and return its id.
 
-    Argument:
-    layer (optional) -- an integer that determines whether the stamp 
-    appears below other items (layer=0) or above other items (layer=1) 
-    in the order that SVG draws items.
+    Args:
+        layer (int): an optional integer that determines whether the stamp 
+            appears below other items (layer=0) or above other items (layer=1) 
+            in the order that SVG draws items. 
+    
+    Returns: 
+        integer: a stamp_id for that stamp, which can be
+            used to delete it by calling clearstamp(stamp_id).
 
-    Stamp a copy of the turtle shape onto the canvas at the current
-    turtle position. Return a stamp_id for that stamp, which can be
-    used to delete it by calling clearstamp(stamp_id).
+    Stamps a copy of the turtle shape onto the canvas at the current
+    turtle position.
     
     If layer=0, a stamp may be covered by a filled object, for example, 
     even if the stamp is originally drawn on top of that object during 
     the animation. To prevent this, set layer=1 or any nonzero number.
     """
+
     global svg_stampsB_string
     global svg_stampsT_string
     global stampnum
@@ -985,11 +991,12 @@ def _clearstamp(stampid):
 # Delete stamp with given stampid.
 # stampid – an integer or tuple of integers, which must be return values of previous stamp() calls
 def clearstamp(stampid):
-    """Delete stamp with given stampid
+    """Deletes the stamp with given stampid
 
-    Argument:
-    stampid - an integer, must be return value of previous stamp() call.
+    Args:
+        stampid - an integer, must be return value of previous stamp() call.
     """
+
     if isinstance(stampid,tuple):
         for subitem in stampid:
             _clearstamp(subitem)
@@ -999,15 +1006,16 @@ def clearstamp(stampid):
 # Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps,
 # else if n < 0 delete last n stamps.
 def clearstamps(n=None):
-    """Delete all or first/last n of turtle's stamps.
+    """Deletes all or first/last n of turtle's stamps.
 
-    Optional argument:
-    n -- an integer
+    Args:
+        n: an optional integer
 
-    If n is None, delete all of pen's stamps,
-    else if n > 0 delete first n stamps
-    else if n < 0 delete last n stamps.
+    If n is None, deletes all of the turtle's stamps.
+    If n > 0, deletes the first n stamps.
+    If n < 0, deletes the last n stamps.
     """
+
     if n is None:
         [_clearstamp(k) for k in stamplist]
     elif n > 0:
@@ -1018,23 +1026,24 @@ def clearstamps(n=None):
 # Update the speed of the moves, [0,13]
 # If argument is omitted, it returns the speed.
 def speed(speed = None):
-    """ Return or set the turtle's speed.
+    """Returns or set the turtle's speed.
 
-    Optional argument:
-    speed -- an integer in the range 0..13 or a speedstring (see below)
+    Args:
+        speed: an integer in the range 0..13 or a speedstring (see below)
 
-    Set the turtle's speed to an integer value in the range 0 .. 10.
-    If no argument is given: return current speed.
+    Sets the turtle's speed to an integer value in the range 0 .. 13.
+    If no argument is given, returns the current speed.
 
     If input is a number greater than 13 or smaller than 0.5,
     speed is set to 13.
+    
     Speedstrings  are mapped to speedvalues in the following way:
         'fastest' :  13
         'fast'    :  10
         'normal'  :  6
         'slow'    :  3
         'slowest' :  1
-    speeds from 1 to 13 enforce increasingly faster animation of
+    Speeds from 1 to 13 enforce increasingly faster animation of
     line drawing and turtle turning.
 
     Attention:
@@ -1045,6 +1054,7 @@ def speed(speed = None):
     This means forward/back makes the turtle jump and likewise left/right 
     makes the turtle turn instantly.
     """
+
     global timeout
     global turtle_speed    
     if speed is None:
