@@ -220,7 +220,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     global stretchfactor
     global shear_factor
     
-    if window == None:
+    if window is None:
         window_size = DEFAULT_WINDOW_SIZE
     elif not (isinstance(window, tuple) and len(window) == 2 and isinstance(
             window[0], int) and isinstance(window[1], int)):
@@ -228,7 +228,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     else:
         window_size = window
 
-    if speed == None:
+    if speed is None:
          turtle_speed = DEFAULT_SPEED
     elif isinstance(speed,int) == False or speed not in range(0, 14):
         raise ValueError('Speed must be an integer in the interval [0,13]')
@@ -236,7 +236,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
         turtle_speed = speed
     timeout = _speedToSec(turtle_speed)
     
-    if mode == None:
+    if mode is None:
         _mode = DEFAULT_MODE
     elif mode not in VALID_MODES:
         raise ValueError('Mode must be standard, world, logo, or svg')
@@ -2154,18 +2154,24 @@ def hideborder():
 def mode(mode=None):
     """Set turtle mode
     
-    Argument: One of “standard”, “logo”, “world”, or "svg"
+    Arg:
+        One of “standard”, “logo”, “world”, or "svg"
     
-    "standard" : initial turtle heading is to the right (east) and positive
-                 angles measured counterclockwise with 0° pointing right.
-    "logo"     : initial turtle heading is upward (north) and positive angles
-                 are measured clockwise with 0° pointing up.
-    "world"    : used with user-defined coordinates. Setup is same as "standard".
-    "svg"      : This is a special mode to handle how the original ColabTurtle
-                 worked. The coordinate system is the same as that used with SVG.
-                 The upper left corner is (0,0) with positive x direction going
-                 left to right, and the positive y direction going top to bottom.
-                 Positive angles are measured clockwise with 0° pointing right.
+    "standard":
+        initial turtle heading is to the right (east) and positive
+        angles measured counterclockwise with 0° pointing right.
+    "logo":
+        initial turtle heading is upward (north) and positive angles
+        are measured clockwise with 0° pointing up.
+    "world":
+        used with user-defined coordinates. Setup is same as "standard".
+    "svg": 
+        This is a special mode to handle how the original ColabTurtle
+        worked. The coordinate system is the same as that used with SVG.
+        The upper left corner is (0,0) with positive x direction going
+        left to right, and the positive y direction going top to bottom.
+        Positive angles are measured clockwise with 0° pointing right.
+        
     """
     global _mode
     if mode is None:
