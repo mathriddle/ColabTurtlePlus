@@ -527,7 +527,7 @@ def forward(units):
     Aliases: forward | fd
 
     Args:
-      distance: a number (integer or float)
+      units: a number (integer or float)
 
     Moves the turtle forward by the specified distance, in the 
     direction the turtle is headed.
@@ -546,7 +546,7 @@ def backward(units):
     Aliases: backward | back | bk
 
     Args:
-      distance: a number (integer or float)
+      units: a number (integer or float)
 
     Move the turtle backward by the specified distance, opposite
     to the direction the turtle is headed. Do not change the turtle's 
@@ -646,14 +646,14 @@ lt = left
 def goto(x, y=None):
     """Moves turtle to an absolute position.
 
-    Aliases: setpos | setposition | goto:
+    Aliases: setpos | setposition | goto
 
     Args:
       x: a number       or      a pair of numbers
       y: a number       or      None
 
     Call: 
-      goto(x, y)        # two coordinates
+      goto(x, y)        # two coordinates\
       goto((x, y))      # a pair (tuple) of coordinates
 
     Moves turtle to an absolute position. If the pen is down,
