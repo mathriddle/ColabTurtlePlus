@@ -337,7 +337,7 @@ def _generateSvgDrawing():
 
 # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
 def saveSVG(file, turtle=False):
-    """Save the image as an SVG file.
+    """Saves the image as an SVG file.
     
     Args:
       file: a string giving filename for saved file. The extension 
@@ -374,10 +374,10 @@ def saveSVG(file, turtle=False):
 
 # Print the SVG code for the image to the screen. Set turtle=True to include turtle in svg output.
 def showSVG(turtle=False):
-    """Show the SVG code for the image to the screen.
+    """Shows the SVG code for the image to the screen.
     
-    Arguments:
-    turtle (optional) -- a boolean that determines if the turtle
+    Args:
+      turtle: (optional) a boolean that determines if the turtle
           is included in the svg output
     
     The SVG commands can be printed on screen (after the drawing is 
@@ -522,14 +522,14 @@ def _arc(radius, degrees, draw):
         
 # Makes the turtle move forward by 'units' units
 def forward(units):
-    """Move the turtle forward by the specified distance.
+    """Moves the turtle forward by the specified distance.
 
     Aliases: forward | fd
 
-    Argument:
-    distance -- a number (integer or float)
+    Args:
+      distance: a number (integer or float)
 
-    Move the turtle forward by the specified distance, in the 
+    Moves the turtle forward by the specified distance, in the 
     direction the turtle is headed.
     """
     if not isinstance(units, (int,float)):
@@ -541,12 +541,12 @@ fd = forward # alias
 
 # Makes the turtle move backward by 'units' units
 def backward(units):
-    """Move the turtle backward by the specified distance.
+    """Moves the turtle backward by the specified distance.
 
     Aliases: backward | back | bk
 
-    Argument:
-    distance -- a number (integer or float)
+    Args:
+      distance: a number (integer or float)
 
     Move the turtle backward by the specified distance, opposite
     to the direction the turtle is headed. Do not change the turtle's 
@@ -563,15 +563,15 @@ back = backward # alias
 # But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
 # so in that case break the rotation into pieces of at most 30 degrees.
 def right(angle):
-    """Turn turtle right by angle units.
+    """Turns the turtle right by angle units.
 
     Aliases: right | rt
 
-    Argument:
-    angle -- a number (integer or float)
+    Args:
+      angle: a number (integer or float)
 
-    Turn turtle right by angle units. (Units are by default degrees,
-    but can be set via the degrees() and radians() functions.)
+    Turns the turtle right by angle units. (Units are by default 
+    degrees, but can be set via the degrees() and radians() functions.)
     Angle orientation depends on mode. 
     """
     global turtle_degree
@@ -628,15 +628,15 @@ rt = right # alias
 
 # Makes the turtle move right by 'degrees' degrees 
 def left(angle):
-    """Turn turtle left by angle units.
+    """Turns the turtle left by angle units.
 
     Aliases: left | lt
 
-    Argument:
-    angle -- a number (integer or float)
+    Args:
+      angle: a number (integer or float)
 
-    Turn turtle left by angle units. (Units are by default degrees,
-    but can be set via the degrees() and radians() functions.)
+    Turns turtle left by angle units. (Units are by default 
+    degrees, but can be set via the degrees() and radians() functions.)
     Angle orientation depends on mode. 
     """
     right(-1 * angle)
@@ -644,18 +644,19 @@ lt = left
 
 # Move the turtle to a designated position.
 def goto(x, y=None):
-    """Move turtle to an absolute position.
+    """Moves turtle to an absolute position.
 
     Aliases: setpos | setposition | goto:
 
-    Arguments:
-    x -- a number      or     a pair of numbers
-    y -- a number             None
+    Args:
+      x: a number       or      a pair of numbers
+      y: a number       or      None
 
-    call: goto(x, y)         # two coordinates
-    --or: goto((x, y))       # a pair (tuple) of coordinates
+    Call: 
+      goto(x, y)        # two coordinates
+      goto((x, y))      # a pair (tuple) of coordinates
 
-    Move turtle to an absolute position. If the pen is down,
+    Moves turtle to an absolute position. If the pen is down,
     a line will be drawn. The turtle's orientation does not change.   
     """
     global turtle_degree
