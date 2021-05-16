@@ -190,6 +190,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     
     The defaults are (800,500), "standard", and 5.
     """
+
     global window_size
     global drawing_window
     global turtle_speed
@@ -378,12 +379,13 @@ def showSVG(turtle=False):
     
     Args:
       turtle: (optional) a boolean that determines if the turtle
-          is included in the svg output
+        is included in the svg output
     
     The SVG commands can be printed on screen (after the drawing is 
     completed) or saved to a file for use in a program like inkscape 
     or Adobe Illustrator, or displaying the image in a webpage.
     """
+
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
@@ -532,6 +534,7 @@ def forward(units):
     Moves the turtle forward by the specified distance, in the 
     direction the turtle is headed.
     """
+
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
     alpha = math.radians(turtle_degree)
@@ -552,6 +555,7 @@ def backward(units):
     to the direction the turtle is headed. Do not change the turtle's 
     heading.
     """
+
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
     forward(-1 * units)
@@ -574,6 +578,7 @@ def right(angle):
     degrees, but can be set via the degrees() and radians() functions.)
     Angle orientation depends on mode. 
     """
+
     global turtle_degree
     global stretchfactor
     global timeout
@@ -639,6 +644,7 @@ def left(angle):
     degrees, but can be set via the degrees() and radians() functions.)
     Angle orientation depends on mode. 
     """
+
     right(-1 * angle)
 lt = left
 
@@ -651,15 +657,14 @@ def goto(x, y=None):
     Args:
       x: a number       or      a pair of numbers
       y: a number       or      None
-
-    Call: 
+ 
       goto(x, y)        # two coordinates
       goto((x,y))       # a pair (tuple) of coordinates
-
 
     Moves turtle to an absolute position. If the pen is down,
     a line will be drawn. The turtle's orientation does not change.   
     """
+
     global turtle_degree
     global tilt_angle
     if isinstance(x, tuple) and y is None:
