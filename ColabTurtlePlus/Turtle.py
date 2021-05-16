@@ -653,8 +653,9 @@ def goto(x, y=None):
       y: a number       or      None
 
     Call: 
-      goto(x, y)        # two coordinates\
-      goto((x, y))      # a pair (tuple) of coordinates
+      goto(x, y)        # two coordinates
+      goto((x,y))       # a pair (tuple) of coordinates
+
 
     Moves turtle to an absolute position. If the pen is down,
     a line will be drawn. The turtle's orientation does not change.   
