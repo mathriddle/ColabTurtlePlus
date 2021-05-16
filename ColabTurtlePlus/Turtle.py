@@ -658,9 +658,7 @@ def goto(x, y=None):
         x: a number     or      a pair of numbers
         y: a number     or      None
 
-    Call:
-        goto(x, y)      # two coordinates
-        goto((x,y))     # a pair (tuple) of coordinates
+        goto(x, y)      or      goto((x,y))     
 
     Moves turtle to an absolute position. If the pen is down,
     a line will be drawn. The turtle's orientation does not change.   
@@ -700,12 +698,13 @@ setposition = goto # alias
 def setx(x):
     """Set the turtle's first coordinate to x
 
-    Argument:
-    x -- a number (integer or float)
+    Args:
+      x: a number (integer or float)
 
     Set the turtle's first coordinate to x, leave second coordinate
     unchanged.
     """
+
     if not isinstance(x, (int,float)):
         raise ValueError('new x position must be a number.')
     goto(x, gety())
@@ -714,12 +713,13 @@ def setx(x):
 def sety(y):
     """Set the turtle's second coordinate to y
 
-    Argument:
-    y -- a number (integer or float)
+    Args:
+      y: a number (integer or float)
 
     Set the turtle's second coordinate to y, leave first coordinate
     unchanged.
     """
+
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
     goto(getx(), y)
@@ -730,9 +730,9 @@ def setheading(angle):
 
     Aliases:  setheading | seth
 
-    Argument:
-    angle -- a number (integer or float) (Units are by default degrees,
-    but can be set via the degrees() and radians() functions.)
+    Args:
+      angle: a number (integer or float) (Units are by default degrees,
+        but can be set via the degrees() and radians() functions.)
 
     Set the orientation of the turtle to angle.
     Here are some common directions in degrees:
@@ -744,6 +744,7 @@ def setheading(angle):
          180 - west              180 - south
          270 - south             270 - west
     """
+
     global turtle_degree
     deg = angle*angle_conv
     if not isinstance(angle, (int,float)):
