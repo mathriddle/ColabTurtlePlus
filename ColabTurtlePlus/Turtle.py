@@ -181,12 +181,12 @@ drawing_window = None
 
 # Construct the display for turtle
 def initializeTurtle(window=None, mode=None, speed=None):
-    """Initialize the turtle and drawing window
+    """Initializes the turtle and drawing window
     
-    Arguments:
-    window (optional) -- (width,height) in pixels
-    mode (optional) -- one of "standard, "logo", or "svg"
-    speed (optional) -- integer in range 0..13
+    Args:
+      window: (optional) the (width,height) in pixels
+      mode: (optional) one of "standard, "logo", or "svg"
+      speed: (optional) integer in range 0..13
     
     The defaults are (800,500), "standard", and 5.
     """
@@ -339,11 +339,11 @@ def _generateSvgDrawing():
 def saveSVG(file, turtle=False):
     """Save the image as an SVG file.
     
-    Arguments:
-    file -- a string giving filename for saved file. The extension 
-            ".svg" will be added if missing.
-    turtle (optional) -- a boolean that determines if the turtle 
-            is included in the svg output saved to the file.
+    Args:
+      file: a string giving filename for saved file. The extension 
+        ".svg" will be added if missing.
+      turtle: (optional) a boolean that determines if the turtle 
+        is included in the svg output saved to the file.
     
     The SVG commands can be printed on screen (after the drawing is 
     completed) or saved to a file for use in a program like inkscape 
