@@ -188,7 +188,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
         mode: (optional) one of "standard, "logo", or "svg"
         speed: (optional) integer in range 0..13
     
-    The defaults are (800,500), "standard", and 5.
+    The defaults are (800,600), "standard", and 5.
     """
 
     global window_size
