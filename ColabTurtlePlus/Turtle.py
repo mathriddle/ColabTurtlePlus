@@ -1498,7 +1498,7 @@ def pencolor(color = None, c2 = None, c3 = None):
     Args:
     Four input formats are allowed:
         
-    `pencolor()`:
+    pencolor():
         Return the current pencolor as color specification string,
         possibly in hex-number format. May be used as input to another 
         color/pencolor/fillcolor call.
@@ -1535,20 +1535,20 @@ def fillcolor(color = None, c2 = None, c3 = None):
     Args:
     Four input formats are allowed:
         
-    *pencolor()*:
+    pencolor():
         Return the current pencolor as color specification string,
         possibly in hex-number format. May be used as input to another 
         color/pencolor/fillcolor call.
             
-    *pencolor(colorstring)*:
+    pencolor(colorstring):
         Colorstring is an htmlcolor specification string, such as "red"
         or "yellow".
             
-    *pencolor((r, g, b))*:
+    pencolor((r, g, b)):
         A tuple of r, g, and b, which represent an RGB color,
         and each of r, g, and b are in the range 0..255.
             
-    *pencolor(r, g, b)*:
+    pencolor(r, g, b):
         r, g, and b represent an RGB color, and each of r, g, and b
         are in the range 0..255.
     
@@ -1566,6 +1566,7 @@ def fillcolor(color = None, c2 = None, c3 = None):
     fill_color = _processColor(color)
     _updateDrawing(0)
 
+# Used to validate a color string
 def _validateColorString(color):
     if color in VALID_COLORS: # 140 predefined html color names
         return True
@@ -1575,6 +1576,7 @@ def _validateColorString(color):
         return True
     return False
 
+# Used to validate if a 3 tuple of integers is a valid RGB color
 def _validateColorTuple(color):
     if len(color) != 3:
         return False
@@ -1584,6 +1586,7 @@ def _validateColorTuple(color):
         return False
     return True
 
+# Helps validate color input to functions
 def _processColor(color):
     if isinstance(color, str):    
         if color == "": color = "none"
