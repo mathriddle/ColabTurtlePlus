@@ -1535,20 +1535,20 @@ def fillcolor(color = None, c2 = None, c3 = None):
     Args:
     Four input formats are allowed:
         
-    `pencolor()`:
+    *pencolor()*:
         Return the current pencolor as color specification string,
         possibly in hex-number format. May be used as input to another 
         color/pencolor/fillcolor call.
             
-    pencolor(colorstring):
+    *pencolor(colorstring)*:
         Colorstring is an htmlcolor specification string, such as "red"
         or "yellow".
             
-    pencolor((r, g, b)):
+    *pencolor((r, g, b))*:
         A tuple of r, g, and b, which represent an RGB color,
         and each of r, g, and b are in the range 0..255.
             
-    pencolor(r, g, b):
+    *pencolor(r, g, b)*:
         r, g, and b represent an RGB color, and each of r, g, and b
         are in the range 0..255.
     
