@@ -1876,6 +1876,7 @@ def oldDefaults():
     DEFAULT_TURTLE_SHAPE = "turtle"
     DEFAULT_WINDOW_SIZE = (800, 500)
     DEFAULT_SPEED = 4
+    shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
 
 #==========================
 # Turtle State - Visibility
