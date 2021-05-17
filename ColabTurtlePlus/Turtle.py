@@ -1123,7 +1123,7 @@ def regularPolygon(sides, length, steps=None):
     Moves the turtle along a regular polygon of size sides, with length being 
     the length of each side. The steps indicates how many sides are drawn.
     
-    The initial and concluding angle is half of the exteral angle.
+    The initial and concluding angle is half of the exterior angle.
    
     Positive values for sides or length draws the polygon to the 
     left of the turtle's current direction, and a negative value for
