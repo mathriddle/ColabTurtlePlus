@@ -344,8 +344,7 @@ def saveSVG(file, turtle=False):
         file: a string giving filename for saved file. The extension 
             ".svg" will be added if missing.
         turtle: an optional boolean that determines if the turtle 
-            is included in the svg output saved to the file.
-            Default is False.
+            is included in the svg output saved to the file. Default is False.
     
     The SVG commands can be printed on screen (after the drawing is 
     completed) or saved to a file for use in a program like inkscape 
@@ -1498,16 +1497,20 @@ def pencolor(color = None, c2 = None, c3 = None):
 
     Args:
         Four input formats are allowed:
+        
         pencolor():
             Return the current pencolor as color specification string,
-            possibly in hex-number format.
-            May be used as input to another color/pencolor/fillcolor call.
+            possibly in hex-number format. May be used as input to another 
+            color/pencolor/fillcolor call.
+            
         pencolor(colorstring):
-            colorstring is an htmlcolor specification string, such as "red"
-            or "yellow"
+            Colorstring is an htmlcolor specification string, such as "red"
+            or "yellow".
+            
         pencolor((r, g, b)):
-            a tuple of r, g, and b, which represent an RGB color,
-            and each of r, g, and b are in the range 0..255
+            A tuple of r, g, and b, which represent an RGB color,
+            and each of r, g, and b are in the range 0..255.
+            
         pencolor(r, g, b):
             r, g, and b represent an RGB color, and each of r, g, and b
             are in the range 0..255
@@ -1531,16 +1534,20 @@ def fillcolor(color = None, c2 = None, c3 = None):
 
     Args:
         Four input formats are allowed:
+        
         pencolor():
             Return the current pencolor as color specification string,
-            possibly in hex-number format.
-            May be used as input to another color/pencolor/fillcolor call.
+            possibly in hex-number format. May be used as input to another 
+            color/pencolor/fillcolor call.
+            
         pencolor(colorstring):
             colorstring is an htmlcolor specification string, such as "red"
             or "yellow"
+            
         pencolor((r, g, b)):
             a tuple of r, g, and b, which represent an RGB color,
             and each of r, g, and b are in the range 0..255
+            
         pencolor(r, g, b):
             r, g, and b represent an RGB color, and each of r, g, and b
             are in the range 0..255
