@@ -126,6 +126,8 @@ Moves the turtle to the point defined by x,y. The coordinates can be given separ
 
 `drawline(x1,y1,x2,y2)` -> Draw a line from (x1,y1) to (x2.y2)
 
+`regularPolygon(sides,length,steps)` -> Moves the turtle around a regular polygon of size sides, with length being the length of each side. The optional steps argument indicates how many sides are drawn. The initial and concluding angle is half of the external angle. Positive values for sides or length draws the polygon to the left of the turtle's current direction, and a negative value foreither sides or length draws it to the right of the turtle's current direction. The number of sides from 3 to 10 can also be given as a string using the name of the regular polygon (i.e. "triangle", "square", "pentagon", etc.)
+
 #### Turtle Motion - Tell Turtle's State
 
 `position() | pos()` -> Returns the current x,y coordinates of the turtle as a tuple.
