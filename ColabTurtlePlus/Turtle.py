@@ -727,9 +727,9 @@ def sety(y):
 
 # Makes the turtle face a given direction
 def setheading(angle):
-    """Set the orientation of the turtle to angle.
+    """Set the orientation of the turtle to angle
 
-    Aliases:  setheading | seth
+    Aliases: setheading | seth
 
     Args:
         angle: a number (integer or float) 
@@ -772,7 +772,7 @@ face = setheading # alias
 # Move turtle to the origin and set its heading to its 
 # start-orientation (which depends on the mode).
 def home():
-    """Moves turtle to the origin - coordinates (0,0).
+    """Moves the turtle to the origin - coordinates (0,0).
 
     No arguments.
 
@@ -1072,7 +1072,7 @@ def speed(speed = None):
         
 # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
 def done():
-    """Show the final image when speed=0
+    """Shows the final image when speed=0
     
     No argument
     
@@ -1085,15 +1085,16 @@ def done():
 
 # Draw a line from diego2500garza
 def drawline(x_1,y_1,x_2,y_2):
-    """Draw a line between two points
+    """Draws a line between two points
     
-    Arguments:
-    x_1,y_1 -- coordinates of first point
-    x_2,y_2 -- coordinates of second point
+    Args:
+        x_1,y_1 : coordinates of first point
+        x_2,y_2 : coordinates of second point
     
     Draws a line from (x_1,y_1) to (x_2,y_2). This line is 
     independent of the turtle motion.
     """
+
     global svg_lines_string
     svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
         x1=_convertx(x_1),
@@ -1111,23 +1112,26 @@ def drawline(x_1,y_1,x_2,y_2):
 # Sets fillcolor to "none" if necessary and turns on filling so that the polygon is coded as one path for SVG purposes rather than
 # as a sequence of line segments.
 def regularPolygon(sides, length, steps=None):
-    """ Draw a regular polygon 
+    """Draws a regular polygon 
     
-    Arguments:
-    sides -- an integer giving the number of sides of the polygon, or
-             a string with the name of a regular polygon of at most 10 sides
-    length -- a number giving the length of each side
-    steps (optional) -- an integer indicating how many sides of the
-             polygon to draw
+    Args:
+        sides: an integer giving the number of sides of the polygon, or
+            a string with the name of a regular polygon of at most 10 sides
+        length: a number giving the length of each side
+        steps: an optional integer indicating how many sides of the
+            polygon to draw
     
-    Move along a regular polygon of size sides, with length being the 
-    length of each side. The steps indicates how many sides are drawn.
-    The initial and concluding angle is half of the exteral angle. 
+    Moves the turtle along a regular polygon of size sides, with length being 
+    the length of each side. The steps indicates how many sides are drawn.
+    
+    The initial and concluding angle is half of the exteral angle.
+   
     Positive values for sides or length draws the polygon to the 
     left of the turtle's current direction, and a negative value for
     either sides or length draws it to the right of the turtle's current 
     direction.
     """
+
     global fill_color
     polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
     if sides in polygons:
@@ -1167,31 +1171,34 @@ def regularPolygon(sides, length, steps=None):
 
 # Retrieve the turtle's current position as a (x,y) tuple vector in current coordinate system
 def position():
-    """Return the turtle's current location (x,y)
+    """Returns the turtle's current location (x,y)
 
     Aliases: pos | position
 
-    No arguments
+    Returns:
+        tuple: the current turtle location (x,y)
     """
+
     return (turtle_pos[0]/xscale+xmin, ymax-turtle_pos[1]/yscale)
 pos = position # alias
 
 # Return the angle between the line from turtle position to position specified by (x,y)
 # This depends on the turtle’s start orientation which depends on the mode - standard/world or logo.  
 def towards(x, y=None):
-    """Return the angle of the line from the turtle's position to (x, y).
+    """Returns the angle of the line from the turtle's position to (x, y).
 
-    Arguments:
-    x -- a number   or  a pair of numbers
-    y -- a number       None             
+    Args:
+        x: a number     or      a pair of numbers
+        y: a number     or      None             
+ 
+    distance(x, y)      or      distance((x, y))
 
-    call: distance(x, y)         # two coordinates
-    --or: distance((x, y))       # a pair (tuple) of coordinates
-
-    Return the angle, between the line from turtle-position to position
-    specified by x, y and the turtle's start orientation. (Depends on
-    modes - "standard" or "logo" or "svg")
+    Returns:
+        The angle between the line from turtle-position to position
+            specified by x,y and the turtle's start orientation. 
+            (Depends on modes - "standard" or "logo" or "svg")
     """
+
     if isinstance(x, tuple) and y is None:
         if len(x) != 2:
             raise ValueError('The tuple argument must be of length 2.')
@@ -1219,28 +1226,22 @@ def towards(x, y=None):
 
 # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
 def xcor():
-    """ Return the turtle's x coordinate.
+    """Returns the turtle's x coordinate."""
 
-    No arguments.
-    """
     return(turtle_pos[0]/xscale+xmin)
 getx = xcor # alias
 
 # Retrieve the turtle's currrent 'y' y-coordinate in current coordinate system
 def ycor():
-    """ Return the turtle's y coordinate.
-
-    No arguments.
-    """   
+    """Return the turtle's y coordinate."""
+   
     return(ymax-turtle_pos[1]/yscale)
 gety = ycor # alias
 
 # Retrieve the turtle's current angle in current angle_mode
 def heading():
-    """ Return the turtle's current heading.
+    """Returns the turtle's current heading"""
 
-    No arguments.
-    """
     if _mode in ["standard","world"]:
         angle = (360 - turtle_degree) % 360
     elif _mode == "logo":
@@ -1257,13 +1258,13 @@ getheading = heading # alias
 def distance(x, y=None):
     """Return the distance from the turtle to (x,y) in turtle step units.
 
-    Arguments:
-    x -- a number   or  a pair of numbers  
-    y -- a number       None      
+    Args:
+        x: a number     or      a pair of numbers  
+        y: a number     or      None      
 
-    call: distance(x, y)         # two coordinates
-    --or: distance((x, y))       # a pair (tuple) of coordinates
+    distance(x, y)      or      distance((x, y))
     """
+
     if isinstance(x, tuple) and y is None:
         if len(x) != 2:
             raise ValueError('The tuple argument must be of length 2.')
@@ -1281,10 +1282,8 @@ def distance(x, y=None):
 
 # Set the angle measurement units to radians.
 def radians():
-    """ Set the angle measurement units to radians.
+    """ Sets the angle measurement units to radians."""
 
-    No arguments.
-    """
     global angle_conv
     global angle_mode
     global fullcircle
@@ -1293,10 +1292,8 @@ def radians():
 
 # Set the angle measurement units to degrees.
 def degrees():
-    """ Set the angle measurement units to radians.
+    """ Sets the angle measurement units to radians."""
 
-    No arguments.
-    """
     global angle_conv
     global angle_mode
     global fullcircle
@@ -1309,12 +1306,11 @@ def degrees():
 
 # Lowers the pen such that following turtle moves will now cause drawings
 def pendown():
-    """Pull the pen down -- drawing when moving.
+    """Pulls the pen down -- drawing when moving.
 
     Aliases: pendown | pd | down
-
-    No argument.
     """
+
     global is_pen_down
     is_pen_down = True
 pd = pendown # alias
@@ -1322,12 +1318,11 @@ down = pendown # alias
 
 # Raises the pen such that following turtle moves will not cause any drawings
 def penup():
-    """Pull the pen up -- no drawing when moving.
+    """Pulls the pen up -- no drawing when moving.
 
     Aliases: penup | pu | up
-
-    No argument
     """
+
     global is_pen_down
     is_pen_down = False
 pu = penup # alias
@@ -1336,16 +1331,17 @@ up = penup # alias
 # Change the width of the lines drawn by the turtle, in pixels
 # If the function is called without arguments, it returns the current width
 def pensize(width = None):
-    """Set or return the line thickness.
+    """Sets or returns the line thickness.
 
     Aliases:  pensize | width
 
-    Argument:
-    width -- positive number
+    Args:
+        width: positive number
 
     Set the line thickness to width or return it. If no argument is given,
     current pensize is returned.
     """
+
     global pen_width
     if width is None:
         return pen_width
@@ -1360,31 +1356,32 @@ width = pensize  #alias
 
 # Return or set the pen's attributes
 def pen(dictname=None, **pendict):
-    """Return or set the pen's attributes.
+    """Returns or set the pen's attributes.
 
-    Arguments:
-    pen -- a dictionary with some or all of the below listed keys.
-    **pendict -- one or more keyword-arguments with the below
-                 listed keys as keywords.
+    Args:
+        pen: a dictionary with some or all of the below listed keys.
+        **pendict: one or more keyword-arguments with the below
+            listed keys as keywords.
 
-    Return or set the pen's attributes in a 'pen-dictionary'
+    Returns or sets the pen's attributes in a 'pen-dictionary'
     with the following key/value pairs:
-           "shown"      :   True/False
-           "pendown"    :   True/False
-           "pencolor"   :   color-string or color-tuple
-           "fillcolor"  :   color-string or color-tuple
-           "pensize"    :   positive number
-           "speed"      :   number in range 0..10
-           "stretchfactor": (positive number, positive number)
-           "shearfactor":   number
-           "outline"    :   positive number
-           "tilt"       :   number
+           "shown"         :   True/False
+           "pendown"       :   True/False
+           "pencolor"      :   color-string or color-tuple
+           "fillcolor"     :   color-string or color-tuple
+           "pensize"       :   positive number
+           "speed"         :   number in range 0..13
+           "stretchfactor" :   (positive number, positive number)
+           "shearfactor"   :   number
+           "outline"       :   positive number
+           "tilt"          :   number
 
     This dictionary can be used as argument for a subsequent
     pen()-call to restore the former pen-state. Moreover one
     or more of these attributes can be provided as keyword-arguments.
     This can be used to set several pen attributes in one statement.
     """
+
     global is_turtle_visible
     global is_pen_down
     global pen_color
@@ -1447,10 +1444,8 @@ def pen(dictname=None, **pendict):
     _updateDrawing(0)
 
 def isdown():
-    """Return True if pen is down, False if it's up.
+    """Return True if pen is down, False if it's up."""
 
-    No argument.
-    """
     return is_pen_down
 
 #============================
@@ -1459,24 +1454,25 @@ def isdown():
         
 # Return or set pencolor and fillcolor
 def color(*args):
-    """Return or set the pencolor and fillcolor.
+    """Returns or sets the pencolor and fillcolor.
 
-    Arguments:
-    Several input formats are allowed.
-    They use 0, 1, 2, or 3 arguments as follows:
+    Args:
+        Several input formats are allowed.
+        They use 0, 1, 2, or 3 arguments as follows:
 
-    color()
-       Return the current pencolor and the current fillcolor
-       as a pair of color specification strings as are returned
-       by pencolor and fillcolor.
-    color(colorstring), color((r,g,b)), color(r,g,b)
-       inputs as in pencolor, set both, fillcolor and pencolor,
-       to the given value.
-    color(colorstring1, colorstring2),
-    color((r1,g1,b1), (r2,g2,b2))
-       equivalent to pencolor(colorstring1) and fillcolor(colorstring2)
-       and analogously, if the other input format is used.
+        color()
+            Return the current pencolor and the current fillcolor
+            as a pair of color specification strings as are returned
+            by pencolor and fillcolor.
+        color(colorstring), color((r,g,b)), color(r,g,b)
+            inputs as in pencolor, set both, fillcolor and pencolor,
+            to the given value.
+        color(colorstring1, colorstring2),
+        color((r1,g1,b1), (r2,g2,b2))
+            equivalent to pencolor(colorstring1) and fillcolor(colorstring2)
+            and analogously, if the other input format is used.
     """
+
     global pen_color
     global fill_color
     if args:
@@ -1498,24 +1494,25 @@ def color(*args):
 # Change the color of the pen
 # If no params, return the current pen color
 def pencolor(color = None, c2 = None, c3 = None):
-    """ Return or set the pencolor.
+    """Returns or sets the pencolor.
 
-    Arguments:
-    Four input formats are allowed:
-      - pencolor()
-        Return the current pencolor as color specification string,
-        possibly in hex-number format.
-        May be used as input to another color/pencolor/fillcolor call.
-      - pencolor(colorstring)
-        colorstring is an htmlcolor specification string, such as "red"
-        or "yellow"
-      - pencolor((r, g, b))
-        a tuple of r, g, and b, which represent an RGB color,
-        and each of r, g, and b are in the range 0..255
-      - pencolor(r, g, b)
-        r, g, and b represent an RGB color, and each of r, g, and b
-        are in the range 0..255
+    Args:
+        Four input formats are allowed:
+        pencolor():
+            Return the current pencolor as color specification string,
+            possibly in hex-number format.
+            May be used as input to another color/pencolor/fillcolor call.
+        pencolor(colorstring):
+            colorstring is an htmlcolor specification string, such as "red"
+            or "yellow"
+        pencolor((r, g, b)):
+            a tuple of r, g, and b, which represent an RGB color,
+            and each of r, g, and b are in the range 0..255
+        pencolor(r, g, b):
+            r, g, and b represent an RGB color, and each of r, g, and b
+            are in the range 0..255
     """
+
     global pen_color
     if color is None:
         return pen_color
@@ -1532,24 +1529,25 @@ def pencolor(color = None, c2 = None, c3 = None):
 def fillcolor(color = None, c2 = None, c3 = None):
     """ Return or set the fillcolor.
 
-    Arguments:
-    Four input formats are allowed:
-      - pencolor()
-        Return the current pencolor as color specification string,
-        possibly in hex-number format.
-        May be used as input to another color/pencolor/fillcolor call.
-      - pencolor(colorstring)
-        colorstring is an htmlcolor specification string, such as "red" 
-        or "yellow"
-      - pencolor((r, g, b))
-        a tuple of r, g, and b, which represent an RGB color,
-        and each of r, g, and b are in the range 0..255
-      - pencolor(r, g, b)
-        r, g, and b represent an RGB color, and each of r, g, and b
-        are in the range 0..255
+    Args:
+        Four input formats are allowed:
+        pencolor():
+            Return the current pencolor as color specification string,
+            possibly in hex-number format.
+            May be used as input to another color/pencolor/fillcolor call.
+        pencolor(colorstring):
+            colorstring is an htmlcolor specification string, such as "red"
+            or "yellow"
+        pencolor((r, g, b)):
+            a tuple of r, g, and b, which represent an RGB color,
+            and each of r, g, and b are in the range 0..255
+        pencolor(r, g, b):
+            r, g, and b represent an RGB color, and each of r, g, and b
+            are in the range 0..255
     
     The interior of the turtle is drawn with the newly set fillcolor.
     """
+
     global fill_color
     if color is None:
         return fill_color
@@ -1596,11 +1594,15 @@ def _processColor(color):
 
 # Get the color corresponding to position n in the valid color list
 def getcolor(n):
-    """ Return the color string in the valid color list at position n
+    """ Returns the color string in the valid color list at position n
     
-    Argument:
-    n -- an integer between 0 and 139
+    Args:
+        n: an integer between 0 and 139
+    
+    Returns:
+        str: color string in the valid color list at position n
     """
+
     if not isinstance(n,(int,float)):
         raise valueError("color index must be an integer between 0 and 139")
     n = int(round(n))
@@ -1615,10 +1617,8 @@ def getcolor(n):
 
 # Return fillstate (True if filling, False else)
 def filling():
-    """Return fillstate (True if filling, False else).
+    """Return fillstate (True if filling, False else)."""
 
-    No argument.
-    """
     global is_filling
     return is_filling
 
@@ -1630,9 +1630,9 @@ def filling():
 def begin_fill(rule=None, opacity=None):
     """Called just before drawing a shape to be filled.
 
-    Arguments:
-    rule (optional) -- Either evenodd or nonzero
-    opacity (optional) -- a number between 0 and 1
+    Args:
+        rule: (optional) either evenodd or nonzero
+        opacity: (optional) a number between 0 and 1
     
     Because the fill is controlled by svg rules, the result may differ
     from classic turtle fill. The fill-rule and fill-opacity can be set 
@@ -1641,6 +1641,7 @@ def begin_fill(rule=None, opacity=None):
     to specify for the SVG fill-rule: 'nonzero' (default) and 'evenodd'. 
     The fill-opacity attribute ranges from 0 (transparent) to 1 (solid). 
     """
+
     global is_filling
     global svg_lines_string_orig
     global svg_fill_string
@@ -1667,10 +1668,8 @@ def begin_fill(rule=None, opacity=None):
 # The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands. 
 def end_fill():
-    """Fill the shape drawn after the call begin_fill().
+    """Fill the shape drawn after the call begin_fill()."""
 
-    No argument.
-    """
     global is_filling   
     global svg_lines_string
     global svg_fill_string
@@ -1690,11 +1689,13 @@ def end_fill():
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
 # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
 def fillrule(rule=None):
-    """ Allow user to set the global svg fill-rule.
+    """Allows user to set the global svg fill-rule.
 
-    Arguments:
-    rule (optional) -- Either evenodd or nonzero
+    Args:
+        rule: (optional) Either evenodd or nonzero
+            Default is current fill-rule
     """
+
     global fill_rule
     if rule is None:
         return fill_rule
@@ -1708,11 +1709,13 @@ def fillrule(rule=None):
 # Allow user to set the svg fill-opacity. If no argument, return current fill-opacity.
 # This can be overridden for an individual object by setting the fill-opacity as an argument to begin_fill().
 def fillopacity(opacity=None):
-    """ Allow user to set the global svg fill-opacity.
+    """Allows user to set the global svg fill-opacity.
 
-    Arguments:
-    opacity (optional) -- a number between 0 and 1
+    Args:
+        opacity: (optional) a number between 0 and 1
+            Default is current fill-opacity
     """
+
     global fill_opacity
     if opacity is None:
         return fill_opacity
@@ -1728,10 +1731,8 @@ def fillopacity(opacity=None):
 
 # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
 def reset():
-    """Reset the turtle to its initial state and clears drawing.
+    """Resets the turtle to its initial state and clears drawing."""
 
-    No argument.
-    """
     global is_turtle_visible
     global pen_color
     global is_pen_down
@@ -1772,10 +1773,8 @@ def reset():
 
 # Clear any text or drawing on the screen
 def clear():
-    """Clear any text or drawing on the screen
+    """Clears any text or drawing on the screen."""
     
-    No argument.
-    """
     global svg_lines_string
     global svg_fill_string
     global svg_dots_string
@@ -1788,15 +1787,18 @@ def clear():
 def write(obj, **kwargs):
     """Write text at the current turtle position.
 
-    Arguments:
-    obj -- info, which is to be written to the TurtleScreen 
-    align (optional) -- one of the strings "left", "center" or right"
-    font (optional) -- a triple (fontname, fontsize, fonttype)
+    Args:
+        obj: string which is to be written to the TurtleScreen
+        **kwargs:
+            align: (optional) one of the strings "left", "center" or right"
+            font: (optional) a triple (fontsize, fontname, fonttype)
 
-    Write text - the string representation of obj - at the current
-    turtle position according to align ("left", "center" or right")
-    and with the given font.
+    Write the string text at the current turtle position according 
+    to align ("left", "center" or right") and with the given font.
+    
+    Defaults are left, ('Arial', 12, 'normal')
     """
+
     global svg_lines_string
     global turtle_pos
     text = str(obj)
@@ -1818,7 +1820,7 @@ def write(obj, **kwargs):
         if len(font) != 3 or isinstance(font[0], int) == False \
                           or isinstance(font[1], str) == False \
                           or font[2] not in {'bold','italic','underline','normal'}:
-            raise ValueError('Font parameter must be a triplet consisting of font size (int), font family (str) and font type. Font type can be one of {bold, italic, underline, normal}')
+            raise ValueError('Font parameter must be a triplet consisting of font size (int), font family (str), and font type (str). Font type can be one of {bold, italic, underline, normal}')
         font_size = font[0]
         font_family = font[1]
         font_type = font[2]
@@ -1846,10 +1848,8 @@ def write(obj, **kwargs):
 
 # Set the defaults used in the original version of ColabTurtle package
 def oldDefaults():
-    """Set the defaults used in the original version of ColabTurtle package
-    
-    No argument.
-    """
+    """Set the defaults used in the original version of ColabTurtle package."""
+
     global DEFAULT_BACKGROUND_COLOR
     global DEFAULT_PEN_COLOR
     global DEFAULT_PEN_WIDTH
@@ -1876,9 +1876,8 @@ def showturtle():
     """Makes the turtle visible.
 
     Aliases: showturtle | st
-
-    No argument.
     """
+
     global is_turtle_visible
     is_turtle_visible = True
     _updateDrawing(0)
@@ -1889,19 +1888,16 @@ def hideturtle():
     """Makes the turtle invisible.
 
     Aliases: hideturtle | ht
-
-    No argument.
     """
+
     global is_turtle_visible
     is_turtle_visible = False
     _updateDrawing(0)
 ht = hideturtle # alias
 
 def isvisible():
-    """Return True if the Turtle is shown, False if it's hidden.
+    """Return True if the Turtle is shown, False if it's hidden."""
 
-    No argument.
-    """
     return is_turtle_visible
 
 #==========================
@@ -1910,19 +1906,21 @@ def isvisible():
 
 # Set turtle shape to shape with given name or, if name is not given, return name of current shape
 def shape(name=None):
-    """Set turtle shape to shape with given name / return current shapename.
+    """Sets turtle shape to shape with given name / return current shapename.
 
-    Optional argument:
-    name -- a string, which is a valid shapename
+    Args:
+        name: an optional string, which is a valid shapename
 
-    Set turtle shape to shape with given name or, if name is not given,
-    return name of current shape.
+    Sets the turtle shape to shape with given name or, if name is not given,
+    returns the name of current shape.
+    
     The possible turtle shapes include the ones from turtle.py: 
     'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. 
     The 'turtle' shape is the one that Tolga Atam included in his original 
     ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
     turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
     """
+
     global turtle_shape
     if name is None:
         return turtle_shape
@@ -1935,19 +1933,20 @@ def shape(name=None):
 # stretch_wid scales perpendicular to orientation
 # stretch_len scales in direction of turtle's orientation
 def shapesize(stretch_wid=None, stretch_len=None, outline=None):
-    """Set/return turtle's stretchfactors/outline.
+    """Sets/returns turtle's stretchfactors/outline.
 
-    Optional arguments:
-       stretch_wid : positive number
-       stretch_len : positive number
-       outline  : positive number
+    Args:
+        stretch_wid: positive number
+        stretch_len: positive number
+        outline: positive number
 
-    Return or set the pen's attributes x/y-stretchfactors and/or outline.
-    The turtle will be displayed stretched according to its stretchfactors:
+    Returns or sets the pen's attributes x/y-stretchfactors and/or outline.
+    The turtle will be displayed stretched according to its stretchfactors.
     stretch_wid is stretchfactor perpendicular to orientation
     stretch_len is stretchfactor in direction of turtles orientation.
     outline determines the width of the shapes's outline.
     """
+
     global stretchfactor
     global outline_width
 
@@ -1980,17 +1979,20 @@ turtlesize = shapesize #alias
 # Do not change the turtle’s heading (direction of movement). If shear is not given: return the current shearfactor, i. e. 
 # the tangent of the shear angle, by which lines parallel to the heading of the turtle are sheared.
 def shearfactor(shear=None):
-    """Set or return the current shearfactor.
+    """Sets or returns the current shearfactor.
 
-    Optional argument: shear -- number, tangent of the shear angle
+    Args:
+        shear: number, tangent of the shear angle
 
-    Shear the turtleshape according to the given shearfactor shear,
-    which is the tangent of the shear angle. DO NOT change the
+    Shears the turtleshape according to the given shearfactor shear,
+    which is the tangent of the shear angle. DOES NOT change the
     turtle's heading (direction of movement).
-    If shear is not given: return the current shearfactor, i. e. the
+    
+    If shear is not given, returns the current shearfactor, i. e. the
     tangent of the shear angle, by which lines parallel to the
     heading of the turtle are sheared.
     """
+
     global shear_factor
     if shear is None:              
         return round(math.tan((360-shear_factor)*math.pi/180),8)
@@ -2000,15 +2002,18 @@ def shearfactor(shear=None):
 # Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
 # DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
 def settiltangle(angle):
-    """Rotate the turtleshape to point in the specified direction
+    """Rotates the turtleshape to point in the specified direction
 
-    Argument: angle -- number
+    Args:
+        angle: number
 
-    Rotate the turtleshape to point in the direction specified by angle,
-    regardless of its current tilt-angle. DO NOT change the turtle's
+    Rotates the turtleshape to point in the direction specified by angle,
+    regardless of its current tilt-angle. DOES NOT change the turtle's
     heading (direction of movement).
+    
     Deprecated since Python version 3.1.
     """
+
     global tilt_angle
     tilt_angle = angle*angle_conv
     _updateDrawing(0)  
@@ -2018,17 +2023,20 @@ def settiltangle(angle):
 # Do not change the turtle’s heading (direction of movement). If angle is not given: return the current tilt-angle, 
 # i. e. the angle between the orientation of the turtleshape and the heading of the turtle (its direction of movement).
 def tiltangle(angle=None):
-    """Set or return the current tilt-angle.
+    """Sets or returns the current tilt-angle.
 
-    Optional argument: angle -- number
+    Args:
+        angle: number
 
-    Rotate the turtleshape to point in the direction specified by angle,
-    regardless of its current tilt-angle. DO NOT change the turtle's
+    Rotates the turtle shape to point in the direction specified by angle,
+    regardless of its current tilt-angle. DOES NOT change the turtle's
     heading (direction of movement).
-    If angle is not given: return the current tilt-angle, i. e. the angle
+    
+    If angle is not given: returns the current tilt-angle, i. e. the angle
     between the orientation of the turtleshape and the heading of the
     turtle (its direction of movement).
     """
+
     global tilt_angle
     global turtle_degree
     global tilt_angle
@@ -2048,14 +2056,15 @@ def tiltangle(angle=None):
 
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
 def tilt(angle):
-    """Rotate the turtleshape by angle.
+    """Rotates the turtleshape by angle.
 
-    Argument:
-    angle - a number
+    Args:
+        angle: a number
 
-    Rotate the turtleshape by angle from its current tilt-angle,
-    but do NOT change the turtle's heading (direction of movement).
+    Rotates the turtle shape by angle from its current tilt-angle,
+    but does NOT change the turtle's heading (direction of movement).
     """
+
     global tilt_angle
     global turtle_degree
     if turtle_speed != 0 and animate:
@@ -2080,11 +2089,13 @@ def tilt(angle):
 # If color='none', the drawing window will have no background fill.
 # If no params, return the current background color
 def bgcolor(color = None, c2 = None, c3 = None):
-    """Set or return the background color of the drawing area
+    """Sets or returns the background color of the drawing area
 
-    Arguments (if given): a color string or three numbers
-    in the range 0..255 or a 3-tuple of such numbers.
+    Args:
+        a color string or three numbers in the range 0..255 
+        or a 3-tuple of such numbers.
     """
+
     global background_color
     if color is None:
         return background_color
@@ -2098,30 +2109,30 @@ def bgcolor(color = None, c2 = None, c3 = None):
 
 # Return turtle window width
 def window_width():
-    """Return turtle window width
-    """
+    """Returns the turtle window width"""
+
     return window_size[0]
 
 # Return turtle window height
 def window_height():
-    """Return turtle window height
-    """
+    """Returns the turtle window height"""
     return window_size[1]
 
 # Set up user-defined coordinate system using lower left and upper right corners.
 # ATTENTION: in user-defined coordinate systems angles may appear distorted.
 def setworldcoordinates(llx, lly, urx, ury):
-    """Set up a user defined coordinate-system.
+    """Sets up a user defined coordinate-system.
 
-    Arguments:
-    llx -- a number, x-coordinate of lower left corner of canvas
-    lly -- a number, y-coordinate of lower left corner of canvas
-    urx -- a number, x-coordinate of upper right corner of canvas
-    ury -- a number, y-coordinate of upper right corner of canvas
+    Args:
+        llx: a number, x-coordinate of lower left corner of window
+        lly: a number, y-coordinate of lower left corner of window
+        urx: a number, x-coordinate of upper right corner of window
+        ury: a number, y-coordinate of upper right corner of window
 
-    ATTENTION: in user-defined coordinate systems angles may appear
+    ATTENTION: In user-defined coordinate systems, angles may appear
     distorted.
     """
+
     global xmin
     global xmax
     global ymin
@@ -2145,11 +2156,16 @@ def setworldcoordinates(llx, lly, urx, ury):
     
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
 def showborder(color = None, c2 = None, c3 = None):
-    """Show a border around the graphics window.
+    """Shows a border around the graphics window.
     
-    Default (no parameters) is gray. A border can be turned off by 
+    Args:
+        a color string or three numbers in the range 0..255 
+        or a 3-tuple of such numbers.
+        
+    Default (no argument values) is gray. A border can be turned off by 
     setting color='none' (or use hideborder())
     """
+
     global border_color
     if color is None:
         color = "gray"
@@ -2163,15 +2179,15 @@ def showborder(color = None, c2 = None, c3 = None):
 
 # Hide the border around the graphics window.    
 def hideborder():
-    """Hide the border around the graphics window. 
-    """
+    """Hides the border around the graphics window."""
+
     global border_color
     border_color = "none"
     _updateDrawing(0)
 
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
 def mode(mode=None):
-    """Set turtle mode
+    """Sets turtle mode
     
     Arg:
         One of “standard”, “logo”, “world”, or "svg"
@@ -2206,31 +2222,29 @@ def mode(mode=None):
 
 # Delay execution of next object for given delay time (in seconds)
 def delay(delay_time):
-   """Delay execution of next object
+   """Delays execution of next object
    
-   Arguement:
-   delay_time -- positive number (in seconds)
+   Args:
+   delay_time: positive number giving time in seconds
    """
+
    time.sleep(delay_time)
 
 # Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
 def animationOff():
-    """Turn off animation
-    
-    No argument.
+    """Turns off animation
     
     Forward/back/circle makes the turtle jump and likewise left/right 
     makes the turtle turn instantly.
     """
+
     global animate
     animate = False
         
 # Turn animation on.
 def animationOn():
-    """Turn animation on
-    
-    No argument.
-    """
+    """Turns animation on"""
+
     global animate
     animate = True
 
