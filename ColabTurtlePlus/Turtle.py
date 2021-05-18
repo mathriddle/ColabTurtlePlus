@@ -1063,7 +1063,8 @@ def speed(speed = None):
         turtle_speed = speeds[speed]
     elif not isinstance(speed,(int,float)):
         raise ValueError("speed should be a number between 0 and 13")
-    elif 0.5 < speed < 13.5:
+    turtle_speed = speed
+    if 0.5 < speed < 13.5:
         turtle_speed = int(round(speed))
     elif speed != 0:
         turtle_speed = 13
