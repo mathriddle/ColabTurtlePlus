@@ -1065,7 +1065,7 @@ def speed(speed = None):
         raise ValueError("speed should be a number between 0 and 13")
     elif 0.5 < speed < 13.5:
         turtle_speed = int(round(speed))
-    else:
+    elif speed != 0:
         turtle_speed = 13
     timeout = _speedToSec(turtle_speed) 
         
