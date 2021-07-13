@@ -262,3 +262,8 @@ Works the same as `pencolor` for the background color.
 `animationOff()`\
 `animationOn`\
 Turn off\on animation. When off, forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
+
+Examples
+---
+
+Examples of using ColabTurtlePlus in a Colaboratory or JupyterLab noteboook can be found in the folder Lab_examples.
