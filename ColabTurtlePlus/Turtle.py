@@ -2164,9 +2164,9 @@ def setworldcoordinates(llx, lly, urx, ury):
     global _mode
     global turtle_pos
     global turtle_degree
-    if drawing_window == None:
+    #if drawing_window == None:
         #raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    elif (urx-llx <= 0):
+    if (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
     elif (ury-lly <= 0):
         raise ValueError("Lower left y-coordinate should be less than upper right y-coordinate")                      
