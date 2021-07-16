@@ -2152,6 +2152,8 @@ def setworldcoordinates(llx, lly, urx, ury):
     global xscale
     global yscale
     global _mode
+    global turtle_pos
+    global turtle_degree
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     elif (urx-llx <= 0):
@@ -2167,7 +2169,6 @@ def setworldcoordinates(llx, lly, urx, ury):
     _mode = "world"
     turtle_pos = (_convertx(0),_converty(0))
     turtle_degree = DEFAULT_TURTLE_DEGREE
-    print(turtle_pos)
     clear()
     
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
