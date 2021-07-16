@@ -2167,6 +2167,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     _mode = "world"
     turtle_pos = (_convertx(0),_converty(0))
     turtle_degree = DEFAULT_TURTLE_DEGREE
+    print(turtle_pos)
     clear()
     
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
