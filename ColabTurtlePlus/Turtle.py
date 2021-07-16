@@ -238,7 +238,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
     timeout = _speedToSec(turtle_speed)
     
     if mode is None:
-        _mode = DEFAULT_MODE
+        if _mode != "world":
+            _mode = DEFAULT_MODE
     elif mode not in VALID_MODES:
         raise ValueError('Mode must be standard, world, logo, or svg')
     else:
