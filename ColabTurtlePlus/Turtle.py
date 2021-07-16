@@ -244,6 +244,15 @@ def initializeTurtle(window=None, mode=None, speed=None):
     else:
         _mode = mode
     
+    if _mode == "world":
+        if ymax-ymin > xmax-xmin:
+            ysize = window_size[1]
+            window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
+        else:
+            xsize = window_size[0]
+            window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
+        xscale = window_size[0]/(xmax-xmin)
+        yscale = window_size[1]/(ymax-ymin)               
     if _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
@@ -254,7 +263,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
         yscale = -1
        
     is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
-    turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    if _mode != "world":
+        turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     background_color = DEFAULT_BACKGROUND_COLOR
     pen_color = DEFAULT_PEN_COLOR
@@ -2155,7 +2165,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     global turtle_pos
     global turtle_degree
     if drawing_window == None:
-        raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
+        #raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     elif (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
     elif (ury-lly <= 0):
