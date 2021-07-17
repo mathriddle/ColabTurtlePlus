@@ -13,7 +13,8 @@ It uses html capabilites of IPython library to draw svg shapes inline.
 Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.appspot.com/turtle)
 
 --------
-Modified April/May 2021 by Larry Riddle
+v1.0.0 Modified April/May 2021 by Larry Riddle
+v.1.1.0 Updated July 17
 Changed some default values to match classic turtle.py package
   default background color is white, default pen color is black, default pen thickness is 1
   default mode is "standard"
@@ -21,6 +22,7 @@ Changed some default values to match classic turtle.py package
 Added option for selecting a mode when initializing the turtle graphics
   "standard" : default direction is to the right (east) and positive angles measured counterclockwise
   "logo" : default directon is upward (north) and positive angles are measured clockwise with 0° pointing up.
+  "world" : like standard but with user-defined coordinates. Initial turtle position is (0,0).
   "svg": This is a special mode to handle how the original ColabTurtle worked. The coordinate system is the same
          as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
          positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
@@ -31,7 +33,8 @@ Added additional shapes from classic turtle.py: 'classic' (the default shape), '
 Added speed=0 option that displays final image with no animation. 
   Added done function so that final image is displayed on screen when speed=0.
 Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
-  This should be done immediately after initializing the turtle window.
+  This should be done immediately *before* initializing the turtle window. The graphic window is set to maintain
+  the same aspect ratio as the axes, so angles are true.
 Added towards function to return the angle between the line from turtle position to specified position.
 Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function and fillrule function.
   The fillrule function can be used to specify the SVG fill_rule (nonzero or evenodd). The default is evenodd to match turtle.py behavior.
@@ -185,7 +188,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     
     Args:
         window: (optional) the (width,height) in pixels
-        mode: (optional) one of "standard, "logo", or "svg"
+        mode: (optional) one of "standard, "logo", "world", or "svg"
         speed: (optional) integer in range 0..13
     
     The defaults are (800,600), "standard", and 5.
@@ -237,14 +240,24 @@ def initializeTurtle(window=None, mode=None, speed=None):
         turtle_speed = speed
     timeout = _speedToSec(turtle_speed)
     
-    if mode is None:
-        _mode = DEFAULT_MODE
-    elif mode not in VALID_MODES:
-        raise ValueError('Mode must be standard, world, logo, or svg')
-    else:
-        _mode = mode
+    if _mode != "world":   
+        if mode is None:
+            _mode = DEFAULT_MODE
+        elif mode not in VALID_MODES:
+            raise ValueError('Mode must be standard, world, logo, or svg')
+        else:
+            _mode = mode
     
-    if _mode != "svg":
+    if _mode == "world":
+        if ymax-ymin > xmax-xmin:
+            ysize = window_size[1]
+            window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
+        else:
+            xsize = window_size[0]
+            window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
+        xscale = window_size[0]/(xmax-xmin)
+        yscale = window_size[1]/(ymax-ymin) 
+    elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
@@ -254,7 +267,10 @@ def initializeTurtle(window=None, mode=None, speed=None):
         yscale = -1
        
     is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
-    turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    if _mode != "world":
+        turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    else:
+        turtle_pos = (_convertx(0),_converty(0))
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
     background_color = DEFAULT_BACKGROUND_COLOR
     pen_color = DEFAULT_PEN_COLOR
@@ -1779,8 +1795,12 @@ def reset():
     stampnum = 0
     stamplist = []
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    if _mode != "world":
+        turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    else:
+        turtle_pos = (_convertx(0),_converty(0))
     _updateDrawing(0)
+    
 
 # Clear any text or drawing on the screen
 def clear():
@@ -2131,18 +2151,18 @@ def window_height():
     return window_size[1]
 
 # Set up user-defined coordinate system using lower left and upper right corners.
-# ATTENTION: in user-defined coordinate systems angles may appear distorted.
+# Should be called immediately *before* initializeTurtle. The graphic window size
+# will be set to maintain the same aspect ratio as the axes.
 def setworldcoordinates(llx, lly, urx, ury):
     """Sets up a user defined coordinate-system.
-
+    
+    ATTENTION: Call BEFORE initializeTurtle command.
+    
     Args:
         llx: a number, x-coordinate of lower left corner of window
         lly: a number, y-coordinate of lower left corner of window
         urx: a number, x-coordinate of upper right corner of window
         ury: a number, y-coordinate of upper right corner of window
-
-    ATTENTION: In user-defined coordinate systems, angles may appear
-    distorted.
     """
 
     global xmin
@@ -2152,9 +2172,11 @@ def setworldcoordinates(llx, lly, urx, ury):
     global xscale
     global yscale
     global _mode
-    if drawing_window == None:
-        raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    elif (urx-llx <= 0):
+    global turtle_pos
+    global turtle_degree
+   #if drawing_window != None:
+   #     raise AttributeError("Display has already been initialized. Call before initializeTurtle().")
+    if (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
     elif (ury-lly <= 0):
         raise ValueError("Lower left y-coordinate should be less than upper right y-coordinate")                      
