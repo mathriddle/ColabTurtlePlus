@@ -1756,7 +1756,7 @@ def fillopacity(opacity=None):
 #=================================== 
 
 # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
-def reset(win=False):
+def reset():
     """Resets the turtle to its initial state and clears drawing."""
 
     global is_turtle_visible
@@ -1774,7 +1774,6 @@ def reset(win=False):
     global shear_factor
     global tilt_angle
     global outline_width
-    global drawing_window
 
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
@@ -1799,10 +1798,7 @@ def reset(win=False):
         turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     else:
         turtle_pos = (_convertx(0),_converty(0))
-    if win:
-        drawing_window = None
-    else:
-        _updateDrawing(0)
+    _updateDrawing(0)
     
 
 # Clear any text or drawing on the screen
@@ -2177,9 +2173,9 @@ def setworldcoordinates(llx, lly, urx, ury):
     global _mode
     global turtle_pos
     global turtle_degree
-    if drawing_window != None:
-        raise AttributeError("Display has already been initialized. Call before initializeTurtle().")
-    elif (urx-llx <= 0):
+   #if drawing_window != None:
+   #     raise AttributeError("Display has already been initialized. Call before initializeTurtle().")
+    if (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
     elif (ury-lly <= 0):
         raise ValueError("Lower left y-coordinate should be less than upper right y-coordinate")                      
