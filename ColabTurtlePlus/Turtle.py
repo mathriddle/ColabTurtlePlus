@@ -1774,7 +1774,7 @@ def reset(win=False):
     global shear_factor
     global tilt_angle
     global outline_width
-    global window_drawing
+    global drawing_window
 
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
