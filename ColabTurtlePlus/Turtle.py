@@ -1794,7 +1794,10 @@ def reset():
     stampnum = 0
     stamplist = []
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    if _mode != "world":
+        turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+    else:
+        turtle_pos = (_convertx(0),_converty(0))
     _updateDrawing(0)
 
 # Clear any text or drawing on the screen
