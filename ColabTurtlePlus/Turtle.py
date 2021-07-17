@@ -2154,14 +2154,14 @@ def window_height():
 # will be set to maintain the same aspect ratio as the axes.
 def setworldcoordinates(llx, lly, urx, ury):
     """Sets up a user defined coordinate-system.
-
+    
+    ATTENTION: Call BEFORE initializeTurtle command.
+    
     Args:
         llx: a number, x-coordinate of lower left corner of window
         lly: a number, y-coordinate of lower left corner of window
         urx: a number, x-coordinate of upper right corner of window
         ury: a number, y-coordinate of upper right corner of window
-
-    ATTENTION: Call before initializeTurtle command.
     """
 
     global xmin
