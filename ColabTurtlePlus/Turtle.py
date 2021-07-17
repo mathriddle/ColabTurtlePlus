@@ -1756,7 +1756,7 @@ def fillopacity(opacity=None):
 #=================================== 
 
 # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
-def reset():
+def reset(win=False):
     """Resets the turtle to its initial state and clears drawing."""
 
     global is_turtle_visible
@@ -1774,6 +1774,7 @@ def reset():
     global shear_factor
     global tilt_angle
     global outline_width
+    global window_drawing
 
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
@@ -1798,7 +1799,11 @@ def reset():
         turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     else:
         turtle_pos = (_convertx(0),_converty(0))
-    _updateDrawing(0)
+    if win:
+        drawing_window = None
+    else:
+        _updateDrawing(0)
+    
 
 # Clear any text or drawing on the screen
 def clear():
