@@ -237,13 +237,13 @@ def initializeTurtle(window=None, mode=None, speed=None):
         turtle_speed = speed
     timeout = _speedToSec(turtle_speed)
     
-    if _mode == "world":
-    elif mode is None:
-         _mode = DEFAULT_MODE
-    elif mode not in VALID_MODES:
-        raise ValueError('Mode must be standard, world, logo, or svg')
-    else:
-        _mode = mode
+    if _mode != "world":   
+        if mode is None:
+            _mode = DEFAULT_MODE
+        elif mode not in VALID_MODES:
+            raise ValueError('Mode must be standard, world, logo, or svg')
+        else:
+            _mode = mode
     
     if _mode == "world":
         if ymax-ymin > xmax-xmin:
