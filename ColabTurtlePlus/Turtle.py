@@ -13,7 +13,8 @@ It uses html capabilites of IPython library to draw svg shapes inline.
 Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.appspot.com/turtle)
 
 --------
-Modified April/May 2021 by Larry Riddle
+v1.0.0 Modified April/May 2021 by Larry Riddle
+v.1.1.0 Updated July 17
 Changed some default values to match classic turtle.py package
   default background color is white, default pen color is black, default pen thickness is 1
   default mode is "standard"
