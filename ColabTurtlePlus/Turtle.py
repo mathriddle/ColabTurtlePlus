@@ -353,7 +353,7 @@ def _generateSvgDrawing():
                                kolor=border_color)
 
 # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
-def saveSVG(file, turtle=False):
+def saveSVG(file=None, turtle=False):
     """Saves the image as an SVG file.
     
     Args:
@@ -369,7 +369,9 @@ def saveSVG(file, turtle=False):
     
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    if not isinstance(file, str):
+    if file is None:
+        file = "fractalimage.svg"
+    elif not isinstance(file, str):
         raise ValueError("File name must be a string")
     if not file.endswith(".svg"):
         file += ".svg"
