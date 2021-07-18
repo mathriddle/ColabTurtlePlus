@@ -266,4 +266,4 @@ Turn off\on animation. When off, forward/back/circle makes turtle jump and likew
 Examples
 ---
 
-Examples of using ColabTurtlePlus in a Colaboratory or JupyterLab noteboook can be found in the folder Lab_examples.
+Examples of using ColabTurtlePlus in a Colaboratory or JupyterLab noteboook can be found in the examples folder.
