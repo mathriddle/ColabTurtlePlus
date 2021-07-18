@@ -1,1 +1,0 @@
-Open [IFSTurtleGraphics.ipynb](https://colab.research.google.com/drive/14P6p4aez15Fi5awlwDfKPX7HqEnhijz4?usp=sharing) in Colab playground mode. This uses turtle graphics to draw iterates of the Sierpinski Triangle using L-system code.
