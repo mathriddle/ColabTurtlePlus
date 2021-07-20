@@ -1090,11 +1090,11 @@ def speed(speed = None):
 
 # jump to a point without drawing or animation
 def jumpto(x,y):
-    pendown()
+    penup()
     animationOff()
     goto(x,y)
     animationOn()
-    penup()
+    pendown()
 
 # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
 def done():
