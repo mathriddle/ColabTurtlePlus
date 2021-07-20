@@ -1089,7 +1089,15 @@ def speed(speed = None):
     timeout = _speedToSec(turtle_speed) 
 
 # jump to a point without drawing or animation
-def jumpto(x,y):
+def jumpto(x,y=None):
+    """Jumps to a specified point without drawing/animation
+    
+    Args:
+        x: a number     or      a pair of numbers
+        y: a number     or      None
+
+        goto(x, y)      or      goto((x,y))  
+    """
     penup()
     animationOff()
     goto(x,y)
