@@ -1136,16 +1136,13 @@ def drawline(x_1,y_1,x_2=None,y_2=None):
     if isinstance(x_1,tuple) and isinstance(y_1,tuple) and x_2==None and y_2==None:
         if len(x_1) != 2 or len(y_1) != 2:
             raise ValueError('The tuple argument must be of length 2.')
-        x1,y1 = x_1[0],x_1[1]
-        x2,y2 = y_1[0],y_1[1]
-    else:
-        x1,y1 = x_1,y_1
-        x2,y1 = x_2,y_2
+        x_1,y_1 = x_1
+        x_2,y_2 = y_1
     svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
-        x1=_convertx(x1),
-        y1=_converty(y1),
-        x2=_convertx(x2),
-        y2=_converty(y2),
+        x1=_convertx(x_1),
+        y1=_converty(y_1),
+        x2=_convertx(x_2),
+        y2=_converty(y_2),
         pencolor = pen_color,
         penwidth = pen_width)
     _updateDrawing(0)   
