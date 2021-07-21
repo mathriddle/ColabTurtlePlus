@@ -110,7 +110,9 @@ Moves the turtle to the point defined by x,y. The coordinates can be given separ
 
 `setheading(to_angle) | heading(to_angle) | face(to_angle)` -> Sets the orientation of the turtle to `to_angle`. The result depends on the mode.
 
-`home()` -> Takes the turtle to the beginning position and angle. The turtle will continue drawing during this operation if the pen is down.
+`home()` -> Returns the turtle to the beginning position and angle. The turtle will continue drawing during this operation if the pen is down.
+
+`jumpto(x,y)` -> Jump immediately to the point (x,y) without drawing or animation. The coordinates can be given separately, or in a single tuple.
 
 `circle(radius, extent, steps)` -> Draws a circle of radius `radius` covering an extent of `extent` degrees. If extent is not given, draws the complete circle. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here for an actual circular arc since the circle is drawn using the svg circle function. However, the step argument is available primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularpolygon() function (see below) to take advantage of svg commands.
 
@@ -124,7 +126,9 @@ Moves the turtle to the point defined by x,y. The coordinates can be given separ
 
 `speed(s)` -> Sets the speed of turtle's movements. `s` can be a value in interval [0,13] where 1 is the slowest and 13 is the fastest for animation. If the speed is 0, no animation is drawn and only the final result is shown. The command `done()` must be executed to see the final image if speed=0. If `s` is omitted, the function returns the current speed.
 
-`drawline(x1,y1,x2,y2)` -> Draw a line from (x1,y1) to (x2.y2)
+`done() | update()` -> Redraws the image. Needed if speed = 0 so that final image is drawn.
+
+`drawline(x1,y1,x2,y2) | line(x1,y1,x2,y2)` -> Draw a line from (x1,y1) to (x2.y2)
 
 `regularPolygon(sides,length,steps)` -> Moves the turtle around a regular polygon of with size sides, with length being the length of each side. The optional steps argument indicates how many sides are drawn. The initial and concluding angle is half of the exterior angle. Positive values for sides or length draws the polygon to the left of the turtle's current direction, and a negative value foreither sides or length draws it to the right of the turtle's current direction. The number of sides from 3 to 10 can also be given as a string using the name of the regular polygon (i.e. "triangle", "square", "pentagon", etc.)
 
