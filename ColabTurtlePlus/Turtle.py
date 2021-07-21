@@ -1096,7 +1096,7 @@ def jumpto(x,y=None):
         x: a number     or      a pair of numbers
         y: a number     or      None
 
-        goto(x, y)      or      goto((x,y))  
+        jumpto(x, y)      or    jumpto((x,y))  
     """
     penup()
     animationOff()
@@ -1119,18 +1119,25 @@ def done():
 update = done #alias
 
 # Draw a line from diego2500garza
-def drawline(x_1,y_1,x_2,y_2):
+def drawline(x_1,y_1,x_2=None,y_2=None):
     """Draws a line between two points
     
     Args:
-        x_1,y_1 : coordinates of first point
-        x_2,y_2 : coordinates of second point
+        x_1,y_1 : two numbers           or      a pair of numbers
+        x_2,y_2 : two numbers                   a pair of numbers
+        
+        drawline(x_1,y_1,x_2,y_2)               drawline((x_1,y_1),(x_2,y_2))       
     
     Draws a line from (x_1,y_1) to (x_2,y_2). This line is 
     independent of the turtle motion.
     """
 
     global svg_lines_string
+    if instance(x_1,tuple) and instance(y_1,tuple) and x_2=None and y_2=None:
+        if len(x_1) != 2 or len(y_1) != 2:
+            raise ValueError('The tuple argument must be of length 2.')
+        x_1,y_1 = x_1
+        x_2,y_2 = y_2
     svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
         x1=_convertx(x_1),
         y1=_converty(y_1),
