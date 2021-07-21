@@ -88,7 +88,7 @@ See https://docs.python.org/3/library/turtle.html for more details on most of th
 #### SVG Functions
 
 `showSVG(show_turtle)` -> Print the SVG tags to the screen. The `show_turtle` argument (True or False) determines whether or not the turtle is included.\
-`saveSVG(filename, show_turtle)` -> Save the SVG tags to the file `filename`. The `show_turtle` argument (True or False) determines whether or not the turtle is included. If the filename is omitted, "fractalimage.svg" will be used.
+`saveSVG(filename, show_turtle)` -> Save the SVG tags to the file `filename`. The `show_turtle` argument (True or False) determines whether or not the turtle is included. If the filename is omitted, "SVGimage.svg" will be used.
 
 #### Turtle Motion - Move and Draw
 
