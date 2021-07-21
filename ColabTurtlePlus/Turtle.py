@@ -370,7 +370,7 @@ def saveSVG(file=None, turtle=False):
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if file is None:
-        file = "fractalimage.svg"
+        file = "SVGimage.svg"
     elif not isinstance(file, str):
         raise ValueError("File name must be a string")
     if not file.endswith(".svg"):
