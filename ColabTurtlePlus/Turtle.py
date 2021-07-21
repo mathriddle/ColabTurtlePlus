@@ -1116,6 +1116,7 @@ def done():
     if drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     drawing_window.update(HTML(_generateSvgDrawing()))   
+update = done #alias
 
 # Draw a line from diego2500garza
 def drawline(x_1,y_1,x_2,y_2):
@@ -1138,7 +1139,8 @@ def drawline(x_1,y_1,x_2,y_2):
         pencolor = pen_color,
         penwidth = pen_width)
     _updateDrawing(0)   
-
+line = drawline #alias
+        
 # Move along a regular polygon of size sides, with length being the length of each side. The steps indicates how many sides are drawn.
 # The initial and concluding angle is half of the exteral angle.
 # A positive length draws the polygon to the left of the turtle's current direction and a negative length draws it to the right
