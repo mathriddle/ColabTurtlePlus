@@ -7,4 +7,4 @@ It's based on an article in BYTE magazine:
 Graphics to Redraw a Design</a>",
 November 1982, p. 120-139.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mathriddle/ColabTurtlePlus/blob/main/examples/files/bytedesign-color.ipynb) Version drawn with green and red color (and rotated slightly)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mathriddle/ColabTurtlePlus/blob/main/examples/files/bytedesign-color.ipynb) Version drawn with green and red colors (and rotated slightly).
