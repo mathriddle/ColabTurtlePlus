@@ -1133,7 +1133,7 @@ def drawline(x_1,y_1,x_2=None,y_2=None):
     """
 
     global svg_lines_string
-    if instance(x_1,tuple) and instance(y_1,tuple) and x_2=None and y_2=None:
+    if instance(x_1,tuple) and instance(y_1,tuple) and x_2==None and y_2==None:
         if len(x_1) != 2 or len(y_1) != 2:
             raise ValueError('The tuple argument must be of length 2.')
         x_1,y_1 = x_1
