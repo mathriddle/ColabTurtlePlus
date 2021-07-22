@@ -1099,10 +1099,12 @@ def jumpto(x,y=None):
 
         jumpto(x, y)      or    jumpto((x,y))  
     """
+    global animate
+    animate_temp = animate
     penup()
     animationOff()
     goto(x,y)
-    animationOn()
+    animate = animate_temp
     pendown()
 
 # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
