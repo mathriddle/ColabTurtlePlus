@@ -358,7 +358,8 @@ def saveSVG(file=None, turtle=False):
     
     Args:
         file: a string giving filename for saved file. The extension 
-            ".svg" will be added if missing.
+            ".svg" will be added if missing. If no filename is given,
+            the default name SVGimage.svg will be used.
         turtle: an optional boolean that determines if the turtle 
             is included in the svg output saved to the file. Default is False.
     
