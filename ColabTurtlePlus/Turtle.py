@@ -261,8 +261,6 @@ def initializeTurtle(window=None, mode=None, speed=None):
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
-        if xscale != yscale: animationOff()
-        print("animate = ",animate)
     else:
         xmin,ymax = 0,0
         xscale = 1
@@ -2205,10 +2203,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     global xscale
     global yscale
     global _mode
-    global turtle_pos
-    global turtle_degree
-   #if drawing_window != None:
-   #     raise AttributeError("Display has already been initialized. Call before initializeTurtle().")
+        
     if (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
     elif (ury-lly <= 0):
@@ -2219,6 +2214,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     ymax = ury
     xscale = window_size[0]/(xmax-xmin)
     yscale = window_size[1]/(ymax-ymin)
+    if xscale != yscale: animationOff()
     _mode = "world"
     
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
