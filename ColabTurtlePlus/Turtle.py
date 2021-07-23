@@ -262,6 +262,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
         if xscale != yscale: animationOff()
+        print("animate = ",animate)
     else:
         xmin,ymax = 0,0
         xscale = 1
