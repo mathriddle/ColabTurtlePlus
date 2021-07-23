@@ -244,7 +244,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
         if mode is None:
             _mode = DEFAULT_MODE
         elif mode not in VALID_MODES:
-            raise ValueError('Mode must be standard, world, logo, or svg')
+            raise ValueError('Mode must be standard, logo, or svg')
         else:
             _mode = mode
     
@@ -256,11 +256,12 @@ def initializeTurtle(window=None, mode=None, speed=None):
             xsize = window_size[0]
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
         xscale = window_size[0]/(xmax-xmin)
-        yscale = window_size[1]/(ymax-ymin) 
+        yscale = window_size[1]/(ymax-ymin)
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
+        if xscale != yscale: animationOff()
     else:
         xmin,ymax = 0,0
         xscale = 1
@@ -2311,5 +2312,9 @@ def animationOn():
     global animate
     animate = True
 
-
+def resetwindow()
+    global xmin,xmax,ymin,ymax
+    global _mode
+    xmin,xmax,ymin,ymax = None
+    _mode = None
 
