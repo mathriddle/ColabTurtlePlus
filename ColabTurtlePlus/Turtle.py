@@ -2312,7 +2312,7 @@ def animationOn():
     global animate
     animate = True
 
-def resetwindow()
+def resetwindow():
     global xmin,xmax,ymin,ymax
     global _mode
     xmin,xmax,ymin,ymax = None
