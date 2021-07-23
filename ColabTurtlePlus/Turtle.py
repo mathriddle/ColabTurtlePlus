@@ -2317,6 +2317,6 @@ def animationOn():
 def resetwindow():
     global xmin,xmax,ymin,ymax
     global _mode
-    xmin,xmax,ymin,ymax = None
+    xmin,xmax,ymin,ymax = None, None, None, None
     _mode = None
 
