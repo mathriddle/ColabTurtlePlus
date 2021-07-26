@@ -251,16 +251,16 @@ def initializeTurtle(window=None, mode=None, speed=None):
         else:
             _mode = mode
     
-    if _mode == "world":
-        if ymax-ymin > xmax-xmin:
-            ysize = window_size[1]
-            window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
-        else:
-            xsize = window_size[0]
-            window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
-        xscale = window_size[0]/(xmax-xmin)
-        yscale = window_size[1]/(ymax-ymin)
-        animationOn()
+ #   if _mode == "world":
+  #      if ymax-ymin > xmax-xmin:
+  #          ysize = window_size[1]
+  #          window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
+  #      else:
+  #          xsize = window_size[0]
+  #          window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
+ #       xscale = window_size[0]/(xmax-xmin)
+  #      yscale = window_size[1]/(ymax-ymin)
+  #      animationOn()
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
@@ -2227,7 +2227,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     ymax = ury
     xscale = window_size[0]/(xmax-xmin)
     yscale = window_size[1]/(ymax-ymin)
-    if xscale != yscale: animationOff()
+    #if xscale != yscale: animationOff()
     _mode = "world"
     
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
