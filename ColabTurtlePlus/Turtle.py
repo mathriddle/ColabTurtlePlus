@@ -452,6 +452,8 @@ def _moveToNewPosition(units):
     global svg_lines_string
     global svg_fill_string
     global timeout
+    
+    alpha = math.radians(turtle_degree)
     # rounding the new_pos to eliminate floating point errors.
     new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) ) 
