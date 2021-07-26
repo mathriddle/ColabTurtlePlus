@@ -33,8 +33,10 @@ Added additional shapes from classic turtle.py: 'classic' (the default shape), '
 Added speed=0 option that displays final image with no animation. 
   Added done function so that final image is displayed on screen when speed=0.
 Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
-  This should be done immediately *before* initializing the turtle window. The graphic window is set to maintain
-  the same aspect ratio as the axes, so angles are true.
+  If this is done *before* initializing the turtle window, the graphic window is adjusted to maintain
+  the same aspect ratio as the axes, so angles are true. It the world coordinates are set *after* initializing
+  the turtle window, the animation does not work correctly (at the moment) and so animation is turned off unless
+  the window size was set so that the aspect ratio of the window and the axes are the same.
 Added towards function to return the angle between the line from turtle position to specified position.
 Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function and fillrule function.
   The fillrule function can be used to specify the SVG fill_rule (nonzero or evenodd). The default is evenodd to match turtle.py behavior.
@@ -61,6 +63,7 @@ Added a function for the turtle to move along a regular polygon.
 Original ColabTurtle defaults can be set by calling oldDefaults() after importing the ColabTurtle package but before initializeTurtle.
   This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
   default window size to 800x500. It also sets the mode to "svg".
+Added jumpto function to go directly to a given location with drawing or animation.
 
 """
 
@@ -244,7 +247,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
         if mode is None:
             _mode = DEFAULT_MODE
         elif mode not in VALID_MODES:
-            raise ValueError('Mode must be standard, world, logo, or svg')
+            raise ValueError('Mode must be standard, logo, or svg')
         else:
             _mode = mode
     
@@ -256,7 +259,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
             xsize = window_size[0]
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
         xscale = window_size[0]/(xmax-xmin)
-        yscale = window_size[1]/(ymax-ymin) 
+        yscale = window_size[1]/(ymax-ymin)
+        animationOn()
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
@@ -2182,8 +2186,9 @@ def window_height():
     return window_size[1]
 
 # Set up user-defined coordinate system using lower left and upper right corners.
-# Should be called immediately *before* initializeTurtle. The graphic window size
-# will be set to maintain the same aspect ratio as the axes.
+# if the xscale and yscale are not equal, the aspect ratio of the axes and the
+# graphic window will differ. Animation will not currently work correctly in that
+# case, so animation is turned off. 
 def setworldcoordinates(llx, lly, urx, ury):
     """Sets up a user defined coordinate-system.
     
@@ -2203,10 +2208,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     global xscale
     global yscale
     global _mode
-    global turtle_pos
-    global turtle_degree
-   #if drawing_window != None:
-   #     raise AttributeError("Display has already been initialized. Call before initializeTurtle().")
+        
     if (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
     elif (ury-lly <= 0):
@@ -2217,6 +2219,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     ymax = ury
     xscale = window_size[0]/(xmax-xmin)
     yscale = window_size[1]/(ymax-ymin)
+    if xscale != yscale: animationOff()
     _mode = "world"
     
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
@@ -2313,5 +2316,12 @@ def animationOn():
     global animate
     animate = True
 
-
+# Resets the window axes parameters to None in case user wants to rerun a Colab notebook
+# without restarting the runtime. Helps when calling initializeTurtle after using
+# world coordinates.
+def resetwindow():
+    global xmin,xmax,ymin,ymax
+    global _mode
+    xmin,xmax,ymin,ymax = None, None, None, None
+    _mode = None
 
