@@ -466,6 +466,7 @@ def _moveToNewPosition(units):
         # create temporary svg string to show the animation
         #initial_pos=[xmin + turtle_pos[0]/xscale,ymax - turtle_pos[1]/yscale]
         initial_pos = position()
+        print(initial_pos)
         alpha = math.radians(turtle_degree)
         timeout = timeout*0.25
         tenx, teny = units/10, units/10
@@ -474,6 +475,7 @@ def _moveToNewPosition(units):
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
             turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] + s * dy * math.sin(alpha))
+            print(turtle_pos)
             if is_pen_down:
                 svg_lines_string += \
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
