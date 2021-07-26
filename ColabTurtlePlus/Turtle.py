@@ -474,7 +474,7 @@ def _moveToNewPosition(units):
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
             temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] + s * dy * math.sin(alpha))
-            turtle_pos = (_convertx(temp_turtle_pos[0]), _convertx(temp_turtle_pos[1]))
+            turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
             print(turtle_pos)
             if is_pen_down:
                 svg_lines_string += \
@@ -486,7 +486,6 @@ def _moveToNewPosition(units):
                         pen_color=pen_color, 
                         pen_width=pen_width) 
             initial_pos = temp_turtle_pos
-            print(svg_lines_string)
             _updateDrawing()
             units -= dunits
     if is_pen_down:
