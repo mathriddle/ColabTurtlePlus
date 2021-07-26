@@ -53,7 +53,7 @@ This version extends ColabTurtle to include more of the commands found in the cl
 * Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world". If this is done *before* initializing the turtle window, the graphic window is adjusted to maintain
   the same aspect ratio as the axes, so angles are true. It the world coordinates are set *after* initializing
   the turtle window, the animation does not work correctly (at the moment) and so animation is turned off unless
-  the window size was set so that the aspect ratio of the window and the axes are the same.
+  the window size was set so that the aspect ratio of the window and the axes are the same. Also, if it is ok that the aspect ratios are different for the given world coordinates, then it is necessary to run the command resetwindow() if you want to rerun the program without restarting the Colab runtime. Otherwise the graphic window will be resized to make the aspect ratios the same.
 * Added towards function to return the angle between the line from turtle position to specified position.
 * Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor, fillrule, and fillopacity functions. Because the fill is controlled by svg rules, the result may differ from classic turtle fill. The fill-rule and fill-opacity can be set as arguments to the begin_fill() function and will apply only to objects filled before the end_fill is called. There are two possible arguments to specify the SVG fill-rule: 'nonzero' (default) and 'evenodd'.  See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule for details.
 * Implemented circle function from aronma/ColabTurtle_2 github. Modified this to match behavior of circle function in classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using the svg circle function. However, the step argument is available but primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularpolygon() function to take advantage of svg commands.
@@ -258,6 +258,9 @@ the turtle window, the animation does not work correctly (at the moment) and so 
 * `lly` : y-coordinate of lower left corner of canvas
 * `urx` : x-coordinate of upper right corner of canvas
 * `ury` : y-coordinate of upper right corner of canvas
+
+`resetwindow()` -> Resets the axes min/max values and the mode to None. This should be executed if using world coordinates in a situation where the aspect
+ratio of the graphing window is intended to be different than the aspect ratio of the axes, and you want to rerun a cell in Colab containing initializeTurtle.
 
 `showborder(color)` -> Show a border around the graphics window. Default (no parameters) is gray. A color can be specified in a similar way as with `pencolor`.
 
