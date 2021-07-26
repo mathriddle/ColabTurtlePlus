@@ -473,7 +473,8 @@ def _moveToNewPosition(units):
         while s*units > 0:
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
-            turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] + s * dy * math.sin(alpha))
+            temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] + s * dy * math.sin(alpha))
+            turtle_pos = (_convertx(temp_turtle_pos[0]), _convertx(temp_turtle_pos[1]))
             if is_pen_down:
                 svg_lines_string += \
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
