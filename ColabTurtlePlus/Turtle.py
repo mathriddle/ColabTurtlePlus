@@ -464,8 +464,7 @@ def _moveToNewPosition(units):
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
         # create temporary svg string to show the animation
-        initial_pos[0] = xmin + turtle_pos[0]/xscale
-        initial_pos[1] = ymax - turtle_pos[1]/yscale
+        #initial_pos=[xmin + turtle_pos[0]/xscale,ymax - turtle_pos[1]/yscale]
         initial_pos = position()
         alpha = math.radians(turtle_degree)
         timeout = timeout*0.25
