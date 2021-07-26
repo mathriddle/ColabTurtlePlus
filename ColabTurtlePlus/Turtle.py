@@ -2205,6 +2205,7 @@ def setworldcoordinates(llx, lly, urx, ury):
     global xscale
     global yscale
     global _mode
+    global animate
         
     if (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
