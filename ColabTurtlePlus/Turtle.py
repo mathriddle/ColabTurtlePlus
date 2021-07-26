@@ -447,35 +447,39 @@ def _updateDrawing(delay=True):
             
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
 # Animate turtle motion along line
-def _moveToNewPosition(new_pos, units):
+def _moveToNewPosition(units):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
     global timeout
     # rounding the new_pos to eliminate floating point errors.
-    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) )   
+    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+    new_pos = ( round(new_pos[0],3), round(new_pos[1],3) ) 
+    
     timeout_orig = timeout
     start_pos = turtle_pos           
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
         # create temporary svg string to show the animation
-        initial_pos = turtle_pos         
+        initial_pos[0] = xmin + turtle_pos[0]/xscale
+        initial_pos[1] = ymax - turtle_pos[1]/yscale
+        initial_pos = position()
         alpha = math.radians(turtle_degree)
         timeout = timeout*0.25
-        tenx, teny = 10/xscale, 10/abs(yscale)
-        dunits = s*10/max(xscale,abs(yscale))
+        tenx, teny = units/10, units/10
+        dunits = s*units/10
         while s*units > 0:
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
-            turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
+            turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] + s * dy * math.sin(alpha))
             if is_pen_down:
                 svg_lines_string += \
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
-                        x1=initial_pos[0],
-                        y1=initial_pos[1],
-                        x2=turtle_pos[0],
-                        y2=turtle_pos[1],
+                        x1=_xconvert(initial_pos[0]),
+                        y1=_yconvert(initial_pos[1]),
+                        x2=_xconvert(turtle_pos[0]),
+                        y2=_yconvert(turtle_pos[1]),
                         pen_color=pen_color, 
                         pen_width=pen_width) 
             initial_pos = turtle_pos
@@ -561,8 +565,9 @@ def forward(units):
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
     alpha = math.radians(turtle_degree)
-    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
-    _moveToNewPosition(new_pos,units)
+   # new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+   # _moveToNewPosition(new_pos,units)
+    _moveToNewPosition(units)
 fd = forward # alias
 
 # Makes the turtle move backward by 'units' units
