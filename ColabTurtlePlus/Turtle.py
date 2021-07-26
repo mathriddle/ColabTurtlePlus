@@ -480,11 +480,11 @@ def _moveToNewPosition(units):
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=_convertx(initial_pos[0]),
                         y1=_converty(initial_pos[1]),
-                        x2=_convertx(turtle_pos[0]),
-                        y2=_converty(turtle_pos[1]),
+                        x2= turtle_pos[0],
+                        y2= turtle_pos[1],
                         pen_color=pen_color, 
                         pen_width=pen_width) 
-            initial_pos = turtle_pos
+            initial_pos = temp_turtle_pos
             print(svg_lines_string)
             _updateDrawing()
             units -= dunits
