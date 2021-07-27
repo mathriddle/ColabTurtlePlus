@@ -261,7 +261,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
  #       xscale = window_size[0]/(xmax-xmin)
   #      yscale = window_size[1]/(ymax-ymin)
   #      animationOn()
-    elif _mode != "svg":
+    if _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
