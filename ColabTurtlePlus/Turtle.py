@@ -314,13 +314,13 @@ def _generateTurtleSvgDrawing():
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
     if _mode in ["standard","world"]:
-        degrees = turtle_degree - tilt_angle
-        #degrees = _turtleOrientation(-1)
+        #degrees = turtle_degree - tilt_angle
+        degrees = _turtleOrientation()
     else:
         degrees = turtle_degree + tilt_angle
      #   degrees = _turtleOrientation(1)  
     
-    if turtle_shape in ['turtle']:
+    if turtle_shape == 'turtle':
         degrees += 90
     elif turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
@@ -2337,7 +2337,7 @@ def resetwindow():
     _mode = None
 
 def _turtleOrientation():
-    alpha = math.radians(heading())
+    alpha = math.radians(heading()-tilt_angle)
     Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0]))
     #return deg
