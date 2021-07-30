@@ -2331,6 +2331,7 @@ def _turtleOrientation(s):
     alpha = math.radians(T.heading()+s*tiltangle)
     Dxy = (T._convertx(math.cos(alpha))-T._convertx(T.getx()),T._converty(math.sin(alpha))-T._converty(T.gety()))
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0]))
+    print("in turtleorientation ", deg)
     if _mode in ["standard","world"]: 
         return (360 - deg) % 360
     elif _mode == "logo":
