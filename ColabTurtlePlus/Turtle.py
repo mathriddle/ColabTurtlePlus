@@ -336,7 +336,7 @@ def _generateTurtleSvgDrawing():
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
-                           degrees=degrees,
+                           degrees=_turtleOrientation(),
                            sx=stretchfactor[0],
                            sy=stretchfactor[1],
                            sk=shear_factor,
@@ -2336,14 +2336,14 @@ def resetwindow():
     xmin,xmax,ymin,ymax = None, None, None, None
     _mode = None
 
-def _turtleOrientation(s):
-    alpha = math.radians(heading()+s*tilt_angle)
+def _turtleOrientation():
+    alpha = math.radians(heading())
     Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0]))
     return deg
-   # if _mode in ["standard","world"]: 
-   #     return (360 - deg) % 360
-   # elif _mode == "logo":
-   #     return (270 + deg) % 360
-   # else: # mode = "svg"
-   #     return deg % 360
+    if _mode in ["standard","world"]: 
+        return (360 - deg) % 360
+    elif _mode == "logo":
+        return (270 + deg) % 360
+    else: # mode = "svg"
+        return deg % 360
