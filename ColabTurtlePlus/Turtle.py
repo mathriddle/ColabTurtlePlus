@@ -316,6 +316,7 @@ def _generateTurtleSvgDrawing():
     if _mode in ["standard","world"]:
       #  degrees = turtle_degree - tilt_angle
         degrees = _turtleOrientation(-1)
+        print("degrees = ",degrees)
     else:
       #  degrees = turtle_degree + tilt_angle
         degrees = _turtleOrientation(1)
