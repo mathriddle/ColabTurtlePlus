@@ -2340,10 +2340,10 @@ def _turtleOrientation():
     alpha = math.radians(heading()-tilt_angle)
     Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0]))
-    #return deg
-    if _mode in ["standard","world"]: 
-        return (360 - deg) % 360
-    elif _mode == "logo":
-        return (270 + deg) % 360
-    else: # mode = "svg"
-        return deg % 360
+    return deg
+    #if _mode in ["standard","world"]: 
+   #     return (360 - deg) % 360
+    #elif _mode == "logo":
+    #    return (270 + deg) % 360
+    #else: # mode = "svg"
+    #    return deg % 360
