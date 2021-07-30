@@ -320,13 +320,13 @@ def _generateTurtleSvgDrawing():
      #   degrees = turtle_degree + tilt_angle
         degrees = _turtleOrientation(1)  
     
-    if turtle_shape in ['turtle']:
-        degrees += 90
-    elif turtle_shape == 'ring':
+   # if turtle_shape in ['turtle']:
+   #     degrees += 90
+    if turtle_shape == 'ring':
         turtle_y += 10*stretchfactor[1]+4
-        degrees -= 90
-    else:
-        degrees -= 90        
+   #     degrees -= 90
+   # else:
+    #    degrees -= 90        
     
     return shapeDict[turtle_shape].format(
                            turtle_color=fill_color,
