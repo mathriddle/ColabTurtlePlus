@@ -768,7 +768,7 @@ def setheading(angle):
         angle: a number (integer or float) 
     
     Units are by default degrees, but can be set via 
-    the degrees() and radians() functions.)
+    the degrees() and radians() functions.
 
     Set the orientation of the turtle to angle.
     This depends on the mode.
@@ -2337,7 +2337,7 @@ def resetwindow():
     _mode = None
 
 def _turtleOrientation():
-    alpha = math.radians(heading()-tilt_angle)
+    alpha = math.radians(turtle_degree-tilt_angle)
     Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0]))
     return deg
