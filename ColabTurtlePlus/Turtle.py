@@ -164,6 +164,7 @@ pen_color = DEFAULT_PEN_COLOR
 window_size = DEFAULT_WINDOW_SIZE
 turtle_pos = (DEFAULT_WINDOW_SIZE[0] / 2, DEFAULT_WINDOW_SIZE[1] / 2)
 turtle_degree = DEFAULT_TURTLE_DEGREE
+turtle_orient = DEFAULT_TURTLE_DEGREE
 background_color = DEFAULT_BACKGROUND_COLOR
 is_pen_down = DEFAULT_IS_PEN_DOWN
 svg_lines_string = DEFAULT_SVG_LINES_STRING
@@ -204,6 +205,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     global pen_color
     global turtle_pos
     global turtle_degree
+    global turtle_orient
     global background_color
     global is_pen_down
     global is_filling
@@ -276,6 +278,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
     else:
         turtle_pos = (_convertx(0),_converty(0))
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    turtle_orient = turtle_degree
     background_color = DEFAULT_BACKGROUND_COLOR
     pen_color = DEFAULT_PEN_COLOR
     is_pen_down = DEFAULT_IS_PEN_DOWN
@@ -313,12 +316,12 @@ def _generateTurtleSvgDrawing():
 
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
-    if _mode in ["standard","world"]:
-        #degrees = turtle_degree - tilt_angle
-        degrees = _turtleOrientation()
+    if _mode = "world"
+        degrees = turtle_orient - tilt_angle
+    elif _mode = "standard":
+        degrees = turtle_degree - tilt_angle
     else:
         degrees = turtle_degree + tilt_angle
-     #   degrees = _turtleOrientation(1)  
     
     if turtle_shape == 'turtle':
         degrees += 90
@@ -336,7 +339,7 @@ def _generateTurtleSvgDrawing():
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
-                           degrees=_turtleOrientation(),
+                           degrees=degrees
                            sx=stretchfactor[0],
                            sy=stretchfactor[1],
                            sk=shear_factor,
@@ -541,6 +544,7 @@ def _arctoNewPosition(r,new_pos):
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
 def _arc(radius, degrees, draw):
     global turtle_degree
+    global turtle_orient
     alpha = math.radians(turtle_degree)
     theta = math.radians(degrees)
     s = radius/abs(radius)  # 1=left, -1=right
@@ -552,6 +556,7 @@ def _arc(radius, degrees, draw):
     _arctoNewPosition(radius,ending_point)
    
     turtle_degree = (turtle_degree - s*degrees) % 360
+    turtle_orient = _turtleOrientation()
     if draw: _updateDrawing()
         
 # Makes the turtle move forward by 'units' units
@@ -570,8 +575,6 @@ def forward(units):
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
     alpha = math.radians(turtle_degree)
-   # new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
-   # _moveToNewPosition(new_pos,units)
     _moveToNewPosition(units)
 fd = forward # alias
 
@@ -613,6 +616,7 @@ def right(angle):
     """
 
     global turtle_degree
+    global turtle_orient
     global stretchfactor
     global timeout
     if not isinstance(angle, (int,float)):
@@ -646,6 +650,7 @@ def right(angle):
         timeout = timeout*abs(deg)/90+0.001
         _updateDrawing()
         turtle_degree = (turtle_degree + deg) % 360
+        turtle_orient = _turtleOrientation()
         shapeDict.update({turtle_shape:template})
         stretchfactor = stretchfactor_orig
         timeout = timeout_orig
@@ -662,6 +667,7 @@ def right(angle):
             deg -= s*30
         timeout = timeout_orig
         turtle_degree = (turtle_degree + deg) % 360
+        turtle_orient = _turtleOrientation()
 rt = right # alias
 
 # Makes the turtle move right by 'degrees' degrees 
@@ -2339,7 +2345,7 @@ def _turtleOrientation():
     alpha = math.radians(heading()-tilt_angle)
     Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0])) % 360
-    return (360-deg) % 360-90
+    return 360-deg
     #if _mode in ["standard","world"]: 
    #     return (360 - deg) % 360
     #elif _mode == "logo":
