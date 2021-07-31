@@ -336,7 +336,7 @@ def _generateTurtleSvgDrawing():
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
-                           degrees=degrees, #_turtleOrientation(),
+                           degrees=_turtleOrientation(),
                            sx=stretchfactor[0],
                            sy=stretchfactor[1],
                            sk=shear_factor,
@@ -468,7 +468,6 @@ def _moveToNewPosition(units):
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
         # create temporary svg string to show the animation
-        #initial_pos=[xmin + turtle_pos[0]/xscale,ymax - turtle_pos[1]/yscale]
         initial_pos = position()
         alpha = math.radians(turtle_degree)
         timeout = timeout*0.25
@@ -2340,7 +2339,7 @@ def _turtleOrientation():
     alpha = math.radians(heading()-tilt_angle)
     Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0])) % 360
-   
+    print(360-deg)
     return (360-deg) % 360
     #if _mode in ["standard","world"]: 
    #     return (360 - deg) % 360
