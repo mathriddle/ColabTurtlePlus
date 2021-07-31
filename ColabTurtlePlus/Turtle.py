@@ -723,7 +723,6 @@ def goto(x, y=None):
     units = distance(x,y)
     if _mode in ["standard","world"]: 
         turtle_degree = (360 - alpha) % 360
-        turtle_orient = _turtleOrientation()
         tilt_angle = -((turtle_angle_orig-tilt_angle+alpha) % 360)
     elif _mode == "logo":
         turtle_degree = (270 + alpha) % 360
@@ -836,7 +835,9 @@ def home():
         if turtle_degree <= 180:
             left(turtle_degree)
         else:
-            right(360-turtle_degree)                  
+            right(360-turtle_degree)
+        turtle_orient = _turtleOrientation()
+        _updateDrawing(0)
     else:
         if turtle_degree < 90:
             left(turtle_degree+90)
@@ -844,6 +845,7 @@ def home():
             right(270-turtle_degree)
         else:
             left(turtle_degree-270)
+    
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
 # the circle function is broken into chunks of at most 90 degrees.
