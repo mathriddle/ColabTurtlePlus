@@ -2342,11 +2342,11 @@ def resetwindow():
     _mode = None
 
 def _turtleOrientation():
-    alpha = math.radians(heading()-tilt_angle)
+    alpha = math.radians(heading())
     print("turtle degree ", turtle_degree)
     print("alpha ", alpha)
     print("position ",position())
-    Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
+    Dxy = (_convertx(math.cos(alpha)),_converty(math.sin(alpha)))
     print("Dxy ",Dxy)
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0])) % 360
     print("deg ",deg)
