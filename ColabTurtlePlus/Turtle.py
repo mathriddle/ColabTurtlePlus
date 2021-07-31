@@ -661,8 +661,10 @@ def right(angle):
         while s*deg > 0:
             if s*deg > 30:
                 turtle_degree = (turtle_degree + s*30) % 360
+                turtle_orient = _turtleOrientation()
             else:
                 turtle_degree = (turtle_degree + deg) % 360
+                turtle_orient = _turtleOrientation()
             _updateDrawing()
             deg -= s*30
         timeout = timeout_orig
@@ -704,6 +706,7 @@ def goto(x, y=None):
     """
 
     global turtle_degree
+    global turtle_orient
     global tilt_angle
     if isinstance(x, tuple) and y is None:
         if len(x) != 2:
@@ -727,6 +730,7 @@ def goto(x, y=None):
     else: # mode = "svg"
         turtle_degree = alpha % 360
         tilt_angle = turtle_angle_orig+tilt_angle-alpha
+    turtle_orient = _turtleOrientation()
     _moveToNewPosition((_convertx(x), _converty(y)),units)
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
@@ -780,6 +784,7 @@ def setheading(angle):
     """
 
     global turtle_degree
+    global turtle_orient
     deg = angle*angle_conv
     if not isinstance(angle, (int,float)):
         raise ValueError('Degrees must be a number.')
@@ -803,6 +808,7 @@ def setheading(angle):
                 left(math.radians(360-alpha))
     else:
         turtle_degree = new_degree
+        turtle_orient = _turtleOrientation()
         _updateDrawing()
 seth = setheading # alias
 face = setheading # alias
@@ -1818,7 +1824,8 @@ def reset():
     global svg_lines_string
     global svg_fill_string
     global svg_dots_string
-    global turtle_degree  
+    global turtle_degree 
+    global turtle_orient
     global turtle_pos
     global fill_color
     global border_color
@@ -1846,6 +1853,7 @@ def reset():
     stampnum = 0
     stamplist = []
     turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    turtle_orient = turtle_degree
     if _mode != "world":
         turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     else:
