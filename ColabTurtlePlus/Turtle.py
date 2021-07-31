@@ -2346,7 +2346,7 @@ def _turtleOrientation():
     print("turtle degree ", turtle_degree)
     print("alpha ", alpha)
     print("position ",position())
-    Dxy = (math.cos(alpha),math.sin(alpha))
+    Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety())
     print("Dxy ",Dxy)
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0])) % 360
     print("deg ",deg)
