@@ -728,7 +728,9 @@ def goto(x, y=None):
     else: # mode = "svg"
         turtle_degree = alpha % 360
         tilt_angle = turtle_angle_orig+tilt_angle-alpha
+    print(turtle_orient)
     _moveToNewPosition((_convertx(x), _converty(y)),units)
+    print(turtle_orient)
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
 setpos = goto # alias
