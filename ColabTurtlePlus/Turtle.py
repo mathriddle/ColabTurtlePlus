@@ -339,7 +339,7 @@ def _generateTurtleSvgDrawing():
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
-                           degrees=degrees
+                           degrees=degrees,
                            sx=stretchfactor[0],
                            sy=stretchfactor[1],
                            sk=shear_factor,
