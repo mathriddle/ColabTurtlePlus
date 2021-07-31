@@ -454,7 +454,7 @@ def _updateDrawing(delay=True):
             
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
 # Animate turtle motion along line
-def _moveToNewPosition(units):
+def _moveToNewPosition(new_pos,units):
     global turtle_pos
     global svg_lines_string
     global svg_fill_string
@@ -462,7 +462,6 @@ def _moveToNewPosition(units):
     
     alpha = math.radians(turtle_degree)
     # rounding the new_pos to eliminate floating point errors.
-    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) ) 
     
     timeout_orig = timeout
@@ -575,7 +574,8 @@ def forward(units):
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
     alpha = math.radians(turtle_degree)
-    _moveToNewPosition(units)
+    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+    _moveToNewPosition(new_pos,units)
 fd = forward # alias
 
 # Makes the turtle move backward by 'units' units
