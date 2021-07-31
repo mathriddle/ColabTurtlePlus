@@ -460,7 +460,6 @@ def _moveToNewPosition(new_pos,units):
     global svg_fill_string
     global timeout
     
-    alpha = math.radians(turtle_degree)
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) ) 
     
@@ -2354,6 +2353,6 @@ def _turtleOrientation():
     alpha = math.radians(heading())
     Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
-    print("orient")
+    print(360-deg)
     return 360-deg
 
