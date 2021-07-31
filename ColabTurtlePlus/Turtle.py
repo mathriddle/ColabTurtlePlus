@@ -706,7 +706,6 @@ def goto(x, y=None):
     """
 
     global turtle_degree
-    global turtle_orient
     global tilt_angle
     if isinstance(x, tuple) and y is None:
         if len(x) != 2:
@@ -2355,5 +2354,6 @@ def _turtleOrientation():
     alpha = math.radians(heading())
     Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
+    print("orient"
     return 360-deg
 
