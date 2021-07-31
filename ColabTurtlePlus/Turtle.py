@@ -2344,7 +2344,9 @@ def resetwindow():
 def _turtleOrientation():
     alpha = math.radians(heading()-tilt_angle)
     Dxy = (_convertx(math.cos(alpha))-_convertx(getx()),_converty(math.sin(alpha))-_converty(gety()))
+    print("Dxy ",Dxy)
     deg = math.degrees(math.atan2(Dxy[1],Dxy[0])) % 360
+    print("deg ",deg)
     return 360-deg
     #if _mode in ["standard","world"]: 
    #     return (360 - deg) % 360
