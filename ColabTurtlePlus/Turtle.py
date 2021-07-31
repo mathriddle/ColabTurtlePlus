@@ -2343,17 +2343,7 @@ def resetwindow():
 
 def _turtleOrientation():
     alpha = math.radians(heading())
-    print("turtle degree ", turtle_degree)
-    print("alpha ", alpha)
-    print("position ",position())
     Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
-    print("Dxy ",Dxy)
     deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
-    print("deg ",deg)
     return 360-deg
-    #if _mode in ["standard","world"]: 
-   #     return (360 - deg) % 360
-    #elif _mode == "logo":
-    #    return (270 + deg) % 360
-    #else: # mode = "svg"
-    #    return deg % 360
+
