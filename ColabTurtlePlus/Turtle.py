@@ -490,7 +490,6 @@ def _moveToNewPosition(new_pos,units):
                 units -= dunits
         else:
             # wordl mode with aspect ratio of axes different than aspect ratio of the window
-            print("world unequal scale ", xscale,yscale)
             initial_pos = position()
             alpha = math.radians(turtle_degree)
             timeout = timeout*0.20
