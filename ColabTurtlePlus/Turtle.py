@@ -264,8 +264,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
         yscale = window_size[1]/(ymax-ymin)
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
-        xscale = window_size[0]/(xmax-xmin)
-        yscale = window_size[1]/(ymax-ymin)
+        xscale = 1 #window_size[0]/(xmax-xmin)
+        yscale = 1 #window_size[1]/(ymax-ymin)
     else:
         xmin,ymax = 0,0
         xscale = 1
@@ -465,19 +465,43 @@ def _moveToNewPosition(new_pos,units):
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
-        # create temporary svg string to show the animation
-        initial_pos = position()
-        alpha = math.radians(turtle_degree)
-        timeout = timeout*0.20
-        tenx, teny = units/20, units/20
-        dunits = s*units/20
-        while s*units > 0:
-            dx = min(tenx,s*units)
-            dy = min(teny,s*units)
-            temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
-            turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
-            if is_pen_down:
-                svg_lines_string += \
+        if xscale == abs(yscale):
+            # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
+            initial_pos = turtle_pos         
+            alpha = math.radians(turtle_degree)
+            timeout = timeout*0.25
+            tenx, teny = 10/xscale, 10/abs(yscale)
+            dunits = s*10/max(xscale,abs(yscale))
+            while s*units > 0:
+                dx = min(tenx,s*units)
+                dy = min(teny,s*units)
+                turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
+                if is_pen_down:
+                    svg_lines_string += \
+                    """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
+                        x1=initial_pos[0],
+                        y1=initial_pos[1],
+                        x2=turtle_pos[0],
+                        y2=turtle_pos[1],
+                        pen_color=pen_color, 
+                        pen_width=pen_width) 
+                initial_pos = turtle_pos
+                _updateDrawing()
+                units -= dunits
+        else:
+            # wordl mode with aspect ratio of axes different than aspect ratio of the window
+            initial_pos = position()
+            alpha = math.radians(turtle_degree)
+            timeout = timeout*0.20
+            tenx, teny = units/20, units/20
+            dunits = s*units/20
+            while s*units > 0:
+                dx = min(tenx,s*units)
+                dy = min(teny,s*units)
+                temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
+                turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
+                if is_pen_down:
+                    svg_lines_string += \
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
                         x1=_convertx(initial_pos[0]),
                         y1=_converty(initial_pos[1]),
@@ -485,9 +509,9 @@ def _moveToNewPosition(new_pos,units):
                         y2= turtle_pos[1],
                         pen_color=pen_color, 
                         pen_width=pen_width) 
-            initial_pos = temp_turtle_pos
-            _updateDrawing(0)
-            units -= dunits
+                initial_pos = temp_turtle_pos
+                _updateDrawing(0)
+                units -= dunits
     if is_pen_down:
         # now create the permanent svg string that does not display the animation
         svg_lines_string = svg_lines_string_orig + \
@@ -2348,7 +2372,7 @@ def resetwindow():
     _mode = None
 
 def _turtleOrientation():
-    if _mode != "world":
+    if xscale == abs(yscale):
         return turtle_degree
     else:
         alpha = math.radians(heading())
