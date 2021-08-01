@@ -468,7 +468,7 @@ def _moveToNewPosition(new_pos,units):
         # create temporary svg string to show the animation
         initial_pos = position()
         alpha = math.radians(turtle_degree)
-        timeout = timeout*0.10
+        timeout = timeout*0.20
         tenx, teny = units/20, units/20
         dunits = s*units/20
         while s*units > 0:
