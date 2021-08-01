@@ -511,7 +511,7 @@ def _moveToNewPosition(new_pos,units):
                         pen_color=pen_color, 
                         pen_width=pen_width) 
                 initial_pos = temp_turtle_pos
-                _updateDrawing(0)
+                _updateDrawing()
                 units -= dunits
     if is_pen_down:
         # now create the permanent svg string that does not display the animation
