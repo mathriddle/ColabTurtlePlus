@@ -2241,8 +2241,8 @@ def setworldcoordinates(llx, lly, urx, ury):
     ymin = lly
     xmax = urx
     ymax = ury
-    #xscale = window_size[0]/(xmax-xmin)
-    #yscale = window_size[1]/(ymax-ymin)
+    xscale = window_size[0]/(xmax-xmin)
+    yscale = window_size[1]/(ymax-ymin)
     #if xscale != yscale: animationOff()
     _mode = "world"
     
