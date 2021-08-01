@@ -262,7 +262,6 @@ def initializeTurtle(window=None, mode=None, speed=None):
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
-        #animationOn()
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
@@ -316,10 +315,10 @@ def _generateTurtleSvgDrawing():
 
     turtle_x = turtle_pos[0]
     turtle_y = turtle_pos[1]
-    if _mode == "world":
+    if _mode == "standard":
+        degrees = turtle_degree - tilt_angle    
+    elif _mode == "world":
         degrees = turtle_orient - tilt_angle
-    elif _mode == "standard":
-        degrees = turtle_degree - tilt_angle
     else:
         degrees = turtle_degree + tilt_angle
     
@@ -487,7 +486,7 @@ def _moveToNewPosition(new_pos,units):
                         pen_color=pen_color, 
                         pen_width=pen_width) 
             initial_pos = temp_turtle_pos
-            _updateDrawing()
+            _updateDrawing(0)
             units -= dunits
     if is_pen_down:
         # now create the permanent svg string that does not display the animation
