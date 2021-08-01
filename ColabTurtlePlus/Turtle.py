@@ -2158,13 +2158,12 @@ def tilt(angle):
 
     global tilt_angle
     global turtle_degree
-    if turtle_speed != 0 and animate:
+    global turtle_orient
+    if turtle_speed != 0 and animate and _mode != "world":
         turtle_degree_temp = turtle_degree
-        if _mode in ["standard","world"]:
-
+        if _mode in ["standard"]:
             left(angle*angle_conv)
         else:
-
             right(angle*angle_conv)
         turtle_degree = turtle_degree_temp
         tilt_angle += angle*angle_conv
