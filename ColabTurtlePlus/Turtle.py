@@ -318,6 +318,7 @@ def _generateTurtleSvgDrawing():
     turtle_y = turtle_pos[1]
     if _mode == "world":
         degrees = turtle_orient - tilt_angle
+        print(degrees)
     elif _mode == "standard":
         degrees = turtle_degree - tilt_angle
     else:
@@ -330,9 +331,7 @@ def _generateTurtleSvgDrawing():
         degrees -= 90
     else:
         degrees -= 90
-    
-    #print("degrees = ",degrees)
-    
+       
     return shapeDict[turtle_shape].format(
                            turtle_color=fill_color,
                            pen_color=pen_color,
@@ -719,18 +718,18 @@ def goto(x, y=None):
     turtle_angle_orig = turtle_degree
     alpha = towards(x,y)
     units = distance(x,y)
-    if _mode in ["standard","world"]: 
+    if _mode == "standard": 
         turtle_degree = (360 - alpha) % 360
         tilt_angle = -((turtle_angle_orig-tilt_angle+alpha) % 360)
     elif _mode == "logo":
         turtle_degree = (270 + alpha) % 360
         tilt_angle = turtle_angle_orig+tilt_angle-alpha-270
+    elif _mode == "world":
+        turtle_degree = (360 - alpha) % 360
     else: # mode = "svg"
         turtle_degree = alpha % 360
         tilt_angle = turtle_angle_orig+tilt_angle-alpha
-    print(turtle_orient)
     _moveToNewPosition((_convertx(x), _converty(y)),units)
-    print(turtle_orient)
     tilt_angle = tilt_angle_orig
     turtle_degree = turtle_angle_orig
 setpos = goto # alias
@@ -2355,6 +2354,5 @@ def _turtleOrientation():
     alpha = math.radians(heading())
     Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
     deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
-    print(360-deg)
     return 360-deg
 
