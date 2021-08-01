@@ -262,9 +262,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
-        print(xscale,yscale)
         #animationOn()
-    if _mode != "svg":
+    elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = window_size[0]/(xmax-xmin)
         yscale = window_size[1]/(ymax-ymin)
@@ -478,7 +477,6 @@ def _moveToNewPosition(new_pos,units):
             dy = min(teny,s*units)
             temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
             turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
-            print(temp_turtle_pos,turtle_pos)
             if is_pen_down:
                 svg_lines_string += \
                     """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
