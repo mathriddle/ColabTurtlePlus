@@ -468,9 +468,9 @@ def _moveToNewPosition(new_pos,units):
         # create temporary svg string to show the animation
         initial_pos = position()
         alpha = math.radians(turtle_degree)
-        timeout = timeout*0.25
-        tenx, teny = units/10, units/10
-        dunits = s*units/10
+        timeout = timeout*0.10
+        tenx, teny = units/20, units/20
+        dunits = s*units/20
         while s*units > 0:
             dx = min(tenx,s*units)
             dy = min(teny,s*units)
@@ -2348,8 +2348,11 @@ def resetwindow():
     _mode = None
 
 def _turtleOrientation():
-    alpha = math.radians(heading())
-    Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
-    deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
-    return 360-deg
+    if _mode != "world":
+        return turtle_degree
+    else:
+        alpha = math.radians(heading())
+        Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
+        deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
+        return 360-deg
 
