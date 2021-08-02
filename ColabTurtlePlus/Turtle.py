@@ -35,8 +35,7 @@ Added speed=0 option that displays final image with no animation.
 Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
   If this is done *before* initializing the turtle window, the graphic window is adjusted to maintain
   the same aspect ratio as the axes, so angles are true. It the world coordinates are set *after* initializing
-  the turtle window, the animation does not work correctly (at the moment) and so animation is turned off unless
-  the window size was set so that the aspect ratio of the window and the axes are the same.
+  the turtle window, no adjustment is made to the window size so angles may appear distorted.
 Added towards function to return the angle between the line from turtle position to specified position.
 Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function and fillrule function.
   The fillrule function can be used to specify the SVG fill_rule (nonzero or evenodd). The default is evenodd to match turtle.py behavior.
@@ -2233,8 +2232,7 @@ def window_height():
 
 # Set up user-defined coordinate system using lower left and upper right corners.
 # if the xscale and yscale are not equal, the aspect ratio of the axes and the
-# graphic window will differ. Animation will not currently work correctly in that
-# case, so animation is turned off. 
+# graphic window will differ.  
 def setworldcoordinates(llx, lly, urx, ury):
     """Sets up a user defined coordinate-system.
     
@@ -2265,9 +2263,34 @@ def setworldcoordinates(llx, lly, urx, ury):
     ymax = ury
     xscale = window_size[0]/(xmax-xmin)
     yscale = window_size[1]/(ymax-ymin)
-    #if xscale != yscale: animationOff()
     _mode = "world"
-    
+
+# Resets the window axes parameters to None in case user wants to rerun a Colab notebook
+# without restarting the runtime. Only necessary when calling initializeTurtle after using
+# world coordinates.
+def resetwindow():
+    """Reset the axes parameters for re-running a notebook that uses world coordinates.
+    This should be the first line before initializeTurtle.
+    """
+
+    global xmin,xmax,ymin,ymax
+    global _mode
+    xmin,xmax,ymin,ymax = None, None, None, None
+    _mode = None
+
+# If world coordinates are such that the aspect ratio of the axes does not match the
+# aspect ratio of the graphic window (xscale != yscale), then this function is used to 
+# set the orientation of the turtle to line up with the direction of motion in the 
+# world coordinates.
+def _turtleOrientation():
+    if xscale == abs(yscale):
+        return turtle_degree
+    else:
+        alpha = math.radians(heading())
+        Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
+        deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
+        return 360-deg
+
 # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
 def showborder(color = None, c2 = None, c3 = None):
     """Shows a border around the graphics window.
@@ -2362,21 +2385,4 @@ def animationOn():
     global animate
     animate = True
 
-# Resets the window axes parameters to None in case user wants to rerun a Colab notebook
-# without restarting the runtime. Helps when calling initializeTurtle after using
-# world coordinates.
-def resetwindow():
-    global xmin,xmax,ymin,ymax
-    global _mode
-    xmin,xmax,ymin,ymax = None, None, None, None
-    _mode = None
-
-def _turtleOrientation():
-    if xscale == abs(yscale):
-        return turtle_degree
-    else:
-        alpha = math.radians(heading())
-        Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
-        deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
-        return 360-deg
 
