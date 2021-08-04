@@ -470,7 +470,7 @@ def _moveToNewPosition(new_pos,units):
             alpha = math.radians(turtle_degree)
             tenx, teny = 10/xscale, 10/abs(yscale)
             dunits = s*10/xscale
-            timeout = timeout*tenx*s/units    
+            timeout = timeout*.20    
             while s*units > 0:
                 dx = min(tenx,s*units)
                 dy = min(teny,s*units)
