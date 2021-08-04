@@ -494,7 +494,7 @@ def _moveToNewPosition(new_pos,units):
             timeout = timeout*0.20
             xpixunits = _convertx(1)-_convertx(0)
             ypixunits = _converty(1)-_converty(0)
-            xstep = 10/(max(xpixunits,ypixunits)
+            xstep = 10/(max(xpixunits,ypixunits))
             ystep = xstep
             #tenx, teny = units/20, units/20
             #dunits = s*units/20
