@@ -501,8 +501,8 @@ def _moveToNewPosition(new_pos,units):
             dunits = s*xstep
             print("xstep = ",xstep)
             while s*units > 0:
-                dx = min(tenx,s*units)
-                dy = min(teny,s*units)
+                dx = min(xstep,s*units)
+                dy = min(ystep,s*units)
                 temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
                 turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
                 if is_pen_down:
