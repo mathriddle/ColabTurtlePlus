@@ -2291,7 +2291,7 @@ def _turtleOrientation():
     if xscale == abs(yscale):
         return turtle_degree
     else:
-        alpha = math.radians(heading())
+        alpha = math.radians(heading()*angle_conv)
         Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
         deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
         return 360-deg
