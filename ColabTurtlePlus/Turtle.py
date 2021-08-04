@@ -468,9 +468,9 @@ def _moveToNewPosition(new_pos,units):
             # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
             initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
-            timeout = timeout*0.25
             tenx, teny = 10/xscale, 10/abs(yscale)
-            dunits = s*10/max(xscale,abs(yscale))
+            dunits = s*10/xscale
+            timeout = timeout*tenx*s/units    
             while s*units > 0:
                 dx = min(tenx,s*units)
                 dy = min(teny,s*units)
