@@ -150,7 +150,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
 
-SPEED_TO_SEC_MAP = {0: 0, 1: 1.25, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.04, 12: 0.02, 13: 0.005}
+SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
 # Helper function that maps [0,13] speed values to ms delays
 def _speedToSec(speed):
@@ -488,12 +488,18 @@ def _moveToNewPosition(new_pos,units):
                 _updateDrawing()
                 units -= dunits
         else:
-            # wordl mode with aspect ratio of axes different than aspect ratio of the window
+            # world mode with aspect ratio of axes different than aspect ratio of the window
             initial_pos = position()
             alpha = math.radians(turtle_degree)
             timeout = timeout*0.20
-            tenx, teny = units/20, units/20
-            dunits = s*units/20
+            xpixunits = _convertx(1)-_convertx(0)
+            ypixunits = _converty(1)-_converty(0)
+            xstep = 10/(max(xpixunits,ypixunits)
+            ystep = xstep
+            #tenx, teny = units/20, units/20
+            #dunits = s*units/20
+            dunits = s*xstep
+            print("xstep = ",xstep)
             while s*units > 0:
                 dx = min(tenx,s*units)
                 dy = min(teny,s*units)
