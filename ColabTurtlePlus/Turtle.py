@@ -255,12 +255,12 @@ def initializeTurtle(window=None, mode=None, speed=None):
     if _mode == "world":
         if ymax-ymin > xmax-xmin:
             ysize = window_size[1]
-            window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
+            window_size = roound((xmax-xmin)/(ymax-ymin)*ysize),ysize
         else:
             xsize = window_size[0]
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
         xscale = window_size[0]/(xmax-xmin)
-        yscale = window_size[1]/(ymax-ymin)
+        yscale = xscale #window_size[1]/(ymax-ymin)
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = 1 #window_size[0]/(xmax-xmin)
@@ -464,7 +464,7 @@ def _moveToNewPosition(new_pos,units):
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
-        if round(xscale,3) == round(abs(yscale),3):
+        if xscale == abs(yscale):
             # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
             initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
