@@ -464,7 +464,7 @@ def _moveToNewPosition(new_pos,units):
     svg_lines_string_orig = svg_lines_string       
     s = 1 if units > 0 else -1            
     if turtle_speed != 0 and animate:
-        if xscale == abs(yscale):
+        if round(xscale,3) == round(abs(yscale),3):
             # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
             initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
