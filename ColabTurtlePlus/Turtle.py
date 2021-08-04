@@ -499,7 +499,7 @@ def _moveToNewPosition(new_pos,units):
             #tenx, teny = units/20, units/20
             #dunits = s*units/20
             dunits = s*xstep
-            print("xstep = ",xstep)
+            print("xscale = ",xscale, "  yscale = ",yscale)
             while s*units > 0:
                 dx = min(xstep,s*units)
                 dy = min(ystep,s*units)
