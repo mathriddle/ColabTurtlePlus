@@ -162,7 +162,7 @@ is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
 pen_color = DEFAULT_PEN_COLOR
 window_size = DEFAULT_WINDOW_SIZE
 turtle_pos = (DEFAULT_WINDOW_SIZE[0] / 2, DEFAULT_WINDOW_SIZE[1] / 2)
-xmin, xmax, ymin, ymax = None
+xmin = xmax = ymin = ymax = None
 turtle_degree = DEFAULT_TURTLE_DEGREE
 turtle_orient = DEFAULT_TURTLE_DEGREE
 background_color = DEFAULT_BACKGROUND_COLOR
