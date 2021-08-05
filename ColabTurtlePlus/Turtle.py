@@ -258,7 +258,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
             raise AttributeError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')    
         if ymax-ymin > xmax-xmin:
             ysize = window_size[1]
-            window_size = roound((xmax-xmin)/(ymax-ymin)*ysize),ysize
+            window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
         else:
             xsize = window_size[0]
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
