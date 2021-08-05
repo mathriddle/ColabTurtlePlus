@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='ColabTurtlePlus',
-    version='1.2.0',
+    version='1.2.1',
     packages=['ColabTurtlePlus'],
     url='https://github.com/mathriddle/ColabTurtlePlus',
     license='MIT',
