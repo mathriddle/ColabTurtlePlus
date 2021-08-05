@@ -259,7 +259,7 @@ the turtle window, angles and circles may be distorted. Usually best to also run
 * `ury` : y-coordinate of upper right corner of canvas
 
 `resetwindow()` -> Resets the axes min/max values and the mode to None. This should be executed if using world coordinates in a situation where the aspect
-ratio of the graphing window is intended to be different than the aspect ratio of the axes, and you want to rerun a cell in Colab containing initializeTurtle.
+ratio of the graphing window is intended to be different than the aspect ratio of the axes, and you want to rerun a cell in Colab containing initializeTurtle. This should usually be the first line of the program (before initializeTurtle or setworldcoordinates).
 
 `showborder(color)` -> Show a border around the graphics window. Default (no parameters) is gray. A color can be specified in a similar way as with `pencolor`.
 
