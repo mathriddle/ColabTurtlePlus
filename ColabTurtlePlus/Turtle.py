@@ -2278,7 +2278,7 @@ def setworldcoordinates(llx, lly, urx, ury):
 # world coordinates.
 def resetwindow():
     """Reset the axes parameters for re-running a notebook that uses world coordinates.
-    This should be the first line before initializeTurtle.
+    This should be done before setting world coordinates and initializeTurtle.
     """
 
     global xmin,xmax,ymin,ymax
