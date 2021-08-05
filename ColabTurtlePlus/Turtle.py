@@ -742,7 +742,7 @@ def goto(x, y=None):
         raise ValueError('New y position must be a number.')
     tilt_angle_orig = tilt_angle
     turtle_angle_orig = turtle_degree
-    alpha = towards(x,y)
+    alpha = towards(x,y)*angle_conv
     units = distance(x,y)
     if _mode == "standard": 
         turtle_degree = (360 - alpha) % 360
