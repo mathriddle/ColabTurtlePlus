@@ -1249,7 +1249,7 @@ def regularPolygon(sides, length, steps=None):
         polyfilling = True
         fillcolor_temp = fill_color
         begin_fill()
-    alpha = (360/angle_mode)/sides
+    alpha = (360/angle_conv)/sides
     print(alpha)
     if length < 0: 
         alpha = -alpha
