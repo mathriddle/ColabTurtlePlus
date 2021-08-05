@@ -647,6 +647,7 @@ def right(angle):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
     deg = angle*angle_conv
+    print("deg : ",deg)
     if turtle_speed == 0 or not animate:
         turtle_degree = (turtle_degree + deg) % 360
         _updateDrawing()
@@ -861,6 +862,7 @@ def home():
     a270 = 270/angle_conv
     a90 = 90/angle_conv
     if _mode in ['standard','world']:
+        print("in home :",turtle_degree)
         if turtle_degree <= 180:
             left(angle)
         else:
