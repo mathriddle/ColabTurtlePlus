@@ -856,20 +856,24 @@ def home():
         goto(0,0)
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
+    angle = turtle_degree/angle_conv
+    a360 = 360/angle_conv
+    a270 = 270/angle_conv
+    a90 = 90/angle_conv
     if _mode in ['standard','world']:
         if turtle_degree <= 180:
-            left(turtle_degree)
+            left(angle)
         else:
-            right(360-turtle_degree)
+            right(a360-angle)
         turtle_orient = _turtleOrientation()
         _updateDrawing(0)
     else:
         if turtle_degree < 90:
-            left(turtle_degree+90)
+            left(angle+a90)
         elif turtle_degree< 270:
-            right(270-turtle_degree)
+            right(a270-angle)
         else:
-            left(turtle_degree-270)
+            left(angle-a270)
     
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
