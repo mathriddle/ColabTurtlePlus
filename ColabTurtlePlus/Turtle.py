@@ -1387,7 +1387,6 @@ def radians():
 
     global angle_conv
     global angle_mode
-    global fullcircle
     angle_mode = 'radians'
     angle_conv = 180/math.pi
 
@@ -1397,7 +1396,6 @@ def degrees():
 
     global angle_conv
     global angle_mode
-    global fullcircle
     angle_mode = 'degrees'
     angle_conv = 1
 
@@ -1886,7 +1884,7 @@ def reset():
         turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     else:
         turtle_pos = (_convertx(0),_converty(0))
-    _updateDrawing(0)
+    #_updateDrawing(0)
     
 
 # Clear any text or drawing on the screen
