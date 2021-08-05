@@ -162,6 +162,7 @@ is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
 pen_color = DEFAULT_PEN_COLOR
 window_size = DEFAULT_WINDOW_SIZE
 turtle_pos = (DEFAULT_WINDOW_SIZE[0] / 2, DEFAULT_WINDOW_SIZE[1] / 2)
+xmin, xmax, ymin, ymax = None
 turtle_degree = DEFAULT_TURTLE_DEGREE
 turtle_orient = DEFAULT_TURTLE_DEGREE
 background_color = DEFAULT_BACKGROUND_COLOR
@@ -253,9 +254,7 @@ def initializeTurtle(window=None, mode=None, speed=None):
             _mode = mode
  
     if _mode == "world":
-        if drawing_window == None:
-            raise AttributeError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')
-        if xmin == None:
+        if xmin is None:
             raise AttributeError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')    
         if ymax-ymin > xmax-xmin:
             ysize = window_size[1]
