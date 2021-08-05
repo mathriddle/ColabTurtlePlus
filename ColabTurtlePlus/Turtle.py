@@ -647,7 +647,6 @@ def right(angle):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
     deg = angle*angle_conv
-    print("deg : ",deg)
     if turtle_speed == 0 or not animate:
         turtle_degree = (turtle_degree + deg) % 360
         _updateDrawing()
@@ -857,25 +856,20 @@ def home():
         goto(0,0)
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
-    angle = turtle_degree/angle_conv
-    a360 = 360/angle_conv
-    a270 = 270/angle_conv
-    a90 = 90/angle_conv
     if _mode in ['standard','world']:
-        print("in home :",turtle_degree)
         if turtle_degree <= 180:
-            left(angle)
+            left(turtle_degree/angle_conv)
         else:
-            right(a360-angle)
+            right((360-turtle_degree)/angle_conv)
         turtle_orient = _turtleOrientation()
         _updateDrawing(0)
     else:
         if turtle_degree < 90:
-            left(angle+a90)
+            left((turtle_degree+90)/angle_conv)
         elif turtle_degree< 270:
-            right(a270-angle)
+            right((270-turtle_degree)/angle_conv)
         else:
-            left(angle-a270)
+            left((turtle_degree)/angle_conv)
     
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
