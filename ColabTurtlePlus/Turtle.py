@@ -667,7 +667,7 @@ def right(angle):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=angle, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=deg, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
