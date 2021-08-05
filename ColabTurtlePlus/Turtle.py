@@ -492,12 +492,10 @@ def _moveToNewPosition(new_pos,units):
             initial_pos = position()
             alpha = math.radians(turtle_degree)
             timeout = timeout*0.20
-            xpixunits = _convertx(1)-_convertx(0)
-            ypixunits = _converty(1)-_converty(0)
-            xstep = 10/(max(xpixunits,ypixunits))
+            xpixunits = _convertx(1)-_convertx(0)  #length of 1 world unit along x-axis in pixels
+            ypixunits = _converty(1)-_converty(0)  #length of 1 world unit along y-axis in pixels
+            xstep = 10/(max(xpixunits,ypixunits))  #length of 10 pixels in world units 
             ystep = xstep
-            #tenx, teny = units/20, units/20
-            #dunits = s*units/20
             dunits = s*xstep
             while s*units > 0:
                 dx = min(xstep,s*units)
@@ -622,7 +620,7 @@ def backward(units):
 bk = backward # alias
 back = backward # alias
 
-# Makes the turtle move right by 'degrees' degrees or radians
+# Makes the turtle move right by 'angle' degrees or radians
 # Uses SVG animation to rotate turtle.
 # But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
 # so in that case break the rotation into pieces of at most 30 degrees.
@@ -696,7 +694,7 @@ def right(angle):
         turtle_orient = _turtleOrientation()
 rt = right # alias
 
-# Makes the turtle move right by 'degrees' degrees 
+# Makes the turtle move right by 'angle' degrees or radians
 def left(angle):
     """Turns the turtle left by angle units.
 
@@ -856,6 +854,8 @@ def home():
         goto(0,0)
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
+    #turtle_degree is always in degrees, but angle mode might be radians
+    #divide by angle_conv so angle sent to left or right is in the correct mode
     if _mode in ['standard','world']:
         if turtle_degree <= 180:
             left(turtle_degree/angle_conv)
@@ -869,7 +869,7 @@ def home():
         elif turtle_degree< 270:
             right((270-turtle_degree)/angle_conv)
         else:
-            left((turtle_degree)/angle_conv)
+            left((turtle_degree-270)/angle_conv)
     
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
@@ -1249,7 +1249,7 @@ def regularPolygon(sides, length, steps=None):
         polyfilling = True
         fillcolor_temp = fill_color
         begin_fill()
-    alpha = 360/sides
+    alpha = 360/sides/angle_mode
     if length < 0: 
         alpha = -alpha
         length = -length
