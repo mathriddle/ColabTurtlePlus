@@ -150,7 +150,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
 
-SPEED_TO_SEC_MAP = {0: 0, 1: 1.25, 2: 1, 3: 0.75, 4: 0.5, 5: 0.3, 6: 0.25, 7: 0.2, 8: 0.15, 9: 0.10, 10: 0.05, 11: 0.04, 12: 0.02, 13: 0.005}
+SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
 # Helper function that maps [0,13] speed values to ms delays
 def _speedToSec(speed):
@@ -162,6 +162,7 @@ is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
 pen_color = DEFAULT_PEN_COLOR
 window_size = DEFAULT_WINDOW_SIZE
 turtle_pos = (DEFAULT_WINDOW_SIZE[0] / 2, DEFAULT_WINDOW_SIZE[1] / 2)
+xmin = xmax = ymin = ymax = None
 turtle_degree = DEFAULT_TURTLE_DEGREE
 turtle_orient = DEFAULT_TURTLE_DEGREE
 background_color = DEFAULT_BACKGROUND_COLOR
@@ -251,22 +252,23 @@ def initializeTurtle(window=None, mode=None, speed=None):
             raise ValueError('Mode must be standard, logo, or svg')
         else:
             _mode = mode
-    
+ 
     if _mode == "world":
+        if xmin is None:
+            raise AttributeError("Coordinates not set. Run setworldcoordinates() before initializeTurtle or don't set mode='world' in initializeTurtle.")    
         if ymax-ymin > xmax-xmin:
             ysize = window_size[1]
             window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
         else:
             xsize = window_size[0]
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
-        xscale = window_size[0]/(xmax-xmin)
-        yscale = window_size[1]/(ymax-ymin)
+        xscale = yscale = window_size[0]/(xmax-xmin)
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
-        xscale = 1 #window_size[0]/(xmax-xmin)
-        yscale = 1 #window_size[1]/(ymax-ymin)
+        xscale = 1  #window_size[0]/(xmax-xmin)
+        yscale = 1  #window_size[1]/(ymax-ymin)
     else:
-        xmin,ymax = 0,0
+        xmin = ymax = 0
         xscale = 1
         yscale = -1
        
@@ -468,9 +470,9 @@ def _moveToNewPosition(new_pos,units):
             # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
             initial_pos = turtle_pos         
             alpha = math.radians(turtle_degree)
-            timeout = timeout*0.25
             tenx, teny = 10/xscale, 10/abs(yscale)
-            dunits = s*10/max(xscale,abs(yscale))
+            dunits = s*10/xscale
+            timeout = timeout*.20    
             while s*units > 0:
                 dx = min(tenx,s*units)
                 dy = min(teny,s*units)
@@ -488,15 +490,18 @@ def _moveToNewPosition(new_pos,units):
                 _updateDrawing()
                 units -= dunits
         else:
-            # wordl mode with aspect ratio of axes different than aspect ratio of the window
+            # world mode with aspect ratio of axes different than aspect ratio of the window
             initial_pos = position()
             alpha = math.radians(turtle_degree)
             timeout = timeout*0.20
-            tenx, teny = units/20, units/20
-            dunits = s*units/20
+            xpixunits = _convertx(1)-_convertx(0)  #length of 1 world unit along x-axis in pixels
+            ypixunits = _converty(1)-_converty(0)  #length of 1 world unit along y-axis in pixels
+            xstep = 10/(max(xpixunits,ypixunits))  #length of 10 pixels in world units 
+            ystep = xstep
+            dunits = s*xstep
             while s*units > 0:
-                dx = min(tenx,s*units)
-                dy = min(teny,s*units)
+                dx = min(xstep,s*units)
+                dy = min(ystep,s*units)
                 temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
                 turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
                 if is_pen_down:
@@ -617,7 +622,7 @@ def backward(units):
 bk = backward # alias
 back = backward # alias
 
-# Makes the turtle move right by 'degrees' degrees or radians
+# Makes the turtle move right by 'angle' degrees or radians
 # Uses SVG animation to rotate turtle.
 # But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
 # so in that case break the rotation into pieces of at most 30 degrees.
@@ -662,7 +667,7 @@ def right(angle):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=angle, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=deg, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
         shapeDict.update({turtle_shape:newtemplate})
         stretchfactor = 1,1
@@ -691,7 +696,7 @@ def right(angle):
         turtle_orient = _turtleOrientation()
 rt = right # alias
 
-# Makes the turtle move right by 'degrees' degrees 
+# Makes the turtle move right by 'angle' degrees or radians
 def left(angle):
     """Turns the turtle left by angle units.
 
@@ -737,7 +742,7 @@ def goto(x, y=None):
         raise ValueError('New y position must be a number.')
     tilt_angle_orig = tilt_angle
     turtle_angle_orig = turtle_degree
-    alpha = towards(x,y)
+    alpha = towards(x,y)*angle_conv
     units = distance(x,y)
     if _mode == "standard": 
         turtle_degree = (360 - alpha) % 360
@@ -851,20 +856,22 @@ def home():
         goto(0,0)
     else:
         goto( (window_size[0] / 2, window_size[1] / 2) )
+    #turtle_degree is always in degrees, but angle mode might be radians
+    #divide by angle_conv so angle sent to left or right is in the correct mode
     if _mode in ['standard','world']:
         if turtle_degree <= 180:
-            left(turtle_degree)
+            left(turtle_degree/angle_conv)
         else:
-            right(360-turtle_degree)
+            right((360-turtle_degree)/angle_conv)
         turtle_orient = _turtleOrientation()
         _updateDrawing(0)
     else:
         if turtle_degree < 90:
-            left(turtle_degree+90)
+            left((turtle_degree+90)/angle_conv)
         elif turtle_degree< 270:
-            right(270-turtle_degree)
+            right((270-turtle_degree)/angle_conv)
         else:
-            left(turtle_degree-270)
+            left((turtle_degree-270)/angle_conv)
     
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
@@ -1244,7 +1251,8 @@ def regularPolygon(sides, length, steps=None):
         polyfilling = True
         fillcolor_temp = fill_color
         begin_fill()
-    alpha = 360/sides
+    alpha = (360/angle_conv)/sides
+    print(alpha)
     if length < 0: 
         alpha = -alpha
         length = -length
@@ -1381,7 +1389,6 @@ def radians():
 
     global angle_conv
     global angle_mode
-    global fullcircle
     angle_mode = 'radians'
     angle_conv = 180/math.pi
 
@@ -1391,7 +1398,6 @@ def degrees():
 
     global angle_conv
     global angle_mode
-    global fullcircle
     angle_mode = 'degrees'
     angle_conv = 1
 
@@ -1856,6 +1862,8 @@ def reset():
     global tilt_angle
     global outline_width
 
+    if drawing_window == None:
+        raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
     fill_color = DEFAULT_FILL_COLOR
@@ -1880,7 +1888,7 @@ def reset():
         turtle_pos = (window_size[0] / 2, window_size[1] / 2)
     else:
         turtle_pos = (_convertx(0),_converty(0))
-    _updateDrawing(0)
+    #_updateDrawing(0)
     
 
 # Clear any text or drawing on the screen
@@ -2270,12 +2278,12 @@ def setworldcoordinates(llx, lly, urx, ury):
 # world coordinates.
 def resetwindow():
     """Reset the axes parameters for re-running a notebook that uses world coordinates.
-    This should be the first line before initializeTurtle.
+    This should be done before setting world coordinates and initializeTurtle.
     """
 
     global xmin,xmax,ymin,ymax
     global _mode
-    xmin,xmax,ymin,ymax = None, None, None, None
+    xmin = xmax = ymin = ymax = None
     _mode = None
 
 # If world coordinates are such that the aspect ratio of the axes does not match the
@@ -2286,7 +2294,7 @@ def _turtleOrientation():
     if xscale == abs(yscale):
         return turtle_degree
     else:
-        alpha = math.radians(heading())
+        alpha = math.radians(heading()*angle_conv)
         Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
         deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
         return 360-deg
