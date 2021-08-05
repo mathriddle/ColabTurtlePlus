@@ -253,6 +253,8 @@ def initializeTurtle(window=None, mode=None, speed=None):
             _mode = mode
     
     if _mode == "world":
+        if xmin == None or xmax === None or ymin == None or ymax == None:
+            raise ValueError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')
         if ymax-ymin > xmax-xmin:
             ysize = window_size[1]
             window_size = roound((xmax-xmin)/(ymax-ymin)*ysize),ysize
@@ -260,11 +262,11 @@ def initializeTurtle(window=None, mode=None, speed=None):
             xsize = window_size[0]
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
         xscale = window_size[0]/(xmax-xmin)
-        yscale = xscale #window_size[1]/(ymax-ymin)
+        yscale = xscale 
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
-        xscale = 1 #window_size[0]/(xmax-xmin)
-        yscale = 1 #window_size[1]/(ymax-ymin)
+        xscale = 1  #window_size[0]/(xmax-xmin)
+        yscale = 1  #window_size[1]/(ymax-ymin)
     else:
         xmin,ymax = 0,0
         xscale = 1
