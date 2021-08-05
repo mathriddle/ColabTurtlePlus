@@ -262,14 +262,13 @@ def initializeTurtle(window=None, mode=None, speed=None):
         else:
             xsize = window_size[0]
             window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
-        xscale = window_size[0]/(xmax-xmin)
-        yscale = xscale 
+        xscale = yscale = window_size[0]/(xmax-xmin)
     elif _mode != "svg":
         xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
         xscale = 1  #window_size[0]/(xmax-xmin)
         yscale = 1  #window_size[1]/(ymax-ymin)
     else:
-        xmin,ymax = 0,0
+        xmin = ymax = 0
         xscale = 1
         yscale = -1
        
@@ -2284,7 +2283,7 @@ def resetwindow():
 
     global xmin,xmax,ymin,ymax
     global _mode
-    xmin,xmax,ymin,ymax = None, None, None, None
+    xmin = xmax = ymin = ymax = None
     _mode = None
 
 # If world coordinates are such that the aspect ratio of the axes does not match the
