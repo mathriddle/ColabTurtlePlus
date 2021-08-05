@@ -251,12 +251,12 @@ def initializeTurtle(window=None, mode=None, speed=None):
             raise ValueError('Mode must be standard, logo, or svg')
         else:
             _mode = mode
-    
+ 
     if _mode == "world":
         if drawing_window == None:
-            raise ValueError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')
+            raise AttributeError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')
         if xmin == None:
-            raise ValueError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')    
+            raise AttributeError('Coordinates not set. Run setworldcoordinates() before initializeTurtle')    
         if ymax-ymin > xmax-xmin:
             ysize = window_size[1]
             window_size = roound((xmax-xmin)/(ymax-ymin)*ysize),ysize
@@ -1864,6 +1864,8 @@ def reset():
     global tilt_angle
     global outline_width
 
+    if drawing_window == None:
+        raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     is_turtle_visible = True
     pen_color = DEFAULT_PEN_COLOR
     fill_color = DEFAULT_FILL_COLOR
