@@ -1704,7 +1704,8 @@ def _processColor(color):
             raise ValueError(err)
         return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
     else:
-        raise ValueError('The color parameter must be a color string or a tuple')
+        err = 'The color parameter ' + color + ' must be a color string or a tuple'
+        raise ValueError(err)
 
 # Get the color corresponding to position n in the valid color list
 def getcolor(n):
