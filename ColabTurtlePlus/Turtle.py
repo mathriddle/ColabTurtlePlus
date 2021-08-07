@@ -646,7 +646,7 @@ def right(angle):
     if not isinstance(angle, (int,float)):
         raise ValueError('Degrees must be a number.')  
     timeout_orig = timeout
-    deg = angle*angle_conv % 360
+    deg = (angle*angle_conv) % 360
     if turtle_speed == 0 or not animate:
         turtle_degree = (turtle_degree + deg) % 360
         _updateDrawing()
