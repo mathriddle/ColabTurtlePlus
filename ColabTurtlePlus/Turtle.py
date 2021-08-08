@@ -1791,18 +1791,19 @@ def end_fill():
     if is_filling:
         is_filling = False
         if is_pen_down:
-            bddry = pen_color
+            bddry = 'none'
         else:
             bddry = 'none'
-       # svg_fill_string += """" stroke-linecap="round" style="stroke:{pencolor};stroke-width:{penwidth}" fill="{fillcolor}" />""".format(
-       #         pencolor=bddry,
+        svg_fill_string += """" stroke-linecap="round" style="stroke-width:{0}" fill="{fillcolor}" />""".format(
+         #       pencolor=bddry,
        #         penwidth=pen_width,
-       #         fillcolor=fill_color)
-        svg_fill_string += """"  fill="{fillcolor}" />""".format(
-                #pencolor=bddry,
-                #penwidth=pen_width,
                 fillcolor=fill_color)
-        svg_lines_string = svg_lines_string_orig + svg_fill_string
+        #svg_fill_string += """"  fill="{fillcolor}" />""".format(
+        #        #pencolor=bddry,
+                #penwidth=pen_width,
+         #       fillcolor=fill_color)
+        #svg_lines_string = svg_lines_string_orig + svg_fill_string
+        svg_lines_string = svg_fill_string + svg_lines_string
         _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
