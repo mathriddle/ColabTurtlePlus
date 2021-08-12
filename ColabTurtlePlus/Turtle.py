@@ -14,7 +14,8 @@ Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.app
 
 --------
 v1.0.0 Modified April/May 2021 by Larry Riddle
-v.1.1.0 Updated July 17
+v.1.1.0 Updated July 17, 2021
+v.1.4.2 Updated and submitted to PyPI August 11, 2021
 Changed some default values to match classic turtle.py package
   default background color is white, default pen color is black, default pen thickness is 1
   default mode is "standard"
