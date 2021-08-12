@@ -2,7 +2,7 @@ Installation
 ----
 Create an empty code cell and type:
 
-   !pip3 install git+https://github.com/mathriddle/ColabTurtlePlus.git@main
+   !pip3 install ColabTurtlePlus
 
 Run the code cell to install the library.
 
