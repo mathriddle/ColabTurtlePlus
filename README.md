@@ -8,7 +8,7 @@ Installation
 ----
 Create an empty code cell and type:
 
-   !pip3 install ColabTurtlePlus
+   !pip install ColabTurtlePlus
 
 Run the code cell to install the library.
 
