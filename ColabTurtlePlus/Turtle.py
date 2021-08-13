@@ -1797,7 +1797,7 @@ def end_fill():
             bddry = pen_color
         else:
             bddry = 'none'
-        svg_fill_string += """" stroke-linecap="round" style="stroke:{pen};stroke-width={size}" fill="{fillcolor}" />""".format(
+        svg_fill_string += """" stroke-linecap="round" style="stroke:{pen};stroke-width:{size}" fill="{fillcolor}" />""".format(
                 fillcolor=fill_color,
                 pen = bddry,
                 size = pen_width)
