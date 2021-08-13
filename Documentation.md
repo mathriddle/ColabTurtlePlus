@@ -1,3 +1,5 @@
+# Documentation for ColabTurtlePlus
+
 Installation
 ----
 Create an empty code cell and type:
@@ -150,6 +152,8 @@ Works the same as `pencolor` for the fillcolor.
 `fillopacity(opacity)` -> Sets the global fill-opacity used by SVG to fill an object. The default is 1. The `begin_fill()` function can take an argument between 0 and 1 to set the fill_opacity just for that fill.
 
 Because the fill is controlled by svg rules, the result may differ from classic turtle fill. The fill-rule and fill-opacity can be set as arguments to the begin_fill() function and will apply only to objects filled before the end_fill is called. There are two possible arguments to specify the SVG fill-rule: 'nonzero' and 'evenodd'. The default is 'evenodd' to match the fill behavior in classic turtle.py. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill-rule for details.
+
+Note: end_fill() will use the current pen color and current pen width for the boundary of the area being filled. If you want to change the pen color or width during the fill, you will need to do a separate begin_fill, end_fill pair for each separate color and/or width.
 
 #### Pen Control - More Drawing Control
 
