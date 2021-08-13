@@ -1787,7 +1787,7 @@ def end_fill():
         is_filling = False
         svg_fill_string += """" stroke-linecap="round" style="stroke-width=0" fill="{fillcolor}" />""".format(
                 fillcolor=fill_color)
-        svg_lines_string = svg_fill_string + svg_lines_string
+        svg_lines_string += svg_fill_string 
         _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
