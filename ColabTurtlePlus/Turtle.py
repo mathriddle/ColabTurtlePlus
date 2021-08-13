@@ -1785,8 +1785,10 @@ def end_fill():
     global svg_fill_string
     if is_filling:
         is_filling = False
-        svg_fill_string += """" stroke-linecap="round" style="stroke-width=0" fill="{fillcolor}" />""".format(
-                fillcolor=fill_color)
+        svg_fill_string += """" stroke-linecap="round" style="stroke={pen},stroke-width={size}" fill="{fillcolor}" />""".format(
+                fillcolor=fill_color,
+                pen = "none",
+                size = pen_width)
         svg_lines_string += svg_fill_string 
         _updateDrawing(0)
      
