@@ -1740,6 +1740,8 @@ def filling():
 
 # Initialize the string for the svg path of the filled shape.
 # Modified from aronma/ColabTurtle_2 github repo
+# The current svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
+# the svg code for the path generated between the begin and end fill commands.
 # When calling begin_fill, a value for the fill_rule can be given that will apply only to that fill.
 def begin_fill(rule=None, opacity=None):
     """Called just before drawing a shape to be filled.
@@ -1757,6 +1759,7 @@ def begin_fill(rule=None, opacity=None):
     """
 
     global is_filling
+    global svg_lines_string_orig
     global svg_fill_string
     if rule is None:
          rule = fill_rule
@@ -1768,6 +1771,7 @@ def begin_fill(rule=None, opacity=None):
     if (opacity < 0) or (opacity > 1):
         raise ValueError("The fill_opacity should be between 0 and 1.")
     if not is_filling:
+        svg_lines_string_orig = svg_lines_string
         svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity}" d="M {x1} {y1} """.format(
                 x1=turtle_pos[0],
                 y1=turtle_pos[1],
@@ -1777,17 +1781,27 @@ def begin_fill(rule=None, opacity=None):
     
 # Terminate the string for the svg path of the filled shape
 # Modified from aronma/ColabTurtle_2 github repo
+# The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
+# the svg code for the path generated between the begin and end fill commands.
+# the svg code for the path generated between the begin and end fill commands.
 def end_fill():
     """Fill the shape drawn after the call begin_fill()."""
 
     global is_filling   
     global svg_lines_string
+    global svg_lines_string_orig
     global svg_fill_string
     if is_filling:
         is_filling = False
-        svg_fill_string += """" stroke-linecap="round" style="stroke-width=0" fill="{fillcolor}" />""".format(
-                fillcolor=fill_color)
-        svg_lines_string = svg_fill_string + svg_lines_string
+        if is_pen_down:
+            bddry = pen_color
+        else:
+            bddry = 'none'
+        svg_fill_string += """" stroke-linecap="round" style="stroke:{pen};stroke-width:{size}" fill="{fillcolor}" />""".format(
+                fillcolor=fill_color,
+                pen = bddry,
+                size = pen_width)
+        svg_lines_string = svg_lines_string_orig + svg_fill_string 
         _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
