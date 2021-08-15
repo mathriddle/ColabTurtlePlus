@@ -14,8 +14,6 @@ Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.app
 
 --------
 v1.0.0 Modified April/May 2021 by Larry Riddle
-v.1.1.0 Updated July 17, 2021
-v.1.4.2 Updated and submitted to PyPI August 11, 2021
 Changed some default values to match classic turtle.py package
   default background color is white, default pen color is black, default pen thickness is 1
   default mode is "standard"
@@ -107,7 +105,7 @@ DEFAULT_MODE = 'standard'
 DEFAULT_ANGLE_MODE = 'degrees'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
-        <rect width="100%" height="100%" style="fill:{background_color};stroke:{kolor};stroke-width:1"/>
+        <rect width="100%" height="100%" style="fill:{backcolor};stroke:{kolor};stroke-width:1"/>
         {stampsB}
         {lines}
         {dots}
@@ -116,29 +114,29 @@ SVG_TEMPLATE = """
       </svg>
     """
 TURTLE_TURTLE_SVG_TEMPLATE = """<g id="turtle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<path style="stroke:{pen_color};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})" d="m 1.1536693,-18.56101 c -2.105469,1.167969 -3.203125,3.441407 -3.140625,6.5 l 0.011719,0.519532 -0.300782,-0.15625 c -1.308594,-0.671875 -2.828125,-0.824219 -4.378906,-0.429688 -1.9375,0.484375 -3.8906253,2.089844 -6.0117193,4.9257825 -1.332031,1.785156 -1.714843,2.644531 -1.351562,3.035156 l 0.113281,0.125 h 0.363281 c 0.71875,0 1.308594,-0.265625 4.6679693,-2.113282 1.199219,-0.660156 2.183594,-1.199218 2.191406,-1.199218 0.00781,0 -0.023437,0.089844 -0.074218,0.195312 -0.472657,1.058594 -1.046876,2.785156 -1.335938,4.042969 -1.054688,4.574219 -0.351562,8.453125 2.101562,11.582031 0.28125,0.355469 0.292969,0.253906 -0.097656,0.722656 -2.046875,2.4609375 -3.027344,4.8984375 -2.734375,6.8046875 0.050781,0.339844 0.042969,0.335938 0.679688,0.335938 2.023437,0 4.15625,-1.316407 6.21875,-3.835938 0.222656,-0.269531 0.191406,-0.261719 0.425781,-0.113281 0.730469,0.46875 2.460938,1.390625 2.613281,1.390625 0.160157,0 1.765625,-0.753906 2.652344,-1.246094 0.167969,-0.09375 0.308594,-0.164062 0.308594,-0.160156 0.066406,0.105468 0.761719,0.855468 1.085937,1.171875 1.613282,1.570312 3.339844,2.402343 5.3593747,2.570312 0.324219,0.02734 0.355469,0.0078 0.425781,-0.316406 0.375,-1.742187 -0.382812,-4.058594 -2.1445307,-6.5585935 l -0.320312,-0.457031 0.15625,-0.183594 c 3.2460927,-3.824218 3.4335927,-9.08593704 0.558593,-15.816406 l -0.050781,-0.125 1.7382807,0.859375 c 3.585938,1.773437 4.371094,2.097656 5.085938,2.097656 0.945312,0 0.75,-0.863281 -0.558594,-2.507812 C 11.458356,-11.838353 8.3333563,-13.268041 4.8607003,-11.721166 l -0.363281,0.164063 0.019531,-0.09375 c 0.121094,-0.550781 0.183594,-1.800781 0.121094,-2.378907 -0.203125,-1.867187 -1.035157,-3.199218 -2.695313,-4.308593 -0.523437,-0.351563 -0.546875,-0.355469 -0.789062,-0.222657" />
+<path style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})" d="m 1.1536693,-18.56101 c -2.105469,1.167969 -3.203125,3.441407 -3.140625,6.5 l 0.011719,0.519532 -0.300782,-0.15625 c -1.308594,-0.671875 -2.828125,-0.824219 -4.378906,-0.429688 -1.9375,0.484375 -3.8906253,2.089844 -6.0117193,4.9257825 -1.332031,1.785156 -1.714843,2.644531 -1.351562,3.035156 l 0.113281,0.125 h 0.363281 c 0.71875,0 1.308594,-0.265625 4.6679693,-2.113282 1.199219,-0.660156 2.183594,-1.199218 2.191406,-1.199218 0.00781,0 -0.023437,0.089844 -0.074218,0.195312 -0.472657,1.058594 -1.046876,2.785156 -1.335938,4.042969 -1.054688,4.574219 -0.351562,8.453125 2.101562,11.582031 0.28125,0.355469 0.292969,0.253906 -0.097656,0.722656 -2.046875,2.4609375 -3.027344,4.8984375 -2.734375,6.8046875 0.050781,0.339844 0.042969,0.335938 0.679688,0.335938 2.023437,0 4.15625,-1.316407 6.21875,-3.835938 0.222656,-0.269531 0.191406,-0.261719 0.425781,-0.113281 0.730469,0.46875 2.460938,1.390625 2.613281,1.390625 0.160157,0 1.765625,-0.753906 2.652344,-1.246094 0.167969,-0.09375 0.308594,-0.164062 0.308594,-0.160156 0.066406,0.105468 0.761719,0.855468 1.085937,1.171875 1.613282,1.570312 3.339844,2.402343 5.3593747,2.570312 0.324219,0.02734 0.355469,0.0078 0.425781,-0.316406 0.375,-1.742187 -0.382812,-4.058594 -2.1445307,-6.5585935 l -0.320312,-0.457031 0.15625,-0.183594 c 3.2460927,-3.824218 3.4335927,-9.08593704 0.558593,-15.816406 l -0.050781,-0.125 1.7382807,0.859375 c 3.585938,1.773437 4.371094,2.097656 5.085938,2.097656 0.945312,0 0.75,-0.863281 -0.558594,-2.507812 C 11.458356,-11.838353 8.3333563,-13.268041 4.8607003,-11.721166 l -0.363281,0.164063 0.019531,-0.09375 c 0.121094,-0.550781 0.183594,-1.800781 0.121094,-2.378907 -0.203125,-1.867187 -1.035157,-3.199218 -2.695313,-4.308593 -0.523437,-0.351563 -0.546875,-0.355469 -0.789062,-0.222657" />
 </g>"""
 TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<ellipse stroke="{pen_color}" transform="skewX({sk})" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
-<polygon points="0,5 5,0 -5,0" transform="skewX({sk}) scale({sx},{sy})" style="fill:{turtle_color};stroke:{pen_color};stroke-width:1" />
+<ellipse stroke="{pcolor}" transform="skewX({sk})" stroke-width="3" fill="transparent" rx="{rx}" ry = "{ry}" cx="0" cy="{cy}" />
+<polygon points="0,5 5,0 -5,0" transform="skewX({sk}) scale({sx},{sy})" style="fill:{turtle_color};stroke:{pcolor};stroke-width:1" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-10,-5 0,5 10,-5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="-10,-5 0,5 10,-5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_SQUARE_SVG_TEMPLATE = """<g id="square" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,-10 10,10 -10,10 -10,-10" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="10,-10 10,10 -10,10 -10,-10" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_TRIANGLE_SVG_TEMPLATE = """<g id="triangle" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="10,-8.66 0,8.66 -10,-8.66" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="10,-8.66 0,8.66 -10,-8.66" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" />
+<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry = "{ry}" cx="0" cy="0" />
 </g>"""
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pen_color};stroke-width:1;fill:{turtle_color}" />
+<polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
 
 shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
@@ -157,35 +155,35 @@ SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0
 def _speedToSec(speed):
     return SPEED_TO_SEC_MAP[speed]
 
-timeout = _speedToSec(DEFAULT_SPEED)
-turtle_speed = DEFAULT_SPEED
-is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
-pen_color = DEFAULT_PEN_COLOR
-window_size = DEFAULT_WINDOW_SIZE
-turtle_pos = (DEFAULT_WINDOW_SIZE[0] / 2, DEFAULT_WINDOW_SIZE[1] / 2)
-xmin = xmax = ymin = ymax = None
-turtle_degree = DEFAULT_TURTLE_DEGREE
-turtle_orient = DEFAULT_TURTLE_DEGREE
-background_color = DEFAULT_BACKGROUND_COLOR
-is_pen_down = DEFAULT_IS_PEN_DOWN
-svg_lines_string = DEFAULT_SVG_LINES_STRING
-pen_width = DEFAULT_PEN_WIDTH
-turtle_shape = DEFAULT_TURTLE_SHAPE
+_timeout = _speedToSec(DEFAULT_SPEED)
+_turtle_speed = DEFAULT_SPEED
+_is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
+_pen_color = DEFAULT_PEN_COLOR
+_window_size = DEFAULT_WINDOW_SIZE
+_turtle_pos = (DEFAULT_WINDOW_SIZE[0] / 2, DEFAULT_WINDOW_SIZE[1] / 2)
+_xmin = _xmax = _ymin = _ymax = None
+_turtle_degree = DEFAULT_TURTLE_DEGREE
+_turtle_orient = DEFAULT_TURTLE_DEGREE
+_background_color = DEFAULT_BACKGROUND_COLOR
+_is_pen_down = DEFAULT_IS_PEN_DOWN
+_svg_lines_string = DEFAULT_SVG_LINES_STRING
+_pen_width = DEFAULT_PEN_WIDTH
+_turtle_shape = DEFAULT_TURTLE_SHAPE
 _mode = DEFAULT_MODE
-angle_mode = DEFAULT_ANGLE_MODE
-border_color = DEFAULT_BORDER_COLOR
-is_filling = False
-fill_color = DEFAULT_FILL_COLOR
-stretchfactor = DEFAULT_STRETCHFACTOR
-shear_factor = DEFAULT_SHEARFACTOR
-tilt_angle = DEFAULT_TILT_ANGLE
-outline_width = DEFAULT_OUTLINE_WIDTH
-fill_rule = DEFAULT_FILL_RULE
-fill_opacity = DEFAULT_FILL_OPACITY
-animate = True
-angle_conv = 1
+_angle_mode = DEFAULT_ANGLE_MODE
+_border_color = DEFAULT_BORDER_COLOR
+_is_filling = False
+_fill_color = DEFAULT_FILL_COLOR
+_stretchfactor = DEFAULT_STRETCHFACTOR
+_shear_factor = DEFAULT_SHEARFACTOR
+_tilt_angle = DEFAULT_TILT_ANGLE
+_outline_width = DEFAULT_OUTLINE_WIDTH
+_fill_rule = DEFAULT_FILL_RULE
+_fill_opacity = DEFAULT_FILL_OPACITY
+_animate = True
+_angle_conv = 1
 
-drawing_window = None
+_drawing_window = None
 
 # Construct the display for turtle
 def initializeTurtle(window=None, mode=None, speed=None):
@@ -199,52 +197,52 @@ def initializeTurtle(window=None, mode=None, speed=None):
     The defaults are (800,600), "standard", and 5.
     """
 
-    global window_size
-    global drawing_window
-    global turtle_speed
-    global is_turtle_visible
-    global pen_color
-    global turtle_pos
-    global turtle_degree
-    global turtle_orient
-    global background_color
-    global is_pen_down
-    global is_filling
-    global svg_lines_string
-    global svg_fill_string
-    global fill_rule
-    global svg_dots_string
-    global svg_stampsB_string
-    global svg_stampsT_string
-    global pen_width
-    global turtle_shape
+    global _window_size
+    global _drawing_window
+    global _turtle_speed
+    global _is_turtle_visible
+    global _pen_color
+    global _turtle_pos
+    global _turtle_degree
+    global _turtle_orient
+    global _background_color
+    global _is_pen_down
+    global _is_filling
+    global _svg_lines_string
+    global _svg_fill_string
+    global _fill_rule
+    global _svg_dots_string
+    global _svg_stampsB_string
+    global _svg_stampsT_string
+    global _pen_width
+    global _turtle_shape
     global _mode
-    global xmin,ymin,xmax,ymax
-    global xscale
-    global yscale
-    global timeout
-    global stampdictB, stampdictT
-    global stampnum
-    global stamplist
-    global tilt_angle
-    global stretchfactor
-    global shear_factor
+    global _xmin,_ymin,_xmax,_ymax
+    global _xscale
+    global _yscale
+    global _timeout
+    global _stampdictB, _stampdictT
+    global _stampnum
+    global _stamplist
+    global _tilt_angle
+    global _stretchfactor
+    global _shear_factor
     
     if window is None:
-        window_size = DEFAULT_WINDOW_SIZE
+        _window_size = DEFAULT_WINDOW_SIZE
     elif not (isinstance(window, tuple) and len(window) == 2 and isinstance(
             window[0], int) and isinstance(window[1], int)):
         raise ValueError('Window must be a tuple of 2 integers')
     else:
-        window_size = window
+        _window_size = window
 
     if speed is None:
-         turtle_speed = DEFAULT_SPEED
+         _turtle_speed = DEFAULT_SPEED
     elif isinstance(speed,int) == False or speed not in range(0, 14):
         raise ValueError('Speed must be an integer in the interval [0,13]')
     else:
-        turtle_speed = speed
-    timeout = _speedToSec(turtle_speed)
+        _turtle_speed = speed
+    _timeout = _speedToSec(_turtle_speed)
     
     if _mode != "world":   
         if mode is None:
@@ -255,54 +253,54 @@ def initializeTurtle(window=None, mode=None, speed=None):
             _mode = mode
  
     if _mode == "world":
-        if xmin is None:
+        if _xmin is None:
             raise AttributeError("Coordinates not set. Run setworldcoordinates() before initializeTurtle or don't set mode='world' in initializeTurtle.")    
-        if ymax-ymin > xmax-xmin:
-            ysize = window_size[1]
-            window_size = round((xmax-xmin)/(ymax-ymin)*ysize),ysize
+        if _ymax-_ymin > _xmax-_xmin:
+            ysize = _window_size[1]
+            _window_size = round((_xmax-_xmin)/(_ymax-_ymin)*ysize),ysize
         else:
-            xsize = window_size[0]
-            window_size = xsize, round((ymax-ymin)/(xmax-xmin)*xsize)
-        xscale = yscale = window_size[0]/(xmax-xmin)
+            xsize = _window_size[0]
+            _window_size = xsize, round((_ymax-_ymin)/(_xmax-_xmin)*xsize)
+        _xscale = _yscale = _window_size[0]/(_xmax-_xmin)
     elif _mode != "svg":
-        xmin,ymin,xmax,ymax = -window_size[0]/2,-window_size[1]/2,window_size[0]/2,window_size[1]/2
-        xscale = 1  #window_size[0]/(xmax-xmin)
-        yscale = 1  #window_size[1]/(ymax-ymin)
+        _xmin,_ymin,_xmax,_ymax = -_window_size[0]/2,-_window_size[1]/2,_window_size[0]/2,_window_size[1]/2
+        _xscale = 1  #_window_size[0]/(_xmax-_xmin)
+        _yscale = 1  #_window_size[1]/(_ymax-_ymin)
     else:
-        xmin = ymax = 0
-        xscale = 1
-        yscale = -1
+        _xmin = _ymax = 0
+        _xscale = 1
+        _yscale = -1
        
-    is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
+    _is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
     if _mode != "world":
-        turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+        _turtle_pos = (_window_size[0] / 2, _window_size[1] / 2)
     else:
-        turtle_pos = (_convertx(0),_converty(0))
-    turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    turtle_orient = turtle_degree
-    background_color = DEFAULT_BACKGROUND_COLOR
-    pen_color = DEFAULT_PEN_COLOR
-    is_pen_down = DEFAULT_IS_PEN_DOWN
-    svg_lines_string = DEFAULT_SVG_LINES_STRING
-    pen_width = DEFAULT_PEN_WIDTH
-    turtle_shape = DEFAULT_TURTLE_SHAPE
-    tilt_angle = DEFAULT_TILT_ANGLE
-    angle_mode = DEFAULT_ANGLE_MODE
-    stretchfactor = DEFAULT_STRETCHFACTOR
-    shear_factor = DEFAULT_SHEARFACTOR
-    is_filling = False
-    svg_fill_string = ''
-    svg_dots_string = ''
-    svg_stampsB_string = ''
-    svg_stampsT_string = ''
-    fill_color = DEFAULT_FILL_COLOR
-    fill_rule = DEFAULT_FILL_RULE
-    stampdictB = {}
-    stampdictT = {}
-    stampnum = 0
-    stamplist=[]
+        _turtle_pos = (_convertx(0),_converty(0))
+    _turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    _turtle_orient = _turtle_degree
+    _background_color = DEFAULT_BACKGROUND_COLOR
+    _pen_color = DEFAULT_PEN_COLOR
+    _is_pen_down = DEFAULT_IS_PEN_DOWN
+    _svg_lines_string = DEFAULT_SVG_LINES_STRING
+    _pen_width = DEFAULT_PEN_WIDTH
+    _turtle_shape = DEFAULT_TURTLE_SHAPE
+    _tilt_angle = DEFAULT_TILT_ANGLE
+    _angle_mode = DEFAULT_ANGLE_MODE
+    _stretchfactor = DEFAULT_STRETCHFACTOR
+    _shear_factor = DEFAULT_SHEARFACTOR
+    _is_filling = False
+    _svg_fill_string = ''
+    _svg_dots_string = ''
+    _svg_stampsB_string = ''
+    _svg_stampsT_string = ''
+    _fill_color = DEFAULT_FILL_COLOR
+    _fill_rule = DEFAULT_FILL_RULE
+    _stampdictB = {}
+    _stampdictT = {}
+    _stampnum = 0
+    _stamplist=[]
 
-    drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)  
+    _drawing_window = display(HTML(_generateSvgDrawing()), display_id=True)  
 
 #=======================
 # SVG functions
@@ -310,57 +308,57 @@ def initializeTurtle(window=None, mode=None, speed=None):
 
 # Helper function for generating svg string of the turtle
 def _generateTurtleSvgDrawing():
-    if is_turtle_visible:
+    if _is_turtle_visible:
         vis = 'visible'
     else:
         vis = 'hidden'
 
-    turtle_x = turtle_pos[0]
-    turtle_y = turtle_pos[1]
+    turtle_x = _turtle_pos[0]
+    turtle_y = _turtle_pos[1]
     if _mode == "standard":
-        degrees = turtle_degree - tilt_angle    
+        degrees = _turtle_degree - _tilt_angle    
     elif _mode == "world":
-        degrees = turtle_orient - tilt_angle
+        degrees = _turtle_orient - _tilt_angle
     else:
-        degrees = turtle_degree + tilt_angle
+        degrees = _turtle_degree + _tilt_angle
     
-    if turtle_shape == 'turtle':
+    if _turtle_shape == 'turtle':
         degrees += 90
-    elif turtle_shape == 'ring':
-        turtle_y += 10*stretchfactor[1]+4
+    elif _turtle_shape == 'ring':
+        turtle_y += 10*_stretchfactor[1]+4
         degrees -= 90
     else:
         degrees -= 90
        
-    return shapeDict[turtle_shape].format(
-                           turtle_color=fill_color,
-                           pen_color=pen_color,
+    return shapeDict[_turtle_shape].format(
+                           turtle_color=_fill_color,
+                           pcolor=_pen_color,
                            turtle_x=turtle_x, 
                            turtle_y=turtle_y,
                            visibility=vis, 
                            degrees=degrees,
-                           sx=stretchfactor[0],
-                           sy=stretchfactor[1],
-                           sk=shear_factor,
-                           rx=10*stretchfactor[0],
-                           ry=10*stretchfactor[1],
-                           cy=-(10*stretchfactor[1]+4),
-                           pw = outline_width,
-                           rotation_x=turtle_pos[0], 
-                           rotation_y=turtle_pos[1])
+                           sx=_stretchfactor[0],
+                           sy=_stretchfactor[1],
+                           sk=_shear_factor,
+                           rx=10*_stretchfactor[0],
+                           ry=10*_stretchfactor[1],
+                           cy=-(10*_stretchfactor[1]+4),
+                           pw = _outline_width,
+                           rotation_x=_turtle_pos[0], 
+                           rotation_y=_turtle_pos[1])
 
 # Helper function for generating the whole svg string
 def _generateSvgDrawing():
-    return SVG_TEMPLATE.format(window_width=window_size[0], 
-                               window_height=window_size[1],
-                               background_color=background_color,
-                               fill=svg_fill_string,
-                               lines=svg_lines_string,
-                               dots=svg_dots_string,
-                               stampsB=svg_stampsB_string,
-                               stampsT=svg_stampsT_string,
+    return SVG_TEMPLATE.format(window_width=_window_size[0], 
+                               window_height=_window_size[1],
+                               backcolor=_background_color,
+                               fill=_svg_fill_string,
+                               lines=_svg_lines_string,
+                               dots=_svg_dots_string,
+                               stampsB=_svg_stampsB_string,
+                               stampsT=_svg_stampsT_string,
                                turtle=_generateTurtleSvgDrawing(),
-                               kolor=border_color)
+                               kolor=_border_color)
 
 # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
 def saveSVG(file=None, turtle=False):
@@ -378,7 +376,7 @@ def saveSVG(file=None, turtle=False):
     or Adobe Illustrator, or displaying the image in a webpage.
     """
     
-    if drawing_window == None:
+    if _drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     if file is None:
         file = "SVGimage.svg"
@@ -388,15 +386,15 @@ def saveSVG(file=None, turtle=False):
         file += ".svg"
     text_file = open(file, "w")
     header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
-            w=window_size[0],
-            h=window_size[1]) 
+            w=_window_size[0],
+            h=_window_size[1]) 
     header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
-            fillcolor=background_color,
-            kolor=border_color)
-    image = svg_lines_string.replace("/>","/>\n")
-    stampsB = svg_stampsB_string.replace("</g>","</g>\n")
-    stampsT = svg_stampsT_string.replace("</g>","</g>\n")
-    dots = svg_dots_string.replace(">",">\n")
+            fillcolor=_background_color,
+            kolor=_border_color)
+    image = _svg_lines_string.replace("/>","/>\n")
+    stampsB = _svg_stampsB_string.replace("</g>","</g>\n")
+    stampsT = _svg_stampsT_string.replace("</g>","</g>\n")
+    dots = _svg_dots_string.replace(">",">\n")
     turtle_svg = (_generateTurtleSvgDrawing() + " \n") if turtle else ""
     output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
     text_file.write(output)
@@ -415,27 +413,27 @@ def showSVG(turtle=False):
     or Adobe Illustrator, or displaying the image in a webpage.
     """
 
-    if drawing_window == None:
+    if _drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
     header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
-            w=window_size[0],
-            h=window_size[1]) 
+            w=_window_size[0],
+            h=_window_size[1]) 
     header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
-            fillcolor=background_color,
-            kolor=border_color)
-    image = svg_lines_string.replace(">","/>\n")
-    stampsB = svg_stampsB_string.replace("</g>","</g>\n")
-    stampsT = svg_stampsT_string.replace("</g>","</g>\n")    
-    dots = svg_dots_string.replace(">",">\n")
+            fillcolor=_background_color,
+            kolor=_border_color)
+    image = _svg_lines_string.replace(">","/>\n")
+    stampsB = _svg_stampsB_string.replace("</g>","</g>\n")
+    stampsT = _svg_stampsT_string.replace("</g>","</g>\n")    
+    dots = _svg_dots_string.replace(">",">\n")
     turtle_svg = (_generateTurtleSvgDrawing() + " \n") if turtle else ""
     output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
     print(output) 
 
 # Convert user coordinates to SVG coordinates
 def _convertx(x):
-    return (x-xmin)*xscale 
+    return (x-_xmin)*_xscale 
 def _converty(y):
-    return (ymax-y)*yscale
+    return (_ymax-y)*_yscale
 
 #================================
 # Turtle Motion - Move and Draw
@@ -445,56 +443,56 @@ def _converty(y):
 # If the turtle speed is 0, the update is skipped so animation is done.
 # If the delay is False (or 0), update immediately without any delay
 def _updateDrawing(delay=True):
-    if drawing_window == None:
+    if _drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    if (turtle_speed != 0):
-        drawing_window.update(HTML(_generateSvgDrawing()))         
-        if delay: time.sleep(timeout)          
+    if (_turtle_speed != 0):
+        _drawing_window.update(HTML(_generateSvgDrawing()))         
+        if delay: time.sleep(_timeout)          
             
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
 # Animate turtle motion along line
 def _moveToNewPosition(new_pos,units):
-    global turtle_pos
-    global svg_lines_string
-    global svg_fill_string
-    global timeout
+    global _turtle_pos
+    global _svg_lines_string
+    global _svg_fill_string
+    global _timeout
     
     # rounding the new_pos to eliminate floating point errors.
     new_pos = ( round(new_pos[0],3), round(new_pos[1],3) ) 
     
-    timeout_orig = timeout
-    start_pos = turtle_pos           
-    svg_lines_string_orig = svg_lines_string       
+    timeout_orig = _timeout
+    start_pos = _turtle_pos           
+    svg_lines_string_orig = _svg_lines_string       
     s = 1 if units > 0 else -1            
-    if turtle_speed != 0 and animate:
-        if xscale == abs(yscale):
+    if _turtle_speed != 0 and _animate:
+        if _xscale == abs(_yscale):
             # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
-            initial_pos = turtle_pos         
-            alpha = math.radians(turtle_degree)
-            tenx, teny = 10/xscale, 10/abs(yscale)
-            dunits = s*10/xscale
-            timeout = timeout*.20    
+            initial_pos = _turtle_pos         
+            alpha = math.radians(_turtle_degree)
+            tenx, teny = 10/_xscale, 10/abs(_yscale)
+            dunits = s*10/_xscale
+            _timeout = _timeout*.20    
             while s*units > 0:
                 dx = min(tenx,s*units)
                 dy = min(teny,s*units)
-                turtle_pos = (initial_pos[0] + s * dx * xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(yscale) * math.sin(alpha))
-                if is_pen_down:
-                    svg_lines_string += \
-                    """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
+                _turtle_pos = (initial_pos[0] + s * dx *_xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(_yscale) * math.sin(alpha))
+                if _is_pen_down:
+                    _svg_lines_string += \
+                    """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
                         x1=initial_pos[0],
                         y1=initial_pos[1],
-                        x2=turtle_pos[0],
-                        y2=turtle_pos[1],
-                        pen_color=pen_color, 
-                        pen_width=pen_width) 
-                initial_pos = turtle_pos
+                        x2=_turtle_pos[0],
+                        y2=_turtle_pos[1],
+                        pcolor=_pen_color, 
+                        pwidth=_pen_width) 
+                initial_pos = _turtle_pos
                 _updateDrawing()
                 units -= dunits
         else:
             # world mode with aspect ratio of axes different than aspect ratio of the window
             initial_pos = position()
-            alpha = math.radians(turtle_degree)
-            timeout = timeout*0.20
+            alpha = math.radians(_turtle_degree)
+            _timeout = _timeout*0.20
             xpixunits = _convertx(1)-_convertx(0)  #length of 1 world unit along x-axis in pixels
             ypixunits = _converty(1)-_converty(0)  #length of 1 world unit along y-axis in pixels
             xstep = 10/(max(xpixunits,ypixunits))  #length of 10 pixels in world units 
@@ -504,83 +502,83 @@ def _moveToNewPosition(new_pos,units):
                 dx = min(xstep,s*units)
                 dy = min(ystep,s*units)
                 temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
-                turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
-                if is_pen_down:
-                    svg_lines_string += \
-                    """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
+                _turtle_pos = (_convertx(temp_turtle_pos[0]), _converty(temp_turtle_pos[1]))
+                if _is_pen_down:
+                    _svg_lines_string += \
+                    """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
                         x1=_convertx(initial_pos[0]),
                         y1=_converty(initial_pos[1]),
-                        x2= turtle_pos[0],
-                        y2= turtle_pos[1],
-                        pen_color=pen_color, 
-                        pen_width=pen_width) 
+                        x2= _turtle_pos[0],
+                        y2= _turtle_pos[1],
+                        pcolor=_pen_color, 
+                        pwidth=_pen_width) 
                 initial_pos = temp_turtle_pos
                 _updateDrawing()
                 units -= dunits
-    if is_pen_down:
+    if _is_pen_down:
         # now create the permanent svg string that does not display the animation
-        svg_lines_string = svg_lines_string_orig + \
-            """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pen_color};stroke-width:{pen_width}" />""".format(
+        _svg_lines_string = svg_lines_string_orig + \
+            """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
                         x1=start_pos[0],
                         y1=start_pos[1],
                         x2=new_pos[0],
                         y2=new_pos[1],
-                        pen_color=pen_color, 
-                        pen_width=pen_width)
-    if is_filling:
-        svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
-    turtle_pos = new_pos
-    timeout = timeout_orig
-    if not animate: _updateDrawing()
+                        pcolor=_pen_color, 
+                        pwidth=_pen_width)
+    if _is_filling:
+        _svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
+    _turtle_pos = new_pos
+    _timeout = timeout_orig
+    if not _animate: _updateDrawing()
        
 # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
 # Modified from aronma/ColabTurtle_2 github to allow arc on either side of turtle.
 # Positive radius has circle to left of turtle moving counterclockwise.
 # Negative radius has circle to right of turtle moving clockwise.
 def _arctoNewPosition(r,new_pos):
-    global turtle_pos
-    global svg_lines_string
-    global svg_fill_string
+    global _turtle_pos
+    global _svg_lines_string
+    global _svg_fill_string
     
     sweep = 0 if r > 0 else 1  # SVG arc sweep flag
-    rx = r*xscale
-    ry = r*abs(yscale)
+    rx = r*_xscale
+    ry = r*abs(_yscale)
     
-    start_pos = turtle_pos
-    if is_pen_down:  
-        svg_lines_string += \
-        """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pen_color};stroke-width:{pen_width}"/>""".format(
+    start_pos = _turtle_pos
+    if _is_pen_down:  
+        _svg_lines_string += \
+        """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pcolor};stroke-width:{pwidth}"/>""".format(
             x1=start_pos[0], 
             y1=start_pos[1],
             rx = rx,
             ry = ry,
             x2=new_pos[0],
             y2=new_pos[1],
-            pen_color=pen_color,
-            pen_width=pen_width,
+            pcolor=_pen_color,
+            pwidth=_pen_width,
             s=sweep)    
-    if is_filling:
-        svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)  
-    turtle_pos = new_pos
+    if _is_filling:
+        _svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)  
+    _turtle_pos = new_pos
      
 # Helper function to draw a circular arc
 # Modified from aronma/ColabTurtle_2 github repo
 # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
 def _arc(radius, degrees, draw):
-    global turtle_degree
-    global turtle_orient
-    alpha = math.radians(turtle_degree)
+    global _turtle_degree
+    global _turtle_orient
+    alpha = math.radians(_turtle_degree)
     theta = math.radians(degrees)
     s = radius/abs(radius)  # 1=left, -1=right
     gamma = alpha-s*theta
 
-    circle_center = (turtle_pos[0] + radius*xscale*math.sin(alpha), turtle_pos[1] - radius*abs(yscale)*math.cos(alpha))
-    ending_point = (round(circle_center[0] - radius*xscale*math.sin(gamma),3) , round(circle_center[1] + radius*abs(yscale)*math.cos(gamma),3))
+    circle_center = (_turtle_pos[0] + radius*_xscale*math.sin(alpha), _turtle_pos[1] - radius*abs(_yscale)*math.cos(alpha))
+    ending_point = (round(circle_center[0] - radius*_xscale*math.sin(gamma),3) , round(circle_center[1] + radius*abs(_yscale)*math.cos(gamma),3))
   
     _arctoNewPosition(radius,ending_point)
    
-    turtle_degree = (turtle_degree - s*degrees) % 360
-    turtle_orient = _turtleOrientation()
+    _turtle_degree = (_turtle_degree - s*degrees) % 360
+    _turtle_orient = _turtleOrientation()
     if draw: _updateDrawing()
         
 # Makes the turtle move forward by 'units' units
@@ -598,8 +596,8 @@ def forward(units):
 
     if not isinstance(units, (int,float)):
         raise ValueError('Units must be a number.')
-    alpha = math.radians(turtle_degree)
-    new_pos = (turtle_pos[0] + units * xscale * math.cos(alpha), turtle_pos[1] + units * abs(yscale) * math.sin(alpha))
+    alpha = math.radians(_turtle_degree)
+    new_pos = (_turtle_pos[0] + units *_xscale * math.cos(alpha), _turtle_pos[1] + units * abs(_yscale) * math.sin(alpha))
     _moveToNewPosition(new_pos,units)
 fd = forward # alias
 
@@ -640,20 +638,20 @@ def right(angle):
     Angle orientation depends on mode. 
     """
 
-    global turtle_degree
-    global turtle_orient
-    global stretchfactor
-    global timeout
+    global _turtle_degree
+    global _turtle_orient
+    global _stretchfactor
+    global _timeout
     if not isinstance(angle, (int,float)):
         raise ValueError('Degrees must be a number.')  
-    timeout_orig = timeout
-    deg = angle*angle_conv
-    if turtle_speed == 0 or not animate:
-        turtle_degree = (turtle_degree + deg) % 360
+    timeout_orig = _timeout
+    deg = angle*_angle_conv
+    if _turtle_speed == 0 or not _animate:
+        _turtle_degree = (_turtle_degree + deg) % 360
         _updateDrawing()
-    elif turtle_shape != 'ring' and stretchfactor[0]==stretchfactor[1]:
-        stretchfactor_orig = stretchfactor
-        template = shapeDict[turtle_shape]        
+    elif _turtle_shape != 'ring' and _stretchfactor[0]==_stretchfactor[1]:
+        stretchfactor_orig = _stretchfactor
+        template = shapeDict[_turtle_shape]        
         tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
@@ -668,33 +666,33 @@ def right(angle):
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
-          /></g>""".format(extent=deg, t=timeout*abs(deg)/90, sx=stretchfactor[0], sy=stretchfactor[1])
+          /></g>""".format(extent=deg, t=_timeout*abs(deg)/90, sx=_stretchfactor[0], sy=_stretchfactor[1])
         newtemplate = template.replace("</g>",tmp)
-        shapeDict.update({turtle_shape:newtemplate})
-        stretchfactor = 1,1
-        timeout = timeout*abs(deg)/90+0.001
+        shapeDict.update({_turtle_shape:newtemplate})
+        _stretchfactor = 1,1
+        _timeout = _timeout*abs(deg)/90+0.001
         _updateDrawing()
-        turtle_degree = (turtle_degree + deg) % 360
-        turtle_orient = _turtleOrientation()
-        shapeDict.update({turtle_shape:template})
-        stretchfactor = stretchfactor_orig
-        timeout = timeout_orig
-    else: #turtle_shape == 'ring' or stretchfactor[0] != stretchfactor[1]
-        turtle_degree_orig = turtle_degree
-        timeout = timeout
+        _turtle_degree = (_turtle_degree + deg) % 360
+        _turtle_orient = _turtleOrientation()
+        shapeDict.update({_turtle_shape:template})
+        _stretchfactor = stretchfactor_orig
+        _timeout = timeout_orig
+    else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
+        turtle_degree_orig = _turtle_degree
+        _timeout = _timeout
         s = 1 if angle > 0 else -1
         while s*deg > 0:
             if s*deg > 30:
-                turtle_degree = (turtle_degree + s*30) % 360
-                turtle_orient = _turtleOrientation()
+                _turtle_degree = (_turtle_degree + s*30) % 360
+                _turtle_orient = _turtleOrientation()
             else:
-                turtle_degree = (turtle_degree + deg) % 360
-                turtle_orient = _turtleOrientation()
+                _turtle_degree = (_turtle_degree + deg) % 360
+                _turtle_orient = _turtleOrientation()
             _updateDrawing()
             deg -= s*30
-        timeout = timeout_orig
-        turtle_degree = (turtle_degree + deg) % 360
-        turtle_orient = _turtleOrientation()
+        _timeout = timeout_orig
+        _turtle_degree = (_turtle_degree + deg) % 360
+        _turtle_orient = _turtleOrientation()
 rt = right # alias
 
 # Makes the turtle move right by 'angle' degrees or radians
@@ -730,8 +728,8 @@ def goto(x, y=None):
     a line will be drawn. The turtle's orientation does not change.   
     """
 
-    global turtle_degree
-    global tilt_angle
+    global _turtle_degree
+    global _tilt_angle
     if isinstance(x, tuple) and y is None:
         if len(x) != 2:
             raise ValueError('The tuple argument must be of length 2.')
@@ -741,24 +739,24 @@ def goto(x, y=None):
         raise ValueError('New x position must be a number.')
     if not isinstance(y, (int,float)):
         raise ValueError('New y position must be a number.')
-    tilt_angle_orig = tilt_angle
-    turtle_angle_orig = turtle_degree
-    alpha = towards(x,y)*angle_conv
+    tilt_angle_orig = _tilt_angle
+    turtle_angle_orig = _turtle_degree
+    alpha = towards(x,y)*_angle_conv
     units = distance(x,y)
     if _mode == "standard": 
-        turtle_degree = (360 - alpha) % 360
-        tilt_angle = -((turtle_angle_orig-tilt_angle+alpha) % 360)
+        _turtle_degree = (360 - alpha) % 360
+        _tilt_angle = -((turtle_angle_orig-_tilt_angle+alpha) % 360)
     elif _mode == "logo":
-        turtle_degree = (270 + alpha) % 360
-        tilt_angle = turtle_angle_orig+tilt_angle-alpha-270
+        _turtle_degree = (270 + alpha) % 360
+        _tilt_angle = turtle_angle_orig+_tilt_angle-alpha-270
     elif _mode == "world":
-        turtle_degree = (360 - alpha) % 360
+        _turtle_degree = (360 - alpha) % 360
     else: # mode = "svg"
-        turtle_degree = alpha % 360
-        tilt_angle = turtle_angle_orig+tilt_angle-alpha
+        _turtle_degree = alpha % 360
+        _tilt_angle = turtle_angle_orig+_tilt_angle-alpha
     _moveToNewPosition((_convertx(x), _converty(y)),units)
-    tilt_angle = tilt_angle_orig
-    turtle_degree = turtle_angle_orig
+    _tilt_angle = tilt_angle_orig
+    _turtle_degree = turtle_angle_orig
 setpos = goto # alias
 setposition = goto # alias
 
@@ -808,9 +806,9 @@ def setheading(angle):
     This depends on the mode.
     """
 
-    global turtle_degree
-    global turtle_orient
-    deg = angle*angle_conv
+    global _turtle_degree
+    global _turtle_orient
+    deg = angle*_angle_conv
     if not isinstance(angle, (int,float)):
         raise ValueError('Degrees must be a number.')
     if _mode in ["standard","world"]: 
@@ -819,21 +817,21 @@ def setheading(angle):
         new_degree = (270 + deg) 
     else: # mode = "svg"
         new_degree = deg % 360
-    alpha = (new_degree - turtle_degree) % 360
-    if turtle_speed !=0 and animate:
+    alpha = (new_degree - _turtle_degree) % 360
+    if _turtle_speed !=0 and _animate:
         if alpha <= 180:
-            if angle_mode == "degrees":
+            if _angle_mode == "degrees":
                 right(alpha)
             else:
                 right(math.radians(alpha))
         else:
-            if angle_mode == "degrees":
+            if _angle_mode == "degrees":
                 left(360-alpha)
             else:
                 left(math.radians(360-alpha))
     else:
-        turtle_degree = new_degree
-        turtle_orient = _turtleOrientation()
+        _turtle_degree = new_degree
+        _turtle_orient = _turtleOrientation()
         _updateDrawing()
 seth = setheading # alias
 face = setheading # alias
@@ -852,27 +850,27 @@ def home():
     the drawing window.)
     """
 
-    global turtle_degree
+    global _turtle_degree
     if _mode != 'svg':
         goto(0,0)
     else:
-        goto( (window_size[0] / 2, window_size[1] / 2) )
-    #turtle_degree is always in degrees, but angle mode might be radians
-    #divide by angle_conv so angle sent to left or right is in the correct mode
+        goto( (_window_size[0] / 2, _window_size[1] / 2) )
+    #_turtle_degree is always in degrees, but angle mode might be radians
+    #divide by _angle_conv so angle sent to left or right is in the correct mode
     if _mode in ['standard','world']:
-        if turtle_degree <= 180:
-            left(turtle_degree/angle_conv)
+        if _turtle_degree <= 180:
+            left(_turtle_degree/_angle_conv)
         else:
-            right((360-turtle_degree)/angle_conv)
-        turtle_orient = _turtleOrientation()
+            right((360-_turtle_degree)/_angle_conv)
+        _turtle_orient = _turtleOrientation()
         _updateDrawing(0)
     else:
-        if turtle_degree < 90:
-            left((turtle_degree+90)/angle_conv)
-        elif turtle_degree< 270:
-            right((270-turtle_degree)/angle_conv)
+        if _turtle_degree < 90:
+            left((_turtle_degree+90)/_angle_conv)
+        elif _turtle_degree< 270:
+            right((270-_turtle_degree)/_angle_conv)
         else:
-            left((turtle_degree-270)/angle_conv)
+            left((_turtle_degree-270)/_angle_conv)
     
 
 # Since SVG has some ambiguity when using an arc path for a complete circle,
@@ -909,15 +907,15 @@ def circle(radius, extent=None, steps=None):
     function. 
     """
 
-    global timeout
-    global svg_lines_string
-    global svg_fill_string
-    global turtle_degree
-    global turtle_pos
+    global _timeout
+    global _svg_lines_string
+    global _svg_fill_string
+    global _turtle_degree
+    global _turtle_pos
     if not isinstance(radius, (int,float)):
         raise ValueError('Circle radius should be a number')
     if extent is None:
-        extent = 360 if angle_mode == "degrees" else 2*math.pi 
+        extent = 360 if _angle_mode == "degrees" else 2*math.pi 
     elif not isinstance(extent, (int,float)):
         raise ValueError('Extent should be a number')      
     elif extent < 0:
@@ -936,36 +934,36 @@ def circle(radius, extent=None, steps=None):
             left(alpha)
         forward(length)
         left(alpha/2)  
-    elif turtle_speed != 0 and animate:
-        timeout_temp = timeout 
-        timeout = timeout*0.5
-        degrees = extent*angle_conv
+    elif _turtle_speed != 0 and _animate:
+        timeout_temp = _timeout 
+        _timeout = _timeout*0.5
+        degrees = extent*_angle_conv
         extent = degrees
         # Use temporary svg strings for animation
-        svg_lines_string_temp = svg_lines_string
-        svg_fill_string_temp = svg_fill_string 
-        turtle_degree_orig = turtle_degree
-        turtle_pos_orig = turtle_pos        
+        svg_lines_string_temp = _svg_lines_string
+        svg_fill_string_temp = _svg_fill_string 
+        turtle_degree_orig = _turtle_degree
+        turtle_pos_orig = _turtle_pos        
         while extent > 0:
             _arc(radius,min(15,extent),True)
             extent -= 15 
         # return to original position and redo circle for svg strings without animation
-        svg_lines_string = svg_lines_string_temp
-        svg_fill_string = svg_fill_string_temp
-        turtle_degree = turtle_degree_orig
-        turtle_pos = turtle_pos_orig
+        _svg_lines_string = svg_lines_string_temp
+        _svg_fill_string = svg_fill_string_temp
+        _turtle_degree = turtle_degree_orig
+        _turtle_pos = turtle_pos_orig
         while degrees > 0:
             _arc(radius,min(180,degrees),False)
             degrees -= 180 
-        timeout = timeout_temp
+        _timeout = timeout_temp
     else:  # no animation
-        extent = extent*angle_conv
+        extent = extent*_angle_conv
         while extent > 0:
             _arc(radius,min(180,extent),True)
             extent -= 180         
 
 # Draw a dot with diameter size, using color
-# If size is not given, the maximum of pen_width+4 and 2*pen_width is used.
+# If size is not given, the maximum of _pen_width+4 and 2*_pen_width is used.
 def dot(size = None, *color):
     """Draws a dot with diameter size, using color.
 
@@ -978,24 +976,24 @@ def dot(size = None, *color):
     is used. If no color is given, the pencolor is used.
     """
 
-    global svg_dots_string
+    global _svg_dots_string
 
     if not color:
         if isinstance(size, (str, tuple)):
             color = _processColor(size)
-            size = pen_width + max(pen_width,4)
+            size = _pen_width + max(_pen_width,4)
         else:
-            color = pen_color
+            color = _pen_color
             if not size:
-                size = pen_width + max(pen_width,4)
+                size = _pen_width + max(_pen_width,4)
     else:
         if size is None:
-            size = pen_width + max(pen_width,4)
+            size = _pen_width + max(_pen_width,4)
         color = _processColor(color[0])
-    svg_dots_string += """<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{kolor}" fill-opacity="1" />""".format(
+    _svg_dots_string += """<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{kolor}" fill-opacity="1" />""".format(
             radius=size/2,
-            cx=turtle_pos[0],
-            cy=turtle_pos[1],
+            cx=_turtle_pos[0],
+            cy=_turtle_pos[1],
             kolor=color)
     _updateDrawing()
         
@@ -1024,42 +1022,42 @@ def stamp(layer=0):
     the animation. To prevent this, set layer=1 or any nonzero number.
     """
 
-    global svg_stampsB_string
-    global svg_stampsT_string
-    global stampnum
-    global stamplist
-    stampnum += 1
-    stamplist.append(stampnum)
+    global _svg_stampsB_string
+    global _svg_stampsT_string
+    global _stampnum
+    global _stamplist
+    _stampnum += 1
+    _stamplist.append(_stampnum)
     if layer != 0:
 
-        stampdictT[stampnum] = _generateTurtleSvgDrawing()
-        svg_stampsT_string += stampdictT[stampnum]
+        _stampdictT[_stampnum] = _generateTurtleSvgDrawing()
+        _svg_stampsT_string += _stampdictT[_stampnum]
     else:
-        stampdictB[stampnum] = _generateTurtleSvgDrawing()
-        svg_stampsB_string += stampdictB[stampnum]
+        _stampdictB[_stampnum] = _generateTurtleSvgDrawing()
+        _svg_stampsB_string += _stampdictB[_stampnum]
     _updateDrawing(0)
-    return stampnum
+    return _stampnum
 
 # Helper function to do the work for clearstamp() and clearstamps()
 def _clearstamp(stampid):
-    global stampdictB
-    global stampdictT
-    global svg_stampsB_string
-    global svg_stampsT_string  
-    global stamplist
+    global _stampdictB
+    global _stampdictT
+    global _svg_stampsB_string
+    global _svg_stampsT_string  
+    global _stamplist
     tmp = ""
-    if stampid in stampdictB.keys():
-        stampdictB.pop(stampid)
-        stamplist.remove(stampid)
-        for n in stampdictB:
-            tmp += stampdictB[n]
-        svg_stampsB_string = tmp        
-    elif stampid in stampdictT.keys():
-        stampdictT.pop(stampid)
-        stamplist.remove(stampid)
-        for n in stampdictT:
-            tmp += stampdictT[n]
-        svg_stampsT_string = tmp
+    if stampid in _stampdictB.keys():
+        _stampdictB.pop(stampid)
+        _stamplist.remove(stampid)
+        for n in _stampdictB:
+            tmp += _stampdictB[n]
+        _svg_stampsB_string = tmp        
+    elif stampid in _stampdictT.keys():
+        _stampdictT.pop(stampid)
+        _stamplist.remove(stampid)
+        for n in _stampdictT:
+            tmp += _stampdictT[n]
+        _svg_stampsT_string = tmp
     _updateDrawing(0)
 
 # Delete stamp with given stampid.
@@ -1091,11 +1089,11 @@ def clearstamps(n=None):
     """
 
     if n is None:
-        [_clearstamp(k) for k in stamplist]
+        [_clearstamp(k) for k in _stamplist]
     elif n > 0:
-        [_clearstamp(k) for k in stamplist[:n]]
+        [_clearstamp(k) for k in _stamplist[:n]]
     elif n < 0:
-        [_clearstamp(k) for k in stamplist[n:]]
+        [_clearstamp(k) for k in _stamplist[n:]]
         
 # Update the speed of the moves, [0,13]
 # If argument is omitted, it returns the speed.
@@ -1129,21 +1127,21 @@ def speed(speed = None):
     makes the turtle turn instantly.
     """
 
-    global timeout
-    global turtle_speed    
+    global _timeout
+    global _turtle_speed    
     if speed is None:
-        return turtle_speed
+        return _turtle_speed
     speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
     if speed in speeds:
-        turtle_speed = speeds[speed]
+        _turtle_speed = speeds[speed]
     elif not isinstance(speed,(int,float)):
         raise ValueError("speed should be a number between 0 and 13")
-    turtle_speed = speed
+    _turtle_speed = speed
     if 0.5 < speed < 13.5:
-        turtle_speed = int(round(speed))
+        _turtle_speed = int(round(speed))
     elif speed != 0:
-        turtle_speed = 13
-    timeout = _speedToSec(turtle_speed) 
+        _turtle_speed = 13
+    _timeout = _speedToSec(_turtle_speed) 
 
 # jump to a point without drawing or animation
 def jumpto(x,y=None):
@@ -1155,12 +1153,12 @@ def jumpto(x,y=None):
 
         jumpto(x, y)      or    jumpto((x,y))  
     """
-    global animate
-    animate_temp = animate
+    global _animate
+    animate_temp = _animate
     penup()
     animationOff()
     goto(x,y)
-    animate = animate_temp
+    _animate = animate_temp
     pendown()
 
 # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
@@ -1172,9 +1170,9 @@ def done():
     speed = 0 displays final image with no animation. Need to
     call done() at the end so the final image is displayed.
     """
-    if drawing_window == None:
+    if _drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    drawing_window.update(HTML(_generateSvgDrawing()))   
+    _drawing_window.update(HTML(_generateSvgDrawing()))   
 update = done #alias
 
 # Draw a line from diego2500garza
@@ -1191,20 +1189,20 @@ def drawline(x_1,y_1,x_2=None,y_2=None):
     independent of the turtle motion.
     """
 
-    global svg_lines_string
+    global _svg_lines_string
     if isinstance(x_1,tuple) and isinstance(y_1,tuple) and x_2==None and y_2==None:
         if len(x_1) != 2 or len(y_1) != 2:
             raise ValueError('The tuple argument must be of length 2.')
         x_1,y = x_1
         x_2,y_2 = y_1
         y_1 = y
-    svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
+    _svg_lines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
         x1=_convertx(x_1),
         y1=_converty(y_1),
         x2=_convertx(x_2),
         y2=_converty(y_2),
-        pencolor = pen_color,
-        penwidth = pen_width)
+        pencolor = _pen_color,
+        penwidth = _pen_width)
     _updateDrawing(0)   
 line = drawline #alias
         
@@ -1235,7 +1233,7 @@ def regularPolygon(sides, length, steps=None):
     direction.
     """
 
-    global fill_color
+    global _fill_color
     polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
     if sides in polygons:
         sides = polygons[sides]
@@ -1248,11 +1246,11 @@ def regularPolygon(sides, length, steps=None):
     elif steps < 1:
         raise ValueError('The number of steps should be a positive integer.')
     polyfilling = False
-    if not is_filling:
+    if not _is_filling:
         polyfilling = True
-        fillcolor_temp = fill_color
+        fillcolor_temp = _fill_color
         begin_fill()
-    alpha = (360/angle_conv)/sides
+    alpha = (360/_angle_conv)/sides
     print(alpha)
     if length < 0: 
         alpha = -alpha
@@ -1264,9 +1262,9 @@ def regularPolygon(sides, length, steps=None):
     forward(length)
     left(alpha/2)
     if polyfilling: 
-        fill_color = "none"
+        _fill_color = "none"
         end_fill()       
-        fill_color = fillcolor_temp
+        _fill_color = fillcolor_temp
         _updateDrawing()
     
 #====================================
@@ -1283,7 +1281,7 @@ def position():
         tuple: the current turtle location (x,y)
     """
 
-    return (turtle_pos[0]/xscale+xmin, ymax-turtle_pos[1]/yscale)
+    return (_turtle_pos[0]/_xscale+_xmin, _ymax-_turtle_pos[1]/_yscale)
 pos = position # alias
 
 # Return the angle between the line from turtle position to position specified by (x,y)
@@ -1323,7 +1321,7 @@ def towards(x, y=None):
         angle = (90 - result) % 360
     else:  # mode = "svg"
         angle = (360 - result) % 360
-    if angle_mode == "degrees":
+    if _angle_mode == "degrees":
         return round(angle,7)
     else:
         return round(math.radians(angle),7)
@@ -1332,27 +1330,27 @@ def towards(x, y=None):
 def xcor():
     """Returns the turtle's x coordinate."""
 
-    return(turtle_pos[0]/xscale+xmin)
+    return(_turtle_pos[0]/_xscale+_xmin)
 getx = xcor # alias
 
 # Retrieve the turtle's currrent 'y' y-coordinate in current coordinate system
 def ycor():
     """Return the turtle's y coordinate."""
    
-    return(ymax-turtle_pos[1]/yscale)
+    return(_ymax-_turtle_pos[1]/_yscale)
 gety = ycor # alias
 
-# Retrieve the turtle's current angle in current angle_mode
+# Retrieve the turtle's current angle in current _angle_mode
 def heading():
     """Returns the turtle's current heading"""
 
     if _mode in ["standard","world"]:
-        angle = (360 - turtle_degree) % 360
+        angle = (360 - _turtle_degree) % 360
     elif _mode == "logo":
-        angle = (turtle_degree - 270) % 360
+        angle = (_turtle_degree - 270) % 360
     else: # mode = "svg"
-        angle = turtle_degree % 360
-    if angle_mode == "degrees":
+        angle = _turtle_degree % 360
+    if _angle_mode == "degrees":
         return angle
     else:
         return math.radians(angle)
@@ -1388,19 +1386,19 @@ def distance(x, y=None):
 def radians():
     """ Sets the angle measurement units to radians."""
 
-    global angle_conv
-    global angle_mode
-    angle_mode = 'radians'
-    angle_conv = 180/math.pi
+    global _angle_conv
+    global _angle_mode
+    _angle_mode = 'radians'
+    _angle_conv = 180/math.pi
 
 # Set the angle measurement units to degrees.
 def degrees():
     """ Sets the angle measurement units to radians."""
 
-    global angle_conv
-    global angle_mode
-    angle_mode = 'degrees'
-    angle_conv = 1
+    global _angle_conv
+    global _angle_mode
+    _angle_mode = 'degrees'
+    _angle_conv = 1
 
 #============================
 # Pen Control - Drawing State
@@ -1413,8 +1411,8 @@ def pendown():
     Aliases: pendown | pd | down
     """
 
-    global is_pen_down
-    is_pen_down = True
+    global _is_pen_down
+    _is_pen_down = True
 pd = pendown # alias
 down = pendown # alias
 
@@ -1425,8 +1423,8 @@ def penup():
     Aliases: penup | pu | up
     """
 
-    global is_pen_down
-    is_pen_down = False
+    global _is_pen_down
+    _is_pen_down = False
 pu = penup # alias
 up = penup # alias
 
@@ -1444,15 +1442,15 @@ def pensize(width = None):
     current pensize is returned.
     """
 
-    global pen_width
+    global _pen_width
     if width is None:
-        return pen_width
+        return _pen_width
     else:
         if not isinstance(width, (int,float)):
             raise ValueError('New width value must be an integer.')
         if not width > 0:
             raise ValueError('New width value must be positive.')
-        pen_width = width
+        _pen_width = width
     _updateDrawing(0)
 width = pensize  #alias
 
@@ -1484,31 +1482,31 @@ def pen(dictname=None, **pendict):
     This can be used to set several pen attributes in one statement.
     """
 
-    global is_turtle_visible
-    global is_pen_down
-    global pen_color
-    global fill_color
-    global pen_width
-    global turtle_speed
-    global stretchfactor
-    global shear_factor
-    global outline_width
-    global tilt_angle
-    global timeout
-    _pd = {"shown"          : is_turtle_visible,
-           "pendown"        : is_pen_down,
-           "pencolor"       : pen_color,
-           "fillcolor"      : fill_color,
-           "pensize"        : pen_width,
-           "speed"          : turtle_speed,
-           "stretchfactor"  : stretchfactor,
-           "shearfactor"    : shear_factor,
-           "tilt"           : tilt_angle,
-           "outline"        : outline_width
+    global _is_turtle_visible
+    global _is_pen_down
+    global _pen_color
+    global _fill_color
+    global _pen_width
+    global _turtle_speed
+    global _stretchfactor
+    global _shear_factor
+    global _outline_width
+    global _tilt_angle
+    global _timeout
+    _pd = {"shown"          : _is_turtle_visible,
+           "pendown"        : _is_pen_down,
+           "pencolor"       : _pen_color,
+           "fillcolor"      : _fill_color,
+           "pensize"        : _pen_width,
+           "speed"          : _turtle_speed,
+           "stretchfactor"  : _stretchfactor,
+           "shearfactor"    : _shear_factor,
+           "tilt"           : _tilt_angle,
+           "outline"        : _outline_width
           }
     if not (dictname or pendict):
-        sf_tmp = shear_factor
-        _pd["shearfactor"] = round(math.tan((360-shear_factor)*math.pi/180),8)
+        sf_tmp = _shear_factor
+        _pd["shearfactor"] = round(math.tan((360-_shear_factor)*math.pi/180),8)
         return _pd
         _pd["shearfactor"] = sf_tmp
     if isinstance(dictname,dict):
@@ -1518,37 +1516,37 @@ def pen(dictname=None, **pendict):
 
     p.update(pendict)
     if "shown" in p:
-        is_turtle_visible = p["shown"]
+        _is_turtle_visible = p["shown"]
     if "pendown" in p:
-        is_pen_down = p["pendown"]
+        _is_pen_down = p["pendown"]
     if "pencolor" in p:
-        pen_color = _processColor(p["pencolor"])
+        _pen_color = _processColor(p["pencolor"])
     if "fillcolor" in p:
-        fill_color = _processColor(p["fillcolor"])
+        _fill_color = _processColor(p["fillcolor"])
     if "pensize" in p:
-        pen_width = p["pensize"]
+        _pen_width = p["pensize"]
     if "speed" in p:
-        turtle_speed = p["speed"]
-        timeout = _speedToSec(turtle_speed)
+        _turtle_speed = p["speed"]
+        _timeout = _speedToSec(_turtle_speed)
     if "stretchfactor" in p:
         sf = p["stretchfactor"]
         if isinstance(sf, (int,float)):
             sf = (sf,sf)
-        stretchfactor = sf
+        _stretchfactor = sf
     if "shearfactor" in p:
         alpha = math.atan(p["shearfactor"])*180/math.pi
-        shear_factor = (360 - alpha) % 360
-        p["shearfactor"] = shear_factor
+        _shear_factor = (360 - alpha) % 360
+        p["shearfactor"] = _shear_factor
     if "tilt" in p:
-        tilt_angle = p["tilt"]*angle_conv
+        _tilt_angle = p["tilt"]*_angle_conv
     if "outline" in p:
-        outline_width = p["outline"]
+        _outline_width = p["outline"]
     _updateDrawing(0)
 
 def isdown():
     """Return True if pen is down, False if it's up."""
 
-    return is_pen_down
+    return _is_pen_down
 
 #============================
 # Pen Control - Color Control
@@ -1575,22 +1573,22 @@ def color(*args):
             and analogously, if the other input format is used.
     """
 
-    global pen_color
-    global fill_color
+    global _pen_color
+    global _fill_color
     if args:
         narg = len(args)
         if narg == 1:
-            pen_color = fill_color = _processColor(args[0])
+            _pen_color = _fill_color = _processColor(args[0])
         elif narg == 2:
-            pen_color = _processColor(args[0])
-            fill_color = _processColor(args[1])
+            _pen_color = _processColor(args[0])
+            _fill_color = _processColor(args[1])
         elif narg == 3:
             kolor = (args[0],args[1],args[2])
-            pen_color = fill_color = _processColor(kolor)
+            _pen_color = _fill_color = _processColor(kolor)
         else:
             raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
     else:
-        return pen_color,fill_color
+        return _pen_color,_fill_color
     _updateDrawing(0)        
         
 # Change the color of the pen
@@ -1619,15 +1617,15 @@ def pencolor(color = None, c2 = None, c3 = None):
         are in the range 0..255
     """
 
-    global pen_color
+    global _pen_color
     if color is None:
-        return pen_color
+        return _pen_color
     elif c2 is not None:
         if c3 is None:
             raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
         color = (color, c2, c3)
 
-    pen_color = _processColor(color)
+    _pen_color = _processColor(color)
     _updateDrawing(0)
 
 # Change the fill color
@@ -1658,15 +1656,15 @@ def fillcolor(color = None, c2 = None, c3 = None):
     The interior of the turtle is drawn with the newly set fillcolor.
     """
 
-    global fill_color
+    global _fill_color
     if color is None:
-        return fill_color
+        return _fill_color
     elif c2 is not None:
         if c3 is None:
             raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
         color = (color, c2, c3)
 
-    fill_color = _processColor(color)
+    _fill_color = _processColor(color)
     _updateDrawing(0)
 
 # Used to validate a color string
@@ -1735,14 +1733,14 @@ def getcolor(n):
 def filling():
     """Return fillstate (True if filling, False else)."""
 
-    global is_filling
-    return is_filling
+    global _is_filling
+    return _is_filling
 
 # Initialize the string for the svg path of the filled shape.
 # Modified from aronma/ColabTurtle_2 github repo
-# The current svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
+# The current _svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands.
-# When calling begin_fill, a value for the fill_rule can be given that will apply only to that fill.
+# When calling begin_fill, a value for the _fill_rule can be given that will apply only to that fill.
 def begin_fill(rule=None, opacity=None):
     """Called just before drawing a shape to be filled.
 
@@ -1758,50 +1756,50 @@ def begin_fill(rule=None, opacity=None):
     The fill-opacity attribute ranges from 0 (transparent) to 1 (solid). 
     """
 
-    global is_filling
+    global _is_filling
     global svg_lines_string_orig
-    global svg_fill_string
+    global _svg_fill_string
     if rule is None:
-         rule = fill_rule
+         rule = _fill_rule
     if opacity is None:
-         opacity = fill_opacity
+         opacity = _fill_opacity
     rule = rule.lower()
     if not rule in ['evenodd','nonzero']:
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
     if (opacity < 0) or (opacity > 1):
-        raise ValueError("The fill_opacity should be between 0 and 1.")
-    if not is_filling:
-        svg_lines_string_orig = svg_lines_string
-        svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity}" d="M {x1} {y1} """.format(
-                x1=turtle_pos[0],
-                y1=turtle_pos[1],
+        raise ValueError("The fill-opacity should be between 0 and 1.")
+    if not _is_filling:
+        svg_lines_string_orig = _svg_lines_string
+        _svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity}" d="M {x1} {y1} """.format(
+                x1=_turtle_pos[0],
+                y1=_turtle_pos[1],
                 rule=rule,
                 opacity = opacity)
-        is_filling = True
+        _is_filling = True
     
 # Terminate the string for the svg path of the filled shape
 # Modified from aronma/ColabTurtle_2 github repo
-# The original svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
+# The original _svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
 # the svg code for the path generated between the begin and end fill commands.
 # the svg code for the path generated between the begin and end fill commands.
 def end_fill():
     """Fill the shape drawn after the call begin_fill()."""
 
-    global is_filling   
-    global svg_lines_string
+    global _is_filling   
+    global _svg_lines_string
     global svg_lines_string_orig
-    global svg_fill_string
-    if is_filling:
-        is_filling = False
-        if is_pen_down:
-            bddry = pen_color
+    global _svg_fill_string
+    if _is_filling:
+        _is_filling = False
+        if _is_pen_down:
+            bddry = _pen_color
         else:
             bddry = 'none'
-        svg_fill_string += """" stroke-linecap="round" style="stroke:{pen};stroke-width:{size}" fill="{fillcolor}" />""".format(
-                fillcolor=fill_color,
+        _svg_fill_string += """" stroke-linecap="round" style="stroke:{pen};stroke-width:{size}" fill="{fillcolor}" />""".format(
+                fillcolor=_fill_color,
                 pen = bddry,
-                size = pen_width)
-        svg_lines_string = svg_lines_string_orig + svg_fill_string 
+                size = _pen_width)
+        _svg_lines_string = svg_lines_string_orig + _svg_fill_string 
         _updateDrawing(0)
      
 # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
@@ -1814,15 +1812,15 @@ def fillrule(rule=None):
             Default is current fill-rule
     """
 
-    global fill_rule
+    global _fill_rule
     if rule is None:
-        return fill_rule
+        return _fill_rule
     if not isinstance(rule,str):
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
     rule = rule.lower()
     if not rule in ['evenodd','nonzero']:
         raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
-    fill_rule = rule
+    _fill_rule = rule
 
 # Allow user to set the svg fill-opacity. If no argument, return current fill-opacity.
 # This can be overridden for an individual object by setting the fill-opacity as an argument to begin_fill().
@@ -1834,14 +1832,14 @@ def fillopacity(opacity=None):
             Default is current fill-opacity
     """
 
-    global fill_opacity
+    global _fill_opacity
     if opacity is None:
-        return fill_opacity
+        return _fill_opacity
     if not isinstance(opacity,(int,float)):
         raise ValueError("The fill-opacity must be a number between 0 and 1.")
     if (opacity < 0) or (opacity > 1):
-        raise ValueError("The fill_opacity should be between 0 and 1.")
-    fill_opacity = opacity
+        raise ValueError("The fill-opacity should be between 0 and 1.")
+    _fill_opacity = opacity
 
 #===================================
 # Pen Control - More Drawing Control
@@ -1851,49 +1849,49 @@ def fillopacity(opacity=None):
 def reset():
     """Resets the turtle to its initial state and clears drawing."""
 
-    global is_turtle_visible
-    global pen_color
-    global is_pen_down
-    global pen_width
-    global svg_lines_string
-    global svg_fill_string
-    global svg_dots_string
-    global turtle_degree 
-    global turtle_orient
-    global turtle_pos
-    global fill_color
-    global border_color
-    global stretchfactor
-    global shear_factor
-    global tilt_angle
-    global outline_width
+    global _is_turtle_visible
+    global _pen_color
+    global _is_pen_down
+    global _pen_width
+    global _svg_lines_string
+    global _svg_fill_string
+    global _svg_dots_string
+    global _turtle_degree 
+    global _turtle_orient
+    global _turtle_pos
+    global _fill_color
+    global _border_color
+    global _stretchfactor
+    global _shear_factor
+    global _tilt_angle
+    global _outline_width
 
-    if drawing_window == None:
+    if _drawing_window == None:
         raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    is_turtle_visible = True
-    pen_color = DEFAULT_PEN_COLOR
-    fill_color = DEFAULT_FILL_COLOR
-    is_pen_down = True
-    pen_width = DEFAULT_PEN_WIDTH
-    stretchfactor = DEFAULT_STRETCHFACTOR
-    shear_factor = DEFAULT_SHEARFACTOR
-    tilt_angle = DEFAULT_TILT_ANGLE
-    outline_width = DEFAULT_OUTLINE_WIDTH
-    svg_lines_string = ""
-    svg_fill_string = ""
-    svg_dots_string = ""
-    svg_stampsB_string = ""
-    svg_stampsT_string = ""
-    stampdictB = {}
-    stampdictT = {}
-    stampnum = 0
-    stamplist = []
-    turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-    turtle_orient = turtle_degree
+    _is_turtle_visible = True
+    _pen_color = DEFAULT_PEN_COLOR
+    _fill_color = DEFAULT_FILL_COLOR
+    _is_pen_down = True
+    _pen_width = DEFAULT_PEN_WIDTH
+    _stretchfactor = DEFAULT_STRETCHFACTOR
+    _shear_factor = DEFAULT_SHEARFACTOR
+    _tilt_angle = DEFAULT_TILT_ANGLE
+    _outline_width = DEFAULT_OUTLINE_WIDTH
+    _svg_lines_string = ""
+    _svg_fill_string = ""
+    _svg_dots_string = ""
+    _svg_stampsB_string = ""
+    _svg_stampsT_string = ""
+    _stampdictB = {}
+    _stampdictT = {}
+    _stampnum = 0
+    _stamplist = []
+    _turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+    _turtle_orient = _turtle_degree
     if _mode != "world":
-        turtle_pos = (window_size[0] / 2, window_size[1] / 2)
+        _turtle_pos = (_window_size[0] / 2, _window_size[1] / 2)
     else:
-        turtle_pos = (_convertx(0),_converty(0))
+        _turtle_pos = (_convertx(0),_converty(0))
     #_updateDrawing(0)
     
 
@@ -1901,13 +1899,13 @@ def reset():
 def clear():
     """Clears any text or drawing on the screen."""
     
-    global svg_lines_string
-    global svg_fill_string
-    global svg_dots_string
+    global _svg_lines_string
+    global _svg_fill_string
+    global _svg_dots_string
 
-    svg_lines_string = ""
-    svg_fill_string = ""
-    svg_dots_string = ""
+    _svg_lines_string = ""
+    _svg_fill_string = ""
+    _svg_dots_string = ""
     _updateDrawing(0)
 
 def write(obj, **kwargs):
@@ -1925,8 +1923,8 @@ def write(obj, **kwargs):
     Defaults are left, ('Arial', 12, 'normal')
     """
 
-    global svg_lines_string
-    global turtle_pos
+    global _svg_lines_string
+    global _turtle_pos
     text = str(obj)
     font_size = 12
     font_family = 'Arial'
@@ -1962,11 +1960,11 @@ def write(obj, **kwargs):
     elif font_type == 'underline':
         style_string += "text-decoration: underline;"
             
-    svg_lines_string += """<text x="{x}" y="{y}" fill="{fill_color}" text-anchor="{align}" style="{style}">{text}</text>""".format(
-            x=turtle_pos[0], 
-            y=turtle_pos[1], 
+    _svg_lines_string += """<text x="{x}" y="{y}" fill="{strcolor}" text-anchor="{align}" style="{style}">{text}</text>""".format(
+            x=_turtle_pos[0], 
+            y=_turtle_pos[1], 
             text=text, 
-            fill_color=pen_color, 
+            strcolor=_pen_color, 
             align=align, 
             style=style_string)
     
@@ -2005,8 +2003,8 @@ def showturtle():
     Aliases: showturtle | st
     """
 
-    global is_turtle_visible
-    is_turtle_visible = True
+    global _is_turtle_visible
+    _is_turtle_visible = True
     _updateDrawing(0)
 st = showturtle # alias
 
@@ -2017,15 +2015,15 @@ def hideturtle():
     Aliases: hideturtle | ht
     """
 
-    global is_turtle_visible
-    is_turtle_visible = False
+    global _is_turtle_visible
+    _is_turtle_visible = False
     _updateDrawing(0)
 ht = hideturtle # alias
 
 def isvisible():
     """Return True if the Turtle is shown, False if it's hidden."""
 
-    return is_turtle_visible
+    return _is_turtle_visible
 
 #==========================
 # Turtle State - Appearance
@@ -2048,12 +2046,12 @@ def shape(name=None):
     turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
     """
 
-    global turtle_shape
+    global _turtle_shape
     if name is None:
-        return turtle_shape
+        return _turtle_shape
     elif name.lower() not in VALID_TURTLE_SHAPES:
         raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
-    turtle_shape = name.lower()
+    _turtle_shape = name.lower()
     _updateDrawing()
 
 # Scale the size of the turtle
@@ -2069,16 +2067,16 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
 
     Returns or sets the pen's attributes x/y-stretchfactors and/or outline.
     The turtle will be displayed stretched according to its stretchfactors.
-    stretch_wid is stretchfactor perpendicular to orientation
-    stretch_len is stretchfactor in direction of turtles orientation.
+    stretch_wid is _stretchfactor perpendicular to orientation
+    stretch_len is _stretchfactor in direction of turtles orientation.
     outline determines the width of the shapes's outline.
     """
 
-    global stretchfactor
-    global outline_width
+    global _stretchfactor
+    global _outline_width
 
     if stretch_wid is stretch_len is outline is None:
-        return stretchfactor[0], stretchfactor[1], outline_width
+        return _stretchfactor[0], _stretchfactor[1], _outline_width
 
     if stretch_wid == 0 or stretch_len == 0:
         raise ValueError("stretch_wid/stretch_len must not be zero")
@@ -2086,20 +2084,20 @@ def shapesize(stretch_wid=None, stretch_len=None, outline=None):
         if not isinstance(stretch_wid, (int,float)):
             raise ValueError('The stretch_wid position must be a number.')        
         if stretch_len is None:
-            stretchfactor = stretch_wid, stretch_wid
+            _stretchfactor = stretch_wid, stretch_wid
         else:
             if not isinstance(stretch_len, (int,float)):
                 raise ValueError('The stretch_len position must be a number.')                
-            stretchfactor = stretch_wid, stretch_len
+            _stretchfactor = stretch_wid, stretch_len
     elif stretch_len is not None:
         if not isinstance(stretch_len, (int,float)):
             raise ValueError('The stretch_len position must be a number.')         
-        stretchfactor = stretch_len, stretch_len
+        _stretchfactor = stretch_len, stretch_len
     if outline is None:
-        outline = outline_width
+        outline = _outline_width
     elif not isinstance(outline, (int,float)):
         raise ValueError('The outline must be a positive number.')        
-    outline_width = outline   
+    _outline_width = outline   
 turtlesize = shapesize #alias
 
 # Set or return the current shearfactor. Shear the turtleshape according to the given shearfactor shear, which is the tangent of the shear angle. 
@@ -2120,11 +2118,11 @@ def shearfactor(shear=None):
     heading of the turtle are sheared.
     """
 
-    global shear_factor
+    global _shear_factor
     if shear is None:              
-        return round(math.tan((360-shear_factor)*math.pi/180),8)
+        return round(math.tan((360-_shear_factor)*math.pi/180),8)
     alpha = math.atan(shear)*180/math.pi
-    shear_factor = (360 - alpha) % 360
+    _shear_factor = (360 - alpha) % 360
 
 # Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
 # DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
@@ -2141,8 +2139,8 @@ def settiltangle(angle):
     Deprecated since Python version 3.1.
     """
 
-    global tilt_angle
-    tilt_angle = angle*angle_conv
+    global _tilt_angle
+    _tilt_angle = angle*_angle_conv
     _updateDrawing(0)  
 
 # Set or return the current tilt-angle. 
@@ -2164,21 +2162,21 @@ def tiltangle(angle=None):
     turtle (its direction of movement).
     """
 
-    global tilt_angle
-    global turtle_degree
-    global tilt_angle
+    global _tilt_angle
+    global _turtle_degree
+    global _tilt_angle
     if angle == None:
-        return tilt_angle
-    if turtle_speed != 0 and animate: 
-        turtle_degree_temp = turtle_degree
+        return _tilt_angle
+    if _turtle_speed != 0 and _animate: 
+        turtle_degree_temp = _turtle_degree
         if _mode in ["standard","world"]:
-            left(-(tilt_angle-angle*angle_conv))
+            left(-(_tilt_angle-angle*_angle_conv))
         else:
-            right(tilt_angle-angle*angle_conv)
-        turtle_degree = turtle_degree_temp
-        tilt_angle = angle*angle_conv
+            right(_tilt_angle-angle*_angle_conv)
+        _turtle_degree = turtle_degree_temp
+        _tilt_angle = angle*_angle_conv
     else:
-        tilt_angle = angle*angle_conv
+        _tilt_angle = angle*_angle_conv
         _updateDrawing() 
 
 # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
@@ -2192,19 +2190,19 @@ def tilt(angle):
     but does NOT change the turtle's heading (direction of movement).
     """
 
-    global tilt_angle
-    global turtle_degree
-    global turtle_orient
-    if turtle_speed != 0 and animate and _mode != "world":
-        turtle_degree_temp = turtle_degree
+    global _tilt_angle
+    global _turtle_degree
+    global _turtle_orient
+    if _turtle_speed != 0 and _animate and _mode != "world":
+        turtle_degree_temp = _turtle_degree
         if _mode in ["standard"]:
-            left(angle*angle_conv)
+            left(angle*_angle_conv)
         else:
-            right(angle*angle_conv)
-        turtle_degree = turtle_degree_temp
-        tilt_angle += angle*angle_conv
+            right(angle*_angle_conv)
+        _turtle_degree = turtle_degree_temp
+        _tilt_angle += angle*_angle_conv
     else:
-        tilt_angle += angle*angle_conv
+        _tilt_angle += angle*_angle_conv
         _updateDrawing()
 
 #=====================
@@ -2222,27 +2220,27 @@ def bgcolor(color = None, c2 = None, c3 = None):
         or a 3-tuple of such numbers.
     """
 
-    global background_color
+    global _background_color
     if color is None:
-        return background_color
+        return _background_color
     elif c2 is not None:
         if c3 is None:
             raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
         color = (color, c2, c3)
 
-    background_color = _processColor(color)
+    _background_color = _processColor(color)
     _updateDrawing(0)
 
 # Return turtle window width
 def window_width():
     """Returns the turtle window width"""
 
-    return window_size[0]
+    return _window_size[0]
 
 # Return turtle window height
 def window_height():
     """Returns the turtle window height"""
-    return window_size[1]
+    return _window_size[1]
 
 # Set up user-defined coordinate system using lower left and upper right corners.
 # if the xscale and yscale are not equal, the aspect ratio of the axes and the
@@ -2259,24 +2257,24 @@ def setworldcoordinates(llx, lly, urx, ury):
         ury: a number, y-coordinate of upper right corner of window
     """
 
-    global xmin
-    global xmax
-    global ymin
-    global ymax
-    global xscale
-    global yscale
+    global _xmin
+    global _xmax
+    global _ymin
+    global _ymax
+    global _xscale
+    global _yscale
     global _mode
         
     if (urx-llx <= 0):
         raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
     elif (ury-lly <= 0):
         raise ValueError("Lower left y-coordinate should be less than upper right y-coordinate")                      
-    xmin = llx
-    ymin = lly
-    xmax = urx
-    ymax = ury
-    xscale = window_size[0]/(xmax-xmin)
-    yscale = window_size[1]/(ymax-ymin)
+    _xmin = llx
+    _ymin = lly
+    _xmax = urx
+    _ymax = ury
+    _xscale = _window_size[0]/(_xmax-_xmin)
+    _yscale = _window_size[1]/(_ymax-_ymin)
     _mode = "world"
 
 # Resets the window axes parameters to None in case user wants to rerun a Colab notebook
@@ -2287,9 +2285,9 @@ def resetwindow():
     This should be done before setting world coordinates and initializeTurtle.
     """
 
-    global xmin,xmax,ymin,ymax
+    global _xmin,_xmax,_ymin,_ymax
     global _mode
-    xmin = xmax = ymin = ymax = None
+    _xmin = _xmax = _ymin = _ymax = None
     _mode = None
 
 # If world coordinates are such that the aspect ratio of the axes does not match the
@@ -2297,10 +2295,10 @@ def resetwindow():
 # set the orientation of the turtle to line up with the direction of motion in the 
 # world coordinates.
 def _turtleOrientation():
-    if xscale == abs(yscale):
-        return turtle_degree
+    if _xscale == abs(_yscale):
+        return _turtle_degree
     else:
-        alpha = math.radians(heading()*angle_conv)
+        alpha = math.radians(heading()*_angle_conv)
         Dxy = (_convertx(getx()+math.cos(alpha))-_convertx(getx()),_converty(gety()+math.sin(alpha))-_converty(gety()))
         deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
         return 360-deg
@@ -2317,7 +2315,7 @@ def showborder(color = None, c2 = None, c3 = None):
     setting color='none' (or use hideborder())
     """
 
-    global border_color
+    global _border_color
     if color is None:
         color = "gray"
     elif c2 is not None:
@@ -2325,15 +2323,15 @@ def showborder(color = None, c2 = None, c3 = None):
             raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
         color = (color, c2, c3)
 
-    border_color = _processColor(color)
+    _border_color = _processColor(color)
     _updateDrawing(0)
 
 # Hide the border around the graphics window.    
 def hideborder():
     """Hides the border around the graphics window."""
 
-    global border_color
-    border_color = "none"
+    global _border_color
+    _border_color = "none"
     _updateDrawing(0)
 
 # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
@@ -2389,15 +2387,15 @@ def animationOff():
     makes the turtle turn instantly.
     """
 
-    global animate
-    animate = False
+    global _animate
+    _animate = False
         
 # Turn animation on.
 def animationOn():
     """Turns animation on"""
 
-    global animate
-    animate = True
+    global _animate
+    _animate = True
 
 
 
