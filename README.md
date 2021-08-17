@@ -26,6 +26,31 @@ where turtle (or other name) is the name of the turtle. As Colab stores the decl
 
     turtle.initializeTurtle()
 
+Example
+---
+```
+from ColabTurtlePlus.Turtle import *
+initializeTurtle(window=(300,300))
+showborder()
+color('red', 'yellow')
+shape("turtle")
+pensize(2)
+speed(7)
+begin_fill()
+forward(100)
+left(90)
+forward(100)
+left(90)
+forward(100)
+left(90)
+forward(100)
+left(90)
+circle(-50)
+end_fill()
+color("black","green")
+saveSVG(turtle=True)
+```
+
 Main differences from ColabTurtle
 ----
 Some of the default values have been changed to mirror those in turtle.py. In particular,
@@ -77,3 +102,4 @@ Main differences with classic turtle.py
 * There is a fillopacity function that sets the global fill-opacity used by SVG to fill an object. The default is 1. The begin_fill() function can take an argument between 0 and 1 to set the fill_opacity just for that fill. See details below.
 * The stamp function has an optional layer argument. The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
 * Not all the functions from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
+
