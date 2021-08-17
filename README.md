@@ -32,7 +32,7 @@ Example
 from ColabTurtlePlus.Turtle import *
 initializeTurtle(window=(300,300))
 showborder()
-color('red', 'yellow')
+color("red", "yellow")
 shape("turtle")
 pensize(2)
 speed(7)
@@ -50,6 +50,8 @@ end_fill()
 color("black","green")
 saveSVG(turtle=True)
 ```
+The resulting image is  
+![svg image](example.svg)
 
 Main differences from ColabTurtle
 ----
