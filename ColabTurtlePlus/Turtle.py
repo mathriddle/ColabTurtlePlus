@@ -516,8 +516,8 @@ class Turtle:
         """
         if not isinstance(angle, (int,float)):
             raise ValueError('Degrees must be a number.')
-        right(-1 * angle)
-    lt = left    
+        self.right(-1 * angle)
+    lt = left # alias 
     
     
     
