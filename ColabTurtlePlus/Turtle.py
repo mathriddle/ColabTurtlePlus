@@ -377,7 +377,7 @@ class Turtle:
         self.turtle_shape = DEFAULT_TURTLE_SHAPE
         self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
         self.drawing_window = window
-        self.timeout = window._speedToSec(self, DEFAULT_SPEED)
+        self.timeout = window._speedToSec(DEFAULT_SPEED)
         window.add(self)
         
     def __str__(self):
