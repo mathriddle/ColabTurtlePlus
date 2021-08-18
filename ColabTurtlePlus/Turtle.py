@@ -283,7 +283,7 @@ class Window:
         start_pos = turtle.turtle_pos           
         svg_lines_string_orig = turtle.svg_lines_string       
         s = 1 if units > 0 else -1            
-        if turtle.turtle_speed != 0 and self.animate:
+        if turtle.turtle_speed != 0 and turtle.animate:
             if self.xscale == abs(self.yscale):
                 # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
                 initial_pos = turtle.turtle_pos         
@@ -378,6 +378,7 @@ class Turtle:
         self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
         self.drawing_window = window
         self.timeout = window._speedToSec(DEFAULT_SPEED)
+        self.animate = True
         window.add(self)
         
     def __str__(self):
