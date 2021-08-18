@@ -380,6 +380,7 @@ class Turtle:
         self.tilt_angle = DEFAULT_TILT_ANGLE
         self.stretchfactor = DEFAULT_STRETCHFACTOR
         self.shear_factor = DEFAULT_SHEARFACTOR
+        self.outline_width = DEFAULT_OUTLINE_WIDTH
         self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
         self.drawing_window = window
         self.timeout = window._speedToSec(DEFAULT_SPEED)
