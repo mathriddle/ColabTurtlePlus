@@ -455,7 +455,7 @@ class Turtle:
         deg = angle*self.angle_conv
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
-            screen._updateDrawing(turtle=self)
+            self.drawing_window._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = shapeDict[self.turtle_shape]        
@@ -478,7 +478,7 @@ class Turtle:
             shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
-            Screen._updateDrawing(self)
+            self.drawing_window._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             #self.turtle_orient = _turtleOrientation()
             shapeDict.update({self.turtle_shape:template})
@@ -494,7 +494,7 @@ class Turtle:
                 else:
                     self.turtle_degree = (_turtle_degree + deg) % 360
                    # _turtle_orient = _turtleOrientation()
-                Screen._updateDrawing(turtle=self)
+                self.drawing_window._updateDrawing(turtle=self)
                 deg -= s*30
             self.timeout = timeout_orig
             self.turtle_degree = (self.turtle_degree + deg) % 360
@@ -519,6 +519,29 @@ class Turtle:
         self.right(-1 * angle)
     lt = left # alias 
     
+    # Set turtle shape to shape with given name or, if name is not given, return name of current shape
+    def shape(self, name=None):
+        """Sets turtle shape to shape with given name / return current shapename.
+
+        Args:
+            name: an optional string, which is a valid shapename
+
+        Sets the turtle shape to shape with given name or, if name is not given,
+        returns the name of current shape.
+    
+        The possible turtle shapes include the ones from turtle.py: 
+        'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. 
+        The 'turtle' shape is the one that Tolga Atam included in his original 
+        ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
+        turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
+        """
+
+        if name is None:
+            return self.turtle_shape
+        elif name.lower() not in VALID_TURTLE_SHAPES:
+            raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
+        self.turtle_shape = name.lower()
+        self.drawing_window._updateDrawing(turtle=self)
     
     
     
