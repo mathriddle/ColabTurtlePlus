@@ -369,6 +369,7 @@ class Turtle:
         self.name = name
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
+        self.fill_color = DEFAULT_FILL_COLOR
         self.turtle_degree = DEFAULT_TURTLE_DEGREE
         self.turtle_orient = self.turtle_degree
         self.svg_lines_string = self.svg_fill_string = self.svg_dots_string = ""
@@ -377,6 +378,8 @@ class Turtle:
         self.pen_width = DEFAULT_PEN_WIDTH
         self.turtle_shape = DEFAULT_TURTLE_SHAPE
         self.tilt_angle = DEFAULT_TILT_ANGLE
+        self.stretchfactor = DEFAULT_STRETCHFACTOR
+        self.shear_factor = DEFAULT_SHEARFACTOR
         self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
         self.drawing_window = window
         self.timeout = window._speedToSec(DEFAULT_SPEED)
