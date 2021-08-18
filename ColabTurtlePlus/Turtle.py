@@ -157,7 +157,10 @@ class Window:
                 window_size[0], int) and isinstance(window_size[1], int)):
             raise ValueError('window_size must be a tuple of 2 integers')
 
-        self.window_size = window_size     
+        self.window_size = window_size
+        self.mode = DEFAULT_MODE
+        self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
+        self.xscale = self.yscale = 1
         self.background_color = DEFAULT_BACKGROUND_COLOR
         self.turtles = []
         self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
@@ -349,12 +352,83 @@ class Window:
     def add(self, turtle):
         self.turtles.append(turtle)
         self._updateDrawing(delay=False)                
-                    
+   
+    # Convert user coordinates to SVG coordinates
     def _convertx(x):
         return (x-self.xmin)*self.xscale 
     def _converty(y):
         return (self.ymax-y)*self.yscale                
-                    
+
+class Turtle:    
+    
+    def __init__(self, window, name : str = None):
+         if not isinstance(window, Window) == True:
+            raise TypeError("window must be a window object")
+        self.turtle_speed = DEFAULT_SPEED
+        self.name = name
+        self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
+        self.pen_color = DEFAULT_PEN_COLOR
+        self.turtle_degree = DEFAULT_TURTLE_DEGREE
+        self.svg_lines_string = DEFAULT_SVG_LINES_STRING
+        self.is_pen_down = DEFAULT_IS_PEN_DOWN
+        self.pen_width = DEFAULT_PEN_WIDTH
+        self.turtle_shape = DEFAULT_TURTLE_SHAPE
+        self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
+        self.drawing_window = window
+        window.add(self)
+        
+    def __str__(self):
+        return self.name
+
+ # Makes the turtle move forward by 'units' units
+    def forward(self,units):
+    """Moves the turtle forward by the specified distance.
+
+    Aliases: forward | fd
+
+    Args:
+        units: a number (integer or float)
+
+    Moves the turtle forward by the specified distance, in the 
+    direction the turtle is headed.
+    """
+
+        if not isinstance(units, (int,float)):
+            raise ValueError('Units must be a number.')
+        alpha = math.radians(self.turtle_degree)
+        new_pos = (self.turtle_pos[0] + units *window.xscale * math.cos(alpha), self.turtle_pos[1] + units * abs(window.yscale) * math.sin(alpha))
+        self.drawing_window._moveToNewPosition(new_pos,self,units)
+    fd = forward # alias   
+    
+# Makes the turtle move backward by 'units' units
+    def backward(self, units):
+    """Moves the turtle backward by the specified distance.
+
+    Aliases: backward | back | bk
+
+    Args:
+        units: a number (integer or float)
+
+    Move the turtle backward by the specified distance, opposite
+    to the direction the turtle is headed. Do not change the turtle's 
+    heading.
+    """
+
+        if not isinstance(units, (int,float)):
+            raise ValueError('Units must be a number.')
+        self.forward(-1 * units)
+    bk = backward # alias
+    back = backward # alias    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 """
 _timeout = _speedToSec(DEFAULT_SPEED)
 _turtle_speed = DEFAULT_SPEED
