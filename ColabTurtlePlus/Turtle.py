@@ -249,7 +249,7 @@ class Window:
         return res
     
     # Helper function for generating the whole svg string
-    def _generateSvgDrawing():
+    def _generateSvgDrawing(self):
         return SVG_TEMPLATE.format(window_width=self.window_size[0], 
                                window_height=self.window_size[1],
                                backcolor=self.background_color,
