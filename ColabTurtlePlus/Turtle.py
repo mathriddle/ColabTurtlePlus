@@ -478,7 +478,7 @@ class Turtle:
             shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
-            screen._updateDrawing(self)
+            Screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             #self.turtle_orient = _turtleOrientation()
             shapeDict.update({self.turtle_shape:template})
@@ -494,7 +494,7 @@ class Turtle:
                 else:
                     self.turtle_degree = (_turtle_degree + deg) % 360
                    # _turtle_orient = _turtleOrientation()
-                screen._updateDrawing(turtle=self)
+                Screen._updateDrawing(turtle=self)
                 deg -= s*30
             self.timeout = timeout_orig
             self.turtle_degree = (self.turtle_degree + deg) % 360
