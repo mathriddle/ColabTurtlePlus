@@ -151,10 +151,211 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
-# Helper function that maps [0,13] speed values to ms delays
-def _speedToSec(speed):
-    return SPEED_TO_SEC_MAP[speed]
+class Window:
+    def __init__(self, window_size : tuple = DEFAULT_WINDOW_SIZE):
+        if not (isinstance(window_size, tuple) and len(window_size) == 2 and isinstance(
+                window_size[0], int) and isinstance(window_size[1], int)):
+            raise ValueError('window_size must be a tuple of 2 integers')
 
+        self.window_size = window_size     
+        self.background_color = DEFAULT_BACKGROUND_COLOR
+        self.turtles = []
+        self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
+
+    # Helper function that maps [0,13] speed values to ms delays
+    def _speedToSec(self, speed):
+        return SPEED_TO_SEC_MAP[speed]
+
+    # Helper function for generating svg string of the turtle
+    def _generateTurtlesSvgDrawing(self):
+        res = ""
+        for turtle in self.turtles:
+            if _is_turtle_visible:
+                vis = 'visible'
+            else:
+                vis = 'hidden'
+
+            turtle_x = turtle.turtle_pos[0]
+            turtle_y = turtle.turtle_pos[1]
+            if self.mode == "standard":
+                degrees = turtle.turtle_degree - turtle.tilt_angle    
+            elif self.mode == "world":
+                degrees = turtle.turtle_orient - turtle.tilt_angle
+            else:
+                degrees = turtle.turtle_degree + turtle.tilt_angle
+    
+            if turtle.turtle_shape == 'turtle':
+                degrees += 90
+            elif turtle.turtle_shape == 'ring':
+                turtle_y += 10*turtle.stretchfactor[1]+4
+                degrees -= 90
+            else:
+                degrees -= 90
+       
+            str += shapeDict[_turtle_shape].format(
+                           turtle_color=turtle.fill_color,
+                           pcolor=turtle.pen_color,
+                           turtle_x=turtle_x, 
+                           turtle_y=turtle_y,
+                           visibility=vis, 
+                           degrees=degrees,
+                           sx=turtle.stretchfactor[0],
+                           sy=turtle.stretchfactor[1],
+                           sk=turtle.shear_factor,
+                           rx=10*turtle.stretchfactor[0],
+                           ry=10*turtle.stretchfactor[1],
+                           cy=-(10*turtle.stretchfactor[1]+4),
+                           pw = turtle.outline_width,
+                           rotation_x=turtle.turtle_pos[0], 
+                           rotation_y=turtle.turtle_pos[1])
+        return res
+    
+    # helper function for linking svg strings of text
+    def _generateSvgLines(self):
+        res = ""
+        for turtle in self.turtles:
+            res+=turtle.svg_lines_string 
+        return res
+
+    # helper function for linking svg strings of text
+    def _generateSvgFill(self):
+        res = ""
+        for turtle in self.turtles:
+            res+=turtle.svg_fill_string 
+        return res
+    
+    # helper function for linking svg strings of text
+    def _generateSvgDots(self):
+        res = ""
+        for turtle in self.turtles:
+            res+=turtle.svg_dots_string 
+        return res
+    
+    # helper function for linking svg strings of text
+    def _generateSvgStampsB(self):
+        res = ""
+        for turtle in self.turtles:
+            res+=turtle.svg_stampsB_string 
+        return res
+    
+    # helper function for linking svg strings of text
+    def _generateSvgStampsT(self):
+        res = ""
+        for turtle in self.turtles:
+            res+=turtle.svg_stampsT_string 
+        return res
+    
+    # Helper function for generating the whole svg string
+    def _generateSvgDrawing():
+    return SVG_TEMPLATE.format(window_width=self.window_size[0], 
+                               window_height=self.window_size[1],
+                               backcolor=self.background_color,
+                               fill=self._generateSvgFill(),
+                               lines=self._generateSvgLines(),
+                               dots=self._generateSvgDots(),
+                               stampsB=self._generateSvgStampsB(),
+                               stampsT=self._generateSvgStampsT(),
+                               turtle=self._generateTurtlesSvgDrawing(),
+                               kolor=self.border_color)
+
+    # Helper functions for updating the screen using the latest positions/angles/lines etc.
+    # If the turtle speed is 0, the update is skipped so animation is done.
+    # If the delay is False (or 0), update immediately without any delay
+    def _updateDrawing(self, turtle=None, delay=True):
+        if turtle is not None:
+            if turtle.turtle_speed != 0:
+                self.drawing_window.update(HTML(self._generateSvgDrawing()))         
+                if delay:
+                    time.sleep(turtle.timeout)  
+
+    # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
+    # Animate turtle motion along line
+    def _moveToNewPosition(self, new_pos, turtle, units):
+    
+        # rounding the new_pos to eliminate floating point errors.
+        new_pos = ( round(new_pos[0],3), round(new_pos[1],3) ) 
+    
+        timeout_orig = turtle.timeout
+        start_pos = turtle.turtle_pos           
+        svg_lines_string_orig = turtle.svg_lines_string       
+        s = 1 if units > 0 else -1            
+        if turtle.turtle_speed != 0 and self.animate:
+            if self.xscale == abs(self.yscale):
+                # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
+                initial_pos = turtle.turtle_pos         
+                alpha = math.radians(turtle.turtle_degree)
+                tenx, teny = 10/self.xscale, 10/abs(self.yscale)
+                dunits = s*10/self.xscale
+                turtle.timeout = turtle.timeout*.20    
+                while s*units > 0:
+                    dx = min(tenx,s*units)
+                    dy = min(teny,s*units)
+                    turtle.turtle_pos = (initial_pos[0] + s * dx *self.xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(self.yscale) * math.sin(alpha))
+                    if turtle.is_pen_down:
+                        turtle.svg_lines_string += \
+                        """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
+                            x1=initial_pos[0],
+                            y1=initial_pos[1],
+                            x2=turtle.turtle_pos[0],
+                            y2=turtle.turtle_pos[1],
+                            pcolor=turtle.pen_color, 
+                            pwidth=turtle.pen_width) 
+                    initial_pos = turtle.turtle_pos
+                    self._updateDrawing(turtle=turtle)
+                    units -= dunits
+            else:
+                # world mode with aspect ratio of axes different than aspect ratio of the window
+                initial_pos = turtle.position()
+                alpha = math.radians(turtle.turtle_degree)
+                turtle.timeout = turtle.timeout*0.20
+                xpixunits = self.convertx(1)-self.convertx(0)  #length of 1 world unit along x-axis in pixels
+                ypixunits = self.converty(1)-self.converty(0)  #length of 1 world unit along y-axis in pixels
+                xstep = 10/(max(xpixunits,ypixunits))  #length of 10 pixels in world units 
+                ystep = xstep
+                dunits = s*xstep
+                while s*units > 0:
+                    dx = min(xstep,s*units)
+                    dy = min(ystep,s*units)
+                    temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
+                    turtle.turtle_pos = (self.convertx(temp_turtle_pos[0]), self.converty(temp_turtle_pos[1]))
+                    if turtle.is_pen_down:
+                        turtle.svg_lines_string += \
+                        """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
+                            x1=self.convertx(initial_pos[0]),
+                            y1=self.converty(initial_pos[1]),
+                            x2= turtle.turtle_pos[0],
+                            y2= turtle.turtle_pos[1],
+                            pcolor=turtle.pen_color, 
+                            pwidth=turtle.pen_width) 
+                    initial_pos = temp_turtle_pos
+                    self._updateDrawing(turtle=turtle)
+                    units -= dunits
+        if turtle.is_pen_down:
+            # now create the permanent svg string that does not display the animation
+            turtle.svg_lines_string = svg_lines_string_orig + \
+                """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
+                        x1=start_pos[0],
+                        y1=start_pos[1],
+                        x2=new_pos[0],
+                        y2=new_pos[1],
+                        pcolor=turtle.pen_color, 
+                        pwidth=turtle.pen_width)
+        if turtle.is_filling:
+            turtle.svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
+        turtle.turtle_pos = new_pos
+        turtle.timeout = timeout_orig
+        if not self.animate: self._updateDrawing(turtle=turtle)                    
+                    
+    def add(self, turtle):
+        self.turtles.append(turtle)
+        self._updateDrawing(delay=False)                
+                    
+    def _convertx(x):
+        return (x-self.xmin)*self.xscale 
+    def _converty(y):
+        return (self.ymax-y)*self.yscale                
+                    
+"""
 _timeout = _speedToSec(DEFAULT_SPEED)
 _turtle_speed = DEFAULT_SPEED
 _is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
@@ -306,59 +507,9 @@ def initializeTurtle(window=None, mode=None, speed=None):
 # SVG functions
 #=======================
 
-# Helper function for generating svg string of the turtle
-def _generateTurtleSvgDrawing():
-    if _is_turtle_visible:
-        vis = 'visible'
-    else:
-        vis = 'hidden'
 
-    turtle_x = _turtle_pos[0]
-    turtle_y = _turtle_pos[1]
-    if _mode == "standard":
-        degrees = _turtle_degree - _tilt_angle    
-    elif _mode == "world":
-        degrees = _turtle_orient - _tilt_angle
-    else:
-        degrees = _turtle_degree + _tilt_angle
-    
-    if _turtle_shape == 'turtle':
-        degrees += 90
-    elif _turtle_shape == 'ring':
-        turtle_y += 10*_stretchfactor[1]+4
-        degrees -= 90
-    else:
-        degrees -= 90
-       
-    return shapeDict[_turtle_shape].format(
-                           turtle_color=_fill_color,
-                           pcolor=_pen_color,
-                           turtle_x=turtle_x, 
-                           turtle_y=turtle_y,
-                           visibility=vis, 
-                           degrees=degrees,
-                           sx=_stretchfactor[0],
-                           sy=_stretchfactor[1],
-                           sk=_shear_factor,
-                           rx=10*_stretchfactor[0],
-                           ry=10*_stretchfactor[1],
-                           cy=-(10*_stretchfactor[1]+4),
-                           pw = _outline_width,
-                           rotation_x=_turtle_pos[0], 
-                           rotation_y=_turtle_pos[1])
 
-# Helper function for generating the whole svg string
-def _generateSvgDrawing():
-    return SVG_TEMPLATE.format(window_width=_window_size[0], 
-                               window_height=_window_size[1],
-                               backcolor=_background_color,
-                               fill=_svg_fill_string,
-                               lines=_svg_lines_string,
-                               dots=_svg_dots_string,
-                               stampsB=_svg_stampsB_string,
-                               stampsT=_svg_stampsT_string,
-                               turtle=_generateTurtleSvgDrawing(),
-                               kolor=_border_color)
+
 
 # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
 def saveSVG(file=None, turtle=False):
@@ -439,15 +590,7 @@ def _converty(y):
 # Turtle Motion - Move and Draw
 #================================
 
-# Helper functions for updating the screen using the latest positions/angles/lines etc.
-# If the turtle speed is 0, the update is skipped so animation is done.
-# If the delay is False (or 0), update immediately without any delay
-def _updateDrawing(delay=True):
-    if _drawing_window == None:
-        raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
-    if (_turtle_speed != 0):
-        _drawing_window.update(HTML(_generateSvgDrawing()))         
-        if delay: time.sleep(_timeout)          
+         
             
 # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
 # Animate turtle motion along line
