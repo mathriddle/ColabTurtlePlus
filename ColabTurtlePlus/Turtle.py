@@ -385,6 +385,7 @@ class Turtle:
         self.drawing_window = window
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
+        self.is_filling = False
         window.add(self)
         
     def __str__(self):
