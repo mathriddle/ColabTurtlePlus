@@ -386,7 +386,7 @@ class Turtle:
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
-        Screen.add(self)
+        window.add(self)
         
     def __str__(self):
         return self.name
