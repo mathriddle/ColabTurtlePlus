@@ -196,7 +196,7 @@ class Window:
             else:
                 degrees -= 90
        
-            str += shapeDict[_turtle_shape].format(
+            res += shapeDict[_turtle_shape].format(
                            turtle_color=turtle.fill_color,
                            pcolor=turtle.pen_color,
                            turtle_x=turtle_x, 
