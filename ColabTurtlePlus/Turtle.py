@@ -174,7 +174,7 @@ class Window:
     def _generateTurtlesSvgDrawing(self):
         res = ""
         for turtle in self.turtles:
-            if _is_turtle_visible:
+            if turtle.is_turtle_visible:
                 vis = 'visible'
             else:
                 vis = 'hidden'
