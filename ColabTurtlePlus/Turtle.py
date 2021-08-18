@@ -363,7 +363,7 @@ class window:
 class turtle:    
     
     def __init__(self, window, name : str = None):
-        if not isinstance(window, Window) == True:
+        if not isinstance(window, window) == True:
             raise TypeError("window must be a window object")
         self.turtle_speed = DEFAULT_SPEED
         self.name = name
