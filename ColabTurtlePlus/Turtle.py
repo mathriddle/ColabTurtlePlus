@@ -151,7 +151,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
-class window:
+class Screen:
     def __init__(self, window_size : tuple = DEFAULT_WINDOW_SIZE):
         if not (isinstance(window_size, tuple) and len(window_size) == 2 and isinstance(
                 window_size[0], int) and isinstance(window_size[1], int)):
@@ -360,11 +360,11 @@ class window:
     def _converty(y):
         return (self.ymax-y)*self.yscale                
 
-class turtle:    
+class Turtle:    
     
     def __init__(self, window, name : str = None):
-        if not isinstance(window, window) == True:
-            raise TypeError("window must be a window object")
+        if not isinstance(window, Screen) == True:
+            raise TypeError("window must be a Screen object")
         self.turtle_speed = DEFAULT_SPEED
         self.name = name
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
@@ -386,7 +386,7 @@ class turtle:
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
-        window.add(self)
+        screen.add(self)
         
     def __str__(self):
         return self.name
