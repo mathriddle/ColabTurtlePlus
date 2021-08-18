@@ -386,6 +386,7 @@ class Turtle:
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
+        self.angle_conv = 1
         window.add(self)
         
     def __str__(self):
@@ -431,9 +432,92 @@ class Turtle:
     bk = backward # alias
     back = backward # alias    
     
+# Makes the turtle move right by 'angle' degrees or radians
+# Uses SVG animation to rotate turtle.
+# But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
+# so in that case break the rotation into pieces of at most 30 degrees.
+    def right(self, angle):
+        """Turns the turtle right by angle units.
+
+        Aliases: right | rt
+
+        Args:
+            angle: a number (integer or float)
+
+        Turns the turtle right by angle units. (Units are by default 
+        degrees, but can be set via the degrees() and radians() functions.)
+        Angle orientation depends on mode. 
+        """
+
+        if not isinstance(angle, (int,float)):
+            raise ValueError('Degrees must be a number.')  
+        timeout_orig = self.timeout
+        deg = angle*self.angle_conv
+        if self.turtle_speed == 0 or not self.animate:
+            self.turtle_degree = (self.turtle_degree + deg) % 360
+            screen._updateDrawing(turtle=self)
+        elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
+            stretchfactor_orig = self.stretchfactor
+            template = shapeDict[self.turtle_shape]        
+            tmp = """<animateTransform id = "one" attributeName="transform" 
+                      type="scale"
+                      from="1 1" to="{sx} {sy}"
+                      begin="0s" dur="0.01s"
+                      repeatCount="1"
+                      additive="sum"
+                      fill="freeze"
+                /><animateTransform attributeName="transform"
+                    type="rotate"
+                    from="0 0 0" to ="{extent} 0 0"
+                    begin="one.end" dur="{t}s"
+                    repeatCount="1"
+                    additive="sum"
+                    fill="freeze"
+                /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
+            newtemplate = template.replace("</g>",tmp)
+            shapeDict.update({self.turtle_shape:newtemplate})
+            self.stretchfactor = 1,1
+            self.timeout = _timeout*abs(deg)/90+0.001
+            screen._updateDrawing(self)
+            self.turtle_degree = (self.turtle_degree + deg) % 360
+            #self.turtle_orient = _turtleOrientation()
+            shapeDict.update({self.turtle_shape:template})
+            self.stretchfactor = stretchfactor_orig
+            self.timeout = timeout_orig
+        else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
+            turtle_degree_orig = self.turtle_degree
+            s = 1 if angle > 0 else -1
+            while s*deg > 0:
+                if s*deg > 30:
+                    self.turtle_degree = (self.turtle_degree + s*30) % 360
+                   # _turtle_orient = _turtleOrientation()
+                else:
+                    self.turtle_degree = (_turtle_degree + deg) % 360
+                   # _turtle_orient = _turtleOrientation()
+                screen._updateDrawing(turtle=self)
+                deg -= s*30
+            self.timeout = timeout_orig
+            self.turtle_degree = (self.turtle_degree + deg) % 360
+           #_turtle_orient = _turtleOrientation()
+    rt = right # alias    
     
-    
-    
+    # Makes the turtle move right by 'angle' degrees or radians
+    def left(self, angle):
+        """Turns the turtle left by angle units.
+
+        Aliases: left | lt
+
+        Args:
+            angle: a number (integer or float)
+
+        Turns turtle left by angle units. (Units are by default 
+        degrees, but can be set via the degrees() and radians() functions.)
+        Angle orientation depends on mode. 
+        """
+        if not isinstance(angle, (int,float)):
+            raise ValueError('Degrees must be a number.')
+        right(-1 * angle)
+    lt = left    
     
     
     
