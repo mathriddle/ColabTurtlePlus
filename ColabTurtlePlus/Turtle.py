@@ -162,6 +162,7 @@ class Window:
         self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
         self.xscale = self.yscale = 1
         self.background_color = DEFAULT_BACKGROUND_COLOR
+        self.border_color = DEFAULT_BORDER_COLOR
         self.turtles = []
         self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
 
@@ -369,7 +370,8 @@ class Turtle:
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
         self.turtle_degree = DEFAULT_TURTLE_DEGREE
-        self.svg_lines_string = DEFAULT_SVG_LINES_STRING
+        self.svg_lines_string = self.svg_fill_string = self.svg_dots_string = ""
+        self.svg_stampsB_string = self.svg_stampsT_string = ""
         self.is_pen_down = DEFAULT_IS_PEN_DOWN
         self.pen_width = DEFAULT_PEN_WIDTH
         self.turtle_shape = DEFAULT_TURTLE_SHAPE
