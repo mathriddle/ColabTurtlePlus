@@ -151,7 +151,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
-class Window:
+class window:
     def __init__(self, window_size : tuple = DEFAULT_WINDOW_SIZE):
         if not (isinstance(window_size, tuple) and len(window_size) == 2 and isinstance(
                 window_size[0], int) and isinstance(window_size[1], int)):
@@ -360,7 +360,7 @@ class Window:
     def _converty(y):
         return (self.ymax-y)*self.yscale                
 
-class Turtle:    
+class turtle:    
     
     def __init__(self, window, name : str = None):
         if not isinstance(window, Window) == True:
