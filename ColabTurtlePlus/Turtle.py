@@ -626,7 +626,7 @@ class Turtle:
         speed = 0 displays final image with no animation. Need to
         call done() at the end so the final image is displayed.
         """
-        self.drawing_window.drawing_window.update(HTML(self._generateSvgDrawing()))  
+        self.drawing_window.drawing_window.update(HTML(self.drawing_window._generateSvgDrawing()))  
     update = done #alias
         
     # If world coordinates are such that the aspect ratio of the axes does not match the
