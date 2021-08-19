@@ -570,8 +570,67 @@ class Turtle:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
         self.drawing_window._updateDrawing(turtle=self)
+ 
+    # Update the speed of the moves, [0,13]
+    # If argument is omitted, it returns the speed.
+    def speed(speed = None):
+        """Returns or set the turtle's speed.
+
+        Args:
+            speed: an integer in the range 0..13 or a speedstring (see below)
+
+        Sets the turtle's speed to an integer value in the range 0 .. 13.
+        If no argument is given, returns the current speed.
+
+        If input is a number greater than 13 or smaller than 0.5,
+        speed is set to 13.
     
+        Speedstrings  are mapped to speedvalues in the following way:
+            'fastest' :  13
+            'fast'    :  10
+            'normal'  :  6
+            'slow'    :  3
+            'slowest' :  1
+        Speeds from 1 to 13 enforce increasingly faster animation of
+        line drawing and turtle turning.
+
+        Attention:
+        speed = 0 displays final image with no animation. Need to call done() 
+        at the end so the final image is displayed.
     
+        Calling animationOff will show the drawing but with no animation.
+        This means forward/back makes the turtle jump and likewise left/right 
+        makes the turtle turn instantly.
+        """
+  
+        if speed is None:
+            return self.turtle_speed
+        speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
+        if speed in speeds:
+            self.turtle_speed = speeds[speed]
+        elif not isinstance(speed,(int,float)):
+            raise ValueError("speed should be a number between 0 and 13")
+        self.turtle_speed = speed
+        if 0.5 < speed < 13.5:
+            self.turtle_speed = int(round(speed))
+        elif speed != 0:
+            self.turtle_speed = 13
+        self.timeout = self.drawing_window._speedToSec(else.turtle_speed) 
+
+
+    # If world coordinates are such that the aspect ratio of the axes does not match the
+    # aspect ratio of the graphic window (xscale != yscale), then this function is used to 
+    # set the orientation of the turtle to line up with the direction of motion in the 
+    # world coordinates.
+    def _turtleOrientation(self):
+        if self.drawing_window.xscale == abs(self.drawing_window.yscale):
+            return turtle.turtle_degree
+        else:
+            alpha = math.radians(turtle.heading()*turtle.angle_conv)
+            Dxy = (self.drawing_window.convertx(self.getx()+math.cos(alpha))-self.drawing_window.convertx(self.getx()), \\
+                   self.drawing_window.converty(self.gety()+math.sin(alpha))-self.drawing_window.converty(self.gety()))
+            deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
+            return 360-deg    
     
     
     
