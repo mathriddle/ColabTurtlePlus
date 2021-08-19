@@ -627,7 +627,7 @@ class Turtle:
             return turtle.turtle_degree
         else:
             alpha = math.radians(turtle.heading()*turtle.angle_conv)
-            Dxy = (self.drawing_window.convertx(self.getx()+math.cos(alpha))-self.drawing_window.convertx(self.getx()), \\
+            Dxy = (self.drawing_window.convertx(self.getx()+math.cos(alpha))-self.drawing_window.convertx(self.getx()),
                    self.drawing_window.converty(self.gety()+math.sin(alpha))-self.drawing_window.converty(self.gety()))
             deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
             return 360-deg    
