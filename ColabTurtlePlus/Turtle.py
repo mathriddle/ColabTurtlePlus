@@ -762,5 +762,21 @@ def _processColor(color):
         err = 'The color parameter ' + color + ' must be a color string or a tuple'
         raise ValueError(err)
 
+# Get the color corresponding to position n in the valid color list
+def _getcolor(n):
+    """ Returns the color string in the valid color list at position n
+    
+    Args:
+        n: an integer between 0 and 139
+    
+    Returns:
+        str: color string in the valid color list at position n
+    """
 
+    if not isinstance(n,(int,float)):
+        raise valueError("color index must be an integer between 0 and 139")
+    n = int(round(n))
+    if (n < 0) or (n > 139):
+        raise valueError("color index must be an integer between 0 and 139")
+    return VALID_COLORS[n]
 
