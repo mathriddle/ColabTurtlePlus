@@ -617,7 +617,18 @@ class Turtle:
             self.turtle_speed = 13
         self.timeout = self.drawing_window._speedToSec(self.turtle_speed) 
 
-
+    # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
+    def done(self):
+        """Shows the final image when speed=0
+    
+        No argument
+    
+        speed = 0 displays final image with no animation. Need to
+        call done() at the end so the final image is displayed.
+        """
+        self.drawing_window._updateDrawing(turtle=self)  
+    update = done #alias
+        
     # If world coordinates are such that the aspect ratio of the axes does not match the
     # aspect ratio of the graphic window (xscale != yscale), then this function is used to 
     # set the orientation of the turtle to line up with the direction of motion in the 
