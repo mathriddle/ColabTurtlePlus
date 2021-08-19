@@ -360,6 +360,34 @@ class Screen:
     def _converty(y):
         return (self.ymax-y)*self.yscale                
 
+    def showSVG(self, turtles=False):
+        """Shows the SVG code for the image to the screen.
+    
+        Args:
+            turtles: (optional) a boolean that determines if the turtles
+                are included in the svg output
+    
+        The SVG commands can be printed on screen (after the drawing is 
+        completed) or saved to a file for use in a program like inkscape 
+        or Adobe Illustrator, or displaying the image in a webpage.
+        """
+
+    #    if _drawing_window == None:
+    #        raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
+        header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
+            w= self.window_size[0],
+            h= self.window_size[1]) 
+        header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
+            fillcolor=self.background_color,
+            kolor=self.border_color)
+        image = self._generateSvgLines().replace(">","/>\n")
+        stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
+        stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
+        dots = self._generateSvgDots().replace(">",">\n")
+        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
+        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
+        print(output) 
+
 class Turtle:    
     
     def __init__(self, window, name : str = None):
