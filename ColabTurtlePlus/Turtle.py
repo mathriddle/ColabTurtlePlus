@@ -384,7 +384,7 @@ class Screen:
         stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
         stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
         dots = self._generateSvgDots().replace(">",">\n")
-        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
+        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtles else ""
         output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
         print(output) 
 
