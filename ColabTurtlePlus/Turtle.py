@@ -172,7 +172,7 @@ class Screen:
 
     # Helper function for generating svg string of the turtle
     def _generateTurtlesSvgDrawing(self):
-        res = ""
+        svg = ""
         for turtle in self.turtles:
             if turtle.is_turtle_visible:
                 vis = 'visible'
@@ -196,7 +196,7 @@ class Screen:
             else:
                 degrees -= 90
        
-            res += shapeDict[turtle.turtle_shape].format(
+            svg += shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
                            pcolor=turtle.pen_color,
                            turtle_x=turtle_x, 
@@ -212,42 +212,42 @@ class Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1])
-        return res
+        return svg
     
     # helper function for linking svg strings of text
     def _generateSvgLines(self):
-        res = ""
+        svg = ""
         for turtle in self.turtles:
-            res+=turtle.svg_lines_string 
-        return res
+            svg+=turtle.svg_lines_string 
+        return svg
 
     # helper function for linking svg strings of text
     def _generateSvgFill(self):
-        res = ""
+        svg = ""
         for turtle in self.turtles:
-            res+=turtle.svg_fill_string 
-        return res
+            svg+=turtle.svg_fill_string 
+        return svg
     
     # helper function for linking svg strings of text
     def _generateSvgDots(self):
-        res = ""
+        svg = ""
         for turtle in self.turtles:
-            res+=turtle.svg_dots_string 
-        return res
+            svg+=turtle.svg_dots_string 
+        return svg
     
     # helper function for linking svg strings of text
     def _generateSvgStampsB(self):
-        res = ""
+        svg = ""
         for turtle in self.turtles:
             res+=turtle.svg_stampsB_string 
-        return res
+        return svg
     
     # helper function for linking svg strings of text
     def _generateSvgStampsT(self):
-        res = ""
+        svg = ""
         for turtle in self.turtles:
-            res+=turtle.svg_stampsT_string 
-        return res
+            svg+=turtle.svg_stampsT_string 
+        return svg
     
     # Helper function for generating the whole svg string
     def _generateSvgDrawing(self):
@@ -294,7 +294,7 @@ class Screen:
                 while s*units > 0:
                     dx = min(tenx,s*units)
                     dy = min(teny,s*units)
-                    turtle.turtle_pos = (initial_pos[0] + s * dx *self.xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(self.yscale) * math.sin(alpha))
+                    turtle.turtle_pos = (initial_pos[0] + s * dx * self.xscale * math.cos(alpha), initial_pos[1] + s * dy * abs(self.yscale) * math.sin(alpha))
                     if turtle.is_pen_down:
                         turtle.svg_lines_string += \
                         """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
@@ -420,7 +420,7 @@ class Turtle:
     def __str__(self):
         return self.name
 
- # Makes the turtle move forward by 'units' units
+    # Makes the turtle move forward by 'units' units
     def forward(self,units):
         """Moves the turtle forward by the specified distance.
 
@@ -440,7 +440,7 @@ class Turtle:
         self.drawing_window._moveToNewPosition(new_pos,self,units)
     fd = forward # alias   
     
-# Makes the turtle move backward by 'units' units
+    # Makes the turtle move backward by 'units' units
     def backward(self, units):
         """Moves the turtle backward by the specified distance.
 
@@ -460,10 +460,10 @@ class Turtle:
     bk = backward # alias
     back = backward # alias    
     
-# Makes the turtle move right by 'angle' degrees or radians
-# Uses SVG animation to rotate turtle.
-# But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
-# so in that case break the rotation into pieces of at most 30 degrees.
+    # Makes the turtle move right by 'angle' degrees or radians
+    # Uses SVG animation to rotate turtle.
+    # But this doesn't work for turtle=ring and if stretch factors are different for x and y directions,
+    # so in that case break the rotation into pieces of at most 30 degrees.
     def right(self, angle):
         """Turns the turtle right by angle units.
 
@@ -508,7 +508,7 @@ class Turtle:
             self.timeout = self.timeout*abs(deg)/90+0.001
             self.drawing_window._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
-            #self.turtle_orient = _turtleOrientation()
+            self.turtle_orient = self._turtleOrientation()
             shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
@@ -518,15 +518,15 @@ class Turtle:
             while s*deg > 0:
                 if s*deg > 30:
                     self.turtle_degree = (self.turtle_degree + s*30) % 360
-                   # _turtle_orient = _turtleOrientation()
+                    self.turtle_orient = self._turtleOrientation()
                 else:
-                    self.turtle_degree = (_turtle_degree + deg) % 360
-                   # _turtle_orient = _turtleOrientation()
+                    self.turtle_degree = (self.turtle_degree + deg) % 360
+                    self.turtle_orient = self._turtleOrientation()
                 self.drawing_window._updateDrawing(turtle=self)
                 deg -= s*30
             self.timeout = timeout_orig
             self.turtle_degree = (self.turtle_degree + deg) % 360
-           #_turtle_orient = _turtleOrientation()
+            self.turtle_orient = self._turtleOrientation()
     rt = right # alias    
     
     # Makes the turtle move right by 'angle' degrees or radians
@@ -635,9 +635,9 @@ class Turtle:
     # world coordinates.
     def _turtleOrientation(self):
         if self.drawing_window.xscale == abs(self.drawing_window.yscale):
-            return turtle.turtle_degree
+            return self.turtle_degree
         else:
-            alpha = math.radians(turtle.heading()*turtle.angle_conv)
+            alpha = math.radians(self.heading()*self.angle_conv)
             Dxy = (self.drawing_window.convertx(self.getx()+math.cos(alpha))-self.drawing_window.convertx(self.getx()),
                    self.drawing_window.converty(self.gety()+math.sin(alpha))-self.drawing_window.converty(self.gety()))
             deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
