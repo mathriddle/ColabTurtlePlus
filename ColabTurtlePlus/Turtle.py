@@ -402,6 +402,7 @@ class Turtle:
         self.turtle_orient = self.turtle_degree
         self.svg_lines_string = self.svg_fill_string = self.svg_dots_string = ""
         self.svg_stampsB_string = self.svg_stampsT_string = ""
+        self.svg_lines_string_temp = ""
         self.is_pen_down = DEFAULT_IS_PEN_DOWN
         self.pen_width = DEFAULT_PEN_WIDTH
         self.turtle_shape = DEFAULT_TURTLE_SHAPE
@@ -414,7 +415,10 @@ class Turtle:
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
+        self.is_pen_down = True
         self.angle_conv = 1
+        self.fill_rule = "evenodd"
+        self.fill_opacity = 1
         window.add(self)
         
     def __str__(self):
@@ -753,7 +757,76 @@ class Turtle:
         else:
             return self.pen_color, self.fill_color
         self.drawing_window._updateDrawing(turtle=self, delay=False)              
-        
+
+    #=======================
+    # Pen Control - Filling
+    #=======================
+
+    # Return fillstate (True if filling, False else)
+    def filling(self):
+        """Return fillstate (True if filling, False else)."""
+
+    return self.is_filling
+
+    # Initialize the string for the svg path of the filled shape.
+    # Modified from aronma/ColabTurtle_2 github repo
+    # The current _svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
+    # the svg code for the path generated between the begin and end fill commands.
+    # When calling begin_fill, a value for the _fill_rule can be given that will apply only to that fill.
+    def begin_fill(rule=None, opacity=None):
+        """Called just before drawing a shape to be filled.
+
+        Args:
+            rule: (optional) either evenodd or nonzero
+            opacity: (optional) a number between 0 and 1
+    
+        Because the fill is controlled by svg rules, the result may differ
+        from classic turtle fill. The fill-rule and fill-opacity can be set 
+        as arguments to the begin_fill() function and will apply only to objects 
+        filled before the end_fill is called. There are two possible arguments
+        to specify for the SVG fill-rule: 'nonzero' (default) and 'evenodd'. 
+        The fill-opacity attribute ranges from 0 (transparent) to 1 (solid). 
+        """
+
+        if rule is None:
+            rule = self.fill_rule
+        if opacity is None:
+            opacity = self.fill_opacity
+        rule = rule.lower()
+        if not rule in ['evenodd','nonzero']:
+            raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")
+        if (opacity < 0) or (opacity > 1):
+            raise ValueError("The fill-opacity should be between 0 and 1.")
+        if not self.is_filling:
+            self.svg_lines_string_temp = self.svg_lines_string
+            self.svg_fill_string = """<path fill-rule="{rule}" fill-opacity="{opacity}" d="M {x1} {y1} """.format(
+                x1=self.turtle_pos[0],
+                y1=self.turtle_pos[1],
+                rule=rule,
+                opacity = opacity)
+            self.is_filling = True
+
+    # Terminate the string for the svg path of the filled shape
+    # Modified from aronma/ColabTurtle_2 github repo
+    # The original _svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
+    # the svg code for the path generated between the begin and end fill commands.
+    # the svg code for the path generated between the begin and end fill commands.
+    def end_fill():
+        """Fill the shape drawn after the call begin_fill()."""
+
+        if self.is_filling:
+            self.is_filling = False
+            if self.is_pen_down:
+                bddry = self.pen_color
+            else:
+                bddry = 'none'
+            self.svg_fill_string += """" stroke-linecap="round" style="stroke:{pen};stroke-width:{size}" fill="{fillcolor}" />""".format(
+                    fillcolor=self.fill_color,
+                    pen = bddry,
+                    size = self.pen_width)
+            self.svg_lines_string = self.svg_lines_string_temp + self.svg_fill_string 
+            self.drawing_window._updateDrawing(turtle=self, delay=False)         
+
 #########################################
 #  Helper functions for color control
 #########################################        
