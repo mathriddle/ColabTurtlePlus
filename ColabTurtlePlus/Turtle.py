@@ -645,7 +645,7 @@ class Turtle:
     
     # Change the color of the pen
     # If no params, return the current pen color
-    def pencolor(color = None, c2 = None, c3 = None):
+    def pencolor(self, color = None, c2 = None, c3 = None):
         """Returns or sets the pencolor.
 
         Args:
