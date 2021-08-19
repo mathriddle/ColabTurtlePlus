@@ -827,6 +827,48 @@ class Turtle:
             self.svg_lines_string = self.svg_lines_string_temp + self.svg_fill_string 
             self.drawing_window._updateDrawing(turtle=self, delay=False)         
 
+    # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
+    # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
+    def fillrule(self, rule=None):
+        """Allows user to set the global svg fill-rule.
+
+        Args:
+            rule: (optional) Either evenodd or nonzero
+                Default is current fill-rule
+        """
+
+        if rule is None:
+            return self.fill_rule
+        if not isinstance(rule,str):
+            raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
+        rule = rule.lower()
+        if not rule in ['evenodd','nonzero']:
+            raise ValueError("The fill-rule must be 'nonzero' or 'evenodd'.")   
+        self.fill_rule = rule
+
+    # Allow user to set the svg fill-opacity. If no argument, return current fill-opacity.
+    # This can be overridden for an individual object by setting the fill-opacity as an argument to begin_fill().
+    def fillopacity(self, opacity=None):
+        """Allows user to set the global svg fill-opacity.
+
+        Args:
+            opacity: (optional) a number between 0 and 1
+                Default is current fill-opacity
+        """
+
+        if opacity is None:
+            return self.fill_opacity
+        if not isinstance(opacity,(int,float)):
+            raise ValueError("The fill-opacity must be a number between 0 and 1.")
+        if (opacity < 0) or (opacity > 1):
+            raise ValueError("The fill-opacity should be between 0 and 1.")
+        self.fill_opacity = opacity
+        
+        
+        
+        
+        
+        
 #########################################
 #  Helper functions for color control
 #########################################        
