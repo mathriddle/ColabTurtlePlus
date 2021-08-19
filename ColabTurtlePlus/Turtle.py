@@ -766,7 +766,7 @@ class Turtle:
     def filling(self):
         """Return fillstate (True if filling, False else)."""
 
-    return self.is_filling
+        return self.is_filling
 
     # Initialize the string for the svg path of the filled shape.
     # Modified from aronma/ColabTurtle_2 github repo
