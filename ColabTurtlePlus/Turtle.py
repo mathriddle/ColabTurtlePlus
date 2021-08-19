@@ -436,7 +436,7 @@ class Turtle:
         if not isinstance(units, (int,float)):
             raise ValueError('Units must be a number.')
         alpha = math.radians(self.turtle_degree)
-        new_pos = (self.turtle_pos[0] + units * math.cos(alpha), self.turtle_pos[1] + units * math.sin(alpha))
+        new_pos = (self.turtle_pos[0] + units * self.drawing_window.xscale * math.cos(alpha), self.turtle_pos[1] + units * abs(self.drawing_window.yscale) * math.sin(alpha))
         self.drawing_window._moveToNewPosition(new_pos,self,units)
     fd = forward # alias   
     
