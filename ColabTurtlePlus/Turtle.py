@@ -239,7 +239,7 @@ class Screen:
     def _generateSvgStampsB(self):
         svg = ""
         for turtle in self.turtles:
-            res+=turtle.svg_stampsB_string 
+            svg+=turtle.svg_stampsB_string 
         return svg
     
     # helper function for linking svg strings of text
