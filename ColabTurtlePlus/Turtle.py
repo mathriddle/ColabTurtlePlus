@@ -773,7 +773,7 @@ class Turtle:
     # The current _svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
     # the svg code for the path generated between the begin and end fill commands.
     # When calling begin_fill, a value for the _fill_rule can be given that will apply only to that fill.
-    def begin_fill(rule=None, opacity=None):
+    def begin_fill(self, rule=None, opacity=None):
         """Called just before drawing a shape to be filled.
 
         Args:
@@ -811,7 +811,7 @@ class Turtle:
     # The original _svg_lines_string was previously stored to be used when the fill is finished because the svg_fill_string will include
     # the svg code for the path generated between the begin and end fill commands.
     # the svg code for the path generated between the begin and end fill commands.
-    def end_fill():
+    def end_fill(self):
         """Fill the shape drawn after the call begin_fill()."""
 
         if self.is_filling:
