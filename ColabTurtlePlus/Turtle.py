@@ -573,7 +573,7 @@ class Turtle:
  
     # Update the speed of the moves, [0,13]
     # If argument is omitted, it returns the speed.
-    def speed(speed = None):
+    def speed(self, speed = None):
         """Returns or set the turtle's speed.
 
         Args:
