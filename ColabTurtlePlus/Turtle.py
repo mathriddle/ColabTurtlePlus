@@ -717,7 +717,42 @@ class Turtle:
         self.fill_color = _processColor(color)
         self.drawing_window._updateDrawing(turtle=self, delay=False)
         
+    # Return or set pencolor and fillcolor
+    def color(self, *args):
+        """Returns or sets the pencolor and fillcolor.
+
+        Args:
+            Several input formats are allowed.
+            They use 0, 1, 2, or 3 arguments as follows:
+
+            color()
+                Return the current pencolor and the current fillcolor
+                as a pair of color specification strings as are returned
+                by pencolor and fillcolor.
+            color(colorstring), color((r,g,b)), color(r,g,b)
+                inputs as in pencolor, set both, fillcolor and pencolor,
+                to the given value.
+            color(colorstring1, colorstring2),
+            color((r1,g1,b1), (r2,g2,b2))
+                equivalent to pencolor(colorstring1) and fillcolor(colorstring2)
+                and analogously, if the other input format is used.
+        """
         
+        if args:
+            narg = len(args)
+            if narg == 1:
+                self.pen_color = self.fill_color = _processColor(args[0])
+            elif narg == 2:
+                self.pen_color = _processColor(args[0])
+                self.fill_color = _processColor(args[1])
+            elif narg == 3:
+                kolor = (args[0],args[1],args[2])
+                self.pen_color = self.fill_color = _processColor(kolor)
+            else:
+                raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
+        else:
+            return self.pen_color, self.fill_color
+        self.drawing_window._updateDrawing(turtle=self, delay=False)              
         
 #########################################
 #  Helper functions for color control
