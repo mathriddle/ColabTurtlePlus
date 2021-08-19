@@ -615,7 +615,7 @@ class Turtle:
             self.turtle_speed = int(round(speed))
         elif speed != 0:
             self.turtle_speed = 13
-        self.timeout = self.drawing_window._speedToSec(else.turtle_speed) 
+        self.timeout = self.drawing_window._speedToSec(self.turtle_speed) 
 
 
     # If world coordinates are such that the aspect ratio of the axes does not match the
