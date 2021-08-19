@@ -763,7 +763,7 @@ def _processColor(color):
         raise ValueError(err)
 
 # Get the color corresponding to position n in the valid color list
-def _getcolor(n):
+def getcolor(n):
     """ Returns the color string in the valid color list at position n
     
     Args:
