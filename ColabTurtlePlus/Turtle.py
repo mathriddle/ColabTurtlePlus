@@ -678,7 +678,51 @@ class Turtle:
 
         self.pen_color = _processColor(color)
         self.drawing_window._updateDrawing(turtle=self, delay=False)    
+
+    # Change the fill color
+    # If no params, return the current fill color
+    def fillcolor(self, color = None, c2 = None, c3 = None):
+        """ Returns or sets the fillcolor.
+
+        Args:
+        Four input formats are allowed:
+        
+        pencolor():
+            Return the current pencolor as color specification string,
+            possibly in hex-number format. May be used as input to another 
+            color/pencolor/fillcolor call.
+            
+        pencolor(colorstring):
+            Colorstring is an htmlcolor specification string, such as "red"
+            or "yellow".
+            
+        pencolor((r, g, b)):
+            A tuple of r, g, and b, which represent an RGB color,
+            and each of r, g, and b are in the range 0..255.
+            
+        pencolor(r, g, b):
+            r, g, and b represent an RGB color, and each of r, g, and b
+            are in the range 0..255.
     
+        The interior of the turtle is drawn with the newly set fillcolor.
+        """
+
+        if color is None:
+            return _fill_color
+        elif c2 is not None:
+           if c3 is None:
+                raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
+           color = (color, c2, c3)
+
+        self.fill_color = _processColor(color)
+        self.drawing_window._updateDrawing(turtle=self, delay=False)
+        
+        
+        
+#########################################
+#  Helper functions for color control
+#########################################        
+        
 # Used to validate a color string
 def _validateColorString(color):
     if color in VALID_COLORS: # 140 predefined html color names
