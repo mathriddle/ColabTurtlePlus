@@ -380,7 +380,7 @@ class Screen:
         header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
             fillcolor=self.background_color,
             kolor=self.border_color)
-        image = self._generateSvgLines().replace(">","/>\n")
+        image = self._generateSvgLines().replace("/>","/>\n")
         stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
         stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
         dots = self._generateSvgDots().replace(">",">\n")
