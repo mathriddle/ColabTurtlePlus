@@ -645,7 +645,44 @@ class Turtle:
     
     
     
+# Used to validate a color string
+def _validateColorString(color):
+    if color in VALID_COLORS: # 140 predefined html color names
+        return True
+    if re.search("^#(?:[0-9a-fA-F]{3}){1,2}$", color): # 3 or 6 digit hex color code
+        return True
+    if re.search("rgb\(\s*(?:(?:\d{1,2}|1\d\d|2(?:[0-4]\d|5[0-5]))\s*,?){3}\)$", color): # rgb color code
+        return True
+    return False
 
+# Used to validate if a 3 tuple of integers is a valid RGB color
+def _validateColorTuple(color):
+    if len(color) != 3:
+        return False
+    if not isinstance(color[0], int) or not isinstance(color[1], int) or not isinstance(color[2], int):
+        return False
+    if not 0 <= color[0] <= 255 or not 0 <= color[1] <= 255 or not 0 <= color[2] <= 255:
+        return False
+    return True
+
+# Helps validate color input to functions
+def _processColor(color):
+    if isinstance(color, str):    
+        if color == "": color = "none"
+        color = color.lower().strip()
+        if 'rgb' not in color: color = color.replace(" ","")
+        if not _validateColorString(color):
+            err = 'Color ' + color + ' is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
+            raise ValueError(err)
+        return color
+    elif isinstance(color, tuple):
+        if not _validateColorTuple(color):
+            err = 'Color tuple ' + color + ' is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
+            raise ValueError(err)
+        return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
+    else:
+        err = 'The color parameter ' + color + ' must be a color string or a tuple'
+        raise ValueError(err)
 
 
 
