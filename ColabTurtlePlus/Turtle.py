@@ -170,6 +170,15 @@ class Screen:
     def _speedToSec(self, speed):
         return SPEED_TO_SEC_MAP[speed]
 
+    # Add to list of turtles when new object created
+    def _add(self, turtle):
+        self.turtles.append(turtle)
+        self._updateDrawing(delay=False) 
+
+    #=======================
+    # SVG functions
+    #=======================
+        
     # Helper function for generating svg string of the turtle
     def _generateTurtlesSvgDrawing(self):
         svg = ""
@@ -261,6 +270,74 @@ class Screen:
                                stampsT=self._generateSvgStampsT(),
                                turtle=self._generateTurtlesSvgDrawing(),
                                kolor=self.border_color)
+
+    def showSVG(self, turtle=False):
+        """Shows the SVG code for the image to the screen.
+    
+        Args:
+            turtle: (optional) a boolean that determines if the turtles
+                are included in the svg output
+    
+        The SVG commands can be printed on screen (after the drawing is 
+        completed) or saved to a file for use in a program like inkscape 
+        or Adobe Illustrator, or displaying the image in a webpage.
+        """
+
+        header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
+            w= self.window_size[0],
+            h= self.window_size[1]) 
+        header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
+            fillcolor=self.background_color,
+            kolor=self.border_color)
+        image = self._generateSvgLines().replace("/>","/>\n")
+        stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
+        stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
+        dots = self._generateSvgDots().replace(">",">\n")
+        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
+        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
+        print(output) 
+
+    # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
+    def saveSVG(self, file=None, turtle=False):
+        """Saves the image as an SVG file.
+    
+        Args:
+            file: a string giving filename for saved file. The extension 
+                ".svg" will be added if missing. If no filename is given,
+                the default name SVGimage.svg will be used.
+            turtle: an optional boolean that determines if the turtles 
+                are included in the svg output saved to the file. Default is False.
+    
+        The SVG commands can be printed on screen (after the drawing is 
+        completed) or saved to a file for use in a program like inkscape 
+        or Adobe Illustrator, or displaying the image in a webpage.
+        """
+    
+        if file is None:
+            file = "SVGimage.svg"
+        elif not isinstance(file, str):
+            raise ValueError("File name must be a string")
+        if not file.endswith(".svg"):
+            file += ".svg"
+        text_file = open(file, "w")
+        header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
+            w= self.window_size[0],
+            h= self.window_size[1]) 
+        header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
+            fillcolor=self.background_color,
+            kolor=self.border_color)
+        image = self._generateSvgLines().replace("/>","/>\n")
+        stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
+        stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
+        dots = self._generateSvgDots().replace(">",">\n")
+        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
+        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
+        text_file.write(output)
+        text_file.close()   
+
+    #=========================
+    # screen drawing functions
+    #=========================
 
     # Helper functions for updating the screen using the latest positions/angles/lines etc.
     # If the turtle speed is 0, the update is skipped so animation is done.
@@ -393,11 +470,7 @@ class Screen:
    
         turtle.turtle_degree = (turtle.turtle_degree - s*degrees) % 360
         turtle.turtle_orient = turtle._turtleOrientation()
-        if draw: self._updateDrawing(turtle=turtle)
-        
-    def add(self, turtle):
-        self.turtles.append(turtle)
-        self._updateDrawing(delay=False)                
+        if draw: self._updateDrawing(turtle=turtle)                      
    
     # Convert user coordinates to SVG coordinates
     def _convertx(x):
@@ -405,69 +478,7 @@ class Screen:
     def _converty(y):
         return (self.ymax-y)*self.yscale                
 
-    def showSVG(self, turtle=False):
-        """Shows the SVG code for the image to the screen.
-    
-        Args:
-            turtle: (optional) a boolean that determines if the turtles
-                are included in the svg output
-    
-        The SVG commands can be printed on screen (after the drawing is 
-        completed) or saved to a file for use in a program like inkscape 
-        or Adobe Illustrator, or displaying the image in a webpage.
-        """
-
-        header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
-            w= self.window_size[0],
-            h= self.window_size[1]) 
-        header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
-            fillcolor=self.background_color,
-            kolor=self.border_color)
-        image = self._generateSvgLines().replace("/>","/>\n")
-        stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
-        stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
-        dots = self._generateSvgDots().replace(">",">\n")
-        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
-        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
-        print(output) 
-
-    # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
-    def saveSVG(self, file=None, turtle=False):
-        """Saves the image as an SVG file.
-    
-        Args:
-            file: a string giving filename for saved file. The extension 
-                ".svg" will be added if missing. If no filename is given,
-                the default name SVGimage.svg will be used.
-            turtle: an optional boolean that determines if the turtles 
-                are included in the svg output saved to the file. Default is False.
-    
-        The SVG commands can be printed on screen (after the drawing is 
-        completed) or saved to a file for use in a program like inkscape 
-        or Adobe Illustrator, or displaying the image in a webpage.
-        """
-    
-        if file is None:
-            file = "SVGimage.svg"
-        elif not isinstance(file, str):
-            raise ValueError("File name must be a string")
-        if not file.endswith(".svg"):
-            file += ".svg"
-        text_file = open(file, "w")
-        header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
-            w= self.window_size[0],
-            h= self.window_size[1]) 
-        header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
-            fillcolor=self.background_color,
-            kolor=self.border_color)
-        image = self._generateSvgLines().replace("/>","/>\n")
-        stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
-        stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
-        dots = self._generateSvgDots().replace(">",">\n")
-        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
-        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
-        text_file.write(output)
-        text_file.close()        
+     
         
 class Turtle:    
     
@@ -501,7 +512,7 @@ class Turtle:
         self.angle_mode = DEFAULT_ANGLE_MODE
         self.fill_rule = "evenodd"
         self.fill_opacity = 1
-        window.add(self)
+        window._add(self)
         
     def __str__(self):
         return self.name
@@ -721,6 +732,52 @@ class Turtle:
                 self.win._arc(radius,min(180,extent),True, turtle=self)
                 extent -= 180         
 
+    # Move the turtle to a designated position.
+    def goto(self, x, y=None):
+        """Moves turtle to an absolute position.
+
+        Aliases: setpos | setposition | goto
+
+        Args:
+            x: a number     or      a pair of numbers
+            y: a number     or      None
+
+            goto(x, y)      or      goto((x,y))     
+
+        Moves turtle to an absolute position. If the pen is down,
+        a line will be drawn. The turtle's orientation does not change.   
+        """
+        
+        if isinstance(x, tuple) and y is None:
+            if len(x) != 2:
+                raise ValueError('The tuple argument must be of length 2.')
+            y = x[1]
+            x = x[0]
+        if not isinstance(x, (int,float)):
+            raise ValueError('New x position must be a number.')
+        if not isinstance(y, (int,float)):
+            raise ValueError('New y position must be a number.')
+        tilt_angle_orig = self.tilt_angle
+        turtle_angle_orig = self.turtle_degree
+        alpha = towards(x,y)*self.angle_conv
+        units = self.distance(x,y)
+        if self.win.mode == "standard": 
+            self.turtle_degree = (360 - alpha) % 360
+            self.tilt_angle = -((turtle_angle_orig-self.tilt_angle+alpha) % 360)
+        elif self.win.mode == "logo":
+            self.turtle_degree = (270 + alpha) % 360
+            self.tilt_angle = turtle_angle_orig+self.tilt_angle-alpha-270
+        elif self.win.mode == "world":
+            self.turtle_degree = (360 - alpha) % 360
+        else: # mode = "svg"
+            self.turtle_degree = alpha % 360
+            self.tilt_angle = turtle_angle_orig+self.tilt_angle-alpha
+        self.win._moveToNewPosition((self.win._convertx(x), self.win._converty(y)),units)
+        self.tilt_angle = tilt_angle_orig
+        self.turtle_degree = turtle_angle_orig
+    setpos = goto # alias
+    setposition = goto # alias               
+                
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
