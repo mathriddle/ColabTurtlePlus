@@ -852,6 +852,40 @@ class Turtle:
     seth = setheading # alias
     face = setheading # alias
 
+    # Move turtle to the origin and set its heading to its 
+    # start-orientation (which depends on the mode).
+    def home(self):
+        """Moves the turtle to the origin - coordinates (0,0).
+
+        No arguments.
+
+        Moves the turtle to the origin (0,0) and sets its
+        heading to its start-orientation (which depends on mode).
+    
+        If the mode is "svg", moves the turtle to the center of 
+        the drawing window.)
+        """
+        if self.win.mode != 'svg':
+            self.goto(0,0)
+        else:
+            self.goto( (self.win.window_size[0] / 2, self.win.window_size[1] / 2) )
+        #_turtle_degree is always in degrees, but angle mode might be radians
+        #divide by _angle_conv so angle sent to left or right is in the correct mode
+        if self.win.mode in ['standard','world']:
+            if self.turtle_degree <= 180:
+                self.left(self.turtle_degree/self.angle_conv)
+            else:
+                self.right((360-self.turtle_degree)/self.angle_conv)
+            self.turtle_orient = self.turtleOrientation()
+            self.win._updateDrawing(turtle=self, delay=False)
+        else:
+            if self.turtle_degree < 90:
+                self.left((self.turtle_degree+90)/self.angle_conv)
+            elif self.turtle_degree< 270:
+                self.right((270-self.turtle_degree)/self.angle_conv)
+            else:
+                self.left((self.turtle_degree-270)/self.angle_conv)        
+        
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
