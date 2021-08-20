@@ -922,6 +922,49 @@ class Turtle:
    
         return(self.win.ymax-self.turtle_pos[1]/self.win.yscale)
     gety = ycor # alias        
+
+    # Return the angle between the line from turtle position to position specified by (x,y)
+    # This depends on the turtle’s start orientation which depends on the mode - standard/world or logo.  
+    def towards(self, x, y=None):
+        """Returns the angle of the line from the turtle's position to (x, y).
+
+        Args:
+            x: a number     or      a pair of numbers
+            y: a number     or      None             
+ 
+        distance(x, y)      or      distance((x, y))
+
+        Returns:
+            The angle between the line from turtle-position to position
+                specified by x,y and the turtle's start orientation. 
+                (Depends on modes - "standard" or "logo" or "svg")
+        """
+
+        if isinstance(x, tuple) and y is None:
+           if len(x) != 2:
+                raise ValueError('The tuple argument must be of length 2.')
+            y = x[1]
+            x = x[0]     
+        if not isinstance(x, (int,float)):
+            raise ValueError('The x position must be a number.')
+        if not isinstance(y, (int,float)):
+            raise ValueError('The y position must be a number.')   
+        dx = x - self.getx()
+        dy = y - self.gety()
+        if self.win.mode == "svg":
+            dy = -dy
+        result = round(math.atan2(dy,dx)*180.0/math.pi, 10) % 360.0
+        if self.win.mode in ["standard","world"]:
+            angle = result
+        elif self.win.mode == "logo":
+            angle = (90 - result) % 360
+        else:  # mode = "svg"
+            angle = (360 - result) % 360
+        if self.angle_mode == "degrees":
+            return round(angle,7)
+        else:
+            return round(math.radians(angle),7)
+        
         
     #=============================
     # Turtle Pen Control - Filling
