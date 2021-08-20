@@ -941,7 +941,7 @@ class Turtle:
         """
 
         if isinstance(x, tuple) and y is None:
-           if len(x) != 2:
+            if len(x) != 2:
                 raise ValueError('The tuple argument must be of length 2.')
             y = x[1]
             x = x[0]     
