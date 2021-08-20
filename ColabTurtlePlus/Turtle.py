@@ -470,6 +470,10 @@ class Turtle:
     def __str__(self):
         return self.name
 
+    #================================
+    # Turtle Motion - Move and Draw
+    #================================
+        
     # Makes the turtle move forward by 'units' units
     def forward(self,units):
         """Moves the turtle forward by the specified distance.
