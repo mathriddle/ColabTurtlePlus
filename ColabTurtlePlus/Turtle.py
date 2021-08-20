@@ -362,7 +362,7 @@ class Screen:
     
         start_pos = turtle.turtle_pos
         if turtle.is_pen_down:  
-            _svg_lines_string += \
+            turtle.svg_lines_string += \
             """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pcolor};stroke-width:{pwidth}"/>""".format(
             x1=start_pos[0], 
             y1=start_pos[1],
