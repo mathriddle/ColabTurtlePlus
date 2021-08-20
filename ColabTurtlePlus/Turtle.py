@@ -456,7 +456,7 @@ class Turtle:
         self.shear_factor = DEFAULT_SHEARFACTOR
         self.outline_width = DEFAULT_OUTLINE_WIDTH
         self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
-        self.drawing_window = window
+        self.win = window
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
@@ -490,8 +490,8 @@ class Turtle:
         if not isinstance(units, (int,float)):
             raise ValueError('Units must be a number.')
         alpha = math.radians(self.turtle_degree)
-        new_pos = (self.turtle_pos[0] + units * self.drawing_window.xscale * math.cos(alpha), self.turtle_pos[1] + units * abs(self.drawing_window.yscale) * math.sin(alpha))
-        self.drawing_window._moveToNewPosition(new_pos,self,units)
+        new_pos = (self.turtle_pos[0] + units * self.win.xscale * math.cos(alpha), self.turtle_pos[1] + units * abs(self.win.yscale) * math.sin(alpha))
+        self.win._moveToNewPosition(new_pos,self,units)
     fd = forward # alias   
     
     # Makes the turtle move backward by 'units' units
@@ -537,7 +537,7 @@ class Turtle:
         deg = angle*self.angle_conv
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
-            self.drawing_window._updateDrawing(turtle=self)
+            self.win._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = shapeDict[self.turtle_shape]        
@@ -560,7 +560,7 @@ class Turtle:
             shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
-            self.drawing_window._updateDrawing(self)
+            self.win._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
             shapeDict.update({self.turtle_shape:template})
@@ -576,7 +576,7 @@ class Turtle:
                 else:
                     self.turtle_degree = (self.turtle_degree + deg) % 360
                     self.turtle_orient = self._turtleOrientation()
-                self.drawing_window._updateDrawing(turtle=self)
+                self.win._updateDrawing(turtle=self)
                 deg -= s*30
             self.timeout = timeout_orig
             self.turtle_degree = (self.turtle_degree + deg) % 360
@@ -668,7 +668,7 @@ class Turtle:
             turtle_degree_orig = self.turtle_degree
             turtle_pos_orig = self.turtle_pos        
             while extent > 0:
-                self.drawing_window._arc(radius,min(15,extent),True, turtle=self)
+                self.win._arc(radius,min(15,extent),True, turtle=self)
                 extent -= 15 
             # return to original position and redo circle for svg strings without animation
             self.svg_lines_string = svg_lines_string_temp
@@ -676,13 +676,13 @@ class Turtle:
             self.turtle_degree = turtle_degree_orig
             self.turtle_pos = turtle_pos_orig
             while degrees > 0:
-                self.drawing_window._arc(radius,min(180,degrees),False, turtle=self)
+                self.win._arc(radius,min(180,degrees),False, turtle=self)
                 degrees -= 180 
             self.timeout = timeout_temp
         else:  # no animation
             extent = extent*self.angle_conv
             while extent > 0:
-                self.drawing_window._arc(radius,min(180,extent),True, turtle=self)
+                self.win._arc(radius,min(180,extent),True, turtle=self)
                 extent -= 180         
 
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
@@ -707,7 +707,7 @@ class Turtle:
         elif name.lower() not in VALID_TURTLE_SHAPES:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
-        self.drawing_window._updateDrawing(turtle=self)
+        self.win._updateDrawing(turtle=self)
  
     # Update the speed of the moves, [0,13]
     # If argument is omitted, it returns the speed.
@@ -753,7 +753,7 @@ class Turtle:
             self.turtle_speed = int(round(speed))
         elif speed != 0:
             self.turtle_speed = 13
-        self.timeout = self.drawing_window._speedToSec(self.turtle_speed) 
+        self.timeout = self.win._speedToSec(self.turtle_speed) 
 
     # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
     def done(self):
@@ -764,7 +764,7 @@ class Turtle:
         speed = 0 displays final image with no animation. Need to
         call done() at the end so the final image is displayed.
         """
-        self.drawing_window.drawing_window.update(HTML(self.drawing_window._generateSvgDrawing()))  
+        self.win.drawing_window.update(HTML(self.win._generateSvgDrawing()))  
     update = done #alias
         
     # If world coordinates are such that the aspect ratio of the axes does not match the
@@ -772,12 +772,12 @@ class Turtle:
     # set the orientation of the turtle to line up with the direction of motion in the 
     # world coordinates.
     def _turtleOrientation(self):
-        if self.drawing_window.xscale == abs(self.drawing_window.yscale):
+        if self.win.xscale == abs(self.win.yscale):
             return self.turtle_degree
         else:
             alpha = math.radians(self.heading()*self.angle_conv)
-            Dxy = (self.drawing_window.convertx(self.getx()+math.cos(alpha))-self.drawing_window.convertx(self.getx()),
-                   self.drawing_window.converty(self.gety()+math.sin(alpha))-self.drawing_window.converty(self.gety()))
+            Dxy = (self.win.convertx(self.getx()+math.cos(alpha))-self.win.convertx(self.getx()),
+                   self.win.converty(self.gety()+math.sin(alpha))-self.win.converty(self.gety()))
             deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
             return 360-deg    
     
@@ -815,7 +815,7 @@ class Turtle:
             color = (color, c2, c3)
 
         self.pen_color = _processColor(color)
-        self.drawing_window._updateDrawing(turtle=self, delay=False)    
+        self.win._updateDrawing(turtle=self, delay=False)    
 
     # Change the fill color
     # If no params, return the current fill color
@@ -853,7 +853,7 @@ class Turtle:
            color = (color, c2, c3)
 
         self.fill_color = _processColor(color)
-        self.drawing_window._updateDrawing(turtle=self, delay=False)
+        self.win._updateDrawing(turtle=self, delay=False)
         
     # Return or set pencolor and fillcolor
     def color(self, *args):
@@ -890,8 +890,22 @@ class Turtle:
                 raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
         else:
             return self.pen_color, self.fill_color
-        self.drawing_window._updateDrawing(turtle=self, delay=False)              
+        self.win._updateDrawing(turtle=self, delay=False)              
 
+    # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
+    def xcor(self):
+        """Returns the turtle's x coordinate."""
+
+        return(self.turtle_pos[0]/self.win.xscale+self.win.xmin)
+    getx = xcor # alias
+
+    # Retrieve the turtle's currrent 'y' y-coordinate in current coordinate system
+    def ycor(self):
+        """Return the turtle's y coordinate."""
+   
+        return(self.win.ymax-self.turtle_pos[1]/self.win.yscale)
+    gety = ycor # alias        
+        
     #=======================
     # Pen Control - Filling
     #=======================
@@ -959,7 +973,7 @@ class Turtle:
                     pen = bddry,
                     size = self.pen_width)
             self.svg_lines_string = self.svg_lines_string_temp + self.svg_fill_string 
-            self.drawing_window._updateDrawing(turtle=self, delay=False)         
+            self.win._updateDrawing(turtle=self, delay=False)         
 
     # Allow user to set the svg fill-rule. Options are only 'nonzero' or 'evenodd'. If no argument, return current fill-rule.
     # This can be overridden for an individual object by setting the fill-rule as an argument to begin_fill().
