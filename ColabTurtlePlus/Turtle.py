@@ -432,7 +432,7 @@ class Screen:
         print(output) 
 
     # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
-    def saveSVG(self, file=None, turtle=False):
+    def saveSVG(self, file=None, turtles=False):
         """Saves the image as an SVG file.
     
         Args:
