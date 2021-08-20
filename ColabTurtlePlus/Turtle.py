@@ -1019,7 +1019,6 @@ class Turtle:
         elif n > 0:
             toDelete = self.stamplist[:n]
         elif n < 0:
-            n = -n
             toDelete = self.stamplist[n:]
         for k in toDelete:
             self._clearstamp(k)
