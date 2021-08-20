@@ -988,7 +988,7 @@ class Turtle:
 
     # Delete stamp with given stampid.
     # stampid – an integer or tuple of integers, which must be return values of previous stamp() calls
-    def clearstamp(self,stampid):
+    def clearstamp(self, stampid):
         """Deletes the stamp with given stampid
 
         Args:
@@ -1003,7 +1003,7 @@ class Turtle:
 
     # Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps,
     # else if n < 0 delete last n stamps.
-    def clearstamps(n=None):
+    def clearstamps(self, n=None):
         """Deletes all or first/last n of turtle's stamps.
 
         Args:
