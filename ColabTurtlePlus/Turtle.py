@@ -965,6 +965,43 @@ class Turtle:
         else:
             return round(math.radians(angle),7)
         
+    # Retrieve the turtle's current angle in current _angle_mode
+    def heading(self):
+        """Returns the turtle's current heading"""
+
+        if self.win.mode in ["standard","world"]:
+            angle = (360 - self.turtle_degree) % 360
+        elif self.win.mode == "logo":
+            angle = (self.turtle_degree - 270) % 360
+        else: # mode = "svg"
+            angle = self.turtle_degree % 360
+        if self.angle_mode == "degrees":
+            return angle
+        else:
+            return math.radians(angle)
+    getheading = heading # alias
+ 
+    # Calculate the distance between the turtle and a given point
+    def distance(self, x, y=None):
+        """Return the distance from the turtle to (x,y) in turtle step units.
+
+        Args:
+            x: a number     or      a pair of numbers  
+            y: a number     or      None      
+
+        distance(x, y)      or      distance((x, y))
+        """
+
+        if isinstance(x, tuple) and y is None:
+            if len(x) != 2:
+                raise ValueError('The tuple argument must be of length 2.')
+            y = x[1]
+            x = x[0]
+        if not isinstance(x, (int,float)):
+            raise ValueError('The x position must be a number.')
+        if not isinstance(y, (int,float)):
+            raise ValueError('The y position must be a number.')    
+        return round(math.sqrt( (self.getx() - x) ** 2 + (self.gety() - y) ** 2 ), 8)     
         
     #=============================
     # Turtle Pen Control - Filling
