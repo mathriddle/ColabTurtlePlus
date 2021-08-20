@@ -732,6 +732,39 @@ class Turtle:
                 self.win._arc(radius,min(180,extent),True, turtle=self)
                 extent -= 180         
 
+    # Draw a dot with diameter size, using color
+    # If size is not given, the maximum of _pen_width+4 and 2*_pen_width is used.
+    def dot(self, size = None, *color):
+        """Draws a dot with diameter size, using color.
+    
+        Args:
+            size: (optional) a positive integer
+            *color: (optional) a colorstring or a numeric color tuple
+
+        Draw a circular dot with diameter size, using color.
+        If size is not given, the maximum of pensize+4 and 2*pensize 
+        is used. If no color is given, the pencolor is used.
+        """
+
+        if not color:
+            if isinstance(size, (str, tuple)):
+                color = _processColor(size)
+                size = self.pen_width + max(self.pen_width,4)
+            else:
+                color = self.pen_color
+                if not size:
+                    size = self.pen_width + max(self.pen_width,4)
+        else:
+            if size is None:
+                size = self.pen_width + max(self.pen_width,4)
+            color = _processColor(color[0])
+        self.svg_dots_string += """<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{kolor}" fill-opacity="1" />""".format(
+            radius=size/2,
+            cx=self.turtle_pos[0],
+            cy=self.turtle_pos[1],
+            kolor=color)
+        self.win._updateDrawing(turtle = self)
+                
     # Move the turtle to a designated position.
     def goto(self, x, y=None):
         """Moves turtle to an absolute position.
