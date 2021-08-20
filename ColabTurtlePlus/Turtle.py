@@ -954,7 +954,7 @@ class Turtle:
 
         self.stampnum += 1
         self.stamplist.append(self.stampnum)
-        if layer != 0
+        if layer != 0:
             self.stampdictT[self.stampnum] = self.win._generateTurtleSvgDrawing()
             self.win.svg_stampsT_string += self.stampdictT[_stampnum]
         else:
