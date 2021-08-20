@@ -512,6 +512,10 @@ class Turtle:
         self.angle_mode = DEFAULT_ANGLE_MODE
         self.fill_rule = "evenodd"
         self.fill_opacity = 1
+        self.stampdictB = {}
+        self.stampdictT = {}
+        self.stampnum = 0
+        self.stamplist=[]
         window._add(self)
         
     def __str__(self):
@@ -918,7 +922,48 @@ class Turtle:
                 self.right((270-self.turtle_degree)/self.angle_conv)
             else:
                 self.left((self.turtle_degree-270)/self.angle_conv)        
-        
+
+    #======================
+    # Stamps
+    #======================
+
+    # Stamp a copy of the turtle shape onto the canvas at the current turtle position.
+    # The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in 
+    # the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if
+    # the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number).
+    # Returns a stamp_id for that stamp, which can be used to delete it by calling clearstamp(stamp_id).
+    def stamp(self, layer=0):
+        """Stamps a copy of the turtleshape onto the canvas and return its id.
+
+        Args:
+            layer (int): an optional integer that determines whether the stamp 
+                appears below other items (layer=0) or above other items (layer=1) 
+                in the order that SVG draws items. 
+    
+        Returns: 
+            integer: a stamp_id for that stamp, which can be
+                used to delete it by calling clearstamp(stamp_id).
+
+        Stamps a copy of the turtle shape onto the canvas at the current
+        turtle position.
+    
+        If layer=0, a stamp may be covered by a filled object, for example, 
+        even if the stamp is originally drawn on top of that object during 
+        the animation. To prevent this, set layer=1 or any nonzero number.
+       """
+
+        self.stampnum += 1
+        self.stamplist.append(self.stampnum)
+        if layer != 0
+            self.stampdictT[self.stampnum] = self.win._generateTurtleSvgDrawing()
+            self.win.svg_stampsT_string += self.stampdictT[_stampnum]
+        else:
+            self.stampdictB[_stampnum] = self.win._generateTurtleSvgDrawing()
+            self.win.svg_stampsB_string += self.stampdictB[_stampnum]
+        self.win._updateDrawing(turtle=self, delay=False)
+        return self.stampnum
+
+                
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
