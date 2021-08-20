@@ -462,6 +462,7 @@ class Turtle:
         self.is_filling = False
         self.is_pen_down = True
         self.angle_conv = 1
+        self.angle_mode = DEFAULT_ANGLE_MODE
         self.fill_rule = "evenodd"
         self.fill_opacity = 1
         window.add(self)
