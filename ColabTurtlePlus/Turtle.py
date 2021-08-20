@@ -405,11 +405,11 @@ class Screen:
     def _converty(y):
         return (self.ymax-y)*self.yscale                
 
-    def showSVG(self, turtles=False):
+    def showSVG(self, turtle=False):
         """Shows the SVG code for the image to the screen.
     
         Args:
-            turtles: (optional) a boolean that determines if the turtles
+            turtle: (optional) a boolean that determines if the turtles
                 are included in the svg output
     
         The SVG commands can be printed on screen (after the drawing is 
@@ -427,20 +427,20 @@ class Screen:
         stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
         stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
         dots = self._generateSvgDots().replace(">",">\n")
-        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtles else ""
+        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
         output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
         print(output) 
 
     # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
-    def saveSVG(self, file=None, turtles=False):
+    def saveSVG(self, file=None, turtle=False):
         """Saves the image as an SVG file.
     
         Args:
             file: a string giving filename for saved file. The extension 
                 ".svg" will be added if missing. If no filename is given,
                 the default name SVGimage.svg will be used.
-            turtle: an optional boolean that determines if the turtle 
-                is included in the svg output saved to the file. Default is False.
+            turtle: an optional boolean that determines if the turtles 
+                are included in the svg output saved to the file. Default is False.
     
         The SVG commands can be printed on screen (after the drawing is 
         completed) or saved to a file for use in a program like inkscape 
@@ -464,7 +464,7 @@ class Screen:
         stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
         stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
         dots = self._generateSvgDots().replace(">",">\n")
-        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtles else ""
+        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
         output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
         text_file.write(output)
         text_file.close()        
