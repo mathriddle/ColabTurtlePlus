@@ -964,7 +964,7 @@ class Turtle:
             self.stampdictT[self.stampnum] = self.win._generateTurtlesSvgDrawing()
             self.win.svg_stampsT_string += self.stampdictT[_stampnum]
         else:
-            self.stampdictB[_stampnum] = self.win._generateTurtleSvgDrawing()
+            self.stampdictB[_stampnum] = self.win._generateOneSvgTurtle(turtle=self)
             self.win.svg_stampsB_string += self.stampdictB[_stampnum]
         self.win._updateDrawing(turtle=self, delay=False)
         return self.stampnum
