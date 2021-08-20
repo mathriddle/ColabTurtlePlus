@@ -807,7 +807,51 @@ class Turtle:
         if not isinstance(y, (int,float)):
             raise ValueError('New y position must be a number.')
         self.goto(self.getx(), y)        
-        
+ 
+    # Makes the turtle face a given direction
+    def setheading(self, angle):
+        """Set the orientation of the turtle to angle
+
+        Aliases: setheading | seth
+
+        Args:
+            angle: a number (integer or float) 
+    
+        Units are by default degrees, but can be set via 
+        the degrees() and radians() functions.
+
+        Set the orientation of the turtle to angle.
+        This depends on the mode.
+        """
+
+        deg = angle*self.angle_conv
+        if not isinstance(angle, (int,float)):
+            raise ValueError('Degrees must be a number.')
+        if self.win.mode in ["standard","world"]: 
+            new_degree = (360 - deg) 
+        elif self.win.mode == "logo":
+            new_degree = (270 + deg) 
+        else: # mode = "svg"
+            new_degree = deg % 360
+        alpha = (new_degree - self.turtle_degree) % 360
+        if self.turtle_speed !=0 and self.animate:
+            if alpha <= 180:
+                if self.angle_mode == "degrees":
+                    right(alpha)
+                else:
+                    right(math.radians(alpha))
+            else:
+                if self.angle_mode == "degrees":
+                    left(360-alpha)
+                else:
+                    left(math.radians(360-alpha))
+        else:
+            self.turtle_degree = new_degree
+            self.turtle_orient = self.turtleOrientation()
+            self.win._updateDrawing(turtle=self)
+    seth = setheading # alias
+    face = setheading # alias
+
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
