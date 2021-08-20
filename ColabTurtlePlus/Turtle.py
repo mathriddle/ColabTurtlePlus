@@ -351,7 +351,7 @@ class Screen:
 
     # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
     # Animate turtle motion along line
-    def _moveToNewPosition(self, new_pos, turtle, units):
+    def _moveToNewPosition(self, new_pos, units, turtle):
     
         # rounding the new_pos to eliminate floating point errors.
         new_pos = ( round(new_pos[0],3), round(new_pos[1],3) ) 
@@ -538,7 +538,7 @@ class Turtle:
             raise ValueError('Units must be a number.')
         alpha = math.radians(self.turtle_degree)
         new_pos = (self.turtle_pos[0] + units * self.win.xscale * math.cos(alpha), self.turtle_pos[1] + units * abs(self.win.yscale) * math.sin(alpha))
-        self.win._moveToNewPosition(new_pos,self,units)
+        self.win._moveToNewPosition(new_pos,units, turtle=self)
     fd = forward # alias   
     
     # Makes the turtle move backward by 'units' units
@@ -772,7 +772,7 @@ class Turtle:
         else: # mode = "svg"
             self.turtle_degree = alpha % 360
             self.tilt_angle = turtle_angle_orig+self.tilt_angle-alpha
-        self.win._moveToNewPosition((self.win._convertx(x), self.win._converty(y)), turtle=self, units)
+        self.win._moveToNewPosition((self.win._convertx(x), self.win._converty(y)), units, turtle=self)
         self.tilt_angle = tilt_angle_orig
         self.turtle_degree = turtle_angle_orig
     setpos = goto # alias
