@@ -1448,7 +1448,35 @@ class Turtle:
             raise ValueError("The fill-opacity should be between 0 and 1.")
         self.fill_opacity = opacity
         
+    #===========================
+    # Animation Controls
+    #===========================
+
+    # Delay execution of next object for given delay time (in seconds)
+    def delay(self, delay_time):
+       """Delays execution of next object
+   
+       Args:
+       delay_time: positive number giving time in seconds
+       """
+
+       time.sleep(delay_time)
+
+    # Turn off animation. Forward/back/circle makes turtle jump and likewise left/right make the turtle turn instantly.
+    def animationOff(self):
+        """Turns off animation
+    
+        Forward/back/circle makes the turtle jump and likewise left/right 
+        makes the turtle turn instantly.
+        """
+
+        self.animate = False
         
+    # Turn animation on.
+    def animationOn(self):
+        """Turns animation on"""
+
+        self.animate = True        
         
         
         
