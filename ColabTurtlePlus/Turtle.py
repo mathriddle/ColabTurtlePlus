@@ -892,6 +892,23 @@ class Turtle:
             return self.pen_color, self.fill_color
         self.win._updateDrawing(turtle=self, delay=False)              
 
+        
+    #====================================
+    # Turtle Motion - Tell Turtle's State
+    #====================================  
+
+    # Retrieve the turtle's current position as a (x,y) tuple vector in current coordinate system
+    def position(self):
+        """Returns the turtle's current location (x,y)
+
+        Aliases: pos | position
+
+        Returns:
+            tuple: the current turtle location (x,y)
+        """
+        return (self.xcor(),self.ycor())
+    pos = position # alias
+
     # Retrieve the turtle's currrent 'x' x-coordinate in current coordinate system
     def xcor(self):
         """Returns the turtle's x coordinate."""
@@ -906,9 +923,9 @@ class Turtle:
         return(self.win.ymax-self.turtle_pos[1]/self.win.yscale)
     gety = ycor # alias        
         
-    #=======================
-    # Pen Control - Filling
-    #=======================
+    #=============================
+    # Turtle Pen Control - Filling
+    #=============================
 
     # Return fillstate (True if filling, False else)
     def filling(self):
