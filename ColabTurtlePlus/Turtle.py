@@ -1015,6 +1015,7 @@ class Turtle:
         """
 
         if n is None:
+            print(self.stamplist)
             [self._clearstamp(k) for k in self.stamplist]
         elif n > 0:
             [self._clearstamp(k) for k in self.stamplist[:n]]
