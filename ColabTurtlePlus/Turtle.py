@@ -999,7 +999,6 @@ class Turtle:
             for subitem in stampid:
                 self._clearstamp(subitem)
         else:
-            print(stampid)
             self._clearstamp(stampid)
 
     # Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps,
@@ -1016,13 +1015,14 @@ class Turtle:
         """
 
         if n is None:
-            print(self.stamplist)
-            [self._clearstamp(k) for k in self.stamplist]
+            toDelete = self.stamplist[:]
         elif n > 0:
-            [self._clearstamp(k) for k in self.stamplist[:n]]
+            toDelete = self.stamplist[:n]
         elif n < 0:
-            [self._clearstamp(k) for k in self.stamplist[n:]]
-        
+            n = -n
+            toDelete = self.stamplist[n:]
+        for k in toDelete:
+            self._clearstamp(k)
 
         
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
