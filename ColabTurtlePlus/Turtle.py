@@ -772,7 +772,7 @@ class Turtle:
         else: # mode = "svg"
             self.turtle_degree = alpha % 360
             self.tilt_angle = turtle_angle_orig+self.tilt_angle-alpha
-        self.win._moveToNewPosition((self.win._convertx(x), self.win._converty(y)),units)
+        self.win._moveToNewPosition((self.win._convertx(x), self.win._converty(y)), turtle=self, units)
         self.tilt_angle = tilt_angle_orig
         self.turtle_degree = turtle_angle_orig
     setpos = goto # alias
