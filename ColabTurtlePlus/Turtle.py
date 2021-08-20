@@ -969,7 +969,60 @@ class Turtle:
         self.win._updateDrawing(turtle=self, delay=False)
         return self.stampnum
 
-                
+    # Helper function to do the work for clearstamp() and clearstamps()
+    def _clearstamp(self, stampid):
+        tmp = ""
+        if stampid in self.stampdictB.keys():
+            self.stampdictB.pop(stampid)
+            self.stamplist.remove(stampid)
+            for n in self.stampdictB:
+                tmp += self.stampdictB[n]
+            self.svg_stampsB_string = tmp        
+        elif stampid in self.stampdictT.keys():
+            self.stampdictT.pop(stampid)
+            self.stamplist.remove(stampid)
+            for n in self.stampdictT:
+                tmp += self.stampdictT[n]
+            self.svg_stampsT_string = tmp
+        self.win._updateDrawing(turtle=self, delay=False)
+
+    # Delete stamp with given stampid.
+    # stampid – an integer or tuple of integers, which must be return values of previous stamp() calls
+    def clearstamp(self,stampid):
+        """Deletes the stamp with given stampid
+
+        Args:
+            stampid - an integer, must be return value of previous stamp() call.
+        """
+
+        if isinstance(stampid,tuple):
+            for subitem in stampid:
+                self._clearstamp(subitem)
+        else:
+            self._clearstamp(stampid)
+
+    # Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps,
+    # else if n < 0 delete last n stamps.
+    def clearstamps(n=None):
+        """Deletes all or first/last n of turtle's stamps.
+
+        Args:
+            n: an optional integer
+
+        If n is None, deletes all of the turtle's stamps.
+        If n > 0, deletes the first n stamps.
+        If n < 0, deletes the last n stamps.
+        """
+
+        if n is None:
+            [self._clearstamp(k) for k in self.stamplist]
+        elif n > 0:
+            [self._clearstamp(k) for k in self.stamplist[:n]]
+        elif n < 0:
+            [self._clearstamp(k) for k in self.stamplist[n:]]
+        
+
+        
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
