@@ -179,33 +179,39 @@ class Screen:
     # SVG functions
     #=======================
         
-    # Helper function for generating svg string of the turtle
+    # Helper function for generating svg string of all the turtles
     def _generateTurtlesSvgDrawing(self):
         svg = ""
         for turtle in self.turtles:
-            if turtle.is_turtle_visible:
-                vis = 'visible'
-            else:
-                vis = 'hidden'
+            svg += self._generateOneSvgTurtle(turtle = turtle)
+        return svg
 
-            turtle_x = turtle.turtle_pos[0]
-            turtle_y = turtle.turtle_pos[1]
-            if self.mode == "standard":
-                degrees = turtle.turtle_degree - turtle.tilt_angle    
-            elif self.mode == "world":
-                degrees = turtle.turtle_orient - turtle.tilt_angle
-            else:
-                degrees = turtle.turtle_degree + turtle.tilt_angle
+    # Helper function for generating svg string of one turtle
+    def _generateOneSvgTurtle(self,turtle)
+        svg = ""
+        if turtle.is_turtle_visible:
+            vis = 'visible'
+        else:
+            vis = 'hidden'
+
+        turtle_x = turtle.turtle_pos[0]
+        turtle_y = turtle.turtle_pos[1]
+        if self.mode == "standard":
+            degrees = turtle.turtle_degree - turtle.tilt_angle    
+        elif self.mode == "world":
+            degrees = turtle.turtle_orient - turtle.tilt_angle
+        else:
+            degrees = turtle.turtle_degree + turtle.tilt_angle
     
-            if turtle.turtle_shape == 'turtle':
-                degrees += 90
-            elif turtle.turtle_shape == 'ring':
-                turtle_y += 10*turtle.stretchfactor[1]+4
-                degrees -= 90
-            else:
-                degrees -= 90
+        if turtle.turtle_shape == 'turtle':
+            degrees += 90
+        elif turtle.turtle_shape == 'ring':
+            turtle_y += 10*turtle.stretchfactor[1]+4
+            degrees -= 90
+        else:
+            degrees -= 90
        
-            svg += shapeDict[turtle.turtle_shape].format(
+        svg = shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
                            pcolor=turtle.pen_color,
                            turtle_x=turtle_x, 
@@ -884,7 +890,7 @@ class Turtle:
                     self.left(math.radians(360-alpha))
         else:
             self.turtle_degree = new_degree
-            self.turtle_orient = self.turtleOrientation()
+            self.turtle_orient = self._turtleOrientation()
             self.win._updateDrawing(turtle=self)
     seth = setheading # alias
     face = setheading # alias
@@ -955,7 +961,7 @@ class Turtle:
         self.stampnum += 1
         self.stamplist.append(self.stampnum)
         if layer != 0:
-            self.stampdictT[self.stampnum] = self.win._generateTurtleSvgDrawing()
+            self.stampdictT[self.stampnum] = self.win._generateTurtlesSvgDrawing()
             self.win.svg_stampsT_string += self.stampdictT[_stampnum]
         else:
             self.stampdictB[_stampnum] = self.win._generateTurtleSvgDrawing()
