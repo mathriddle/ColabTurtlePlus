@@ -417,8 +417,6 @@ class Screen:
         or Adobe Illustrator, or displaying the image in a webpage.
         """
 
-    #    if _drawing_window == None:
-    #        raise AttributeError("Display has not been initialized yet. Call initializeTurtle() before using.")
         header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
             w= self.window_size[0],
             h= self.window_size[1]) 
@@ -433,6 +431,44 @@ class Screen:
         output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
         print(output) 
 
+    # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
+    def saveSVG(self, file=None, turtle=False):
+        """Saves the image as an SVG file.
+    
+        Args:
+            file: a string giving filename for saved file. The extension 
+                ".svg" will be added if missing. If no filename is given,
+                the default name SVGimage.svg will be used.
+            turtle: an optional boolean that determines if the turtle 
+                is included in the svg output saved to the file. Default is False.
+    
+        The SVG commands can be printed on screen (after the drawing is 
+        completed) or saved to a file for use in a program like inkscape 
+        or Adobe Illustrator, or displaying the image in a webpage.
+        """
+    
+        if file is None:
+            file = "SVGimage.svg"
+        elif not isinstance(file, str):
+            raise ValueError("File name must be a string")
+        if not file.endswith(".svg"):
+            file += ".svg"
+        text_file = open(file, "w")
+        header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
+            w= self.window_size[0],
+            h= self.window_size[1]) 
+        header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
+            fillcolor=self.background_color,
+            kolor=self.border_color)
+        image = self._generateSvgLines().replace("/>","/>\n")
+        stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
+        stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
+        dots = self._generateSvgDots().replace(">",">\n")
+        turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtles else ""
+        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
+        text_file.write(output)
+        text_file.close()        
+        
 class Turtle:    
     
     def __init__(self, window, name : str = None):
