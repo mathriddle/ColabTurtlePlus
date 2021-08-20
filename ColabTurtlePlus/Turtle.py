@@ -821,6 +821,24 @@ class Turtle:
     setpos = goto # alias
     setposition = goto # alias               
 
+    # jump to a point without drawing or animation
+    def jumpto(x,y=None):
+        """Jumps to a specified point without drawing/animation
+    
+        Args:
+            x: a number     or      a pair of numbers
+            y: a number     or      None
+
+            jumpto(x, y)      or    jumpto((x,y))  
+        """
+    
+        animate_temp = self.animate
+        self.penup()
+        self.animationOff()
+        self.goto(x,y)
+        self.animate = animate_temp
+        self.pendown()        
+        
     # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
     def setx(self, x):
         """Set the turtle's first coordinate to x
@@ -929,6 +947,30 @@ class Turtle:
             else:
                 self.left((self.turtle_degree-270)/self.angle_conv)        
 
+    #============================
+    # Pen Control - Drawing State
+    #============================
+
+    # Lowers the pen such that following turtle moves will now cause drawings
+    def pendown(self):
+        """Pulls the pen down -- drawing when moving.
+
+        Aliases: pendown | pd | down
+        """
+        self.is_pen_down = True
+    pd = pendown # alias
+    down = pendown # alias
+
+    # Raises the pen such that following turtle moves will not cause any drawings
+    def penup(self):
+        """Pulls the pen up -- no drawing when moving.
+
+        Aliases: penup | pu | up
+       """
+        self.is_pen_down = False
+    pu = penup # alias
+    up = penup # alias                
+                
     #======================
     # Stamps
     #======================
