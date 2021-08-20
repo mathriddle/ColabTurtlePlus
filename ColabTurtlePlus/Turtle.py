@@ -909,7 +909,7 @@ class Turtle:
                 self.left(self.turtle_degree/self.angle_conv)
             else:
                 self.right((360-self.turtle_degree)/self.angle_conv)
-            self.turtle_orient = self.turtleOrientation()
+            self.turtle_orient = self._turtleOrientation()
             self.win._updateDrawing(turtle=self, delay=False)
         else:
             if self.turtle_degree < 90:
