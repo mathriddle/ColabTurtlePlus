@@ -349,7 +349,52 @@ class Screen:
         turtle.turtle_pos = new_pos
         turtle.timeout = timeout_orig
         if not turtle.animate: self._updateDrawing(turtle=turtle)                    
-                    
+ 
+    # Helper function for drawing arcs of radius 'r' to 'new_pos' and draw line if pen is down.
+    # Modified from aronma/ColabTurtle_2 github to allow arc on either side of turtle.
+    # Positive radius has circle to left of turtle moving counterclockwise.
+    # Negative radius has circle to right of turtle moving clockwise.
+    def _arctoNewPosition(self, r, new_pos, turtle):
+ 
+        sweep = 0 if r > 0 else 1  # SVG arc sweep flag
+        rx = r*self.xscale
+        ry = r*abs(self.yscale)
+    
+        start_pos = turtle.turtle_pos
+        if turtle.is_pen_down:  
+            _svg_lines_string += \
+            """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pcolor};stroke-width:{pwidth}"/>""".format(
+            x1=start_pos[0], 
+            y1=start_pos[1],
+            rx = rx,
+            ry = ry,
+            x2=new_pos[0],
+            y2=new_pos[1],
+            pcolor=turtle.pen_color,
+            pwidth=turtle.pen_width,
+            s=sweep)    
+        if turtle.is_filling:
+            turtle.svg_fill_string += """ A {rx} {ry} 0 0 {s} {x2} {y2} """.format(rx=r,ry=r,x2=new_pos[0],y2=new_pos[1],s=sweep)  
+        turtle.turtle_pos = new_pos
+
+    # Helper function to draw a circular arc
+    # Modified from aronma/ColabTurtle_2 github repo
+    # Positive radius has arc to left of turtle, negative radius has arc to right of turtle.
+    def _arc(self, radius, degrees, draw, turtle):
+        alpha = math.radians(turtle.turtle_degree)
+        theta = math.radians(degrees)
+        s = radius/abs(radius)  # 1=left, -1=right
+        gamma = alpha-s*theta
+
+        circle_center = (turtle.turtle_pos[0] + radius*self.xscale*math.sin(alpha), turtle.turtle_pos[1] - radius*abs(self.yscale)*math.cos(alpha))
+        ending_point = (round(circle_center[0] - radius*self.xscale*math.sin(gamma),3) , round(circle_center[1] + radius*abs(self.yscale)*math.cos(gamma),3))
+  
+        self._arctoNewPosition(radius,ending_point,turtle)
+   
+        turtle.turtle_degree = (turtle.turtle_degree - s*degrees) % 360
+        turtle.turtle_orient = turtle._turtleOrientation()
+        if draw: self._updateDrawing(turtle=turtle)
+        
     def add(self, turtle):
         self.turtles.append(turtle)
         self._updateDrawing(delay=False)                
@@ -550,7 +595,91 @@ class Turtle:
             raise ValueError('Degrees must be a number.')
         self.right(-1 * angle)
     lt = left # alias 
+
+    # Since SVG has some ambiguity when using an arc path for a complete circle,
+    # the circle function is broken into chunks of at most 90 degrees.
+    # This is modified from aronma/ColabTurtle_2 github.
+    # Positive radius has circle to left of turtle, negative radius has circle to right of turtle.
+    # The step argument is here only for backward compatability with classic turtle.py circle.
+    # To get a true circular arc, do NOT use steps. Can still be used to draw a regular polygon, but better
+    # to use the regularpolygon() function.
+    def circle(self, radius, extent=None, steps=None):
+        """ Draws a circle with the given radius.
+
+        Args:
+            radius: a number
+            extent: (optional) a number
+            steps: (optional) a positive integer
     
+        Draws a circle with given radius. The center is radius units left
+        of the turtle. The extent, an angle, determines which part of the
+        circle is drawn. If extent is not given, draws the entire circle.
+        If extent is not a full circle, one endpoint of the arc is the
+        current pen position. Draws the arc in counterclockwise direction
+        if radius is positive, otherwise in clockwise direction. Finally
+        the direction of the turtle is changed by the amount of extent.
+    
+        The step argument is here only for backward compatability with 
+        classic turtle.py circle. To get a true circular arc, do NOT use
+        steps since the circle will be drawn using SVG commands.
+        If steps > 20, it will be assumed that an arc of a circle was
+        intended. 
+    
+        This function can still be used to draw a regular polygon with 
+        20 or fewer sides, but it is better to use the regularpolygon() 
+        function. 
+        """
+
+        if not isinstance(radius, (int,float)):
+            raise ValueError('Circle radius should be a number')
+        if extent is None:
+            extent = 360 if self.angle_mode == "degrees" else 2*math.pi 
+        elif not isinstance(extent, (int,float)):
+            raise ValueError('Extent should be a number')      
+        elif extent < 0:
+            raise ValueError('Extent should be a positive number')
+        # If steps is used, only draw polygon if less than 20 sides.
+        # Otherwise, assume user really wants a circular arc.
+        if (steps is not None) and (steps <= 20):
+            alpha = 1.0*extent/steps
+            length = 2*radius*math.sin(alpha/2*math.pi/180)
+            if radius < 0: 
+                alpha = -alpha
+                length = -radius
+            self.left(alpha/2)
+            for _ in range(steps-1):
+                self.forward(length)
+                self.left(alpha)
+            self.forward(length)
+            self.left(alpha/2)  
+        elif self.turtle_speed != 0 and self.animate:
+            timeout_temp = self.timeout 
+            self.timeout = self.timeout*0.5
+            degrees = extent*self.angle_conv
+            extent = degrees
+            # Use temporary svg strings for animation
+            svg_lines_string_temp = self.svg_lines_string
+            svg_fill_string_temp = self.svg_fill_string 
+            turtle_degree_orig = self.turtle_degree
+            turtle_pos_orig = self.turtle_pos        
+            while extent > 0:
+                self.drawing_window._arc(radius,min(15,extent),True, turtle=self)
+                extent -= 15 
+            # return to original position and redo circle for svg strings without animation
+            self.svg_lines_string = svg_lines_string_temp
+            self.svg_fill_string = svg_fill_string_temp
+            self.turtle_degree = turtle_degree_orig
+            self.turtle_pos = turtle_pos_orig
+            while degrees > 0:
+                self.drawing_window._arc(radius,min(180,degrees),False, turtle=self)
+                degrees -= 180 
+            self.timeout = timeout_temp
+        else:  # no animation
+            extent = extent*self.angle_conv
+            while extent > 0:
+                self.drawing_window._arc(radius,min(180,extent),True, turtle=self)
+                extent -= 180         
+
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
