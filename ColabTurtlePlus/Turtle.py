@@ -962,10 +962,10 @@ class Turtle:
         self.stamplist.append(self.stampnum)
         if layer != 0:
             self.stampdictT[self.stampnum] = self.win._generateTurtlesSvgDrawing()
-            self.win.svg_stampsT_string += self.stampdictT[_stampnum]
+            self.svg_stampsT_string += self.stampdictT[_stampnum]
         else:
             self.stampdictB[_stampnum] = self.win._generateOneSvgTurtle(turtle=self)
-            self.win.svg_stampsB_string += self.stampdictB[_stampnum]
+            self.svg_stampsB_string += self.stampdictB[_stampnum]
         self.win._updateDrawing(turtle=self, delay=False)
         return self.stampnum
 
