@@ -473,9 +473,9 @@ class Screen:
         if draw: self._updateDrawing(turtle=turtle)                      
    
     # Convert user coordinates to SVG coordinates
-    def _convertx(x):
+    def _convertx(self, x):
         return (x-self.xmin)*self.xscale 
-    def _converty(y):
+    def _converty(self, y):
         return (self.ymax-y)*self.yscale                
 
      
