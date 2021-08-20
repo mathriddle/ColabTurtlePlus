@@ -777,7 +777,37 @@ class Turtle:
         self.turtle_degree = turtle_angle_orig
     setpos = goto # alias
     setposition = goto # alias               
-                
+
+    # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
+    def setx(self, x):
+        """Set the turtle's first coordinate to x
+
+        Args:
+            x: a number (integer or float)
+
+        Set the turtle's first coordinate to x, leave second coordinate
+        unchanged.
+        """
+
+        if not isinstance(x, (int,float)):
+            raise ValueError('new x position must be a number.')
+        self.goto(x, self.gety())
+
+    # Move the turtle to a designated 'y' y-coordinate, x-coordinate stays the same
+    def sety(self,y):
+        """Set the turtle's second coordinate to y
+
+        Args:
+            y: a number (integer or float)
+
+        Set the turtle's second coordinate to y, leave first coordinate
+        unchanged.
+        """
+
+        if not isinstance(y, (int,float)):
+            raise ValueError('New y position must be a number.')
+        self.goto(self.getx(), y)        
+        
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
