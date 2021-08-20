@@ -187,7 +187,7 @@ class Screen:
         return svg
 
     # Helper function for generating svg string of one turtle
-    def _generateOneSvgTurtle(self,turtle)
+    def _generateOneSvgTurtle(self,turtle):
         svg = ""
         if turtle.is_turtle_visible:
             vis = 'visible'
