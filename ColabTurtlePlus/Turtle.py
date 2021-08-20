@@ -1089,11 +1089,13 @@ def clearstamps(n=None):
     """
 
     if n is None:
-        [_clearstamp(k) for k in _stamplist]
+        toDelete = _stamplist[:]
     elif n > 0:
-        [_clearstamp(k) for k in _stamplist[:n]]
+        toDelete = _stamplist[:n]
     elif n < 0:
-        [_clearstamp(k) for k in _stamplist[n:]]
+        toDelete = _stamplist[n:]
+    for k in toDelete:
+        _clearstamp(k)
         
 # Update the speed of the moves, [0,13]
 # If argument is omitted, it returns the speed.
