@@ -759,7 +759,7 @@ class Turtle:
             raise ValueError('New y position must be a number.')
         tilt_angle_orig = self.tilt_angle
         turtle_angle_orig = self.turtle_degree
-        alpha = towards(x,y)*self.angle_conv
+        alpha = self.towards(x,y)*self.angle_conv
         units = self.distance(x,y)
         if self.win.mode == "standard": 
             self.turtle_degree = (360 - alpha) % 360
