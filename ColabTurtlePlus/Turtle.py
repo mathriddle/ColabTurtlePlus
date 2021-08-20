@@ -999,6 +999,7 @@ class Turtle:
             for subitem in stampid:
                 self._clearstamp(subitem)
         else:
+            print(stampid)
             self._clearstamp(stampid)
 
     # Delete all or first/last n of turtle’s stamps. If n is None, delete all stamps, if n > 0 delete first n stamps,
