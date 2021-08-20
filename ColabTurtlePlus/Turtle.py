@@ -837,14 +837,14 @@ class Turtle:
         if self.turtle_speed !=0 and self.animate:
             if alpha <= 180:
                 if self.angle_mode == "degrees":
-                    right(alpha)
+                    self.right(alpha)
                 else:
-                    right(math.radians(alpha))
+                    self.right(math.radians(alpha))
             else:
                 if self.angle_mode == "degrees":
-                    left(360-alpha)
+                    self.left(360-alpha)
                 else:
-                    left(math.radians(360-alpha))
+                    self.left(math.radians(360-alpha))
         else:
             self.turtle_degree = new_degree
             self.turtle_orient = self.turtleOrientation()
