@@ -486,7 +486,29 @@ class Screen:
     def _converty(self, y):
         return (self.ymax-y)*self.yscale                
 
-     
+    #=====================
+    # Window Control
+    #=====================
+
+    # Change the background color of the drawing area
+    # If color='none', the drawing window will have no background fill.
+    # If no params, return the current background color
+    def bgcolor(self, color = None, c2 = None, c3 = None):
+        """Sets or returns the background color of the drawing area
+
+        Args:
+            a color string or three numbers in the range 0..255 
+            or a 3-tuple of such numbers.
+        """
+        if color is None:
+            return self.background_color
+        elif c2 is not None:
+            if c3 is None:
+                raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
+            color = (color, c2, c3)
+
+        self.background_color = _processColor(color)
+        self._updateDrawing(delay=False)     
         
 class Turtle:    
     
