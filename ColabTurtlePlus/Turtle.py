@@ -63,6 +63,8 @@ Original ColabTurtle defaults can be set by calling oldDefaults() after importin
   default window size to 800x500. It also sets the mode to "svg".
 Added jumpto function to go directly to a given location with drawing or animation.
 
+v2.0.0 Switched to using classes to allow for multiple turtles
+
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -780,7 +782,70 @@ class Turtle:
             cy=self.turtle_pos[1],
             kolor=color)
         self.win._updateDrawing(turtle = self)
-                
+
+    # Move along a regular polygon of size sides, with length being the length of each side. The steps indicates how many sides are drawn.
+    # The initial and concluding angle is half of the exteral angle.
+    # A positive length draws the polygon to the left of the turtle's current direction and a negative length draws it to the right
+    # of the turtle's current direction.
+    # Sets fillcolor to "none" if necessary and turns on filling so that the polygon is coded as one path for SVG purposes rather than
+    # as a sequence of line segments.
+    def regularPolygon(self, sides, length, steps=None):
+        """Draws a regular polygon 
+    
+        Args:
+            sides: an integer giving the number of sides of the polygon, or
+                a string with the name of a regular polygon of at most 10 sides
+            length: a number giving the length of each side
+            steps: an optional integer indicating how many sides of the
+                polygon to draw
+    
+        Moves the turtle along a regular polygon of size sides, with length being 
+        the length of each side. The steps indicates how many sides are drawn.
+    
+        The initial and concluding angle is half of the exterior angle.
+   
+        Positive values for sides or length draws the polygon to the 
+        left of the turtle's current direction, and a negative value for
+        either sides or length draws it to the right of the turtle's current 
+        direction.
+        """
+
+        polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
+        if sides in polygons:
+            sides = polygons[sides]
+        if steps is None:
+            steps = abs(sides)   
+        if not isinstance(sides, int):
+            raise ValueError('The number of sides should be an integer.')
+        elif not isinstance(steps, int):
+            raise ValueError('The number of steps should be a positive integer.')
+        elif steps < 1:
+            raise ValueError('The number of steps should be a positive integer.')
+        polyfilling = False
+        if not self.is_filling:
+            polyfilling = True
+            fillcolor_temp = self.fill_color
+            self.begin_fill()
+        alpha = (360/self.angle_conv)/sides
+        print(alpha)
+        if length < 0: 
+            alpha = -alpha
+            length = -length
+        self.left(alpha/2)
+        for _ in range(steps-1):
+            self.forward(length)
+            self.left(alpha)
+        self.forward(length)
+        self.left(alpha/2)
+        if polyfilling: 
+            self.fill_color = "none"
+            self.end_fill()       
+            self.fill_color = fillcolor_temp
+            self.win._updateDrawing(turtle=self)
+    
+        
+        
+        
     # Move the turtle to a designated position.
     def goto(self, x, y=None):
         """Moves turtle to an absolute position.
