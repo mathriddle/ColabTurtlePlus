@@ -822,7 +822,7 @@ class Turtle:
     setposition = goto # alias               
 
     # jump to a point without drawing or animation
-    def jumpto(x,y=None):
+    def jumpto(self,x,y=None):
         """Jumps to a specified point without drawing/animation
     
         Args:
@@ -831,7 +831,11 @@ class Turtle:
 
             jumpto(x, y)      or    jumpto((x,y))  
         """
-    
+        if isinstance(x, tuple) and y is None:
+            if len(x) != 2:
+                raise ValueError('The tuple argument must be of length 2.')
+            x = x[0]
+            y = x[1]
         animate_temp = self.animate
         self.penup()
         self.animationOff()
