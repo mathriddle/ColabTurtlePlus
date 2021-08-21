@@ -545,8 +545,8 @@ class Screen:
     # Hide the border around the graphics window.    
     def hideborder(self):
         """Hides the border around the graphics window."""
-    self.border_color = "none"
-    self._updateDrawing(delay=False)        
+        self.border_color = "none"
+        self._updateDrawing(delay=False)        
         
 #---------------------------------------------------        
         
