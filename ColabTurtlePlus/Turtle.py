@@ -1640,7 +1640,54 @@ class Turtle:
         if (opacity < 0) or (opacity > 1):
             raise ValueError("The fill-opacity should be between 0 and 1.")
         self.fill_opacity = opacity
-        
+    
+    #==========================
+    # Turtle State - Appearance
+    #==========================
+
+
+
+    # Scale the size of the turtle
+    # stretch_wid scales perpendicular to orientation
+    # stretch_len scales in direction of turtle's orientation
+    def shapesize(self, stretch_wid=None, stretch_len=None, outline=None):
+        """Sets/returns turtle's stretchfactors/outline.
+
+        Args:
+            stretch_wid: positive number
+            stretch_len: positive number
+            outline: positive number
+
+        Returns or sets the pen's attributes x/y-stretchfactors and/or outline.
+        The turtle will be displayed stretched according to its stretchfactors.
+        stretch_wid is _stretchfactor perpendicular to orientation
+        stretch_len is _stretchfactor in direction of turtles orientation.
+        outline determines the width of the shapes's outline.
+        """
+        if stretch_wid is stretch_len is outline is None:
+            return self.stretchfactor[0], self.stretchfactor[1], self.outline_width
+        if stretch_wid == 0 or stretch_len == 0:
+            raise ValueError("stretch_wid/stretch_len must not be zero")
+        if stretch_wid is not None:
+            if not isinstance(stretch_wid, (int,float)):
+                raise ValueError('The stretch_wid position must be a number.')        
+            if stretch_len is None:
+                self.stretchfactor = stretch_wid, stretch_wid
+            else:
+                if not isinstance(stretch_len, (int,float)):
+                    raise ValueError('The stretch_len position must be a number.')                
+                self.stretchfactor = stretch_wid, stretch_len
+        elif stretch_len is not None:
+            if not isinstance(stretch_len, (int,float)):
+                raise ValueError('The stretch_len position must be a number.')         
+            self.stretchfactor = stretch_len, stretch_len
+        if outline is None:
+            outline = self.outline_width
+        elif not isinstance(outline, (int,float)):
+            raise ValueError('The outline must be a positive number.')        
+        self.outline_width = outline   
+    turtlesize = shapesize #alias
+
     #===========================
     # Animation Controls
     #===========================
