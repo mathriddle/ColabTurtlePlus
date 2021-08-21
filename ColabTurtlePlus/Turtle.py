@@ -355,7 +355,9 @@ class Screen:
             if turtle.turtle_speed != 0:
                 self.drawing_window.update(HTML(self._generateSvgDrawing()))         
                 if delay:
-                    time.sleep(turtle.timeout)  
+                    time.sleep(turtle.timeout)
+        else:
+            self.drawing_window.update(HTML(self._generateSvgDrawing()))
 
     # Helper function for managing any kind of move to a given 'new_pos' and draw lines if pen is down
     # Animate turtle motion along line
@@ -538,15 +540,14 @@ class Screen:
             if c3 is None:
                 raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
             color = (color, c2, c3)
-
         self.border_color = _processColor(color)
-        self._updateDrawing(delay=False)
+        self._updateDrawing(delay=False) 
 
     # Hide the border around the graphics window.    
     def hideborder(self):
         """Hides the border around the graphics window."""
         self.border_color = "none"
-        self._updateDrawing(delay=False)        
+        self._updateDrawing(delay=False) 
         
 #---------------------------------------------------        
         
