@@ -1096,6 +1096,10 @@ class Turtle:
         self.win._updateDrawing(turtle=self, delay=False)
     width = pensize  #alias
 
+    def isdown(self):
+        """Return True if pen is down, False if it's up."""
+
+        return self.is_pen_down
 
     #======================
     # Stamps
