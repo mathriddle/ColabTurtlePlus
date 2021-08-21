@@ -1064,7 +1064,58 @@ class Turtle:
         self.angle_mode = 'degrees'
         self.angle_conv = 1        
         
-        
+    #============================
+    # Pen Control - Drawing State
+    #============================
+
+    # Lowers the pen such that following turtle moves will now cause drawings
+    def pendown(self):
+        """Pulls the pen down -- drawing when moving.
+
+        Aliases: pendown | pd | down
+        """
+
+        self.is_pen_down = True
+    pd = pendown # alias
+    down = pendown # alias
+
+    # Raises the pen such that following turtle moves will not cause any drawings
+    def penup(self):
+        """Pulls the pen up -- no drawing when moving.
+
+        Aliases: penup | pu | up
+        """
+
+        self.is_pen_down = False
+    pu = penup # alias
+    up = penup # alias
+
+    # Change the width of the lines drawn by the turtle, in pixels
+    # If the function is called without arguments, it returns the current width
+    def pensize(self, width = None):
+        """Sets or returns the line thickness.
+
+        Aliases:  pensize | width
+
+        Args:
+            width: positive number
+
+        Set the line thickness to width or return it. If no argument is given,
+        current pensize is returned.
+        """
+
+        if width is None:
+            return self.pen_width
+        else:
+            if not isinstance(width, (int,float)):
+                raise ValueError('New width value must be an integer.')
+            if not width > 0:
+                raise ValueError('New width value must be positive.')
+            self.pen_width = width
+        self.win._updateDrawing(turtle=self, delay=False)
+    width = pensize  #alias
+
+
     #======================
     # Stamps
     #======================
