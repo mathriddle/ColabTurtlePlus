@@ -1688,6 +1688,28 @@ class Turtle:
         self.outline_width = outline   
     turtlesize = shapesize #alias
 
+    # Set or return the current shearfactor. Shear the turtleshape according to the given shearfactor shear, which is the tangent of the shear angle. 
+    # Do not change the turtle’s heading (direction of movement). If shear is not given: return the current shearfactor, i. e. 
+    # the tangent of the shear angle, by which lines parallel to the heading of the turtle are sheared.
+    def shearfactor(self, shear=None):
+        """Sets or returns the current shearfactor.
+
+        Args:
+            shear: number, tangent of the shear angle
+
+        Shears the turtleshape according to the given shearfactor shear,
+        which is the tangent of the shear angle. DOES NOT change the
+        turtle's heading (direction of movement).
+    
+        If shear is not given, returns the current shearfactor, i. e. the
+        tangent of the shear angle, by which lines parallel to the
+        heading of the turtle are sheared.
+        """
+        if shear is None:              
+            return round(math.tan((360-_shear_factor)*math.pi/180),8)
+        alpha = math.atan(shear)*180/math.pi
+        self.shear_factor = (360 - alpha) % 360    
+    
     #===========================
     # Animation Controls
     #===========================
