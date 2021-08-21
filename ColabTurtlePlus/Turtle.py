@@ -1709,7 +1709,80 @@ class Turtle:
             return round(math.tan((360-_shear_factor)*math.pi/180),8)
         alpha = math.atan(shear)*180/math.pi
         self.shear_factor = (360 - alpha) % 360    
+ 
+    # Rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle.
+    # DO NOT change the turtle's heading (direction of movement). Deprecated since Python version 3.1.
+    def settiltangle(self, angle):
+        """Rotates the turtleshape to point in the specified direction
+
+        Args:
+            angle: number
+
+        Rotates the turtleshape to point in the direction specified by angle,
+        regardless of its current tilt-angle. DOES NOT change the turtle's
+        heading (direction of movement).
     
+        Deprecated since Python version 3.1.
+        """
+        self.tilt_angle = angle*self.angle_conv
+        self.win._updateDrawing(turtle=self,delay=False)  
+
+    # Set or return the current tilt-angle. 
+    # If angle is given, rotate the turtleshape to point in the direction specified by angle, regardless of its current tilt-angle. 
+    # Do not change the turtle’s heading (direction of movement). If angle is not given: return the current tilt-angle, 
+    # i. e. the angle between the orientation of the turtleshape and the heading of the turtle (its direction of movement).
+    def tiltangle(self, angle=None):
+        """Sets or returns the current tilt-angle.
+
+        Args:
+            angle: number
+
+        Rotates the turtle shape to point in the direction specified by angle,
+        regardless of its current tilt-angle. DOES NOT change the turtle's
+        heading (direction of movement).
+    
+        If angle is not given: returns the current tilt-angle, i. e. the angle
+        between the orientation of the turtleshape and the heading of the
+        turtle (its direction of movement).
+        """
+        if angle == None:
+            return self.tilt_angle
+        if self.turtle_speed != 0 and self.animate: 
+            turtle_degree_temp = self.turtle_degree
+            if self.win.mode in ["standard","world"]:
+                self.left(-(self.tilt_angle-angle*self.angle_conv))
+            else:
+                self.right(self.tilt_angle-angle*self.angle_conv)
+            self.turtle_degree = turtle_degree_temp
+            self.tilt_angle = angle*_angle_conv
+        else:
+            self.tilt_angle = angle*_angle_conv
+            self.win._updateDrawing(target=self, delay=False) 
+
+    # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
+    def tilt(self, angle):
+        """Rotates the turtleshape by angle.
+
+        Args:
+            angle: a number
+
+        Rotates the turtle shape by angle from its current tilt-angle,
+        but does NOT change the turtle's heading (direction of movement).
+        """
+        if self.turtle_speed != 0 and self.animate and self.win.mode != "world":
+            turtle_degree_temp = self.turtle_degree
+            if self.win.mode in ["standard"]:
+                self.left(angle*self.angle_conv)
+            else:
+                self.right(angle*self.angle_conv)
+            self.turtle_degree = turtle_degree_temp
+            self.tilt_angle += angle*self.angle_conv
+        else:
+            self.tilt_angle += angle*self.angle_conv
+            self.win._updateDrawing(target=self, delay=False) 
+
+
+
     #===========================
     # Animation Controls
     #===========================
