@@ -1045,7 +1045,26 @@ class Turtle:
         self.is_pen_down = False
     pu = penup # alias
     up = penup # alias                
-                
+
+    #========================================
+    # Turtle Motion - Setting and Measurement
+    #========================================
+
+    # Set the angle measurement units to radians.
+    def radians(self):
+        """ Sets the angle measurement units to radians."""
+
+        self.angle_mode = 'radians'
+        self.angle_conv = 180/math.pi
+
+    # Set the angle measurement units to degrees.
+    def degrees():
+        """ Sets the angle measurement units to radians."""
+
+        self.angle_mode = 'degrees'
+        self.angle_conv = 1        
+        
+        
     #======================
     # Stamps
     #======================
