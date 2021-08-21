@@ -491,7 +491,7 @@ class Turtle:
     def __init__(self, window, position : tuple = None):
         if not isinstance(window, Screen) == True:
             raise TypeError("window must be a Screen object")
-        self.turtle_speed = DEFAULT_SPEE
+        self.turtle_speed = DEFAULT_SPEED
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
         self.fill_color = DEFAULT_FILL_COLOR
