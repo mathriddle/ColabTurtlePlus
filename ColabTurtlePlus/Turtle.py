@@ -522,7 +522,7 @@ class Screen:
         return self.window_size[1]        
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
-    def showborder(color = None, c2 = None, c3 = None):
+    def showborder(self, color = None, c2 = None, c3 = None):
         """Shows a border around the graphics window.
     
         Args:
@@ -543,7 +543,7 @@ class Screen:
         self._updateDrawing(delay=False)
 
     # Hide the border around the graphics window.    
-    def hideborder():
+    def hideborder(self):
         """Hides the border around the graphics window."""
     self.border_color = "none"
     self._updateDrawing(delay=False)        
