@@ -509,6 +509,46 @@ class Screen:
 
         self.background_color = _processColor(color)
         self._updateDrawing(delay=False)     
+
+    # Return turtle window width
+    def window_width(self):
+        """Returns the turtle window width"""
+
+        return self.window_size[0]
+
+    # Return turtle window height
+    def window_height(self):
+        """Returns the turtle window height"""
+        return self.window_size[1]        
+        
+    # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
+    def showborder(color = None, c2 = None, c3 = None):
+        """Shows a border around the graphics window.
+    
+        Args:
+            a color string or three numbers in the range 0..255 
+            or a 3-tuple of such numbers.
+        
+        Default (no argument values) is gray. A border can be turned off by 
+        setting color='none' (or use hideborder())
+        """
+        if color is None:
+            color = "gray"
+        elif c2 is not None:
+            if c3 is None:
+                raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
+            color = (color, c2, c3)
+
+        self.border_color = _processColor(color)
+        self._updateDrawing(delay=False)
+
+    # Hide the border around the graphics window.    
+    def hideborder():
+        """Hides the border around the graphics window."""
+    self.border_color = "none"
+    self._updateDrawing(delay=False)        
+        
+#---------------------------------------------------        
         
 class Turtle:    
     
