@@ -1210,7 +1210,35 @@ class Turtle:
         for k in toDelete:
             self._clearstamp(k)
 
-        
+    #==========================
+    # Turtle State - Visibility
+    #==========================
+
+    # Switch turtle visibility to ON
+    def showturtle(self):
+        """Makes the turtle visible.
+
+        Aliases: showturtle | st
+        """
+        self.is_turtle_visible = True
+        self.win._updateDrawing(turtle=self, delay=False)
+    st = showturtle # alias
+
+    # Switch turtle visibility to OFF
+    def hideturtle(self):
+        """Makes the turtle invisible.
+
+        Aliases: hideturtle | ht
+        """
+        self.is_turtle_visible = False
+        self.win._updateDrawing(turtle=self, delay=False)
+    ht = hideturtle # alias
+
+    def isvisible(self):
+    """Return True if the Turtle is shown, False if it's hidden."""
+
+        return self.is_turtle_visible
+
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
