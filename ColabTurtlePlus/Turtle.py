@@ -517,7 +517,6 @@ class Turtle:
                 self.turtle_pos = (self.win._convertx(position[0]),self.win._converty(position[1]))  
         else:
             self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
-        
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
@@ -532,8 +531,7 @@ class Turtle:
         self.stamplist=[]
         window._add(self)
         
-    def __str__(self):
-        return self.name
+
 
     #================================
     # Turtle Motion - Move and Draw
@@ -551,7 +549,6 @@ class Turtle:
         Moves the turtle forward by the specified distance, in the 
         direction the turtle is headed.
         """
-
         if not isinstance(units, (int,float)):
             raise ValueError('Units must be a number.')
         alpha = math.radians(self.turtle_degree)
@@ -572,7 +569,6 @@ class Turtle:
         to the direction the turtle is headed. Do not change the turtle's 
         heading.
         """
-
         if not isinstance(units, (int,float)):
             raise ValueError('Units must be a number.')
         self.forward(-1 * units)
@@ -595,7 +591,6 @@ class Turtle:
         degrees, but can be set via the degrees() and radians() functions.)
         Angle orientation depends on mode. 
         """
-
         if not isinstance(angle, (int,float)):
             raise ValueError('Degrees must be a number.')  
         timeout_orig = self.timeout
@@ -699,7 +694,6 @@ class Turtle:
         20 or fewer sides, but it is better to use the regularpolygon() 
         function. 
         """
-
         if not isinstance(radius, (int,float)):
             raise ValueError('Circle radius should be a number')
         if extent is None:
@@ -763,7 +757,6 @@ class Turtle:
         If size is not given, the maximum of pensize+4 and 2*pensize 
         is used. If no color is given, the pencolor is used.
         """
-
         if not color:
             if isinstance(size, (str, tuple)):
                 color = _processColor(size)
@@ -809,7 +802,6 @@ class Turtle:
         either sides or length draws it to the right of the turtle's current 
         direction.
         """
-
         polygons = {"triangle":3, "square":4, "pentagon":5, "hexagon":6, "heptagon":7, "octagon":8, "nonagon":9, "decagon":10}
         if sides in polygons:
             sides = polygons[sides]
@@ -842,8 +834,6 @@ class Turtle:
             self.end_fill()       
             self.fill_color = fillcolor_temp
             self.win._updateDrawing(turtle=self)
-    
-        
         
         
     # Move the turtle to a designated position.
@@ -860,8 +850,7 @@ class Turtle:
 
         Moves turtle to an absolute position. If the pen is down,
         a line will be drawn. The turtle's orientation does not change.   
-        """
-        
+        """    
         if isinstance(x, tuple) and y is None:
             if len(x) != 2:
                 raise ValueError('The tuple argument must be of length 2.')
@@ -924,7 +913,6 @@ class Turtle:
         Set the turtle's first coordinate to x, leave second coordinate
         unchanged.
         """
-
         if not isinstance(x, (int,float)):
             raise ValueError('new x position must be a number.')
         self.goto(x, self.gety())
@@ -939,7 +927,6 @@ class Turtle:
         Set the turtle's second coordinate to y, leave first coordinate
         unchanged.
         """
-
         if not isinstance(y, (int,float)):
             raise ValueError('New y position must be a number.')
         self.goto(self.getx(), y)        
@@ -959,7 +946,6 @@ class Turtle:
         Set the orientation of the turtle to angle.
         This depends on the mode.
         """
-
         deg = angle*self.angle_conv
         if not isinstance(angle, (int,float)):
             raise ValueError('Degrees must be a number.')
@@ -1053,14 +1039,12 @@ class Turtle:
     # Set the angle measurement units to radians.
     def radians(self):
         """ Sets the angle measurement units to radians."""
-
         self.angle_mode = 'radians'
         self.angle_conv = 180/math.pi
 
     # Set the angle measurement units to degrees.
     def degrees(self):
         """ Sets the angle measurement units to radians."""
-
         self.angle_mode = 'degrees'
         self.angle_conv = 1        
         
@@ -1074,7 +1058,6 @@ class Turtle:
 
         Aliases: pendown | pd | down
         """
-
         self.is_pen_down = True
     pd = pendown # alias
     down = pendown # alias
@@ -1085,7 +1068,6 @@ class Turtle:
 
         Aliases: penup | pu | up
         """
-
         self.is_pen_down = False
     pu = penup # alias
     up = penup # alias
@@ -1103,7 +1085,6 @@ class Turtle:
         Set the line thickness to width or return it. If no argument is given,
         current pensize is returned.
         """
-
         if width is None:
             return self.pen_width
         else:
@@ -1144,7 +1125,6 @@ class Turtle:
         even if the stamp is originally drawn on top of that object during 
         the animation. To prevent this, set layer=1 or any nonzero number.
        """
-
         self.stampnum += 1
         self.stamplist.append(self.stampnum)
         if layer != 0:
@@ -1181,7 +1161,6 @@ class Turtle:
         Args:
             stampid - an integer, must be return value of previous stamp() call.
         """
-
         if isinstance(stampid,tuple):
             for subitem in stampid:
                 self._clearstamp(subitem)
@@ -1200,7 +1179,6 @@ class Turtle:
         If n > 0, deletes the first n stamps.
         If n < 0, deletes the last n stamps.
         """
-
         if n is None:
             toDelete = self.stamplist[:]
         elif n > 0:
@@ -1235,7 +1213,7 @@ class Turtle:
     ht = hideturtle # alias
 
     def isvisible(self):
-    """Return True if the Turtle is shown, False if it's hidden."""
+        """Return True if the Turtle is shown, False if it's hidden."""
 
         return self.is_turtle_visible
 
