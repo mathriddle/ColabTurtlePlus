@@ -509,7 +509,7 @@ class Turtle:
         self.outline_width = DEFAULT_OUTLINE_WIDTH
         self.win = window
         if position is not None:
-            if not (isinstance(position, tuple) and len(position) == 2 and isinstance(position[0], int) and isinstance(position[1], int)):
+            if not (isinstance(position, tuple) and len(position) == 2):
                 raise ValueError('position must be a tuple of 2 integers')    
             else:
                 self.turtle_pos = (self.win._convertx(position[0]),self.win._converty(position[1]))  
