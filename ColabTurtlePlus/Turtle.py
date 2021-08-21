@@ -488,7 +488,7 @@ class Screen:
         
 class Turtle:    
     
-    def __init__(self, window, name : str = None):
+    def __init__(self, window, position : tuple = None):
         if not isinstance(window, Screen) == True:
             raise TypeError("window must be a Screen object")
         self.turtle_speed = DEFAULT_SPEED
@@ -508,7 +508,13 @@ class Turtle:
         self.stretchfactor = DEFAULT_STRETCHFACTOR
         self.shear_factor = DEFAULT_SHEARFACTOR
         self.outline_width = DEFAULT_OUTLINE_WIDTH
-        self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
+        if position is not None:
+            if not (isinstance(position, tuple) and len(position) == 2 and isinstance(position[0], int) and isinstance(position[1], int)):
+                raise ValueError('position must be a tuple of 2 integers')    
+            else:
+                self.turtle_pos = position  
+        else:
+            self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
         self.win = window
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
