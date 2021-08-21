@@ -1754,7 +1754,7 @@ class Turtle:
             else:
                 self.right(self.tilt_angle-angle*self.angle_conv)
             self.turtle_degree = turtle_degree_temp
-            self.tilt_angle = angle*_angle_conv
+            self.tilt_angle = angle*self.angle_conv
         else:
             self.tilt_angle = angle*_angle_conv
             self.win._updateDrawing(target=self, delay=False) 
