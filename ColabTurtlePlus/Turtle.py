@@ -1058,7 +1058,7 @@ class Turtle:
         self.angle_conv = 180/math.pi
 
     # Set the angle measurement units to degrees.
-    def degrees():
+    def degrees(self):
         """ Sets the angle measurement units to radians."""
 
         self.angle_mode = 'degrees'
