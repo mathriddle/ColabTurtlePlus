@@ -1882,17 +1882,13 @@ class Turtle:
         """
 
         text = str(obj)
-        align = 'start'
-
-        if align is not None and align in ('left', 'center', 'right'):
-            print("inside if align")
+        if align in ('left', 'center', 'right'):
             if align == 'left':
                 align = 'start'
             elif align == 'center':
                 align = 'middle'
             else:
                 align = 'end'
-
         if font:
             if len(font) != 3 or isinstance(font[1], int) == False \
                               or isinstance(font[0], str) == False \
