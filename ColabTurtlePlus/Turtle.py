@@ -1866,7 +1866,7 @@ class Turtle:
     # More drawing contols
     #===========================
 
-    def write(self, obj, move=False, align="left", font=("Arial", 8, "normal")):
+    def write(self, obj, move=False, align="left", font=("Arial", 12, "normal")):
         """Write text at the current turtle position.
 
         Args:
@@ -1878,7 +1878,7 @@ class Turtle:
         Write the string text at the current turtle position according 
         to align ("left", "center" or right") and with the given font.
     
-        Defaults are left, ('Arial',8, 'normal')
+        Defaults are left, ('Arial',12, 'normal')
         """
 
         text = str(obj)
@@ -1918,7 +1918,7 @@ class Turtle:
             style=style_string)
         
         if move:
-            width = font-size*len(text)
+            width = font_size*len(text)
             self.setx(width)
     
         self.win._updateDrawing(turtle=self)
