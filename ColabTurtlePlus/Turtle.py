@@ -1867,7 +1867,7 @@ class Turtle:
     # More drawing contols
     #===========================
 
-    def write(self, obj, move=False, align="left", font=("Arial", 12, "normal")):
+    def write(self, obj, **kwargs):
         """Write text at the current turtle position.
 
         Args:
@@ -1883,14 +1883,15 @@ class Turtle:
         """
 
         text = str(obj)
-        if align in ('left', 'center', 'right'):
-            if align == 'left':
-                align = 'start'
-            elif align == 'center':
-                align = 'middle'
-            else:
-                align = 'end'
-        if font:
+        font_size = 12
+        font_family = 'Arial'
+        font_type = 'normal'
+        align = 'start'
+        anchor = {'left':'start','center':'middle','right':'end'}
+        if 'align' in kwargs and kwargs['align'] in ('left', 'center', 'right'):
+            align = anchor(kwargs['align']
+        if 'font' in kwargs:
+            font = kwargs["font"]
             if len(font) != 3 or isinstance(font[1], int) == False \
                               or isinstance(font[0], str) == False \
                               or font[2] not in {'bold','italic','underline','normal'}:
@@ -1918,10 +1919,6 @@ class Turtle:
             align=align, 
             style=style_string)
         
-        if move:
-            width = font_size/2*len(text)
-            self.jumpto(self.win._convertx(self.turtle_pos[0]+width),self.win._converty(self.turtle_pos[1]))
-    
         self.win._updateDrawing(turtle=self)
 
     #===========================
