@@ -158,7 +158,7 @@ class Screen:
         if not (isinstance(window_size, tuple) and len(window_size) == 2 and isinstance(
                 window_size[0], int) and isinstance(window_size[1], int)):
             raise ValueError('window_size must be a tuple of 2 integers')
-
+        self.turtles = []
         self.window_size = window_size
         self.mode = DEFAULT_MODE
         self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
