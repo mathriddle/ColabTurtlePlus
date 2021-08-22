@@ -1916,6 +1916,10 @@ class Turtle:
             strcolor=self.pen_color, 
             align=align, 
             style=style_string)
+        
+        if move:
+            width = 5*text.len()
+            self.setx(width)
     
         self.win._updateDrawing(turtle=self)
 
