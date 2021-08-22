@@ -1918,8 +1918,8 @@ class Turtle:
             style=style_string)
         
         if move:
-            width = font_size*len(text)
-            self.setx(width)
+            width = font_size/2*len(text)
+            self.turtle_pos[0] += width
     
         self.win._updateDrawing(turtle=self)
 
