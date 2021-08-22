@@ -1919,7 +1919,7 @@ class Turtle:
         
         if move:
             width = font_size/2*len(text)
-            self.turtle_pos[0] += width
+            self.jumpto(self.turtle_pos[0]+width,self.turtle_pos[1])
     
         self.win._updateDrawing(turtle=self)
 
