@@ -1889,7 +1889,7 @@ class Turtle:
         align = 'start'
         anchor = {'left':'start','center':'middle','right':'end'}
         if 'align' in kwargs and kwargs['align'] in ('left', 'center', 'right'):
-            align = anchor(kwargs['align']
+            align = anchor[kwargs['align']]
         if 'font' in kwargs:
             font = kwargs["font"]
             if len(font) != 3 or isinstance(font[1], int) == False \
