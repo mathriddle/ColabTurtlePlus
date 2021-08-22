@@ -979,7 +979,7 @@ class Turtle:
         self.goto(x,y)
         self.animate = animate_temp
         self.pendown()
-        self.win_updateDrawing(turtle=self,delay=False)
+        self.win._updateDrawing(turtle=self,delay=False)
         
     # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
     def setx(self, x):
