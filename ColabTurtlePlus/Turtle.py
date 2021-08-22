@@ -165,7 +165,6 @@ class Screen:
         self.xscale = self.yscale = 1
         self.background_color = DEFAULT_BACKGROUND_COLOR
         self.border_color = DEFAULT_BORDER_COLOR
-        self.turtles = []
         self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
 
     # Helper function that maps [0,13] speed values to ms delays
@@ -175,7 +174,7 @@ class Screen:
     # Add to list of turtles when new object created
     def _add(self, turtle):
         self.turtles.append(turtle)
-        self._updateDrawing(delay=False) 
+        self._updateDrawing() 
 
     #=======================
     # SVG functions
@@ -515,7 +514,6 @@ class Screen:
     # Return turtle window width
     def window_width(self):
         """Returns the turtle window width"""
-
         return self.window_size[0]
 
     # Return turtle window height
@@ -541,13 +539,26 @@ class Screen:
                 raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
             color = (color, c2, c3)
         self.border_color = _processColor(color)
-        self._updateDrawing(delay=False) 
+        self._updateDrawing() 
 
     # Hide the border around the graphics window.    
     def hideborder(self):
         """Hides the border around the graphics window."""
         self.border_color = "none"
-        self._updateDrawing(delay=False) 
+        self._updateDrawing() 
+
+    # Clear any text and all turtles on the screen
+    def clear(self):
+        """Clears any text or drawing on the screen."""
+        for turtle in self.turtles:
+            turtle.svg_lines_string = ""
+            turtle.svg_fill_string = ""
+            turtle.svg_dots_string = ""
+            turtle.svg_stampsB_string = ""
+            turtle.svg_stampsT_string = ""
+        self.turtles = []
+        self.background_color = DEFAULT_BACKGROUND_COLOR
+        self._updateDrawing()        
         
 #---------------------------------------------------        
         
