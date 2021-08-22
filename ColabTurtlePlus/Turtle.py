@@ -1862,7 +1862,69 @@ class Turtle:
             self.tilt_angle += angle*self.angle_conv
             self.win._updateDrawing(target=self, delay=False) 
 
+    #===========================
+    # More drawing contols
+    #===========================
 
+    def write(self, obj, **kwargs):
+        """Write text at the current turtle position.
+
+        Args:
+            obj: string which is to be written to the TurtleScreen
+            **kwargs:
+                align: (optional) one of the strings "left", "center" or right"
+                font: (optional) a triple (fontsize, fontname, fonttype)
+
+        Write the string text at the current turtle position according 
+        to align ("left", "center" or right") and with the given font.
+    
+        Defaults are left, ('Arial', 12, 'normal')
+        """
+
+        text = str(obj)
+        font_size = 12
+        font_family = 'Arial'
+        font_type = 'normal'
+        align = 'start'
+
+        if 'align' in kwargs and kwargs['align'] in ('left', 'center', 'right'):
+            if kwargs['align'] == 'left':
+                align = 'start'
+            elif kwargs['align'] == 'center':
+                align = 'middle'
+            else:
+                align = 'end'
+
+        if "font" in kwargs:
+            font = kwargs["font"]
+            if len(font) != 3 or isinstance(font[0], int) == False \
+                              or isinstance(font[1], str) == False \
+                              or font[2] not in {'bold','italic','underline','normal'}:
+                raise ValueError('Font parameter must be a triplet consisting of font size (int), font family (str), and font type (str). Font type can be one of {bold, italic, underline, normal}')
+            font_size = font[0]
+            font_family = font[1]
+            font_type = font[2]
+        
+        style_string = ""
+        style_string += "font-size:" + str(font_size) + "px;"
+        style_string += "font-family:'" + font_family + "';"
+
+        if font_type == 'bold':
+            style_string += "font-weight:bold;"
+        elif font_type == 'italic':
+            style_string += "font-style:italic;"
+        elif font_type == 'underline':
+            style_string += "text-decoration: underline;"
+            
+        self.svg_lines_string += """<text x="{x}" y="{y}" fill="{strcolor}" text-anchor="{align}" style="{style}">{text}</text>""".format(
+            x=self.turtle_pos[0], 
+            y=self.turtle_pos[1], 
+            text=text, 
+            strcolor=self.pen_color, 
+            align=align, 
+            style=style_string)
+    
+        self.win._updateDrawing(turtle=self)
 
     #===========================
     # Animation Controls
