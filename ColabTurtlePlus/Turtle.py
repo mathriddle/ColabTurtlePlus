@@ -1884,7 +1884,7 @@ class Turtle:
         text = str(obj)
         align = 'start'
 
-        if align and align in ('left', 'center', 'right'):
+        if align is not None and align in ('left', 'center', 'right'):
             print("inside if align")
             if align == 'left':
                 align = 'start'
