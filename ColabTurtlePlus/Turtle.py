@@ -1866,43 +1866,39 @@ class Turtle:
     # More drawing contols
     #===========================
 
-    def write(self, obj, **kwargs):
+    def write(self, obj, move=False, align="left", font=("Arial", 8, "normal")):
         """Write text at the current turtle position.
 
         Args:
             obj: string which is to be written to the TurtleScreen
-            **kwargs:
-                align: (optional) one of the strings "left", "center" or right"
-                font: (optional) a triple (fontsize, fontname, fonttype)
+            move: (optional) boolean currently ignored
+            align: (optional) one of the strings "left", "center" or right"
+            font: (optional) a triple (fontname, fontsize, fonttype)
 
         Write the string text at the current turtle position according 
         to align ("left", "center" or right") and with the given font.
     
-        Defaults are left, ('Arial', 12, 'normal')
+        Defaults are left, ('Arial',8, 'normal')
         """
 
         text = str(obj)
-        font_size = 12
-        font_family = 'Arial'
-        font_type = 'normal'
         align = 'start'
 
-        if 'align' in kwargs and kwargs['align'] in ('left', 'center', 'right'):
-            if kwargs['align'] == 'left':
+        if align and align in ('left', 'center', 'right'):
+            if align == 'left':
                 align = 'start'
-            elif kwargs['align'] == 'center':
+            elif align == 'center':
                 align = 'middle'
             else:
                 align = 'end'
 
-        if "font" in kwargs:
-            font = kwargs["font"]
-            if len(font) != 3 or isinstance(font[0], int) == False \
-                              or isinstance(font[1], str) == False \
+        if font:
+            if len(font) != 3 or isinstance(font[1], int) == False \
+                              or isinstance(font[0], str) == False \
                               or font[2] not in {'bold','italic','underline','normal'}:
-                raise ValueError('Font parameter must be a triplet consisting of font size (int), font family (str), and font type (str). Font type can be one of {bold, italic, underline, normal}')
-            font_size = font[0]
-            font_family = font[1]
+                raise ValueError('Font parameter must be a triplet consisting of font family (str), font size (int), and font type (str). Font type can be one of {bold, italic, underline, normal}')
+            font_family = font[0]           
+            font_size = font[1]
             font_type = font[2]
         
         style_string = ""
