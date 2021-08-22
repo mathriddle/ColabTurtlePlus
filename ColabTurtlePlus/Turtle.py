@@ -556,7 +556,11 @@ class Screen:
             turtle.svg_dots_string = ""
             turtle.svg_stampsB_string = ""
             turtle.svg_stampsT_string = ""
-        self.background_color = DEFAULT_BACKGROUND_COLOR
+            turtle.stampdictB = {}
+            turtle.stampdictT = {}
+            turtle.stampnum = 0
+            turtle.stamplist=[]
+            turtle.is_filling = False
         self._updateDrawing()        
         
 #---------------------------------------------------        
