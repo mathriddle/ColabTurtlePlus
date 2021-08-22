@@ -979,7 +979,6 @@ class Turtle:
         self.goto(x,y)
         self.animate = animate_temp
         self.pendown()
-        #self.win._updateDrawing(turtle=self,delay=False)
         
     # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
     def setx(self, x):
@@ -1872,9 +1871,10 @@ class Turtle:
 
         Args:
             obj: string which is to be written to the TurtleScreen
-            move: (optional) boolean currently ignored
-            align: (optional) one of the strings "left", "center" or right"
-            font: (optional) a triple (fontname, fontsize, fonttype)
+            **kwargs should be 
+                align: (optional) one of the strings "left", "center" or right"
+                font: (optional) a triple (fontname, fontsize, fonttype)
+                      fonttype can be 'bold', 'italic', 'underline', or 'normal'
 
         Write the string text at the current turtle position according 
         to align ("left", "center" or right") and with the given font.
@@ -1882,6 +1882,9 @@ class Turtle:
         Defaults are left, ('Arial',12, 'normal')
         """
 
+        # The move argument in turtle.py is ignored here. The ImageFont in the Pillow package does not
+        # seem to work in Colab because it cannot access the necessary font metric information.
+        # Perhaps there is way to use SVG attributes to determine the length of the string.
         text = str(obj)
         font_size = 12
         font_family = 'Arial'
