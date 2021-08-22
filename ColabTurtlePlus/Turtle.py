@@ -1885,6 +1885,7 @@ class Turtle:
         align = 'start'
 
         if align and align in ('left', 'center', 'right'):
+            print("inside if align")
             if align == 'left':
                 align = 'start'
             elif align == 'center':
