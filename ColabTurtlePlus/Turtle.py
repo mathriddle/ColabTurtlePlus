@@ -1343,6 +1343,20 @@ class Turtle:
             raise ValueError('The y position must be a number.')    
         return round(math.sqrt( (self.getx() - x) ** 2 + (self.gety() - y) ** 2 ), 8)     
 
+    # If world coordinates are such that the aspect ratio of the axes does not match the
+    # aspect ratio of the graphic window (xscale != yscale), then this helper function is used to 
+    # set the orientation of the turtle to line up with the direction of motion in the 
+    # world coordinates.
+    def _turtleOrientation(self):
+        if self.win.xscale == abs(self.win.yscale):
+            return self.turtle_degree
+        else:
+            alpha = math.radians(self.heading()*self.angle_conv)
+            Dxy = (self.win.convertx(self.getx()+math.cos(alpha))-self.win.convertx(self.getx()),
+                   self.win.converty(self.gety()+math.sin(alpha))-self.win.converty(self.gety()))
+            deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
+            return 360-deg
+
     #========================================
     # Turtle Motion - Setting and Measurement
     #========================================
@@ -1712,6 +1726,10 @@ class Turtle:
             style=style_string)
         
         self.win._updateDrawing(turtle=self)        
+
+#========================================================================
+# Turtle State
+#========================================================================        
         
     #==========================
     # Turtle State - Visibility
@@ -1742,6 +1760,10 @@ class Turtle:
 
         return self.is_turtle_visible
 
+    #==========================
+    # Turtle State - Appearance
+    #==========================
+
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
@@ -1766,37 +1788,6 @@ class Turtle:
         self.turtle_shape = name.lower()
         self.win._updateDrawing(turtle=self)
  
-   
-
-   
-        
-    # If world coordinates are such that the aspect ratio of the axes does not match the
-    # aspect ratio of the graphic window (xscale != yscale), then this function is used to 
-    # set the orientation of the turtle to line up with the direction of motion in the 
-    # world coordinates.
-    def _turtleOrientation(self):
-        if self.win.xscale == abs(self.win.yscale):
-            return self.turtle_degree
-        else:
-            alpha = math.radians(self.heading()*self.angle_conv)
-            Dxy = (self.win.convertx(self.getx()+math.cos(alpha))-self.win.convertx(self.getx()),
-                   self.win.converty(self.gety()+math.sin(alpha))-self.win.converty(self.gety()))
-            deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
-            return 360-deg    
-    
-    
-
-        
-
-        
-
-    
-    #==========================
-    # Turtle State - Appearance
-    #==========================
-
-
-
     # Scale the size of the turtle
     # stretch_wid scales perpendicular to orientation
     # stretch_len scales in direction of turtle's orientation
@@ -1929,8 +1920,7 @@ class Turtle:
             self.tilt_angle += angle*self.angle_conv
         else:
             self.tilt_angle += angle*self.angle_conv
-            self.win._updateDrawing(target=self, delay=False) 
-
+            self.win._updateDrawing(target=self, delay=False)    
 
 
     #===========================
@@ -1954,21 +1944,16 @@ class Turtle:
         Forward/back/circle makes the turtle jump and likewise left/right 
         makes the turtle turn instantly.
         """
-
         self.animate = False
         
     # Turn animation on.
     def animationOn(self):
         """Turns animation on"""
-
         self.animate = True        
-        
-        
-        
-        
-#########################################
-#  Helper functions for color control
-#########################################        
+             
+########################################################################################
+#  Helper functions for color control -- apply to both screen and turtles
+########################################################################################        
         
 # Used to validate a color string
 def _validateColorString(color):
