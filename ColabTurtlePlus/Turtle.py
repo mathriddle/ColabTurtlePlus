@@ -547,8 +547,8 @@ class Screen:
         self.border_color = "none"
         self._updateDrawing() 
 
-    # Clear any text and all turtles on the screen
-    def clear(self):
+    # Clear all text and all turtles on the screen
+    def clearscreen(self):
         """Clears any text or drawing on the screen."""
         for turtle in self.turtles:
             turtle.svg_lines_string = ""
@@ -563,7 +563,7 @@ class Screen:
             turtle.is_filling = False
         self._updateDrawing()        
         
-#---------------------------------------------------        
+#----------------------------------------------------------------------------------------------        
         
 class Turtle:    
     
@@ -608,7 +608,9 @@ class Turtle:
         self.stamplist=[]
         window._add(self)
         
-
+#=================================================================================
+# Turtle Motion
+#=================================================================================
 
     #================================
     # Turtle Motion - Move and Draw
@@ -1085,102 +1087,63 @@ class Turtle:
             else:
                 self.left((self.turtle_degree-270)/self.angle_conv)        
 
-    #============================
-    # Pen Control - Drawing State
-    #============================
-
-    # Lowers the pen such that following turtle moves will now cause drawings
-    def pendown(self):
-        """Pulls the pen down -- drawing when moving.
-
-        Aliases: pendown | pd | down
-        """
-        self.is_pen_down = True
-    pd = pendown # alias
-    down = pendown # alias
-
-    # Raises the pen such that following turtle moves will not cause any drawings
-    def penup(self):
-        """Pulls the pen up -- no drawing when moving.
-
-        Aliases: penup | pu | up
-       """
-        self.is_pen_down = False
-    pu = penup # alias
-    up = penup # alias                
-
-    #========================================
-    # Turtle Motion - Setting and Measurement
-    #========================================
-
-    # Set the angle measurement units to radians.
-    def radians(self):
-        """ Sets the angle measurement units to radians."""
-        self.angle_mode = 'radians'
-        self.angle_conv = 180/math.pi
-
-    # Set the angle measurement units to degrees.
-    def degrees(self):
-        """ Sets the angle measurement units to radians."""
-        self.angle_mode = 'degrees'
-        self.angle_conv = 1        
-        
-    #============================
-    # Pen Control - Drawing State
-    #============================
-
-    # Lowers the pen such that following turtle moves will now cause drawings
-    def pendown(self):
-        """Pulls the pen down -- drawing when moving.
-
-        Aliases: pendown | pd | down
-        """
-        self.is_pen_down = True
-    pd = pendown # alias
-    down = pendown # alias
-
-    # Raises the pen such that following turtle moves will not cause any drawings
-    def penup(self):
-        """Pulls the pen up -- no drawing when moving.
-
-        Aliases: penup | pu | up
-        """
-        self.is_pen_down = False
-    pu = penup # alias
-    up = penup # alias
-
-    # Change the width of the lines drawn by the turtle, in pixels
-    # If the function is called without arguments, it returns the current width
-    def pensize(self, width = None):
-        """Sets or returns the line thickness.
-
-        Aliases:  pensize | width
-
+    # Update the speed of the moves, [0,13]
+    # If argument is omitted, it returns the speed.
+    def speed(self, speed = None):
+        """Returns or set the turtle's speed.
         Args:
-            width: positive number
-
-        Set the line thickness to width or return it. If no argument is given,
-        current pensize is returned.
+            speed: an integer in the range 0..13 or a speedstring (see below)
+        Sets the turtle's speed to an integer value in the range 0 .. 13.
+        If no argument is given, returns the current speed.
+        If input is a number greater than 13 or smaller than 0.5,
+        speed is set to 13.
+    
+        Speedstrings  are mapped to speedvalues in the following way:
+            'fastest' :  13
+            'fast'    :  10
+            'normal'  :  6
+            'slow'    :  3
+            'slowest' :  1
+        Speeds from 1 to 13 enforce increasingly faster animation of
+        line drawing and turtle turning.
+        Attention:
+        speed = 0 displays final image with no animation. Need to call done() 
+        at the end so the final image is displayed.
+    
+        Calling animationOff will show the drawing but with no animation.
+        This means forward/back makes the turtle jump and likewise left/right 
+        makes the turtle turn instantly.
         """
-        if width is None:
-            return self.pen_width
-        else:
-            if not isinstance(width, (int,float)):
-                raise ValueError('New width value must be an integer.')
-            if not width > 0:
-                raise ValueError('New width value must be positive.')
-            self.pen_width = width
-        self.win._updateDrawing(turtle=self, delay=False)
-    width = pensize  #alias
+  
+        if speed is None:
+            return self.turtle_speed
+        speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
+        if speed in speeds:
+            self.turtle_speed = speeds[speed]
+        elif not isinstance(speed,(int,float)):
+            raise ValueError("speed should be a number between 0 and 13")
+        self.turtle_speed = speed
+        if 0.5 < speed < 13.5:
+            self.turtle_speed = int(round(speed))
+        elif speed != 0:
+            self.turtle_speed = 13
+        self.timeout = self.win._speedToSec(self.turtle_speed)                
 
-    def isdown(self):
-        """Return True if pen is down, False if it's up."""
+    # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
+    def done(self):
+        """Shows the final image when speed=0
+    
+        No argument
+    
+        speed = 0 displays final image with no animation. Need to
+        call done() at the end so the final image is displayed.
+        """
+        self.win.drawing_window.update(HTML(self.win._generateSvgDrawing()))  
+    update = done #alias        
 
-        return self.is_pen_down
-
-    #======================
-    # Stamps
-    #======================
+    #=======================
+    # Turtle Motion - Stamps
+    #=======================
 
     # Stamp a copy of the turtle shape onto the canvas at the current turtle position.
     # The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in 
@@ -1269,243 +1232,6 @@ class Turtle:
         for k in toDelete:
             self._clearstamp(k)
 
-    #==========================
-    # Turtle State - Visibility
-    #==========================
-
-    # Switch turtle visibility to ON
-    def showturtle(self):
-        """Makes the turtle visible.
-
-        Aliases: showturtle | st
-        """
-        self.is_turtle_visible = True
-        self.win._updateDrawing(turtle=self, delay=False)
-    st = showturtle # alias
-
-    # Switch turtle visibility to OFF
-    def hideturtle(self):
-        """Makes the turtle invisible.
-
-        Aliases: hideturtle | ht
-        """
-        self.is_turtle_visible = False
-        self.win._updateDrawing(turtle=self, delay=False)
-    ht = hideturtle # alias
-
-    def isvisible(self):
-        """Return True if the Turtle is shown, False if it's hidden."""
-
-        return self.is_turtle_visible
-
-    # Set turtle shape to shape with given name or, if name is not given, return name of current shape
-    def shape(self, name=None):
-        """Sets turtle shape to shape with given name / return current shapename.
-
-        Args:
-            name: an optional string, which is a valid shapename
-
-        Sets the turtle shape to shape with given name or, if name is not given,
-        returns the name of current shape.
-    
-        The possible turtle shapes include the ones from turtle.py: 
-        'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. 
-        The 'turtle' shape is the one that Tolga Atam included in his original 
-        ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
-        turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
-        """
-
-        if name is None:
-            return self.turtle_shape
-        elif name.lower() not in VALID_TURTLE_SHAPES:
-            raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
-        self.turtle_shape = name.lower()
-        self.win._updateDrawing(turtle=self)
- 
-    # Update the speed of the moves, [0,13]
-    # If argument is omitted, it returns the speed.
-    def speed(self, speed = None):
-        """Returns or set the turtle's speed.
-
-        Args:
-            speed: an integer in the range 0..13 or a speedstring (see below)
-
-        Sets the turtle's speed to an integer value in the range 0 .. 13.
-        If no argument is given, returns the current speed.
-
-        If input is a number greater than 13 or smaller than 0.5,
-        speed is set to 13.
-    
-        Speedstrings  are mapped to speedvalues in the following way:
-            'fastest' :  13
-            'fast'    :  10
-            'normal'  :  6
-            'slow'    :  3
-            'slowest' :  1
-        Speeds from 1 to 13 enforce increasingly faster animation of
-        line drawing and turtle turning.
-
-        Attention:
-        speed = 0 displays final image with no animation. Need to call done() 
-        at the end so the final image is displayed.
-    
-        Calling animationOff will show the drawing but with no animation.
-        This means forward/back makes the turtle jump and likewise left/right 
-        makes the turtle turn instantly.
-        """
-  
-        if speed is None:
-            return self.turtle_speed
-        speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
-        if speed in speeds:
-            self.turtle_speed = speeds[speed]
-        elif not isinstance(speed,(int,float)):
-            raise ValueError("speed should be a number between 0 and 13")
-        self.turtle_speed = speed
-        if 0.5 < speed < 13.5:
-            self.turtle_speed = int(round(speed))
-        elif speed != 0:
-            self.turtle_speed = 13
-        self.timeout = self.win._speedToSec(self.turtle_speed) 
-
-    # Call this function at end of turtle commands when speed=0 (no animation) so that final image is drawn
-    def done(self):
-        """Shows the final image when speed=0
-    
-        No argument
-    
-        speed = 0 displays final image with no animation. Need to
-        call done() at the end so the final image is displayed.
-        """
-        self.win.drawing_window.update(HTML(self.win._generateSvgDrawing()))  
-    update = done #alias
-        
-    # If world coordinates are such that the aspect ratio of the axes does not match the
-    # aspect ratio of the graphic window (xscale != yscale), then this function is used to 
-    # set the orientation of the turtle to line up with the direction of motion in the 
-    # world coordinates.
-    def _turtleOrientation(self):
-        if self.win.xscale == abs(self.win.yscale):
-            return self.turtle_degree
-        else:
-            alpha = math.radians(self.heading()*self.angle_conv)
-            Dxy = (self.win.convertx(self.getx()+math.cos(alpha))-self.win.convertx(self.getx()),
-                   self.win.converty(self.gety()+math.sin(alpha))-self.win.converty(self.gety()))
-            deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
-            return 360-deg    
-    
-    # Change the color of the pen
-    # If no params, return the current pen color
-    def pencolor(self, color = None, c2 = None, c3 = None):
-        """Returns or sets the pencolor.
-
-        Args:
-        Four input formats are allowed:
-        
-        pencolor():
-            Return the current pencolor as color specification string,
-            possibly in hex-number format. May be used as input to another 
-            color/pencolor/fillcolor call.
-            
-        pencolor(colorstring):
-            Colorstring is an htmlcolor specification string, such as "red"
-            or "yellow".
-            
-        pencolor((r, g, b)):
-            A tuple of r, g, and b, which represent an RGB color,
-            and each of r, g, and b are in the range 0..255.
-            
-        pencolor(r, g, b):
-            r, g, and b represent an RGB color, and each of r, g, and b
-            are in the range 0..255
-        """
-
-        if color is None:
-            return self.pen_color
-        elif c2 is not None:
-            if c3 is None:
-                raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
-            color = (color, c2, c3)
-
-        self.pen_color = _processColor(color)
-        self.win._updateDrawing(turtle=self, delay=False)    
-
-    # Change the fill color
-    # If no params, return the current fill color
-    def fillcolor(self, color = None, c2 = None, c3 = None):
-        """ Returns or sets the fillcolor.
-
-        Args:
-        Four input formats are allowed:
-        
-        pencolor():
-            Return the current pencolor as color specification string,
-            possibly in hex-number format. May be used as input to another 
-            color/pencolor/fillcolor call.
-            
-        pencolor(colorstring):
-            Colorstring is an htmlcolor specification string, such as "red"
-            or "yellow".
-            
-        pencolor((r, g, b)):
-            A tuple of r, g, and b, which represent an RGB color,
-            and each of r, g, and b are in the range 0..255.
-            
-        pencolor(r, g, b):
-            r, g, and b represent an RGB color, and each of r, g, and b
-            are in the range 0..255.
-    
-        The interior of the turtle is drawn with the newly set fillcolor.
-        """
-
-        if color is None:
-            return _fill_color
-        elif c2 is not None:
-           if c3 is None:
-                raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
-           color = (color, c2, c3)
-
-        self.fill_color = _processColor(color)
-        self.win._updateDrawing(turtle=self, delay=False)
-        
-    # Return or set pencolor and fillcolor
-    def color(self, *args):
-        """Returns or sets the pencolor and fillcolor.
-
-        Args:
-            Several input formats are allowed.
-            They use 0, 1, 2, or 3 arguments as follows:
-
-            color()
-                Return the current pencolor and the current fillcolor
-                as a pair of color specification strings as are returned
-                by pencolor and fillcolor.
-            color(colorstring), color((r,g,b)), color(r,g,b)
-                inputs as in pencolor, set both, fillcolor and pencolor,
-                to the given value.
-            color(colorstring1, colorstring2),
-            color((r1,g1,b1), (r2,g2,b2))
-                equivalent to pencolor(colorstring1) and fillcolor(colorstring2)
-                and analogously, if the other input format is used.
-        """
-        
-        if args:
-            narg = len(args)
-            if narg == 1:
-                self.pen_color = self.fill_color = _processColor(args[0])
-            elif narg == 2:
-                self.pen_color = _processColor(args[0])
-                self.fill_color = _processColor(args[1])
-            elif narg == 3:
-                kolor = (args[0],args[1],args[2])
-                self.pen_color = self.fill_color = _processColor(kolor)
-            else:
-                raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
-        else:
-            return self.pen_color, self.fill_color
-        self.win._updateDrawing(turtle=self, delay=False)              
-
-        
     #====================================
     # Turtle Motion - Tell Turtle's State
     #====================================  
@@ -1615,6 +1341,193 @@ class Turtle:
         if not isinstance(y, (int,float)):
             raise ValueError('The y position must be a number.')    
         return round(math.sqrt( (self.getx() - x) ** 2 + (self.gety() - y) ** 2 ), 8)     
+
+    #========================================
+    # Turtle Motion - Setting and Measurement
+    #========================================
+
+    # Set the angle measurement units to radians.
+    def radians(self):
+        """ Sets the angle measurement units to radians."""
+        self.angle_mode = 'radians'
+        self.angle_conv = 180/math.pi
+
+    # Set the angle measurement units to degrees.
+    def degrees(self):
+        """ Sets the angle measurement units to radians."""
+        self.angle_mode = 'degrees'
+        self.angle_conv = 1  
+             
+#===============================================================================
+# Pen Control 
+#===============================================================================
+                              
+    #============================
+    # Pen Control - Drawing State
+    #============================
+
+    # Lowers the pen such that following turtle moves will now cause drawings
+    def pendown(self):
+        """Pulls the pen down -- drawing when moving.
+
+        Aliases: pendown | pd | down
+        """
+        self.is_pen_down = True
+    pd = pendown # alias
+    down = pendown # alias
+
+    # Raises the pen such that following turtle moves will not cause any drawings
+    def penup(self):
+        """Pulls the pen up -- no drawing when moving.
+
+        Aliases: penup | pu | up
+        """
+        self.is_pen_down = False
+    pu = penup # alias
+    up = penup # alias
+
+    # Change the width of the lines drawn by the turtle, in pixels
+    # If the function is called without arguments, it returns the current width
+    def pensize(self, width = None):
+        """Sets or returns the line thickness.
+
+        Aliases:  pensize | width
+
+        Args:
+            width: positive number
+
+        Set the line thickness to width or return it. If no argument is given,
+        current pensize is returned.
+        """
+        if width is None:
+            return self.pen_width
+        else:
+            if not isinstance(width, (int,float)):
+                raise ValueError('New width value must be an integer.')
+            if not width > 0:
+                raise ValueError('New width value must be positive.')
+            self.pen_width = width
+        self.win._updateDrawing(turtle=self, delay=False)
+    width = pensize  #alias
+
+    def isdown(self):
+        """Return True if pen is down, False if it's up."""
+
+        return self.is_pen_down
+
+    #============================
+    # Pen Control - Color Control
+    #============================   
+
+    # Return or set pencolor and fillcolor
+    def color(self, *args):
+        """Returns or sets the pencolor and fillcolor.
+
+        Args:
+            Several input formats are allowed.
+            They use 0, 1, 2, or 3 arguments as follows:
+
+            color()
+                Return the current pencolor and the current fillcolor
+                as a pair of color specification strings as are returned
+                by pencolor and fillcolor.
+            color(colorstring), color((r,g,b)), color(r,g,b)
+                inputs as in pencolor, set both, fillcolor and pencolor,
+                to the given value.
+            color(colorstring1, colorstring2),
+            color((r1,g1,b1), (r2,g2,b2))
+                equivalent to pencolor(colorstring1) and fillcolor(colorstring2)
+                and analogously, if the other input format is used.
+        """
+        
+        if args:
+            narg = len(args)
+            if narg == 1:
+                self.pen_color = self.fill_color = _processColor(args[0])
+            elif narg == 2:
+                self.pen_color = _processColor(args[0])
+                self.fill_color = _processColor(args[1])
+            elif narg == 3:
+                kolor = (args[0],args[1],args[2])
+                self.pen_color = self.fill_color = _processColor(kolor)
+            else:
+                raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
+        else:
+            return self.pen_color, self.fill_color
+        self.win._updateDrawing(turtle=self, delay=False)              
+    # Change the color of the pen
+    # If no params, return the current pen color
+    def pencolor(self, color = None, c2 = None, c3 = None):
+        """Returns or sets the pencolor.
+
+        Args:
+        Four input formats are allowed:
+        
+        pencolor():
+            Return the current pencolor as color specification string,
+            possibly in hex-number format. May be used as input to another 
+            color/pencolor/fillcolor call.
+            
+        pencolor(colorstring):
+            Colorstring is an htmlcolor specification string, such as "red"
+            or "yellow".
+            
+        pencolor((r, g, b)):
+            A tuple of r, g, and b, which represent an RGB color,
+            and each of r, g, and b are in the range 0..255.
+            
+        pencolor(r, g, b):
+            r, g, and b represent an RGB color, and each of r, g, and b
+            are in the range 0..255
+        """
+
+        if color is None:
+            return self.pen_color
+        elif c2 is not None:
+            if c3 is None:
+                raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
+            color = (color, c2, c3)
+
+        self.pen_color = _processColor(color)
+        self.win._updateDrawing(turtle=self, delay=False)    
+
+    # Change the fill color
+    # If no params, return the current fill color
+    def fillcolor(self, color = None, c2 = None, c3 = None):
+        """ Returns or sets the fillcolor.
+
+        Args:
+        Four input formats are allowed:
+        
+        pencolor():
+            Return the current pencolor as color specification string,
+            possibly in hex-number format. May be used as input to another 
+            color/pencolor/fillcolor call.
+            
+        pencolor(colorstring):
+            Colorstring is an htmlcolor specification string, such as "red"
+            or "yellow".
+            
+        pencolor((r, g, b)):
+            A tuple of r, g, and b, which represent an RGB color,
+            and each of r, g, and b are in the range 0..255.
+            
+        pencolor(r, g, b):
+            r, g, and b represent an RGB color, and each of r, g, and b
+            are in the range 0..255.
+    
+        The interior of the turtle is drawn with the newly set fillcolor.
+        """
+
+        if color is None:
+            return _fill_color
+        elif c2 is not None:
+           if c3 is None:
+                raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
+           color = (color, c2, c3)
+
+        self.fill_color = _processColor(color)
+        self.win._updateDrawing(turtle=self, delay=False)
         
     #=============================
     # Turtle Pen Control - Filling
@@ -1720,7 +1633,162 @@ class Turtle:
             raise ValueError("The fill-opacity must be a number between 0 and 1.")
         if (opacity < 0) or (opacity > 1):
             raise ValueError("The fill-opacity should be between 0 and 1.")
-        self.fill_opacity = opacity
+        self.fill_opacity = opacity            
+
+    #===========================
+    # More drawing contols
+    #===========================
+
+    # Clear text and turtle
+    def clear(self):
+        """Clears any text or drawing on the screen."""
+        self.svg_lines_string = ""
+        self.svg_fill_string = ""
+        self.svg_dots_string = ""
+        self.svg_stampsB_string = ""
+        self.svg_stampsT_string = ""
+        self.stampdictB = {}
+        self.stampdictT = {}
+        self.stampnum = 0
+        self.stamplist=[]
+        self.is_filling = False
+        self._updateDrawing() 
+
+    def write(self, obj, **kwargs):
+        """Write text at the current turtle position.
+
+        Args:
+            obj: string which is to be written to the TurtleScreen
+            **kwargs should be 
+                align: (optional) one of the strings "left", "center" or right"
+                font: (optional) a triple (fontname, fontsize, fonttype)
+                      fonttype can be 'bold', 'italic', 'underline', or 'normal'
+
+        Write the string text at the current turtle position according 
+        to align ("left", "center" or right") and with the given font.
+    
+        Defaults are left, ('Arial',12, 'normal')
+        """
+
+        # The move argument in turtle.py is ignored here. The ImageFont in the Pillow package does not
+        # seem to work in Colab because it cannot access the necessary font metric information.
+        # Perhaps there is way to use SVG attributes to determine the length of the string.
+        text = str(obj)
+        font_size = 12
+        font_family = 'Arial'
+        font_type = 'normal'
+        align = 'start'
+        anchor = {'left':'start','center':'middle','right':'end'}
+        if 'align' in kwargs and kwargs['align'] in ('left', 'center', 'right'):
+            align = anchor[kwargs['align']]
+        if 'font' in kwargs:
+            font = kwargs["font"]
+            if len(font) != 3 or isinstance(font[1], int) == False \
+                              or isinstance(font[0], str) == False \
+                              or font[2] not in {'bold','italic','underline','normal'}:
+                raise ValueError('Font parameter must be a triplet consisting of font family (str), font size (int), and font type (str). Font type can be one of {bold, italic, underline, normal}')
+            font_family = font[0]           
+            font_size = font[1]
+            font_type = font[2]
+        
+        style_string = ""
+        style_string += "font-size:" + str(font_size) + "px;"
+        style_string += "font-family:'" + font_family + "';"
+
+        if font_type == 'bold':
+            style_string += "font-weight:bold;"
+        elif font_type == 'italic':
+            style_string += "font-style:italic;"
+        elif font_type == 'underline':
+            style_string += "text-decoration: underline;"
+            
+        self.svg_lines_string += """<text x="{x}" y="{y}" fill="{strcolor}" text-anchor="{align}" style="{style}">{text}</text>""".format(
+            x=self.turtle_pos[0], 
+            y=self.turtle_pos[1], 
+            text=text, 
+            strcolor=self.pen_color, 
+            align=align, 
+            style=style_string)
+        
+        self.win._updateDrawing(turtle=self)        
+        
+    #==========================
+    # Turtle State - Visibility
+    #==========================
+
+    # Switch turtle visibility to ON
+    def showturtle(self):
+        """Makes the turtle visible.
+
+        Aliases: showturtle | st
+        """
+        self.is_turtle_visible = True
+        self.win._updateDrawing(turtle=self, delay=False)
+    st = showturtle # alias
+
+    # Switch turtle visibility to OFF
+    def hideturtle(self):
+        """Makes the turtle invisible.
+
+        Aliases: hideturtle | ht
+        """
+        self.is_turtle_visible = False
+        self.win._updateDrawing(turtle=self, delay=False)
+    ht = hideturtle # alias
+
+    def isvisible(self):
+        """Return True if the Turtle is shown, False if it's hidden."""
+
+        return self.is_turtle_visible
+
+    # Set turtle shape to shape with given name or, if name is not given, return name of current shape
+    def shape(self, name=None):
+        """Sets turtle shape to shape with given name / return current shapename.
+
+        Args:
+            name: an optional string, which is a valid shapename
+
+        Sets the turtle shape to shape with given name or, if name is not given,
+        returns the name of current shape.
+    
+        The possible turtle shapes include the ones from turtle.py: 
+        'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. 
+        The 'turtle' shape is the one that Tolga Atam included in his original 
+        ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
+        turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
+        """
+
+        if name is None:
+            return self.turtle_shape
+        elif name.lower() not in VALID_TURTLE_SHAPES:
+            raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
+        self.turtle_shape = name.lower()
+        self.win._updateDrawing(turtle=self)
+ 
+   
+
+   
+        
+    # If world coordinates are such that the aspect ratio of the axes does not match the
+    # aspect ratio of the graphic window (xscale != yscale), then this function is used to 
+    # set the orientation of the turtle to line up with the direction of motion in the 
+    # world coordinates.
+    def _turtleOrientation(self):
+        if self.win.xscale == abs(self.win.yscale):
+            return self.turtle_degree
+        else:
+            alpha = math.radians(self.heading()*self.angle_conv)
+            Dxy = (self.win.convertx(self.getx()+math.cos(alpha))-self.win.convertx(self.getx()),
+                   self.win.converty(self.gety()+math.sin(alpha))-self.win.converty(self.gety()))
+            deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
+            return 360-deg    
+    
+    
+
+        
+
+        
+
     
     #==========================
     # Turtle State - Appearance
@@ -1862,67 +1930,7 @@ class Turtle:
             self.tilt_angle += angle*self.angle_conv
             self.win._updateDrawing(target=self, delay=False) 
 
-    #===========================
-    # More drawing contols
-    #===========================
 
-    def write(self, obj, **kwargs):
-        """Write text at the current turtle position.
-
-        Args:
-            obj: string which is to be written to the TurtleScreen
-            **kwargs should be 
-                align: (optional) one of the strings "left", "center" or right"
-                font: (optional) a triple (fontname, fontsize, fonttype)
-                      fonttype can be 'bold', 'italic', 'underline', or 'normal'
-
-        Write the string text at the current turtle position according 
-        to align ("left", "center" or right") and with the given font.
-    
-        Defaults are left, ('Arial',12, 'normal')
-        """
-
-        # The move argument in turtle.py is ignored here. The ImageFont in the Pillow package does not
-        # seem to work in Colab because it cannot access the necessary font metric information.
-        # Perhaps there is way to use SVG attributes to determine the length of the string.
-        text = str(obj)
-        font_size = 12
-        font_family = 'Arial'
-        font_type = 'normal'
-        align = 'start'
-        anchor = {'left':'start','center':'middle','right':'end'}
-        if 'align' in kwargs and kwargs['align'] in ('left', 'center', 'right'):
-            align = anchor[kwargs['align']]
-        if 'font' in kwargs:
-            font = kwargs["font"]
-            if len(font) != 3 or isinstance(font[1], int) == False \
-                              or isinstance(font[0], str) == False \
-                              or font[2] not in {'bold','italic','underline','normal'}:
-                raise ValueError('Font parameter must be a triplet consisting of font family (str), font size (int), and font type (str). Font type can be one of {bold, italic, underline, normal}')
-            font_family = font[0]           
-            font_size = font[1]
-            font_type = font[2]
-        
-        style_string = ""
-        style_string += "font-size:" + str(font_size) + "px;"
-        style_string += "font-family:'" + font_family + "';"
-
-        if font_type == 'bold':
-            style_string += "font-weight:bold;"
-        elif font_type == 'italic':
-            style_string += "font-style:italic;"
-        elif font_type == 'underline':
-            style_string += "text-decoration: underline;"
-            
-        self.svg_lines_string += """<text x="{x}" y="{y}" fill="{strcolor}" text-anchor="{align}" style="{style}">{text}</text>""".format(
-            x=self.turtle_pos[0], 
-            y=self.turtle_pos[1], 
-            text=text, 
-            strcolor=self.pen_color, 
-            align=align, 
-            style=style_string)
-        
-        self.win._updateDrawing(turtle=self)
 
     #===========================
     # Animation Controls
