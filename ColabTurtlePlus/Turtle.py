@@ -561,6 +561,7 @@ class Screen:
             turtle.stampnum = 0
             turtle.stamplist=[]
             turtle.is_filling = False
+        self.turtles = []
         self._updateDrawing()        
         
 #----------------------------------------------------------------------------------------------        
