@@ -1694,18 +1694,25 @@ class Turtle:
         font_type = 'normal'
         align = 'start'
         anchor = {'left':'start','center':'middle','right':'end'}
-        if 'align' in kwargs and kwargs['align'] in ('left', 'center', 'right'):
-            align = anchor[kwargs['align']]
+        if 'align' in kwargs:
+            if kwargs['align'] in ('left', 'center', 'right'):
+                align = anchor[kwargs['align']]
+            else:
+                raise ValueError('Align parameter must be one of left, center, or right.')
         if 'font' in kwargs:
             font = kwargs["font"]
-            if len(font) != 3 or isinstance(font[1], int) == False \
-                              or isinstance(font[0], str) == False \
-                              or font[2] not in {'bold','italic','underline','normal'}:
+            if len(font) != 3 or font[2] not in {'bold','italic','underline','normal'}:
                 raise ValueError('Font parameter must be a triplet consisting of font family (str), font size (int), and font type (str). Font type can be one of {bold, italic, underline, normal}')
-            font_family = font[0]           
-            font_size = font[1]
-            font_type = font[2]
-        
+            elif isinstance(font[0], str) == True and isinstance(font[1], int) == True:
+                font_family = font[0]           
+                font_size = font[1]
+                font_type = font[2]
+            elif isinstance(font[0], int) == True and isinstance(font[1], str) == True:
+                font_family = font[1]           
+                font_size = font[0]
+                font_type = font[2]
+            else:
+                raise ValueError('Font parameter must be a triplet consisting of font family (str), font size (int), and font type (str).                
         style_string = ""
         style_string += "font-size:" + str(font_size) + "px;"
         style_string += "font-family:'" + font_family + "';"
