@@ -1652,7 +1652,7 @@ class Turtle:
         self.stampnum = 0
         self.stamplist=[]
         self.is_filling = False
-        self._updateDrawing() 
+        self.win._updateDrawing(turtle=self, delay=False) 
 
     def write(self, obj, **kwargs):
         """Write text at the current turtle position.
