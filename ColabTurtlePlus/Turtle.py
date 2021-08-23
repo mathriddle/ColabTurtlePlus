@@ -1712,7 +1712,7 @@ class Turtle:
                 font_size = font[0]
                 font_type = font[2]
             else:
-                raise ValueError('Font parameter must be a triplet consisting of font family (str), font size (int), and font type (str).                
+                raise ValueError('Font parameter must be a triplet consisting of font family (str), font size (int), and font type (str).')                
         style_string = ""
         style_string += "font-size:" + str(font_size) + "px;"
         style_string += "font-family:'" + font_family + "';"
