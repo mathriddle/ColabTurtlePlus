@@ -563,6 +563,35 @@ class Screen:
             turtle.is_filling = False
         self.turtles = []
         self._updateDrawing()        
+
+    def drawline(self,x_1,y_1,x_2=None,y_2=None, color=DEFAULT_PEN_COLOR, width=DEFAULT_PEN_WIDTH):
+        """Draws a line between two points
+    
+        Args:
+            x_1,y_1 : two numbers           or      a pair of numbers
+            x_2,y_2 : two numbers                   a pair of numbers
+        
+            drawline(x_1,y_1,x_2,y_2)               drawline((x_1,y_1),(x_2,y_2))       
+    
+        Draws a line from (x_1,y_1) to (x_2,y_2). This line is 
+        independent of any turtle motion.
+        """
+        if isinstance(x_1,tuple) and isinstance(y_1,tuple) and x_2==None and y_2==None:
+            if len(x_1) != 2 or len(y_1) != 2:
+                raise ValueError('The tuple argument must be of length 2.')
+            x_1,y = x_1
+            x_2,y_2 = y_1
+            y_1 = y
+     
+        _svg_drawlines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
+            x1=self.convertx(x_1),
+            y1=self.converty(y_1),
+            x2=self.convertx(x_2),
+            y2=self.converty(y_2),
+            pencolor = color
+            penwidth = width
+        self._updateDrawing()   
+    line = drawline #alias        
         
 #----------------------------------------------------------------------------------------------        
         
