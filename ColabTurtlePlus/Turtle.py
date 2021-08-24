@@ -612,7 +612,36 @@ class Screen:
         """Resets all turtles to their initial state."""
         for turtle in self.turtles:
             turtle.reset()
-       
+
+    # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
+    def mode(self, mode=None):
+        """Sets turtle mode
+    
+        Arg:
+            One of “standard”, “logo”, “world”, or "svg"
+    
+        "standard":
+            initial turtle heading is to the right (east) and positive
+            angles measured counterclockwise with 0° pointing right.
+        "logo":
+            initial turtle heading is upward (north) and positive angles
+            are measured clockwise with 0° pointing up.
+        "world":
+            used with user-defined coordinates. Setup is same as "standard".
+        "svg": 
+            This is a special mode to handle how the original ColabTurtle
+            worked. The coordinate system is the same as that used with SVG.
+            The upper left corner is (0,0) with positive x direction going
+            left to right, and the positive y direction going top to bottom.
+            Positive angles are measured clockwise with 0° pointing right.
+        
+        """
+        if mode is None:
+            return _mode
+        elif mode.lower() not in VALID_MODES:
+            raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
+        self.mode = mode.lower()   
+        self.resetscreen()        
         
 #----------------------------------------------------------------------------------------------        
         
