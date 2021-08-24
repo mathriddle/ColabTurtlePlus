@@ -154,6 +154,8 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
+#------------------------------------------------------------------------------------------------
+
 class Screen:
     def __init__(self, window_size : tuple = DEFAULT_WINDOW_SIZE):
         if not (isinstance(window_size, tuple) and len(window_size) == 2 and isinstance(
@@ -490,7 +492,42 @@ class Screen:
     def _converty(self, y):
         return (self.ymax-y)*self.yscale                
 
-
+    def drawline(self,x_1,y_1,x_2=None,y_2=None, color=None, width=None):
+        """Draws a line between two points
+    
+        Args:
+            x_1,y_1 : two numbers           or      a pair of numbers
+            x_2,y_2 : two numbers                   a pair of numbers
+            drawline(x_1,y_1,x_2,y_2)               drawline((x_1,y_1),(x_2,y_2))
+            
+            color : string color or tuple of RGB values
+            wdith: positive number
+       
+        Draws a line from (x_1,y_1) to (x_2,y_2) in specified color and width.
+        This line is independent of any turtle motion.
+        """
+        if isinstance(x_1,tuple) and isinstance(y_1,tuple) and x_2==None and y_2==None:
+            if len(x_1) != 2 or len(y_1) != 2:
+                raise ValueError('The tuple argument must be of length 2.')
+            x_1,y = x_1
+            x_2,y_2 = y_1
+            y_1 = y
+        if color is None:
+            color = DEFAULT_PEN_COLOR
+        else:
+            color = _processColor(color)
+        if width is None:
+            width = DEFAULT_PEN_WIDTH
+        
+        self._svg_drawlines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
+            x1=self._convertx(x_1),
+            y1=self._converty(y_1),
+            x2=self._convertx(x_2),
+            y2=self._converty(y_2),
+            pencolor = color,
+            penwidth = width)
+        self._updateDrawing()   
+    line = drawline #alias 
 
     #=====================
     # Window Control
@@ -570,40 +607,7 @@ class Screen:
         self.turtles = []
         self._updateDrawing()        
 
-    def drawline(self,x_1,y_1,x_2=None,y_2=None, color=None, width=None):
-        """Draws a line between two points
-    
-        Args:
-            x_1,y_1 : two numbers           or      a pair of numbers
-            x_2,y_2 : two numbers                   a pair of numbers
-        
-            drawline(x_1,y_1,x_2,y_2)               drawline((x_1,y_1),(x_2,y_2))       
-    
-        Draws a line from (x_1,y_1) to (x_2,y_2). This line is 
-        independent of any turtle motion.
-        """
-        if isinstance(x_1,tuple) and isinstance(y_1,tuple) and x_2==None and y_2==None:
-            if len(x_1) != 2 or len(y_1) != 2:
-                raise ValueError('The tuple argument must be of length 2.')
-            x_1,y = x_1
-            x_2,y_2 = y_1
-            y_1 = y
-        if color is None:
-            color = DEFAULT_PEN_COLOR
-        else:
-            color = _processColor(color)
-        if width is None:
-            width = DEFAULT_PEN_WIDTH
-        
-        self._svg_drawlines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
-            x1=self._convertx(x_1),
-            y1=self._converty(y_1),
-            x2=self._convertx(x_2),
-            y2=self._converty(y_2),
-            pencolor = color,
-            penwidth = width)
-        self._updateDrawing()   
-    line = drawline #alias        
+       
         
 #----------------------------------------------------------------------------------------------        
         
