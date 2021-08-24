@@ -570,7 +570,7 @@ class Screen:
         self.turtles = []
         self._updateDrawing()        
 
-    def drawline(self,x_1,y_1,x_2=None,y_2=None, color=DEFAULT_PEN_COLOR, width=DEFAULT_PEN_WIDTH):
+    def drawline(self,x_1,y_1,x_2=None,y_2=None, color=None, width=None):
         """Draws a line between two points
     
         Args:
@@ -588,7 +588,13 @@ class Screen:
             x_1,y = x_1
             x_2,y_2 = y_1
             y_1 = y
-     
+        if color is None:
+            color = DEFAULT_PEN_COLOR
+        else:
+            color = _ProcessColor(color)
+        if width is None:
+            width = DEFAULT_PEN_WIDTH
+        
         self._svg_drawlines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
             x1=self._convertx(x_1),
             y1=self._converty(y_1),
