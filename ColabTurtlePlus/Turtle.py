@@ -710,7 +710,7 @@ class Turtle:
             if self.win_mode != "world":
                 self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
             else:
-                self.turtle_pos = (window._convertx(0),window._converty(0)
+                self.turtle_pos = (window._convertx(0),window._converty(0))
                                    
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
