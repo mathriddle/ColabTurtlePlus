@@ -416,8 +416,8 @@ class Screen:
                     if turtle.is_pen_down:
                         turtle.svg_lines_string += \
                         """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
-                            x1=self.convertx(initial_pos[0]),
-                            y1=self.converty(initial_pos[1]),
+                            x1=self._convertx(initial_pos[0]),
+                            y1=self._converty(initial_pos[1]),
                             x2= turtle.turtle_pos[0],
                             y2= turtle.turtle_pos[1],
                             pcolor=turtle.pen_color, 
