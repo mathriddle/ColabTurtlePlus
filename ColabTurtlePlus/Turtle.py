@@ -705,9 +705,9 @@ class Turtle:
             if not (isinstance(position, tuple) and len(position) == 2):
                 raise ValueError('position must be a tuple of 2 integers')    
             else:
-                self.turtle_pos = (self.win._convertx(position[0]),self.win._converty(position[1]))  
+                self.turtle_pos = (window._convertx(position[0]),window._converty(position[1]))  
         else:
-            if self.win_mode != "world":
+            if window._mode != "world":
                 self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
             else:
                 self.turtle_pos = (window._convertx(0),window._converty(0))
