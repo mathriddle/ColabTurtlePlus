@@ -564,7 +564,7 @@ class Screen:
         if size is None:
             return self.window_size[1]
         else:
-            self.window_size[1] = size
+            self.window_size = (self.window_size[0],size)
             self._updateDrawing()
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
