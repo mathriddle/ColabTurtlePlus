@@ -594,7 +594,7 @@ class Screen:
             y1=self.converty(y_1),
             x2=self.convertx(x_2),
             y2=self.converty(y_2),
-            pencolor = color
+            pencolor = color,
             penwidth = width
         self._updateDrawing()   
     line = drawline #alias        
