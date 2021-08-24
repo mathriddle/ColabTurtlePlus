@@ -607,7 +607,11 @@ class Screen:
         self.turtles = []
         self._updateDrawing()        
 
-       
+    # Reset all Turtles on the Screen to their initial state.
+    def resetscreen(self):
+        """Resets all turtles to their initial state."""
+        for turtle in self.turtles:
+            turtle.reset()
         
 #----------------------------------------------------------------------------------------------        
         
