@@ -611,7 +611,8 @@ class Screen:
     def resetscreen(self):
         """Resets all turtles to their initial state."""
         for turtle in self.turtles:
-            turtle.reset()
+            turtle.reset(draw=False)
+        self._updateDrawing()
         
 #----------------------------------------------------------------------------------------------        
         
@@ -1704,7 +1705,7 @@ class Turtle:
     #===========================
 
     # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
-    def reset(self):
+    def reset(self, draw=True):
         """Resets the turtle to its initial state and clears drawing."""
 
         self.is_turtle_visible = True
@@ -1731,7 +1732,7 @@ class Turtle:
             self.turtle_pos = (self.win.window_size[0] / 2, self.win.window_size[1] / 2)
         else:
             self.turtle_pos = (self.win._convertx(0),self.win._converty(0))
-        self.win._updateDrawing(turtle=self, delay=False)
+        if draw: self.win._updateDrawing(turtle=self, delay=False)
 
     # Clear text and turtle
     def clear(self):
