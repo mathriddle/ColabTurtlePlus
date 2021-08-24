@@ -108,6 +108,7 @@ DEFAULT_ANGLE_MODE = 'degrees'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{backcolor};stroke:{kolor};stroke-width:1"/>
+        {drawlines}
         {stampsB}
         {lines}
         {dots}
@@ -165,6 +166,7 @@ class Screen:
         self.xscale = self.yscale = 1
         self.background_color = DEFAULT_BACKGROUND_COLOR
         self.border_color = DEFAULT_BORDER_COLOR
+        self._svg_drawlines_string = ""
         self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
 
     # Helper function that maps [0,13] speed values to ms delays
@@ -276,6 +278,7 @@ class Screen:
                                stampsB=self._generateSvgStampsB(),
                                stampsT=self._generateSvgStampsT(),
                                turtle=self._generateTurtlesSvgDrawing(),
+                               drawlines=self._svg_drawlines_string
                                kolor=self.border_color)
 
     def showSVG(self, turtle=False):
@@ -487,6 +490,8 @@ class Screen:
     def _converty(self, y):
         return (self.ymax-y)*self.yscale                
 
+
+
     #=====================
     # Window Control
     #=====================
@@ -561,6 +566,7 @@ class Screen:
             turtle.stampnum = 0
             turtle.stamplist=[]
             turtle.is_filling = False
+            self._svg_drawlines_string = ""
         self.turtles = []
         self._updateDrawing()        
 
@@ -583,7 +589,7 @@ class Screen:
             x_2,y_2 = y_1
             y_1 = y
      
-        _svg_drawlines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
+        self._svg_drawlines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
             x1=self.convertx(x_1),
             y1=self.converty(y_1),
             x2=self.convertx(x_2),
