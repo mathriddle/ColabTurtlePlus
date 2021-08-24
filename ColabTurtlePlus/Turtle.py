@@ -1722,7 +1722,7 @@ class Turtle:
         self.stampnum = 0
         self.stamplist = []
         self.turtle_degree = DEFAULT_TURTLE_DEGREE if (self.win.mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
-        self.turtle_orient = _turtle_degree
+        self.turtle_orient = self.turtle_degree
         if self.win.mode != "world":
             self.turtle_pos = (self.win.window_size[0] / 2, self.win.window_size[1] / 2)
         else:
