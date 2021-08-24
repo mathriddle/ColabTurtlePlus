@@ -163,7 +163,7 @@ class Screen:
             raise ValueError('window_size must be a tuple of 2 integers')
         self.turtles = []
         self.window_size = window_size
-        self.mode = DEFAULT_MODE
+        self._mode = DEFAULT_MODE
         self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
         self.xscale = self.yscale = 1
         self.background_color = DEFAULT_BACKGROUND_COLOR
@@ -201,9 +201,9 @@ class Screen:
 
         turtle_x = turtle.turtle_pos[0]
         turtle_y = turtle.turtle_pos[1]
-        if self.mode == "standard":
+        if self._mode == "standard":
             degrees = turtle.turtle_degree - turtle.tilt_angle    
-        elif self.mode == "world":
+        elif self._mode == "world":
             degrees = turtle.turtle_orient - turtle.tilt_angle
         else:
             degrees = turtle.turtle_degree + turtle.tilt_angle
@@ -637,10 +637,10 @@ class Screen:
         
         """
         if mode is None:
-            return _mode
+            return self._mode
         elif mode.lower() not in VALID_MODES:
             raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
-        self.mode = mode.lower()   
+        self._mode = mode.lower()   
         self.resetscreen()        
         
 #----------------------------------------------------------------------------------------------        
@@ -1023,13 +1023,13 @@ class Turtle:
         turtle_angle_orig = self.turtle_degree
         alpha = self.towards(x,y)*self.angle_conv
         units = self.distance(x,y)
-        if self.win.mode == "standard": 
+        if self.win._mode == "standard": 
             self.turtle_degree = (360 - alpha) % 360
             self.tilt_angle = -((turtle_angle_orig-self.tilt_angle+alpha) % 360)
-        elif self.win.mode == "logo":
+        elif self.win._mode == "logo":
             self.turtle_degree = (270 + alpha) % 360
             self.tilt_angle = turtle_angle_orig+self.tilt_angle-alpha-270
-        elif self.win.mode == "world":
+        elif self.win._mode == "world":
             self.turtle_degree = (360 - alpha) % 360
         else: # mode = "svg"
             self.turtle_degree = alpha % 360
@@ -1108,9 +1108,9 @@ class Turtle:
         deg = angle*self.angle_conv
         if not isinstance(angle, (int,float)):
             raise ValueError('Degrees must be a number.')
-        if self.win.mode in ["standard","world"]: 
+        if self.win._mode in ["standard","world"]: 
             new_degree = (360 - deg) 
-        elif self.win.mode == "logo":
+        elif self._win.mode == "logo":
             new_degree = (270 + deg) 
         else: # mode = "svg"
             new_degree = deg % 360
@@ -1146,13 +1146,13 @@ class Turtle:
         If the mode is "svg", moves the turtle to the center of 
         the drawing window.)
         """
-        if self.win.mode != 'svg':
+        if self.win._mode != 'svg':
             self.goto(0,0)
         else:
             self.goto( (self.win.window_size[0] / 2, self.win.window_size[1] / 2) )
         #_turtle_degree is always in degrees, but angle mode might be radians
         #divide by _angle_conv so angle sent to left or right is in the correct mode
-        if self.win.mode in ['standard','world']:
+        if self.win._mode in ['standard','world']:
             if self.turtle_degree <= 180:
                 self.left(self.turtle_degree/self.angle_conv)
             else:
@@ -1370,12 +1370,12 @@ class Turtle:
             raise ValueError('The y position must be a number.')   
         dx = x - self.getx()
         dy = y - self.gety()
-        if self.win.mode == "svg":
+        if self.win._mode == "svg":
             dy = -dy
         result = round(math.atan2(dy,dx)*180.0/math.pi, 10) % 360.0
-        if self.win.mode in ["standard","world"]:
+        if self.win._mode in ["standard","world"]:
             angle = result
-        elif self.win.mode == "logo":
+        elif self.win._mode == "logo":
             angle = (90 - result) % 360
         else:  # mode = "svg"
             angle = (360 - result) % 360
@@ -1388,9 +1388,9 @@ class Turtle:
     def heading(self):
         """Returns the turtle's current heading"""
 
-        if self.win.mode in ["standard","world"]:
+        if self.win._mode in ["standard","world"]:
             angle = (360 - self.turtle_degree) % 360
-        elif self.win.mode == "logo":
+        elif self.win._mode == "logo":
             angle = (self.turtle_degree - 270) % 360
         else: # mode = "svg"
             angle = self.turtle_degree % 360
@@ -1755,9 +1755,9 @@ class Turtle:
         self.stampdictT = {}
         self.stampnum = 0
         self.stamplist = []
-        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (self.win.mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (self.win._mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
         self.turtle_orient = self.turtle_degree
-        if self.win.mode != "world":
+        if self.win._mode != "world":
             self.turtle_pos = (self.win.window_size[0] / 2, self.win.window_size[1] / 2)
         else:
             self.turtle_pos = (self.win._convertx(0),self.win._converty(0))
@@ -2006,7 +2006,7 @@ class Turtle:
             return self.tilt_angle
         if self.turtle_speed != 0 and self.animate: 
             turtle_degree_temp = self.turtle_degree
-            if self.win.mode in ["standard","world"]:
+            if self.win._mode in ["standard","world"]:
                 self.left(-(self.tilt_angle-angle*self.angle_conv))
             else:
                 self.right(self.tilt_angle-angle*self.angle_conv)
@@ -2026,9 +2026,9 @@ class Turtle:
         Rotates the turtle shape by angle from its current tilt-angle,
         but does NOT change the turtle's heading (direction of movement).
         """
-        if self.turtle_speed != 0 and self.animate and self.win.mode != "world":
+        if self.turtle_speed != 0 and self.animate and self.win._mode != "world":
             turtle_degree_temp = self.turtle_degree
-            if self.win.mode in ["standard"]:
+            if self.win._mode == "standard":
                 self.left(angle*self.angle_conv)
             else:
                 self.right(angle*self.angle_conv)
