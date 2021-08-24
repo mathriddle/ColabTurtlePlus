@@ -591,7 +591,7 @@ class Screen:
         if color is None:
             color = DEFAULT_PEN_COLOR
         else:
-            color = _ProcessColor(color)
+            color = _processColor(color)
         if width is None:
             width = DEFAULT_PEN_WIDTH
         
