@@ -642,6 +642,32 @@ class Screen:
             raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
         self._mode = mode.lower()   
         self.resetscreen()        
+
+    # Set up user-defined coordinate system using lower left and upper right corners.
+    # Screen is reset.
+    # if the xscale and yscale are not equal, the aspect ratio of the axes and the
+    # graphic window will differ.  
+    def setworldcoordinates(self, llx, lly, urx, ury):
+        """Sets up a user defined coordinate-system.
+    
+        Args:
+            llx: a number, x-coordinate of lower left corner of window
+            lly: a number, y-coordinate of lower left corner of window
+            urx: a number, x-coordinate of upper right corner of window
+            ury: a number, y-coordinate of upper right corner of window
+        """      
+        if (urx-llx <= 0):
+            raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
+        elif (ury-lly <= 0):
+            raise ValueError("Lower left y-coordinate should be less than upper right y-coordinate")                     
+        self.mode("world")
+        self.xmin = llx
+        self.ymin = lly
+        self.xmax = urx
+        self.ymax = ury
+        self.xscale = self.window_size[0]/(self.xmax-self.xmin)
+        self.yscale = self.window_size[1]/(self.ymax-self.ymin)
+      
         
 #----------------------------------------------------------------------------------------------        
         
