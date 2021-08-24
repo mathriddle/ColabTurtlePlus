@@ -559,9 +559,13 @@ class Screen:
         return self.window_size[0]
 
     # Return turtle window height
-    def window_height(self):
+    def window_height(self,size=None):
         """Returns the turtle window height"""
-        return self.window_size[1]        
+        if size is None:
+            return self.window_size[1]
+        else:
+            self.window_size[1] = size
+            self._updateDrawing()
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
     def showborder(self, color = None, c2 = None, c3 = None):
