@@ -375,7 +375,7 @@ class Screen:
         svg_lines_string_orig = turtle.svg_lines_string       
         s = 1 if units > 0 else -1            
         if turtle.turtle_speed != 0 and turtle.animate:
-            if self.xscale == abs(self.yscale):
+            if round(self.xscale,6) == round(abs(self.yscale),6):
                 # standard, logo, svg mode, or world mode with same aspect ratio for axes and window
                 initial_pos = turtle.turtle_pos         
                 alpha = math.radians(turtle.turtle_degree)
@@ -640,7 +640,18 @@ class Screen:
             return self._mode
         elif mode.lower() not in VALID_MODES:
             raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
-        self._mode = mode.lower()   
+        self._mode = mode.lower()
+        if self._mode == "svg":
+            self.xmin = self.ymax = 0
+            self.xscale = 1
+            self.yscale = -1
+        elif self.mode != "world":
+            self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
+            self.xscale = self.yscale = 1
+        else
+            self.xscale = self.window_size[0]/(self.xmax-self.xmin)
+            self.yscale = self.window_size[1]/(self.ymax-self.ymin)
+        else:
         self.resetscreen()        
 
     # Set up user-defined coordinate system using lower left and upper right corners.
@@ -660,14 +671,12 @@ class Screen:
             raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
         elif (ury-lly <= 0):
             raise ValueError("Lower left y-coordinate should be less than upper right y-coordinate")                     
-        self.mode("world")
+
         self.xmin = llx
         self.ymin = lly
         self.xmax = urx
         self.ymax = ury
-        self.xscale = self.window_size[0]/(self.xmax-self.xmin)
-        self.yscale = self.window_size[1]/(self.ymax-self.ymin)
-      
+        self.mode("world")
         
 #----------------------------------------------------------------------------------------------        
         
@@ -680,7 +689,7 @@ class Turtle:
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
         self.fill_color = DEFAULT_FILL_COLOR
-        self.turtle_degree = DEFAULT_TURTLE_DEGREE
+        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (window_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
         self.turtle_orient = self.turtle_degree
         self.svg_lines_string = self.svg_fill_string = self.svg_dots_string = ""
         self.svg_stampsB_string = self.svg_stampsT_string = ""
@@ -692,14 +701,18 @@ class Turtle:
         self.stretchfactor = DEFAULT_STRETCHFACTOR
         self.shear_factor = DEFAULT_SHEARFACTOR
         self.outline_width = DEFAULT_OUTLINE_WIDTH
-        self.win = window
+
         if position is not None:
             if not (isinstance(position, tuple) and len(position) == 2):
                 raise ValueError('position must be a tuple of 2 integers')    
             else:
                 self.turtle_pos = (self.win._convertx(position[0]),self.win._converty(position[1]))  
         else:
-            self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
+            if self.win_mode != "world":
+                self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
+            else:
+                self.turtle_pos = (window._convertx(0),window._converty(0)
+                                   
         self.timeout = window._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
@@ -712,6 +725,7 @@ class Turtle:
         self.stampdictT = {}
         self.stampnum = 0
         self.stamplist=[]
+        self.win = window                                   
         window._add(self)
         
 #=================================================================================
