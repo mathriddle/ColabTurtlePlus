@@ -403,8 +403,8 @@ class Screen:
                 initial_pos = turtle.position()
                 alpha = math.radians(turtle.turtle_degree)
                 turtle.timeout = turtle.timeout*0.20
-                xpixunits = self.convertx(1)-self.convertx(0)  #length of 1 world unit along x-axis in pixels
-                ypixunits = self.converty(1)-self.converty(0)  #length of 1 world unit along y-axis in pixels
+                xpixunits = self._convertx(1)-self._convertx(0)  #length of 1 world unit along x-axis in pixels
+                ypixunits = self._converty(1)-self._converty(0)  #length of 1 world unit along y-axis in pixels
                 xstep = 10/(max(xpixunits,ypixunits))  #length of 10 pixels in world units 
                 ystep = xstep
                 dunits = s*xstep
@@ -412,7 +412,7 @@ class Screen:
                     dx = min(xstep,s*units)
                     dy = min(ystep,s*units)
                     temp_turtle_pos = (initial_pos[0] + s * dx * math.cos(alpha), initial_pos[1] - s * dy * math.sin(alpha))
-                    turtle.turtle_pos = (self.convertx(temp_turtle_pos[0]), self.converty(temp_turtle_pos[1]))
+                    turtle.turtle_pos = (self._convertx(temp_turtle_pos[0]), self._converty(temp_turtle_pos[1]))
                     if turtle.is_pen_down:
                         turtle.svg_lines_string += \
                         """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-linecap="round" style="stroke:{pcolor};stroke-width:{pwidth}" />""".format(
