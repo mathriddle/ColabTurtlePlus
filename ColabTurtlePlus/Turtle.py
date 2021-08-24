@@ -590,10 +590,10 @@ class Screen:
             y_1 = y
      
         self._svg_drawlines_string += """<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke-lineca="round" style="stroke:{pencolor};stroke-width:{penwidth}" />""".format(
-            x1=self.convertx(x_1),
-            y1=self.converty(y_1),
-            x2=self.convertx(x_2),
-            y2=self.converty(y_2),
+            x1=self._convertx(x_1),
+            y1=self._converty(y_1),
+            x2=self._convertx(x_2),
+            y2=self._converty(y_2),
             pencolor = color,
             penwidth = width)
         self._updateDrawing()   
