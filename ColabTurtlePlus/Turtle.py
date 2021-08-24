@@ -278,7 +278,7 @@ class Screen:
                                stampsB=self._generateSvgStampsB(),
                                stampsT=self._generateSvgStampsT(),
                                turtle=self._generateTurtlesSvgDrawing(),
-                               drawlines=self._svg_drawlines_string
+                               drawlines=self._svg_drawlines_string,
                                kolor=self.border_color)
 
     def showSVG(self, turtle=False):
