@@ -1701,7 +1701,7 @@ class Turtle:
 
     # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
     def reset(self):
-    """Resets the turtle to its initial state and clears drawing."""
+        """Resets the turtle to its initial state and clears drawing."""
 
         self.is_turtle_visible = True
         self.pen_color = DEFAULT_PEN_COLOR
