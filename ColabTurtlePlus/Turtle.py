@@ -1725,9 +1725,9 @@ class Turtle:
         self.turtle_orient = _turtle_degree
         if self.win.mode != "world":
             self.turtle_pos = (self.win.window_size[0] / 2, self.win.window_size[1] / 2)
-       else:
+        else:
             self.turtle_pos = (self.win._convertx(0),self.win._converty(0))
-       self.win._updateDrawing(turtle=self, delay=False)
+        self.win._updateDrawing(turtle=self, delay=False)
 
     # Clear text and turtle
     def clear(self):
