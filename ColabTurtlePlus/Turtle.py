@@ -645,7 +645,7 @@ class Screen:
             self.xmin = self.ymax = 0
             self.xscale = 1
             self.yscale = -1
-        elif self.mode != "world":
+        elif self._mode != "world":
             self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
             self.xscale = self.yscale = 1
         else: # mode==world
