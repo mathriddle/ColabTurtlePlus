@@ -688,7 +688,7 @@ class Turtle:
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
         self.fill_color = DEFAULT_FILL_COLOR
-        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (window_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (window._mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
         self.turtle_orient = self.turtle_degree
         self.svg_lines_string = self.svg_fill_string = self.svg_dots_string = ""
         self.svg_stampsB_string = self.svg_stampsT_string = ""
