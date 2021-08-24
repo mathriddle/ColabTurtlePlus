@@ -1699,6 +1699,36 @@ class Turtle:
     # More drawing contols
     #===========================
 
+    # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
+    def reset(self):
+    """Resets the turtle to its initial state and clears drawing."""
+
+        self.is_turtle_visible = True
+        self.pen_color = DEFAULT_PEN_COLOR
+        self.fill_color = DEFAULT_FILL_COLOR
+        self.is_pen_down = True
+        self.pen_width = DEFAULT_PEN_WIDTH
+        self.stretchfactor = DEFAULT_STRETCHFACTOR
+        self.shear_factor = DEFAULT_SHEARFACTOR
+        self.tilt_angle = DEFAULT_TILT_ANGLE
+        self.outline_width = DEFAULT_OUTLINE_WIDTH
+        self.svg_lines_string = ""
+        self.svg_fill_string = ""
+        self.svg_dots_string = ""
+        self.svg_stampsB_string = ""
+        self.svg_stampsT_string = ""
+        self.stampdictB = {}
+        self.stampdictT = {}
+        self.stampnum = 0
+        self.stamplist = []
+        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (_mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+        self.turtle_orient = _turtle_degree
+        if self.win.mode != "world":
+            self.turtle_pos = (self.win.window_size[0] / 2, self.win.window_size[1] / 2)
+       else:
+            self.turtle_pos = (self.win._convertx(0),self.win._converty(0))
+       self.win._updateDrawing(turtle=self, delay=False)
+
     # Clear text and turtle
     def clear(self):
         """Clears any text or drawing on the screen."""
