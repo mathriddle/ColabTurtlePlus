@@ -649,9 +649,9 @@ class Screen:
         elif self._mode != "world":
             self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
             self.xscale = self.yscale = 1
-      #  else: # mode==world
-      #      self.xscale = self.window_size[0]/(self.xmax-self.xmin)
-      #      self.yscale = self.window_size[1]/(self.ymax-self.ymin)
+       # else: # mode==world
+        #    self.xscale = self.window_size[0]/(self.xmax-self.xmin)
+         #   self.yscale = self.window_size[1]/(self.ymax-self.ymin)
         self.resetscreen()        
 
     # Set up user-defined coordinate system using lower left and upper right corners.
@@ -684,6 +684,9 @@ class Screen:
                 xsize = _window_size[0]
                 self.window_size = xsize, round((self.ymax-self.ymin)/(self.xmax-self.xmin)*xsize)
             self.xscale = self.yscale = self.window_size[0]/(self.xmax-self.xmin)
+        else: # mode==world
+            self.xscale = self.window_size[0]/(self.xmax-self.xmin)
+            self.yscale = self.window_size[1]/(self.ymax-self.ymin)
         self.mode("world")       
         
 #----------------------------------------------------------------------------------------------        
