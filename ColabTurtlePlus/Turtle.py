@@ -649,16 +649,16 @@ class Screen:
         elif self._mode != "world":
             self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
             self.xscale = self.yscale = 1
-        else: # mode==world
-            self.xscale = self.window_size[0]/(self.xmax-self.xmin)
-            self.yscale = self.window_size[1]/(self.ymax-self.ymin)
+      #  else: # mode==world
+      #      self.xscale = self.window_size[0]/(self.xmax-self.xmin)
+      #      self.yscale = self.window_size[1]/(self.ymax-self.ymin)
         self.resetscreen()        
 
     # Set up user-defined coordinate system using lower left and upper right corners.
     # Screen is reset.
     # if the xscale and yscale are not equal, the aspect ratio of the axes and the
     # graphic window will differ.  
-    def setworldcoordinates(self, llx, lly, urx, ury):
+    def setworldcoordinates(self, llx, lly, urx, ury, aspect=False):
         """Sets up a user defined coordinate-system.
     
         Args:
@@ -676,7 +676,15 @@ class Screen:
         self.ymin = lly
         self.xmax = urx
         self.ymax = ury
-        self.mode("world")
+        if aspect:
+            if _ymax-_ymin > _xmax-_xmin:
+                ysize = _window_size[1]
+                self.window_size = round((self.xmax-self.xmin)/(self.ymax-self.ymin)*ysize),ysize
+            else:
+                xsize = _window_size[0]
+                self.window_size = xsize, round((self.ymax-self.ymin)/(self.xmax-self.xmin)*xsize)
+            self.xscale = self.yscale = self.window_size[0]/(self.xmax-self.xmin)
+         self.mode("world")       
         
 #----------------------------------------------------------------------------------------------        
         
