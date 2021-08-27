@@ -677,11 +677,11 @@ class Screen:
         self.xmax = urx
         self.ymax = ury
         if aspect:
-            if _ymax-_ymin > _xmax-_xmin:
-                ysize = _window_size[1]
+            if self.ymax-self.ymin > self.xmax-self.xmin:
+                ysize = self.window_size[1]
                 self.window_size = round((self.xmax-self.xmin)/(self.ymax-self.ymin)*ysize),ysize
             else:
-                xsize = _window_size[0]
+                xsize = self.window_size[0]
                 self.window_size = xsize, round((self.ymax-self.ymin)/(self.xmax-self.xmin)*xsize)
             self.xscale = self.yscale = self.window_size[0]/(self.xmax-self.xmin)
         else: # mode==world
