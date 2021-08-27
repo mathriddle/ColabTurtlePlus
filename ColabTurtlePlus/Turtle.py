@@ -684,7 +684,7 @@ class Screen:
                 xsize = _window_size[0]
                 self.window_size = xsize, round((self.ymax-self.ymin)/(self.xmax-self.xmin)*xsize)
             self.xscale = self.yscale = self.window_size[0]/(self.xmax-self.xmin)
-         self.mode("world")       
+        self.mode("world")       
         
 #----------------------------------------------------------------------------------------------        
         
