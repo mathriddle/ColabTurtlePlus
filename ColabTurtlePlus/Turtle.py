@@ -400,6 +400,7 @@ class Screen:
                     units -= dunits
             else:
                 # world mode with aspect ratio of axes different than aspect ratio of the window
+                print("different aspect")
                 initial_pos = turtle.position()
                 alpha = math.radians(turtle.turtle_degree)
                 turtle.timeout = turtle.timeout*0.20
@@ -666,12 +667,13 @@ class Screen:
             lly: a number, y-coordinate of lower left corner of window
             urx: a number, x-coordinate of upper right corner of window
             ury: a number, y-coordinate of upper right corner of window
+            aspect: boolean - if True, window will be resized to maintain proper
+                    aspect ratio with the axes
         """      
         if (urx-llx <= 0):
             raise ValueError("Lower left x-coordinate should be less than upper right x-coordinate")
         elif (ury-lly <= 0):
             raise ValueError("Lower left y-coordinate should be less than upper right y-coordinate")                     
-
         self.xmin = llx
         self.ymin = lly
         self.xmax = urx
@@ -684,7 +686,7 @@ class Screen:
                 xsize = self.window_size[0]
                 self.window_size = xsize, round((self.ymax-self.ymin)/(self.xmax-self.xmin)*xsize)
             self.xscale = self.yscale = self.window_size[0]/(self.xmax-self.xmin)
-        else: # mode==world
+        else: 
             self.xscale = self.window_size[0]/(self.xmax-self.xmin)
             self.yscale = self.window_size[1]/(self.ymax-self.ymin)
         self.mode("world")       
