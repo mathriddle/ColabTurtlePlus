@@ -1595,7 +1595,7 @@ class Turtle:
                "outline"        : self.outline_width
               }
         if not (dictname or pendict):
-            sf_tmp = _shear_factor
+            sf_tmp = self.shear_factor
             _pd["shearfactor"] = round(math.tan((360-self.shear_factor)*math.pi/180),8)
             return _pd
             _pd["shearfactor"] = sf_tmp
