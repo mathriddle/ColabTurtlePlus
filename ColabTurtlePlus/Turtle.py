@@ -161,7 +161,7 @@ class Screen:
         if not (isinstance(window_size, tuple) and len(window_size) == 2 and isinstance(
                 window_size[0], int) and isinstance(window_size[1], int)):
             raise ValueError('window_size must be a tuple of 2 integers')
-        self.turtles = []
+        self._turtles = []
         self.window_size = window_size
         self._mode = DEFAULT_MODE
         self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
@@ -177,7 +177,7 @@ class Screen:
 
     # Add to list of turtles when new object created
     def _add(self, turtle):
-        self.turtles.append(turtle)
+        self._turtles.append(turtle)
         self._updateDrawing() 
 
     #=======================
@@ -187,7 +187,7 @@ class Screen:
     # Helper function for generating svg string of all the turtles
     def _generateTurtlesSvgDrawing(self):
         svg = ""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             svg += self._generateOneSvgTurtle(turtle = turtle)
         return svg
 
@@ -237,35 +237,35 @@ class Screen:
     # helper function for linking svg strings of text
     def _generateSvgLines(self):
         svg = ""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             svg+=turtle.svg_lines_string 
         return svg
 
     # helper function for linking svg strings of text
     def _generateSvgFill(self):
         svg = ""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             svg+=turtle.svg_fill_string 
         return svg
     
     # helper function for linking svg strings of text
     def _generateSvgDots(self):
         svg = ""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             svg+=turtle.svg_dots_string 
         return svg
     
     # helper function for linking svg strings of text
     def _generateSvgStampsB(self):
         svg = ""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             svg+=turtle.svg_stampsB_string 
         return svg
     
     # helper function for linking svg strings of text
     def _generateSvgStampsT(self):
         svg = ""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             svg+=turtle.svg_stampsT_string 
         return svg
     
@@ -593,7 +593,7 @@ class Screen:
     # Clear all text and all turtles on the screen
     def clearscreen(self):
         """Clears any text or drawing on the screen."""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             turtle.svg_lines_string = ""
             turtle.svg_fill_string = ""
             turtle.svg_dots_string = ""
@@ -605,13 +605,13 @@ class Screen:
             turtle.stamplist=[]
             turtle.is_filling = False
             self._svg_drawlines_string = ""
-        self.turtles = []
+        self._turtles = []
         self._updateDrawing()        
 
     # Reset all Turtles on the Screen to their initial state.
     def resetscreen(self):
         """Resets all turtles to their initial state."""
-        for turtle in self.turtles:
+        for turtle in self._turtles:
             turtle.reset()
 
     # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
@@ -689,6 +689,10 @@ class Screen:
             self.xscale = self.window_size[0]/(self.xmax-self.xmin)
             self.yscale = self.window_size[1]/(self.ymax-self.ymin)
         self.mode("world")       
+
+    def turtles(self):
+        """Return the list of turtles on the screen."""
+        return self.turtles()
         
 #----------------------------------------------------------------------------------------------        
         
