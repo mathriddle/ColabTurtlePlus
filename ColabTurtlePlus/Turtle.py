@@ -400,7 +400,6 @@ class Screen:
                     units -= dunits
             else:
                 # world mode with aspect ratio of axes different than aspect ratio of the window
-                print("different aspect")
                 initial_pos = turtle.position()
                 alpha = math.radians(turtle.turtle_degree)
                 turtle.timeout = turtle.timeout*0.20
