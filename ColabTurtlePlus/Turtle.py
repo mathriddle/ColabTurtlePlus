@@ -1556,6 +1556,84 @@ class Turtle:
         self.win._updateDrawing(turtle=self, delay=False)
     width = pensize  #alias
 
+    # Return or set the pen's attributes
+    def pen(self, dictname=None, **pendict):
+        """Returns or set the pen's attributes.
+
+        Args:
+            pen: a dictionary with some or all of the below listed keys.
+            **pendict: one or more keyword-arguments with the below
+                listed keys as keywords.
+
+        Returns or sets the pen's attributes in a 'pen-dictionary'
+        with the following key/value pairs:
+           "shown"         :   True/False
+           "pendown"       :   True/False
+           "pencolor"      :   color-string or color-tuple
+           "fillcolor"     :   color-string or color-tuple
+           "pensize"       :   positive number
+           "speed"         :   number in range 0..13
+           "stretchfactor" :   (positive number, positive number)
+           "shearfactor"   :   number
+           "outline"       :   positive number
+           "tilt"          :   number
+
+        This dictionary can be used as argument for a subsequent
+        pen()-call to restore the former pen-state. Moreover one
+        or more of these attributes can be provided as keyword-arguments.
+        This can be used to set several pen attributes in one statement.
+        """
+        _pd = {"shown"          : self.is_turtle_visible,
+               "pendown"        : self.is_pen_down,
+               "pencolor"       : self.pen_color,
+               "fillcolor"      : self.fill_color,
+               "pensize"        : self.pen_width,
+               "speed"          : self.turtle_speed,
+               "stretchfactor"  : self.stretchfactor,
+               "shearfactor"    : self.shear_factor,
+               "tilt"           : self.tilt_angle,
+               "outline"        : self.outline_width
+              }
+        if not (dictname or pendict):
+            sf_tmp = _shear_factor
+            _pd["shearfactor"] = round(math.tan((360-self.shear_factor)*math.pi/180),8)
+            return _pd
+            _pd["shearfactor"] = sf_tmp
+        if isinstance(dictname,dict):
+            p = dictname
+        else:
+            p = {}
+
+        p.update(pendict)
+        if "shown" in p:
+            self.is_turtle_visible = p["shown"]
+        if "pendown" in p:
+            self.is_pen_down = p["pendown"]
+        if "pencolor" in p:
+            self.pen_color = _processColor(p["pencolor"])
+        if "fillcolor" in p:
+            self.fill_color = _processColor(p["fillcolor"])
+        if "pensize" in p:
+            self.pen_width = p["pensize"]
+        if "speed" in p:
+            self.turtle_speed = p["speed"]
+            self.timeout = self.win._speedToSec(self.turtle_speed)
+        if "stretchfactor" in p:
+            sf = p["stretchfactor"]
+            if isinstance(sf, (int,float)):
+                sf = (sf,sf)
+            self.stretchfactor = sf
+        if "shearfactor" in p:
+            alpha = math.atan(p["shearfactor"])*180/math.pi
+            self.shear_factor = (360 - alpha) % 360
+            p["shearfactor"] = self.shear_factor
+        if "tilt" in p:
+            self.tilt_angle = p["tilt"]*self.angle_conv
+        if "outline" in p:
+           self.outline_width = p["outline"]
+       self.win._updateDrawing(turtle=self, delay=False)
+
+
     def isdown(self):
         """Return True if pen is down, False if it's up."""
 
