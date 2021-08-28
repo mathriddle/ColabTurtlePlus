@@ -692,7 +692,7 @@ class Screen:
 
     def turtles(self):
         """Return the list of turtles on the screen."""
-        return self.turtles()
+        return self._turtles()
         
 #----------------------------------------------------------------------------------------------        
         
