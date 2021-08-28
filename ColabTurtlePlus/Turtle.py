@@ -1631,7 +1631,7 @@ class Turtle:
             self.tilt_angle = p["tilt"]*self.angle_conv
         if "outline" in p:
            self.outline_width = p["outline"]
-       self.win._updateDrawing(turtle=self, delay=False)
+        self.win._updateDrawing(turtle=self, delay=False)
 
 
     def isdown(self):
