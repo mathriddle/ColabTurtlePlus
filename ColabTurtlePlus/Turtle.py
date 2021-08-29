@@ -142,15 +142,15 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
 
-shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
-              "ring":TURTLE_RING_SVG_TEMPLATE, 
-              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
-              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
-              "square":TURTLE_SQUARE_SVG_TEMPLATE,
-              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
-              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
-              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
-              "blank":""}
+#shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
+#              "ring":TURTLE_RING_SVG_TEMPLATE, 
+#              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
+#              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
+#              "square":TURTLE_SQUARE_SVG_TEMPLATE,
+#              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
+#              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
+#              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
+#              "blank":""}
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
@@ -216,7 +216,7 @@ class Screen:
         else:
             degrees -= 90
        
-        svg = shapeDict[turtle.turtle_shape].format(
+        svg = turtle.shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
                            pcolor=turtle.pen_color,
                            turtle_x=turtle_x, 
@@ -741,8 +741,19 @@ class Turtle:
         self.stampdictT = {}
         self.stampnum = 0
         self.stamplist=[]
+        self.shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
+              "ring":TURTLE_RING_SVG_TEMPLATE, 
+              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
+              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
+              "square":TURTLE_SQUARE_SVG_TEMPLATE,
+              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
+              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
+              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
+              "blank":""}
         self.win = window                                   
         window._add(self)
+        
+        
         
 #=================================================================================
 # Turtle Motion
@@ -815,7 +826,7 @@ class Turtle:
             self.win._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
-            template = shapeDict[self.turtle_shape]        
+            template = self.shapeDict[self.turtle_shape]        
             tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
@@ -832,13 +843,13 @@ class Turtle:
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
             newtemplate = template.replace("</g>",tmp)
-            shapeDict.update({self.turtle_shape:newtemplate})
+            self.shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
             self.win._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
-            shapeDict.update({self.turtle_shape:template})
+            self.shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
         else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
