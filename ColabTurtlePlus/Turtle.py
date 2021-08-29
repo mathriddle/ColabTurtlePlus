@@ -2200,7 +2200,12 @@ class Turtle:
     def animationOn(self):
         """Turns animation on"""
         self.animate = True        
-             
+
+    def clone(self):
+        cloneTurtle = Turtle(self.win,position=self.turtle_pos)
+        cloneTurtle.shape(self.shape())
+        return cloneTurtle
+        
 ########################################################################################
 #  Helper functions for color control -- apply to both screen and turtles
 ########################################################################################        
