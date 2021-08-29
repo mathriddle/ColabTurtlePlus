@@ -2204,6 +2204,7 @@ class Turtle:
     def clone(self):
         cloneTurtle = Turtle(self.win,position=self.position())
         cloneTurtle.shape(self.shape())
+        cloneTurtle.pen(self.pen())
         return cloneTurtle
         
 ########################################################################################
