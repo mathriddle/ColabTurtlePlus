@@ -2202,7 +2202,8 @@ class Turtle:
         self.animate = True        
 
     def clone(self):
-        cloneTurtle = Turtle(self.win,position=self.turtle_pos)
+        cPos = self.win._convertx(self.turtle_pos[0]),self.win._converty(self.turtle_pos[1])
+        cloneTurtle = Turtle(self.win,position=cPos)
         cloneTurtle.shape(self.shape())
         return cloneTurtle
         
