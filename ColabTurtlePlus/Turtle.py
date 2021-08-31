@@ -515,7 +515,7 @@ class Screen:
         if color is None:
             color = DEFAULT_PEN_COLOR
         else:
-            color = _processColor(color)
+            color = self._processColor(color)
         if width is None:
             width = DEFAULT_PEN_WIDTH
         
@@ -550,7 +550,7 @@ class Screen:
                 raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
             color = (color, c2, c3)
 
-        self.background_color = _processColor(color)
+        self.background_color = self._processColor(color)
         self._updateDrawing(delay=False)     
 
     # Return turtle window width
@@ -581,7 +581,7 @@ class Screen:
             if c3 is None:
                 raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
             color = (color, c2, c3)
-        self.border_color = _processColor(color)
+        self.border_color = self._processColor(color)
         self._updateDrawing() 
 
     # Hide the border around the graphics window.    
@@ -693,7 +693,68 @@ class Screen:
     def turtles(self):
         """Return the list of turtles on the screen."""
         return self._turtles
+
+    ########################################################################################
+    #  Helper functions for color control
+    ########################################################################################        
         
+    # Used to validate a color string
+    def _validateColorString(self, color):
+        if color in VALID_COLORS: # 140 predefined html color names
+            return True
+        if re.search("^#(?:[0-9a-fA-F]{3}){1,2}$", color): # 3 or 6 digit hex color code
+            return True
+        if re.search("rgb\(\s*(?:(?:\d{1,2}|1\d\d|2(?:[0-4]\d|5[0-5]))\s*,?){3}\)$", color): # rgb color code
+            return True
+        return False
+
+    # Used to validate if a 3 tuple of integers is a valid RGB color
+    def _validateColorTuple(self, color):
+        if len(color) != 3:
+            return False
+        if not isinstance(color[0], int) or not isinstance(color[1], int) or not isinstance(color[2], int):
+            return False
+        if not 0 <= color[0] <= 255 or not 0 <= color[1] <= 255 or not 0 <= color[2] <= 255:
+            return False
+        return True
+
+    # Helps validate color input to functions
+    def _processColor(self,color):
+        if isinstance(color, str):    
+            if color == "": color = "none"
+            color = color.lower().strip()
+            if 'rgb' not in color: color = color.replace(" ","")
+            if not _validateColorString(color):
+                err = 'Color ' + color + ' is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
+                raise ValueError(err)
+            return color
+        elif isinstance(color, tuple):
+            if not _validateColorTuple(color):
+                err = 'Color tuple ' + color + ' is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
+                raise ValueError(err)
+            return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
+        else:
+            err = 'The color parameter ' + color + ' must be a color string or a tuple'
+            raise ValueError(err)
+
+    # Get the color corresponding to position n in the valid color list
+    def getcolor(self,n):
+        """ Returns the color string in the valid color list at position n
+    
+        Args:
+            n: an integer between 0 and 139
+    
+        Returns:
+            str: color string in the valid color list at position n
+        """
+
+        if not isinstance(n,(int,float)):
+            raise valueError("color index must be an integer between 0 and 139")
+        n = int(round(n))
+        if (n < 0) or (n > 139):
+            raise valueError("color index must be an integer between 0 and 139")
+        return VALID_COLORS[n]
+
 #----------------------------------------------------------------------------------------------        
         
 class Turtle:    
@@ -985,7 +1046,7 @@ class Turtle:
         """
         if not color:
             if isinstance(size, (str, tuple)):
-                color = _processColor(size)
+                color = self._processColor(size)
                 size = self.pen_width + max(self.pen_width,4)
             else:
                 color = self.pen_color
@@ -994,7 +1055,7 @@ class Turtle:
         else:
             if size is None:
                 size = self.pen_width + max(self.pen_width,4)
-            color = _processColor(color[0])
+            color = self._processColor(color[0])
         self.svg_dots_string += """<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{kolor}" fill-opacity="1" />""".format(
             radius=size/2,
             cx=self.turtle_pos[0],
@@ -1625,9 +1686,9 @@ class Turtle:
         if "pendown" in p:
             self.is_pen_down = p["pendown"]
         if "pencolor" in p:
-            self.pen_color = _processColor(p["pencolor"])
+            self.pen_color = self._processColor(p["pencolor"])
         if "fillcolor" in p:
-            self.fill_color = _processColor(p["fillcolor"])
+            self.fill_color = self._processColor(p["fillcolor"])
         if "pensize" in p:
             self.pen_width = p["pensize"]
         if "speed" in p:
@@ -1682,13 +1743,13 @@ class Turtle:
         if args:
             narg = len(args)
             if narg == 1:
-                self.pen_color = self.fill_color = _processColor(args[0])
+                self.pen_color = self.fill_color = self._processColor(args[0])
             elif narg == 2:
-                self.pen_color = _processColor(args[0])
-                self.fill_color = _processColor(args[1])
+                self.pen_color = self._processColor(args[0])
+                self.fill_color = self._processColor(args[1])
             elif narg == 3:
                 kolor = (args[0],args[1],args[2])
-                self.pen_color = self.fill_color = _processColor(kolor)
+                self.pen_color = self.fill_color = self._processColor(kolor)
             else:
                 raise ValueError('Syntax: color(colorstring), color((r,g,b)), color(r,g,b), color(string1,string2), color((r1,g1,b1),(r2,g2,b2))')
         else:
@@ -1727,7 +1788,7 @@ class Turtle:
                 raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
             color = (color, c2, c3)
 
-        self.pen_color = _processColor(color)
+        self.pen_color = self._processColor(color)
         self.win._updateDrawing(turtle=self, delay=False)    
 
     # Change the fill color
@@ -1765,7 +1826,7 @@ class Turtle:
                 raise ValueError('If the second argument is set, the third arguments must be set as well to complete the rgb set.')
            color = (color, c2, c3)
 
-        self.fill_color = _processColor(color)
+        self.fill_color = self._processColor(color)
         self.win._updateDrawing(turtle=self, delay=False)
         
     #=============================
@@ -2219,51 +2280,24 @@ class Turtle:
         cloneTurtle.pen(self.pen())
         return cloneTurtle
         
-########################################################################################
-#  Helper functions for color control -- apply to both screen and turtles
-########################################################################################        
+    ########################################################################################
+    #  Helper functions for color control 
+    ########################################################################################        
         
-# Used to validate a color string
-def _validateColorString(color):
-    if color in VALID_COLORS: # 140 predefined html color names
-        return True
-    if re.search("^#(?:[0-9a-fA-F]{3}){1,2}$", color): # 3 or 6 digit hex color code
-        return True
-    if re.search("rgb\(\s*(?:(?:\d{1,2}|1\d\d|2(?:[0-4]\d|5[0-5]))\s*,?){3}\)$", color): # rgb color code
-        return True
-    return False
+    # Used to validate a color string
+    def _validateColorString(self,color):
+        return self.win._validadeColorString(color)
 
-# Used to validate if a 3 tuple of integers is a valid RGB color
-def _validateColorTuple(color):
-    if len(color) != 3:
-        return False
-    if not isinstance(color[0], int) or not isinstance(color[1], int) or not isinstance(color[2], int):
-        return False
-    if not 0 <= color[0] <= 255 or not 0 <= color[1] <= 255 or not 0 <= color[2] <= 255:
-        return False
-    return True
+    # Used to validate if a 3 tuple of integers is a valid RGB color
+    def _validateColorTuple(self, color):
+        return self.win._validateColorTuple(color)
 
-# Helps validate color input to functions
-def _processColor(color):
-    if isinstance(color, str):    
-        if color == "": color = "none"
-        color = color.lower().strip()
-        if 'rgb' not in color: color = color.replace(" ","")
-        if not _validateColorString(color):
-            err = 'Color ' + color + ' is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
-            raise ValueError(err)
-        return color
-    elif isinstance(color, tuple):
-        if not _validateColorTuple(color):
-            err = 'Color tuple ' + color + ' is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
-            raise ValueError(err)
-        return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
-    else:
-        err = 'The color parameter ' + color + ' must be a color string or a tuple'
-        raise ValueError(err)
+    # Helps validate color input to functions
+    def _processColor(self color):
+        return self.win._processColor(color)
 
-# Get the color corresponding to position n in the valid color list
-def getcolor(n):
+    # Get the color corresponding to position n in the valid color list
+    def getcolor(self,n):
     """ Returns the color string in the valid color list at position n
     
     Args:
@@ -2272,11 +2306,5 @@ def getcolor(n):
     Returns:
         str: color string in the valid color list at position n
     """
-
-    if not isinstance(n,(int,float)):
-        raise valueError("color index must be an integer between 0 and 139")
-    n = int(round(n))
-    if (n < 0) or (n > 139):
-        raise valueError("color index must be an integer between 0 and 139")
-    return VALID_COLORS[n]
+        return self.win._getcolor(n)
 
