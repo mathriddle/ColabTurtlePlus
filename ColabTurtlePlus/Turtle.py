@@ -724,12 +724,12 @@ class Screen:
             if color == "": color = "none"
             color = color.lower().strip()
             if 'rgb' not in color: color = color.replace(" ","")
-            if not _validateColorString(color):
+            if not self._validateColorString(color):
                 err = 'Color ' + color + ' is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
                 raise ValueError(err)
             return color
         elif isinstance(color, tuple):
-            if not _validateColorTuple(color):
+            if not self._validateColorTuple(color):
                 err = 'Color tuple ' + color + ' is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
                 raise ValueError(err)
             return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
