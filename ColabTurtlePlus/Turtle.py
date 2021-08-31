@@ -2293,7 +2293,7 @@ class Turtle:
         return self.win._validateColorTuple(color)
 
     # Helps validate color input to functions
-    def _processColor(self color):
+    def _processColor(self, color):
         return self.win._processColor(color)
 
     # Get the color corresponding to position n in the valid color list
