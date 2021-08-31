@@ -2298,13 +2298,13 @@ class Turtle:
 
     # Get the color corresponding to position n in the valid color list
     def getcolor(self,n):
-    """ Returns the color string in the valid color list at position n
+        """ Returns the color string in the valid color list at position n
     
-    Args:
-        n: an integer between 0 and 139
+        Args:
+            n: an integer between 0 and 139
     
-    Returns:
-        str: color string in the valid color list at position n
-    """
+        Returns:
+            str: color string in the valid color list at position n
+        """
         return self.win._getcolor(n)
 
