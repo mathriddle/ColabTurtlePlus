@@ -63,7 +63,8 @@ Original ColabTurtle defaults can be set by calling oldDefaults() after importin
   default window size to 800x500. It also sets the mode to "svg".
 Added jumpto function to go directly to a given location with drawing or animation.
 
-v2.0.0 Switched to using classes to allow for multiple turtles
+v2.0.0 Sept. 2021, Switched to using classes to allow for multiple turtles
+Added clone method to Turtle class
 
 """
 
@@ -142,16 +143,6 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
 
-#shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
-#              "ring":TURTLE_RING_SVG_TEMPLATE, 
-#              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
-#              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
-#              "square":TURTLE_SQUARE_SVG_TEMPLATE,
-#              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
-#              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
-#              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
-#              "blank":""}
-
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
 #------------------------------------------------------------------------------------------------
@@ -168,7 +159,6 @@ class Screen:
         self.xscale = self.yscale = 1
         self.background_color = DEFAULT_BACKGROUND_COLOR
         self.border_color = DEFAULT_BORDER_COLOR
-        self._svg_drawlines_string = ""
         self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
 
     # Helper function that maps [0,13] speed values to ms delays
@@ -811,6 +801,7 @@ class Turtle:
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
+        if window._mode == "svg": shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
         self.screen = window                                   
         window._add(self)
         
@@ -2308,3 +2299,24 @@ class Turtle:
         """
         return self.screen._getcolor(n)
 
+# Set the defaults used in the original version of ColabTurtle package
+def oldDefaults():
+    """Set the defaults used in the original version of ColabTurtle package."""
+
+    global DEFAULT_BACKGROUND_COLOR
+    global DEFAULT_PEN_COLOR
+    global DEFAULT_PEN_WIDTH
+    global DEFAULT_MODE
+    global DEFAULT_TURTLE_SHAPE
+    global DEFAULT_WINDOW_SIZE
+    global DEFAULT_TURTLE_DEGREE
+    global DEFAULT_SPEED
+    
+    DEFAULT_BACKGROUND_COLOR = "black"
+    DEFAULT_PEN_COLOR = "white"
+    DEFAULT_PEN_WIDTH = 4
+    DEFAULT_MODE = 'svg'
+    DEFAULT_TURTLE_SHAPE = "turtle"
+    DEFAULT_WINDOW_SIZE = (800, 500)
+    DEFAULT_SPEED = 4
+    shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
