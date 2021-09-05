@@ -157,6 +157,7 @@ class Screen:
         self._mode = mode
         self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
         self.xscale = self.yscale = 1
+        self._svg_drawlines_string = ""
         self.background_color = DEFAULT_BACKGROUND_COLOR
         self.border_color = DEFAULT_BORDER_COLOR
         self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
