@@ -1,6 +1,8 @@
 # ColabTurtlePlus
-An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
 
+**NOTE:** This is version 1.5. Version 2 of ColabTurtlePlus is available that makes use of classes, thus allowing for multiple turtles. Version 1.5 will remain available at PyPI using "pip install ColabTurtlePlus==1.5".
+
+An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
 
 This is a module for drawing classic Turtle figures on Google Colab notebooks. It can also be used in Jupyter Lab notebooks. The graphics are drawn using SVG tags. The SVG commands can be printed on screen (after the drawing is completed) or saved to a file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
 
@@ -25,6 +27,28 @@ or
 where turtle (or other name) is the name of the turtle. As Colab stores the declared variables in the runtime, call this before using 
 
     turtle.initializeTurtle()
+
+Example
+---
+```
+from ColabTurtlePlus.Turtle import *
+initializeTurtle(window=(300,300))
+showborder()
+color("red", "yellow")
+shape("turtle")
+pensize(2)
+speed(7)
+begin_fill()
+for _ in range(4):
+  forward(100)
+  left(90)
+circle(-50)
+end_fill()
+color("black","green")
+saveSVG(turtle=True)
+```
+The resulting image is  
+![svg image](example.svg)
 
 Main differences from ColabTurtle
 ----
@@ -77,3 +101,4 @@ Main differences with classic turtle.py
 * There is a fillopacity function that sets the global fill-opacity used by SVG to fill an object. The default is 1. The begin_fill() function can take an argument between 0 and 1 to set the fill_opacity just for that fill. See details below.
 * The stamp function has an optional layer argument. The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
 * Not all the functions from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
+

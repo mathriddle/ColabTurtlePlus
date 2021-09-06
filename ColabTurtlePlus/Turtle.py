@@ -421,7 +421,7 @@ def showSVG(turtle=False):
     header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
             fillcolor=_background_color,
             kolor=_border_color)
-    image = _svg_lines_string.replace(">","/>\n")
+    image = _svg_lines_string.replace("/>","/>\n")
     stampsB = _svg_stampsB_string.replace("</g>","</g>\n")
     stampsT = _svg_stampsT_string.replace("</g>","</g>\n")    
     dots = _svg_dots_string.replace(">",">\n")
@@ -1089,11 +1089,13 @@ def clearstamps(n=None):
     """
 
     if n is None:
-        [_clearstamp(k) for k in _stamplist]
+        toDelete = _stamplist[:]
     elif n > 0:
-        [_clearstamp(k) for k in _stamplist[:n]]
+        toDelete = _stamplist[:n]
     elif n < 0:
-        [_clearstamp(k) for k in _stamplist[n:]]
+        toDelete = _stamplist[n:]
+    for k in toDelete:
+        _clearstamp(k)
         
 # Update the speed of the moves, [0,13]
 # If argument is omitted, it returns the speed.

@@ -9,7 +9,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='ColabTurtlePlus',
-    version='1.4.4',
+    version='1.5',
     packages=['ColabTurtlePlus'],
     url='https://github.com/mathriddle/ColabTurtlePlus',
     license='MIT',
