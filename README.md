@@ -1,6 +1,8 @@
 # ColabTurtlePlus
-An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
 
+**NOTE:** This is version 1.5. Version 2 of ColabTurtlePlus is available that makes use of classes, thus allowing for multiple turtles. Version 1.5 will remain available at PyPI using "pip install ColabTurtlePlus==1.5".
+
+An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
 
 This is a module for drawing classic Turtle figures on Google Colab notebooks. It can also be used in Jupyter Lab notebooks. The graphics are drawn using SVG tags. The SVG commands can be printed on screen (after the drawing is completed) or saved to a file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
 
