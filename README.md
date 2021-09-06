@@ -1,6 +1,5 @@
 # ColabTurtlePlus
-An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
-
+An extension of the original ColabTurtle by Tolga Atam (tolgaatam) with the addition of classes to allow for multiple turtles. Also includes some code from jaronma ColabTurtle_2 repo.
 
 This is a module for drawing classic Turtle figures on Google Colab notebooks. It can also be used in Jupyter Lab notebooks. The graphics are drawn using SVG tags. The SVG commands can be printed on screen (after the drawing is completed) or saved to a file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
 
@@ -8,53 +7,45 @@ Installation
 ----
 Create an empty code cell and type:
 
-   !pip install ColabTurtlePlus
+    !pip install ColabTurtlePlus
 
 Run the code cell to install the library.
 
+**Note:** The original non-class version of ColabTurtlePlus can be installed using !pip install ColabTurtlePlus==1.5
+
 Usage
 ----
-In any code cell, import the package using either
+In any code cell, import the package using
 
     from ColabTurtlePlus.Turtle import *
-
-or
-
-    import ColabTurtlePlus.Turtle as turtle
-
-where turtle (or other name) is the name of the turtle. As Colab stores the declared variables in the runtime, call this before using 
-
-    turtle.initializeTurtle()
 
 Example
 ---
 ```
 from ColabTurtlePlus.Turtle import *
-initializeTurtle(window=(300,300))
-showborder()
-color("red", "yellow")
-shape("turtle")
-pensize(2)
-speed(7)
-begin_fill()
-forward(100)
-left(90)
-forward(100)
-left(90)
-forward(100)
-left(90)
-forward(100)
-left(90)
-circle(-50)
-end_fill()
-color("black","green")
-saveSVG(turtle=True)
+window = Screen(size=(300,300))
+window.showborder()
+T = Turtle(window)
+T.color("red", "yellow")
+T.shape("turtle")
+T.pensize(2)
+T.speed(7)
+T.begin_fill()
+for _ in range(4)
+  T.forward(100)
+  T.left(90)
+T.circle(-50)
+T.end_fill()
+T.color("black","green")
+window.saveSVG(turtle=True)
 ```
 The resulting image is  
 ![svg image](example.svg)
 
 Main differences from ColabTurtle
 ----
+This version implements classes. All turtles must be named.
+
 Some of the default values have been changed to mirror those in turtle.py. In particular,
 * Default background color is white
 * Default pen color is black
@@ -66,7 +57,7 @@ Some of the default values have been changed to mirror those in turtle.py. In pa
    * initial turtle heading is to the right (east)
    * positive angles are measured counterclockwise with 0° pointing right
    
-The original default values in ColabTurtle can be used by calling turtle.oldDefaults() **before** the initializeTurtle() command.
+The original default values in ColabTurtle can be used by calling oldDefaults() **before** the Screen command.
 
 This version extends ColabTurtle to include more of the commands found in the classic turtle.py package and some additional features.
 * The possible turtle shapes include the ones from turtle.py: 'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. The 'turtle' shape is the one that Tolga Atam included in his original ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
@@ -92,12 +83,12 @@ This version extends ColabTurtle to include more of the commands found in the cl
   All internal calculations are done in degrees.
 * Added animated motion along lines and circles, and for rotating right or left. Animation can be turned off/on using animationOff
   and animationOn. Default is animationOn.
+* Added a clone method for turtles.
   
 Main differences with classic turtle.py
 ----
 
-* Classes are not implemented, so only one turtle can be drawn at a time.
-* The circle function draws smooth arcs using SVG. The step argument is available but primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularpolygon() function to take advantage of svg commands.
+* The circle function draws smooth arcs using SVG. The step argument is available but primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularPolygon() function to take advantage of svg commands.
 * A function to draw lines has been included.
 * Setting speed = 0 draws only the final image with no intermediate animations. This is usually very quick. To turn off the animation but still show the turtle motion (equivalent to speed=0 in classic turtle.py), call animationOff(). This will use the current speed, but forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly.
 * There is a fillrule function to set nonzero or evenodd as the options used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The begin_fill() function can take an argument of 'nonzero' or 'evenodd' to set the fill-rule just for that fill.
