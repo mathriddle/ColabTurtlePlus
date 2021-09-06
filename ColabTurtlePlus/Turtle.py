@@ -148,12 +148,15 @@ SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0
 #------------------------------------------------------------------------------------------------
 
 class Screen:
-    def __init__(self, size : tuple = DEFAULT_WINDOW_SIZE, mode=None):
+    def __init__(self, size=None, mode=None):
         if not (isinstance(size, tuple) and len(size) == 2 and isinstance(
                 size[0], int) and isinstance(size[1], int)):
             raise ValueError('window must be a tuple of 2 integers')
         self._turtles = []
-        self.window_size = size
+        if size is None:
+            self.window_size = DEFAULT_WINDOW_SIZE
+        else:
+            self.window_size = size
         if mode is None:
             self._mode = DEFAULT_MODE
         else:
