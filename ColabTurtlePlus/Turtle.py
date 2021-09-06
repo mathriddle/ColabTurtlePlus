@@ -161,9 +161,14 @@ class Screen:
             raise ValueError('Mode must be standard, logo, or svg')
         else:
             self._mode = mode
-        self._turtles = []        
-        self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
-        self.xscale = self.yscale = 1
+        self._turtles = []
+        if self._mode in ['standard','logo']:
+            self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
+            self.xscale = self.yscale = 1  
+        else:
+            self.xmin = self.ymax = 0
+            self.xscale = 1
+            self.yscale = -1
         self._svg_drawlines_string = ""
         self.background_color = DEFAULT_BACKGROUND_COLOR
         self.border_color = DEFAULT_BORDER_COLOR
