@@ -155,7 +155,6 @@ class Screen:
         self._turtles = []
         self.window_size = size
         self._mode = mode
-        print(self._mode)
         self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
         self.xscale = self.yscale = 1
         self._svg_drawlines_string = ""
@@ -803,7 +802,7 @@ class Turtle:
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
-        if window._mode == "svg": shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
+        if window._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
         self.screen = window                                   
         window._add(self)
         
