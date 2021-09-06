@@ -155,6 +155,7 @@ class Screen:
         self._turtles = []
         self.window_size = size
         self._mode = mode
+        print(self._mode)
         self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
         self.xscale = self.yscale = 1
         self._svg_drawlines_string = ""
@@ -2310,7 +2311,6 @@ def oldDefaults():
     global DEFAULT_MODE
     global DEFAULT_TURTLE_SHAPE
     global DEFAULT_WINDOW_SIZE
-    global DEFAULT_TURTLE_DEGREE
     global DEFAULT_SPEED
     
     DEFAULT_BACKGROUND_COLOR = "black"
