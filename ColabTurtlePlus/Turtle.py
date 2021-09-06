@@ -1230,7 +1230,7 @@ class Turtle:
             raise ValueError('Degrees must be a number.')
         if self.screen._mode in ["standard","world"]: 
             new_degree = (360 - deg) 
-        elif self._screen.mode == "logo":
+        elif self.screen.mode == "logo":
             new_degree = (270 + deg) 
         else: # mode = "svg"
             new_degree = deg % 360
