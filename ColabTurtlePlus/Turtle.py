@@ -148,7 +148,15 @@ SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0
 
 #------------------------------------------------------------------------------------------------
 
-class Screen:
+def Screen():
+    """Return the singleton screen object.
+    If none exists at the moment, create a new one and return it,
+    else return the existing one."""
+    if Turtle._screen is None:
+        Turtle._screen = _Screen()
+    return Turtle._screen
+
+class _Screen:
     def __init__(self, size=None, mode=None):
         if size is None:
             self.window_size = DEFAULT_WINDOW_SIZE
@@ -761,22 +769,21 @@ class Screen:
 
 #----------------------------------------------------------------------------------------------        
         
-class Turtle:    
-    _pen = None
-    screen = None  
+class RawTurtle:     
         
     def __init__(self, window=None, position = None):
         if window is None:
             self.screen = Screen()
-        elif not isinstance(window, Screen) == True:
+        elif not isinstance(window, _Screen) == True:
             raise TypeError("window must be a Screen object")
         else:
-            self.screen = window 
+            self.screen = window
+        screen = self.screen
         self.turtle_speed = DEFAULT_SPEED
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
         self.fill_color = DEFAULT_FILL_COLOR
-        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (self.screen._mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (screen._mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
         self.turtle_orient = self.turtle_degree
         self.svg_lines_string = self.svg_fill_string = self.svg_dots_string = ""
         self.svg_stampsB_string = self.svg_stampsT_string = ""
@@ -793,14 +800,14 @@ class Turtle:
             if not (isinstance(position, tuple) and len(position) == 2):
                 raise ValueError('position must be a tuple of 2 integers')    
             else:
-                self.turtle_pos = (self.screen._convertx(position[0]),self.screen._converty(position[1]))  
+                self.turtle_pos = (screen._convertx(position[0]),screen._converty(position[1]))  
         else:
-            if self.screen._mode != "world":
-                self.turtle_pos = (self.screen.window_size[0] / 2, self.screen.window_size[1] / 2)
+            if screen._mode != "world":
+                self.turtle_pos = (screen.window_size[0] / 2, screen.window_size[1] / 2)
             else:
-                self.turtle_pos = (self.screen._convertx(0),self.screen._converty(0))
+                self.turtle_pos = (screen._convertx(0),screen._converty(0))
                                    
-        self.timeout = self.screen._speedToSec(DEFAULT_SPEED)
+        self.timeout = screen._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
         self.is_pen_down = True
@@ -821,9 +828,9 @@ class Turtle:
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
-        if self.screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
+        if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
                                           
-        self.screen._add(self)
+        screen._add(self)
         
         
         
@@ -2318,6 +2325,16 @@ class Turtle:
         """
         return self.screen._getcolor(n)
 
+class Turtle(RawTurtle):
+    _pen = None
+    _screen = None 
+    
+    def __init__(self)
+        if Turtle._screen is None:
+            Turtle_.screen = Screen()
+        RawTurtle.__init__(self, Turtle._screen)
+
+
 # Set the defaults used in the original version of ColabTurtle package
 def oldDefaults():
     """Set the defaults used in the original version of ColabTurtle package."""
@@ -2376,4 +2393,4 @@ def _make_global_funcs(functions, cls, obj, init):
 
 _make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()')
 
-_make_global_funcs(_tg_screen_functions, Screen, 'Turtle.screen', 'Screen()')
+_make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()')
