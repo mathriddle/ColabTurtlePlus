@@ -2329,7 +2329,7 @@ class Turtle(RawTurtle):
     _pen = None
     _screen = None 
     
-    def __init__(self)
+    def __init__(self):
         if Turtle._screen is None:
             Turtle_.screen = Screen()
         RawTurtle.__init__(self, Turtle._screen)
