@@ -158,6 +158,7 @@ def Screen(size=None, mode=None):
 
 class _Screen:
     def __init__(self, size=None, mode=None):
+        print(size,mode)
         if size is None:
             self.window_size = DEFAULT_WINDOW_SIZE
         elif not (isinstance(size, tuple) and len(size) == 2 and isinstance(size[0], int) and isinstance(size[1], int)):
