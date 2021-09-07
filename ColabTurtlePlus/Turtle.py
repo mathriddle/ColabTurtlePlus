@@ -1977,7 +1977,7 @@ class Turtle:
             self.turtle_pos = (self.screen.window_size[0] / 2, self.screen.window_size[1] / 2)
         else:
             self.turtle_pos = (self.screen._convertx(0),self.screen._converty(0))
-        self.screen._updateDrawing(turtle=self, delay=False)
+        #self.screen._updateDrawing(turtle=self, delay=False)
 
     # Clear text and turtle
     def clear(self):
@@ -2342,7 +2342,7 @@ def oldDefaults():
 _tg_screen_functions = ['showSVG', 'saveSVG', 'drawline', 'bgcolor', 
          'window_width', 'window_height', 'showborder', 'hideborder',
          'clearscreen', 'resetscreen', 'mode', 'setworldcoordinates',
-         'getcolor', 'nothingtest']
+         'getcolor']
 
 _tg_turtle_functions = ['forward', 'fd', 'backward', 'bk', 'back',
          'right', 'rt', 'left', 'lt', 'circle', 'dot', 'regularPolygon',
