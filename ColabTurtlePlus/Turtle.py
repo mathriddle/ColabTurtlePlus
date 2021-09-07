@@ -153,6 +153,7 @@ def Screen(size=None, mode=None):
     If none exists at the moment, create a new one and return it,
     else return the existing one."""
     if Turtle._screen is None:
+        print(size,mode)
         Turtle._screen = _Screen(size,mode)
     return Turtle._screen
 
