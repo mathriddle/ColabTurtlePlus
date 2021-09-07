@@ -1,6 +1,6 @@
 # ColabTurtlePlus
 
-**NOTE:** This is version 1.5. Version 2 of ColabTurtlePlus is available that makes use of classes, thus allowing for multiple turtles. Version 1.5 will remain available at PyPI using "pip install ColabTurtlePlus==1.5".
+**NOTE:** This is version 1.5. Version 2.0 of ColabTurtlePlus that makes use of classes will soon become available, thus allowing for multiple turtles. Version 1.5 will remain available at PyPI using "pip install ColabTurtlePlus==1.5".
 
 An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
 
