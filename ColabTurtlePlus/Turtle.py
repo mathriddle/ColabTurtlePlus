@@ -823,7 +823,7 @@ class Turtle:
               "blank":""}
         if self.screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
                                           
-        window._add(self)
+        self.screen._add(self)
         
         
         
