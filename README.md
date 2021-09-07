@@ -1,7 +1,11 @@
 # ColabTurtlePlus
-An extension of the original ColabTurtle by Tolga Atam (tolgaatam) with the addition of classes to allow for multiple turtles. Also includes some code from jaronma ColabTurtle_2 repo.
+An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
 
 This is a module for drawing classic Turtle figures on Google Colab notebooks. It can also be used in Jupyter Lab notebooks. The graphics are drawn using SVG tags. The SVG commands can be printed on screen (after the drawing is completed) or saved to a file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
+
+**Note:** The current version uses classes so that multiple turtles are possible. However, it only uses an object-oriented interface, so all screen and turtle instances must be declared first using the Screen and Turtle classes, e.g.\
+screen = Screen() \
+turtle = Turtle(screen)
 
 Installation
 ----
@@ -44,7 +48,7 @@ The resulting image is
 
 Main differences from ColabTurtle
 ----
-This version implements classes. All turtles must be named.
+This version implements classes. It does not use a procedure-oriented interface, so all screens and turtles must be named.
 
 Some of the default values have been changed to mirror those in turtle.py. In particular,
 * Default background color is white
@@ -88,6 +92,7 @@ This version extends ColabTurtle to include more of the commands found in the cl
 Main differences with classic turtle.py
 ----
 
+* Uses only an object-oriented interface, not the additional procedure-oriented interface available in turtle.py.
 * The circle function draws smooth arcs using SVG. The step argument is available but primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularPolygon() function to take advantage of svg commands.
 * A function to draw lines has been included.
 * Setting speed = 0 draws only the final image with no intermediate animations. This is usually very quick. To turn off the animation but still show the turtle motion (equivalent to speed=0 in classic turtle.py), call animationOff(). This will use the current speed, but forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly.
