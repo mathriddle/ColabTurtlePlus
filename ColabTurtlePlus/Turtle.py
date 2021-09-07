@@ -1110,7 +1110,6 @@ class Turtle:
             fillcolor_temp = self.fill_color
             self.begin_fill()
         alpha = (360/self.angle_conv)/sides
-        print(alpha)
         if length < 0: 
             alpha = -alpha
             length = -length
