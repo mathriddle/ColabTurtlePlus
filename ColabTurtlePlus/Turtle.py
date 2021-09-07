@@ -2,6 +2,7 @@ from IPython.display import display, HTML
 import time
 import math
 import re
+import sys
 
 """ 
 Original Created at: 23rd October 2018
@@ -761,7 +762,9 @@ class Screen:
 #----------------------------------------------------------------------------------------------        
         
 class Turtle:    
-    
+    _pen = None
+    screen = None  
+        
     def __init__(self, window, position = None):
         if not isinstance(window, Screen) == True:
             raise TypeError("window must be a Screen object")
@@ -2331,3 +2334,42 @@ def oldDefaults():
     DEFAULT_WINDOW_SIZE = (800, 500)
     DEFAULT_SPEED = 4
    
+
+_tg_screen_functions = ['showSVG', 'saveSVG', 'drawline', 'bgcolor', 
+         'window_width', 'window_height', 'showborder', 'hideborder',
+         'clearscreen', 'resetscreen', 'mode', 'setworldcoordinates',
+         'getcolor']
+
+_tg_turtle_functions = ['forward', 'fd', 'backward', 'bk', 'back',
+         'right', 'rt', 'left', 'lt', 'circle', 'dot', 'regularPolygon',
+         'goto', 'setpos', 'setposition', 'jumpto', 'setx', 'sety',
+         'setheading', 'seth', 'face', 'home', 'speed', 'done', 'update',
+         'stamp', 'clearstamp', 'clearstamps', 'position', 'pos', 'xcor', 'getx',
+         'ycor', 'gety', 'towards', 'heading', 'getheading', 'distance', 
+         'radians', 'degrees', 'pendown', 'pd', 'down', 'penup', 'pu', 'up',
+         'pensize', 'width', 'pen', 'isdown', 'color', 'pencolor', 'fillcolor',
+         'filling', 'begin_fill', 'end_fill', 'fillrule', 'fillopacity', 'reset',
+         'clear', 'write', 'showturtle', 'st', 'hideturtle', 'ht', 'isvisible',
+         'shape', 'shapesize', 'turtlesize', 'shearfactor', 'settiltangle', 
+         'tiltangle', 'tilt', 'delay', 'animationOff', 'animationOn', 'getcolor']
+
+__func_body = """\
+def {name}(*args, **kw):
+    if {obj} is None:
+        {obj} = {init}
+    return {obj}.{name}(*args, **kw)
+"""
+
+def _make_global_funcs(functions, cls, obj, init):
+    for methodname in functions:
+        try:
+            method = getattr(cls, methodname)
+        except AttributeError:
+            print("methodname missing:", methodname)
+            continue
+        defstr = __func_body.format(obj=obj, init=init, name=methodname)
+        exec(defstr, globals())
+
+_make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()')
+
+_make_global_funcs(_tg_screen_functions, Screen, 'Turtle.screen', 'Screen()')
