@@ -767,7 +767,7 @@ class Turtle:
         
     def __init__(self, window=None, position = None):
         if window is None:
-            self.screen = Screen
+            self.screen = Screen()
         elif not isinstance(window, Screen) == True:
             raise TypeError("window must be a Screen object")
         else:
