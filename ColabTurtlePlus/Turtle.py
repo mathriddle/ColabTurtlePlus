@@ -148,12 +148,12 @@ SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0
 
 #------------------------------------------------------------------------------------------------
 
-def Screen():
+def Screen(size=None, mode=None):
     """Return the singleton screen object.
     If none exists at the moment, create a new one and return it,
     else return the existing one."""
     if Turtle._screen is None:
-        Turtle._screen = _Screen()
+        Turtle._screen = _Screen(size,mode)
     return Turtle._screen
 
 class _Screen:
