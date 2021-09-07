@@ -765,9 +765,13 @@ class Turtle:
     _pen = None
     screen = None  
         
-    def __init__(self, window, position = None):
-        if not isinstance(window, Screen) == True:
+    def __init__(self, window=None, position = None):
+        if window is None:
+            self.screen = Screen
+        elif not isinstance(window, Screen) == True:
             raise TypeError("window must be a Screen object")
+        else:
+            self.screen = window 
         self.turtle_speed = DEFAULT_SPEED
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
@@ -789,14 +793,14 @@ class Turtle:
             if not (isinstance(position, tuple) and len(position) == 2):
                 raise ValueError('position must be a tuple of 2 integers')    
             else:
-                self.turtle_pos = (window._convertx(position[0]),window._converty(position[1]))  
+                self.turtle_pos = (self.screen._convertx(position[0]),self.screen._converty(position[1]))  
         else:
-            if window._mode != "world":
-                self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
+            if self.screen._mode != "world":
+                self.turtle_pos = (self.screen.window_size[0] / 2, self.screen.window_size[1] / 2)
             else:
-                self.turtle_pos = (window._convertx(0),window._converty(0))
+                self.turtle_pos = (self.screen._convertx(0),self.screen._converty(0))
                                    
-        self.timeout = window._speedToSec(DEFAULT_SPEED)
+        self.timeout = self.screen._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
         self.is_pen_down = True
@@ -817,8 +821,8 @@ class Turtle:
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
-        if window._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
-        self.screen = window                                   
+        if self.screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
+                                          
         window._add(self)
         
         
