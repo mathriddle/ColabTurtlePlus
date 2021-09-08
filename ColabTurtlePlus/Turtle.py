@@ -577,6 +577,13 @@ class _Screen:
 
     def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1]):
         self.window_size = width,height
+        if self._mode == "svg":
+            self.xmin = self.ymax = 0
+            self.xscale = 1
+            self.yscale = -1
+        elif self._mode != "world":
+            self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
+            self.xscale = self.yscale = 1
         self._updateDrawing(delay=False)
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
