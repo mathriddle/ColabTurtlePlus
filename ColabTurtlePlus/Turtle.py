@@ -575,7 +575,7 @@ class _Screen:
         """Returns the turtle window height"""
         return self.window_size[1]
 
-    def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1])
+    def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1]):
         self.window_size[0] = width
         self.window_size[1] = height
         self._updateDrawing(delay=False)
