@@ -576,15 +576,24 @@ class _Screen:
         return self.window_size[1]
 
     def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1]):
+        if not (isinstance(width,int) and isinstance(height,int)):
+            raise ValueError('The width and height must be integers')
         self.window_size = width,height
+        w = width
+        h = height
         if self._mode == "svg":
             self.xmin = self.ymax = 0
             self.xscale = 1
             self.yscale = -1
         elif self._mode != "world":
-            self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
+            self.xmin,self.ymin,self.xmax,self.ymax = -w/2,-h/2,w/2,h/2
             self.xscale = self.yscale = 1
+        else: # mode==world
+            self.xmin,self.ymin,self.xmax,self.ymax = -w/2,-h/2,w/2,h/2   
+            self.xscale = width/(self.xmax-self.xmin)
+            self.yscale = height/(self.ymax-self.ymin)
         self._updateDrawing(delay=False)
+    
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
     def showborder(self, color = None, c2 = None, c3 = None):
@@ -664,16 +673,14 @@ class _Screen:
         elif mode.lower() not in VALID_MODES:
             raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
         self._mode = mode.lower()
+        w,h = self.window_size 
         if self._mode == "svg":
             self.xmin = self.ymax = 0
             self.xscale = 1
             self.yscale = -1
         elif self._mode != "world":
-            self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
+            self.xmin,self.ymin,self.xmax,self.ymax = -w/2,-h/2,w/2,h/2
             self.xscale = self.yscale = 1
-       # else: # mode==world
-        #    self.xscale = self.window_size[0]/(self.xmax-self.xmin)
-         #   self.yscale = self.window_size[1]/(self.ymax-self.ymin)
         self.resetscreen()        
 
     # Set up user-defined coordinate system using lower left and upper right corners.
