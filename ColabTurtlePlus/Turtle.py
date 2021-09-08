@@ -153,13 +153,11 @@ def Screen(size=None, mode=None):
     If none exists at the moment, create a new one and return it,
     else return the existing one."""
     if Turtle._screen is None:
-        print(size,mode)
         Turtle._screen = _Screen(size,mode)
     return Turtle._screen
 
 class _Screen:
     def __init__(self, size=None, mode=None):
-        print(size,mode)
         if size is None:
             self.window_size = DEFAULT_WINDOW_SIZE
         elif not (isinstance(size, tuple) and len(size) == 2 and isinstance(size[0], int) and isinstance(size[1], int)):
@@ -577,6 +575,10 @@ class _Screen:
         """Returns the turtle window height"""
         return self.window_size[1]
 
+    def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1])
+        self.window_size[0] = width
+        self.window_size[1] = height
+        self._updateDrawing(delay=False)
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
     def showborder(self, color = None, c2 = None, c3 = None):
