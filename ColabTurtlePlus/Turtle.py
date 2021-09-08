@@ -2376,7 +2376,7 @@ def oldDefaults():
 _tg_screen_functions = ['showSVG', 'saveSVG', 'drawline', 'bgcolor', 
          'window_width', 'window_height', 'showborder', 'hideborder',
          'clearscreen', 'resetscreen', 'mode', 'setworldcoordinates',
-         'getcolor', 'setup']
+         'getcolor', 'setup', 'turtles']
 
 _tg_turtle_functions = ['forward', 'fd', 'backward', 'bk', 'back',
          'right', 'rt', 'left', 'lt', 'circle', 'dot', 'regularPolygon',
