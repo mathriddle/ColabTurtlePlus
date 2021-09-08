@@ -637,7 +637,7 @@ class _Screen:
             turtle.is_filling = False
             self._svg_drawlines_string = ""
         self._turtles = []
-        Turtle._screen = None
+        Turtle._pen = None
         self._updateDrawing()        
 
     # Reset all Turtles on the Screen to their initial state.
