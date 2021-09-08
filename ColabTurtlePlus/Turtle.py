@@ -576,8 +576,7 @@ class _Screen:
         return self.window_size[1]
 
     def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1]):
-        self.window_size[0] = width
-        self.window_size[1] = height
+        self.window_size = width,height
         self._updateDrawing(delay=False)
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
