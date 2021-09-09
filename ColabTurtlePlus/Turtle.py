@@ -594,7 +594,6 @@ class _Screen:
             self.yscale = height/(self.ymax-self.ymin)
         if self._mode != "world":
             self.turtle_pos = (w/2, h/2)
-            print(self.turtle_pos)
         else:
             self.turtle_pos = (self._convertx(0),self._converty(0))
         self._updateDrawing(delay=False)
@@ -2022,7 +2021,7 @@ class RawTurtle:
         self.stampnum = 0
         self.stamplist=[]
         self.is_filling = False
-        self.screen._updateDrawing(turtle=self, delay=False) 
+        #self.screen._updateDrawing(turtle=self, delay=False) 
 
     def write(self, obj, **kwargs):
         """Write text at the current turtle position.
