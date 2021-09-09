@@ -576,7 +576,7 @@ class _Screen:
         return self.window_size[1]
 
     def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1]):
-        if (instance(width,float) or instance(height,float):
+        if (instance(width,float) or instance(height,float)):
             raise ValueError('Percentages not used in this turtle version, only integer pixels.')
         elif not (isinstance(width,int) and isinstance(height,int)):
             raise ValueError('The width and height must be integers.')
