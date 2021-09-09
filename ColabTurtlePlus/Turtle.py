@@ -592,10 +592,11 @@ class _Screen:
             self.xmin,self.ymin,self.xmax,self.ymax = -w/2,-h/2,w/2,h/2   
             self.xscale = width/(self.xmax-self.xmin)
             self.yscale = height/(self.ymax-self.ymin)
-        if self._mode != "world":
-            Turtle.turtle_pos = (w/2, h/2)
-        else:
-            Turtle.turtle_pos = (self._convertx(0),self._converty(0))
+        for turtle in self._turtle:
+            if self._mode != "world":
+                turtle.turtle_pos = (w/2, h/2)
+            else:
+                turtle.turtle_pos = (self._convertx(0),self._converty(0))
         self._updateDrawing(delay=False)
     
         
