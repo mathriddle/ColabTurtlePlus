@@ -3,6 +3,7 @@ import time
 import math
 import re
 import sys
+import inspect
 
 """ 
 Original Created at: 23rd October 2018
@@ -789,10 +790,19 @@ class _Screen:
         return VALID_COLORS[n]
 
 #----------------------------------------------------------------------------------------------        
+ 
+class Turtle(RawTurtle):
+    _pen = None
+    _screen = None 
+    
+    def __init__(self):
+        if Turtle._screen is None:
+            Turtle._screen = Screen()
+        RawTurtle.__init__(self, Turtle._screen)        
         
 class RawTurtle:     
         
-    def __init__(self, window=None, position = None):
+    def __init__(self, window=None):
         if window is None:
             self.screen = Screen()
         elif not isinstance(window, _Screen) == True:
@@ -816,18 +826,10 @@ class RawTurtle:
         self.stretchfactor = DEFAULT_STRETCHFACTOR
         self.shear_factor = DEFAULT_SHEARFACTOR
         self.outline_width = DEFAULT_OUTLINE_WIDTH
-
-        if position is not None:
-            if not (isinstance(position, tuple) and len(position) == 2):
-                raise ValueError('position must be a tuple of 2 integers')    
-            else:
-                self.turtle_pos = (screen._convertx(position[0]),screen._converty(position[1]))  
+        if screen._mode != "world":
+            self.turtle_pos = (screen.window_size[0] / 2, screen.window_size[1] / 2)
         else:
-            if screen._mode != "world":
-                self.turtle_pos = (screen.window_size[0] / 2, screen.window_size[1] / 2)
-            else:
-                self.turtle_pos = (screen._convertx(0),screen._converty(0))
-                                   
+            self.turtle_pos = (screen._convertx(0),screen._converty(0))                           
         self.timeout = screen._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
@@ -849,8 +851,7 @@ class RawTurtle:
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
-        if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
-                                          
+        if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
         screen._add(self)
         
         
@@ -2346,14 +2347,7 @@ class RawTurtle:
         """
         return self.screen._getcolor(n)
 
-class Turtle(RawTurtle):
-    _pen = None
-    _screen = None 
-    
-    def __init__(self):
-        if Turtle._screen is None:
-            Turtle._screen = Screen()
-        RawTurtle.__init__(self, Turtle._screen)
+
 
 
 # Set the defaults used in the original version of ColabTurtle package
@@ -2403,7 +2397,6 @@ def getmethparlist(ob):
     function definition and the second is suitable for use in function
     call.  The "self" parameter is not included.
     """
-    from inspect import getargs
     defText = callText = ""
     # bit of a hack for methods - turn it into a function
     # but we drop the "self" param.
