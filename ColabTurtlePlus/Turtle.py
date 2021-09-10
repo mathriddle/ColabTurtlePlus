@@ -790,15 +790,7 @@ class _Screen:
         return VALID_COLORS[n]
 
 #----------------------------------------------------------------------------------------------        
- 
-class Turtle(RawTurtle):
-    _pen = None
-    _screen = None 
-    
-    def __init__(self):
-        if Turtle._screen is None:
-            Turtle._screen = Screen()
-        RawTurtle.__init__(self, Turtle._screen)        
+      
         
 class RawTurtle:     
         
@@ -2347,7 +2339,14 @@ class RawTurtle:
         """
         return self.screen._getcolor(n)
 
-
+class Turtle(RawTurtle):
+    _pen = None
+    _screen = None 
+    
+    def __init__(self):
+        if Turtle._screen is None:
+            Turtle._screen = Screen()
+        RawTurtle.__init__(self, Turtle._screen)   
 
 
 # Set the defaults used in the original version of ColabTurtle package
