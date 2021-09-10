@@ -2455,10 +2455,10 @@ def _screen_docrevise(docstr):
 
 
 __func_body = """\
-def {name}(*args, **kw):
+def {name}{paramslist}:
     if {obj} is None:
         {obj} = {init}
-    return {obj}.{name}(*args, **kw)
+    return {obj}.{name}{argslist}
 """
 
 def _make_global_funcs(functions, cls, obj, init, docrevise):
