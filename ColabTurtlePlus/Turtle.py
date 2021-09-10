@@ -2403,6 +2403,7 @@ def getmethparlist(ob):
     function definition and the second is suitable for use in function
     call.  The "self" parameter is not included.
     """
+    import inspect
     defText = callText = ""
     # bit of a hack for methods - turn it into a function
     # but we drop the "self" param.
@@ -2432,7 +2433,7 @@ def _turtle_docrevise(docstr):
 
     if docstr is None:
         return None
-    turtlename = _CFG["exampleturtle"]
+    turtlename = "turtle"
     newdocstr = docstr.replace("%s." % turtlename,"")
     parexp = re.compile(r' \(.+ %s\):' % turtlename)
     newdocstr = parexp.sub(":", newdocstr)
@@ -2444,7 +2445,7 @@ def _screen_docrevise(docstr):
 
     if docstr is None:
         return None
-    screenname = _CFG["examplescreen"]
+    screenname = "screen"
     newdocstr = docstr.replace("%s." % screenname,"")
     parexp = re.compile(r' \(.+ %s\):' % screenname)
     newdocstr = parexp.sub(":", newdocstr)
