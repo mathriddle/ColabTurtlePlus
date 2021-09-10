@@ -153,10 +153,10 @@ def Screen():
     If none exists at the moment, create a new one and return it,
     else return the existing one."""
     if Turtle._screen is None:
-        Turtle._screen = _Screen(size,mode)
+        Turtle._screen = _Screen()
     return Turtle._screen
 
-class _Screen:
+class _Screen(self):
     def __init__(self):
         self._turtles = []
         if self._mode in ['standard','logo']:
