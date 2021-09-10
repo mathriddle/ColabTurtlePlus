@@ -156,9 +156,11 @@ def Screen():
         Turtle._screen = _Screen()
     return Turtle._screen
 
-class _Screen():
+class _Screen:
     def __init__(self):
         self._turtles = []
+        self.window_size = DEFAULT_WINDOW_SIZE
+        self._mode = DEFAULT_MODE
         if self._mode in ['standard','logo']:
             self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
             self.xscale = self.yscale = 1  
