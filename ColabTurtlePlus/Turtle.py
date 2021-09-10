@@ -2387,7 +2387,7 @@ def oldDefaults():
     DEFAULT_SPEED = 4
    
 
-_tg_screen_functions = ['showSVG', 'saveSVG', 'drawline', 'bgcolor', 
+_tg_screen_functions = ['showSVG', 'saveSVG', 'drawline', 'line', 'bgcolor', 
          'window_width', 'window_height', 'showborder', 'hideborder',
          'clearscreen', 'resetscreen', 'mode', 'setworldcoordinates',
          'getcolor', 'setup', 'turtles', 'initializeTurtle']
