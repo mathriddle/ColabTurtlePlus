@@ -156,7 +156,7 @@ def Screen():
         Turtle._screen = _Screen()
     return Turtle._screen
 
-class _Screen(self):
+class _Screen():
     def __init__(self):
         self._turtles = []
         if self._mode in ['standard','logo']:
