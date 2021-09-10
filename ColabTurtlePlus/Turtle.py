@@ -731,6 +731,12 @@ class _Screen:
         """Return the list of turtles on the screen."""
         return self._turtles
 
+    initializeTurtle(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
+        if window is not None:
+            self.setup(window[0],window[1])
+        if mode is not None:
+            self.mode(mode)
+
     ########################################################################################
     #  Helper functions for color control
     ########################################################################################        
@@ -2384,7 +2390,7 @@ def oldDefaults():
 _tg_screen_functions = ['showSVG', 'saveSVG', 'drawline', 'bgcolor', 
          'window_width', 'window_height', 'showborder', 'hideborder',
          'clearscreen', 'resetscreen', 'mode', 'setworldcoordinates',
-         'getcolor', 'setup', 'turtles']
+         'getcolor', 'setup', 'turtles', 'initializeTurtle']
 
 _tg_turtle_functions = ['forward', 'fd', 'backward', 'bk', 'back',
          'right', 'rt', 'left', 'lt', 'circle', 'dot', 'regularPolygon',
