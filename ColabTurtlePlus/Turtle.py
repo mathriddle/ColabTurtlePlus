@@ -2403,7 +2403,7 @@ def getmethparlist(ob):
     function definition and the second is suitable for use in function
     call.  The "self" parameter is not included.
     """
-    import inspect
+    from inspect import getargs
     defText = callText = ""
     # bit of a hack for methods - turn it into a function
     # but we drop the "self" param.
