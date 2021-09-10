@@ -731,7 +731,7 @@ class _Screen:
         """Return the list of turtles on the screen."""
         return self._turtles
 
-    initializeTurtle(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
+    def initializeTurtle(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
         if window is not None:
             self.setup(window[0],window[1])
         if mode is not None:
