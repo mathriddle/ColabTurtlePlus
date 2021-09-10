@@ -457,7 +457,8 @@ class _Screen:
         start_pos = turtle.turtle_pos
         if turtle.is_pen_down:  
             turtle.svg_lines_string += \
-            """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pcolor};stroke-width:{pwidth}"/>""".format(
+            """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" 
+            fill="transparent" fill-opacity="0" style="stroke:{pcolor};stroke-width:{pwidth}"/>""".format(
             x1=start_pos[0], 
             y1=start_pos[1],
             rx = rx,
@@ -479,9 +480,10 @@ class _Screen:
         theta = math.radians(degrees)
         s = radius/abs(radius)  # 1=left, -1=right
         gamma = alpha-s*theta
-
-        circle_center = (turtle.turtle_pos[0] + radius*self.xscale*math.sin(alpha), turtle.turtle_pos[1] - radius*abs(self.yscale)*math.cos(alpha))
-        ending_point = (round(circle_center[0] - radius*self.xscale*math.sin(gamma),3) , round(circle_center[1] + radius*abs(self.yscale)*math.cos(gamma),3))
+        circle_center = (turtle.turtle_pos[0] + radius*self.xscale*math.sin(alpha), 
+                         turtle.turtle_pos[1] - radius*abs(self.yscale)*math.cos(alpha))
+        ending_point = (round(circle_center[0] - radius*self.xscale*math.sin(gamma),3) , 
+                        round(circle_center[1] + radius*abs(self.yscale)*math.cos(gamma),3))
   
         self._arctoNewPosition(radius,ending_point,turtle)
    
