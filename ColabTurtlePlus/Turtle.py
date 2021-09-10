@@ -2395,6 +2395,64 @@ _tg_turtle_functions = ['forward', 'fd', 'backward', 'bk', 'back',
          'shape', 'shapesize', 'turtlesize', 'shearfactor', 'settiltangle', 
          'tiltangle', 'tilt', 'delay', 'animationOff', 'animationOn', 'getcolor']
 
+def getmethparlist(ob):
+    """Get strings describing the arguments for the given object
+
+    Returns a pair of strings representing function parameter lists
+    including parenthesis.  The first string is suitable for use in
+    function definition and the second is suitable for use in function
+    call.  The "self" parameter is not included.
+    """
+    defText = callText = ""
+    # bit of a hack for methods - turn it into a function
+    # but we drop the "self" param.
+    # Try and build one for Python defined functions
+    args, varargs, varkw = inspect.getargs(ob.__code__)
+    items2 = args[1:]
+    realArgs = args[1:]
+    defaults = ob.__defaults__ or []
+    defaults = ["=%r" % (value,) for value in defaults]
+    defaults = [""] * (len(realArgs)-len(defaults)) + defaults
+    items1 = [arg + dflt for arg, dflt in zip(realArgs, defaults)]
+    if varargs is not None:
+        items1.append("*" + varargs)
+        items2.append("*" + varargs)
+    if varkw is not None:
+        items1.append("**" + varkw)
+        items2.append("**" + varkw)
+    defText = ", ".join(items1)
+    defText = "(%s)" % defText
+    callText = ", ".join(items2)
+    callText = "(%s)" % callText
+    return defText, callText
+
+def _turtle_docrevise(docstr):
+    """To reduce docstrings from RawTurtle class for functions
+    """
+
+    if docstr is None:
+        return None
+    turtlename = _CFG["exampleturtle"]
+    newdocstr = docstr.replace("%s." % turtlename,"")
+    parexp = re.compile(r' \(.+ %s\):' % turtlename)
+    newdocstr = parexp.sub(":", newdocstr)
+    return newdocstr
+
+def _screen_docrevise(docstr):
+    """To reduce docstrings from TurtleScreen class for functions
+    """
+
+    if docstr is None:
+        return None
+    screenname = _CFG["examplescreen"]
+    newdocstr = docstr.replace("%s." % screenname,"")
+    parexp = re.compile(r' \(.+ %s\):' % screenname)
+    newdocstr = parexp.sub(":", newdocstr)
+    return newdocstr
+
+
+
+
 __func_body = """\
 def {name}(*args, **kw):
     if {obj} is None:
@@ -2402,16 +2460,18 @@ def {name}(*args, **kw):
     return {obj}.{name}(*args, **kw)
 """
 
-def _make_global_funcs(functions, cls, obj, init):
+def _make_global_funcs(functions, cls, obj, init, docrevise):
     for methodname in functions:
         try:
             method = getattr(cls, methodname)
         except AttributeError:
             print("methodname missing:", methodname)
             continue
-        defstr = __func_body.format(obj=obj, init=init, name=methodname)
+        pl1, pl2 = getmethparlist(method)
+        defstr = __func_body.format(obj=obj, init=init, name=methodname, paramslist=pl1, argslist=pl2)
         exec(defstr, globals())
+        globals()[methodname].__doc__ = docrevise(method.__doc__)
 
-_make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()')
+_make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
 
-_make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()')
+_make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
