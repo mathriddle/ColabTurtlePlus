@@ -718,7 +718,8 @@ class _Screen:
         else: 
             self.xscale = self.window_size[0]/(self.xmax-self.xmin)
             self.yscale = self.window_size[1]/(self.ymax-self.ymin)
-        self.mode("world")       
+        self.mode("world") 
+        self.clearscreen()
 
     def turtles(self):
         """Return the list of turtles on the screen."""
