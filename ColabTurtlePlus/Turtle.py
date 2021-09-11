@@ -750,7 +750,7 @@ class _Screen:
                 self.setup(window[0],window[1])
         if mode is not None:
             self.mode(mode)
-    #initializeTurtle = initializescreen
+    initializeTurtle = initializescreen
 
     ########################################################################################
     #  Helper functions for color control
@@ -2463,11 +2463,6 @@ def _screen_docrevise(docstr):
     newdocstr = parexp.sub(":", newdocstr)
     return newdocstr
 
-
-def initializeTurtle(window=DEFAULT_WINDOW_SIZE, mode=DEFAULT_MODE):
-    clearscreen()
-    initializescreen(window,mode)
-    return Turtle()
 
 __func_body = """\
 def {name}{paramslist}:
