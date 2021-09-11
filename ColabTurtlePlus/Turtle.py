@@ -2395,7 +2395,7 @@ def oldDefaults():
    
 
 _tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'getcolor', 'hideborder', 
-         'initializescreen', 'initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+         'initializescreen', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
@@ -2464,7 +2464,8 @@ def _screen_docrevise(docstr):
     return newdocstr
 
 
-def initializeTurtle():
+def initializeTurtle(window=DEFAULT_WINDOW_SIZE, mode=DEFAULT_MODE):
+    initializescreen(window,mode)
     S = Turtle()
     return S
 
