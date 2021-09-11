@@ -569,11 +569,19 @@ class _Screen:
         return self.window_size[1]
 
     def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1]):
+        """Set the size of the graphics window.
+
+        Args:
+            width: as integer a size in pixels. Default 800.
+            height: as integer the height in pixels. Default is 600
+            Note: Percentages are not used in this version.
+        """
         if (isinstance(width,float) or isinstance(height,float)):
             raise ValueError('Percentages not used in this turtle version, only integer pixels.')
         elif not (isinstance(width,int) and isinstance(height,int)):
             raise ValueError('The width and height must be integers.')
         self.window_size = width,height
+       
         w = width
         h = height
         if self._mode == "svg":
@@ -623,7 +631,7 @@ class _Screen:
 
     # Clear all text and all turtles on the screen
     def clearscreen(self):
-        """Clears any text or drawing on the screen."""
+        """Clears any text or drawing on the screen. Deletes all turtles."""
         for turtle in self._turtles:
             turtle.svg_lines_string = ""
             turtle.svg_fill_string = ""
@@ -654,13 +662,13 @@ class _Screen:
             One of “standard”, “logo”, “world”, or "svg"
     
         "standard":
-            initial turtle heading is to the right (east) and positive
+            Initial turtle heading is to the right (east) and positive
             angles measured counterclockwise with 0° pointing right.
         "logo":
-            initial turtle heading is upward (north) and positive angles
+            Initial turtle heading is upward (north) and positive angles
             are measured clockwise with 0° pointing up.
         "world":
-            used with user-defined coordinates. Setup is same as "standard".
+            Used with user-defined coordinates. Setup is same as "standard".
         "svg": 
             This is a special mode to handle how the original ColabTurtle
             worked. The coordinate system is the same as that used with SVG.
@@ -725,11 +733,24 @@ class _Screen:
         """Return the list of turtles on the screen."""
         return self._turtles
 
-    def initializeTurtle(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
+    def initializescreen(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
+        """Initializes the drawing window
+    
+        Args:
+            window: (optional) the (width,height) in pixels
+            mode: (optional) one of "standard, "logo", "world", or "sv
+    
+        The defaults are (800,600) and "standard".
+    """
         if window is not None:
-            self.setup(window[0],window[1])
+            if not (isinstance(window, tuple) and len(window) == 2 and isinstance(
+                    window[0], int) and isinstance(window[1], int)):
+                raise ValueError('Window must be a tuple of 2 integers')
+            else:
+                self.setup(window[0],window[1])
         if mode is not None:
             self.mode(mode)
+    initializeTurtle = initializescreen
 
     ########################################################################################
     #  Helper functions for color control
@@ -2374,7 +2395,7 @@ def oldDefaults():
    
 
 _tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'getcolor', 'hideborder', 
-         'initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+         'initializescreen', 'initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
