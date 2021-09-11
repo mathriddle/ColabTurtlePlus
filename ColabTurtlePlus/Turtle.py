@@ -2372,23 +2372,19 @@ def oldDefaults():
     DEFAULT_SPEED = 4
    
 
-_tg_screen_functions = ['showSVG', 'saveSVG', 'drawline', 'line', 'bgcolor', 
-         'window_width', 'window_height', 'showborder', 'hideborder',
-         'clearscreen', 'resetscreen', 'mode', 'setworldcoordinates',
-         'getcolor', 'setup', 'turtles', 'initializeTurtle']
+_tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'getcolor', 'hideborder', 
+         'initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+         'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
-_tg_turtle_functions = ['forward', 'fd', 'backward', 'bk', 'back',
-         'right', 'rt', 'left', 'lt', 'circle', 'dot', 'regularPolygon',
-         'goto', 'setpos', 'setposition', 'jumpto', 'setx', 'sety',
-         'setheading', 'seth', 'face', 'home', 'speed', 'done', 'update',
-         'stamp', 'clearstamp', 'clearstamps', 'position', 'pos', 'xcor', 'getx',
-         'ycor', 'gety', 'towards', 'heading', 'getheading', 'distance', 
-         'radians', 'degrees', 'pendown', 'pd', 'down', 'penup', 'pu', 'up',
-         'pensize', 'width', 'pen', 'isdown', 'color', 'pencolor', 'fillcolor',
-         'filling', 'begin_fill', 'end_fill', 'fillrule', 'fillopacity', 'reset',
-         'clear', 'write', 'showturtle', 'st', 'hideturtle', 'ht', 'isvisible',
-         'shape', 'shapesize', 'turtlesize', 'shearfactor', 'settiltangle', 
-         'tiltangle', 'tilt', 'delay', 'animationOff', 'animationOn', 'getcolor']
+_tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
+       'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
+       'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
+       'getcolor', 'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
+       'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
+       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt',  'setheading', 'seth',  
+       'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
+       'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
+       'width', 'write', 'xcor', 'ycor' ]
 
 def getmethparlist(ob):
     """Get strings describing the arguments for the given object
