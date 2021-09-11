@@ -2395,7 +2395,7 @@ def oldDefaults():
    
 
 _tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'getcolor', 'hideborder', 
-         'initializescreen', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
