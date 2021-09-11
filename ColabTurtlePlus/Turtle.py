@@ -2465,7 +2465,7 @@ def _screen_docrevise(docstr):
 
 
 def initializeTurtle(window=DEFAULT_WINDOW_SIZE, mode=DEFAULT_MODE):
-    _Screen.clearscreen()
+    clearscreen()
     initializescreen(window,mode)
     S = Turtle()
     return S
