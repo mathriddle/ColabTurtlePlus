@@ -2490,6 +2490,6 @@ _make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turt
 _make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
 
 
-initializeTurtle():
+def initializeTurtle():
     S = Turtle()
     return S
