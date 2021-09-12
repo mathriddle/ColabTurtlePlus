@@ -818,7 +818,7 @@ class _Screen:
         
 class RawTurtle:     
         
-    def __init__(self, window=None):
+    def __init__(self, window):
         if window is None:
             self.screen = Screen()
         elif not isinstance(window, _Screen) == True:
