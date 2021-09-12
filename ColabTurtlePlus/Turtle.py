@@ -750,7 +750,7 @@ class _Screen:
                 self.setup(window[0],window[1])
         if mode is not None:
             self.mode(mode)
-        return self._turtles[0]
+        #return self._turtles[0]
     initializeTurtle = initializescreen
 
     ########################################################################################
