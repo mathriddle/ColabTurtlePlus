@@ -630,7 +630,7 @@ class _Screen:
         self._updateDrawing() 
 
     # Clear all text and all turtles on the screen
-    def clearscreen(self):
+    def clear(self):
         """Clears any text or drawing on the screen. Deletes all turtles."""
         for turtle in self._turtles:
             turtle.svg_lines_string = ""
@@ -649,10 +649,13 @@ class _Screen:
         self._updateDrawing()        
 
     # Reset all Turtles on the Screen to their initial state.
-    def resetscreen(self):
+    def reset(self):
         """Resets all turtles to their initial state."""
         for turtle in self._turtles:
             turtle.reset()
+    
+    clearscreen = clear
+    resetscreen = reset
 
     # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
     def mode(self, mode=None):
