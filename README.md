@@ -47,6 +47,43 @@ saveSVG(turtle=True)
 The resulting image is  
 ![svg image](example.svg)
 
+Example 2
+----
+This example has two turtles and uses the object-oriented interface.
+```
+from ColabTurtlePlus.Turtle import *
+clearscreen()
+setup(500,300)
+T = Turtle()
+T.color('red', 'yellow')
+T.speed(13)
+T.width(1.5)
+S = T.clone()
+T.fillrule("evenodd")
+S.fillrule("nonzero")
+T.pu()
+x0 = -225
+T.setx(x0)
+T.pd()
+S.pu()
+S.setx(25)
+S.pd()
+# first fill uses evenodd fillrule (default)
+T.begin_fill()
+S.begin_fill()
+while True:
+    T.forward(200)
+    T.left(170)
+    S.forward(200)
+    S.left(170)
+    if (T.getx()-x0)**2 + T.gety()**2 < 1:
+        break
+T.end_fill()
+S.end_fill()
+```
+The resulting image is  
+![svg image](example2.svg)
+
 Main differences from ColabTurtle
 ----
 This version implements classes. It does not use a procedure-oriented interface, so all screens and turtles must be named.
