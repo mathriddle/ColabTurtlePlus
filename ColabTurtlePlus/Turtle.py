@@ -631,7 +631,12 @@ class _Screen:
 
     # Clear all text and all turtles on the screen
     def clear(self):
-        """Clears any text or drawing on the screen. Deletes all turtles."""
+        """Clears any text or drawing on the screen. Deletes all turtles.
+        
+        No argument.
+           
+        Note: This method is not available as a function. Use clearscreen.    
+        """
         for turtle in self._turtles:
             turtle.svg_lines_string = ""
             turtle.svg_fill_string = ""
@@ -650,7 +655,12 @@ class _Screen:
 
     # Reset all Turtles on the Screen to their initial state.
     def reset(self):
-        """Resets all turtles to their initial state."""
+        """Resets all turtles to their initial state.
+        
+        No argument.
+        
+        Note: This method is not available as a function. Use resetscreen.
+        """
         for turtle in self._turtles:
             turtle.reset()
     
@@ -2025,11 +2035,18 @@ class RawTurtle:
             self.turtle_pos = (self.screen.window_size[0] / 2, self.screen.window_size[1] / 2)
         else:
             self.turtle_pos = (self.screen._convertx(0),self.screen._converty(0))
-        #self.screen._updateDrawing(turtle=self, delay=False)
+        self.screen._updateDrawing(turtle=self, delay=False)
 
     # Clear text and turtle
     def clear(self):
-        """Clears any text or drawing on the screen."""
+        """Delete the turtle's drawings from the screen. Do not move turtle.
+
+        No arguments.
+
+        Delete the turtle's drawings from the screen. Do not move turtle.
+        State and position of the turtle as well as drawings of other
+        turtles are not affected.
+        """
         self.svg_lines_string = ""
         self.svg_fill_string = ""
         self.svg_dots_string = ""
@@ -2040,7 +2057,7 @@ class RawTurtle:
         self.stampnum = 0
         self.stamplist=[]
         self.is_filling = False
-        #self.screen._updateDrawing(turtle=self, delay=False) 
+        self.screen._updateDrawing(turtle=self, delay=False) 
 
     def write(self, obj, **kwargs):
         """Write text at the current turtle position.
@@ -2411,7 +2428,7 @@ _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward',
        'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
        'width', 'write', 'xcor', 'ycor' ]
 
-def getmethparlist(ob):
+def _getmethparlist(ob):
     """Get strings describing the arguments for the given object
 
     Returns a pair of strings representing function parameter lists
@@ -2479,9 +2496,9 @@ def _make_global_funcs(functions, cls, obj, init, docrevise):
         try:
             method = getattr(cls, methodname)
         except AttributeError:
-            print("methodname missing:", methodname)
+            print("method name missing:", methodname)
             continue
-        pl1, pl2 = getmethparlist(method)
+        pl1, pl2 = _getmethparlist(method)
         defstr = __func_body.format(obj=obj, init=init, name=methodname, paramslist=pl1, argslist=pl2)
         exec(defstr, globals())
         globals()[methodname].__doc__ = docrevise(method.__doc__)
