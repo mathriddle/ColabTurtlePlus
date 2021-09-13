@@ -82,7 +82,7 @@ T.end_fill()
 S.end_fill()
 ```
 The resulting image is  
-![svg image](example2.svg)
+![svg image](stars.svg)
 
 Main differences from ColabTurtle
 ----
