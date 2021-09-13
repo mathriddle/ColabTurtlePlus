@@ -2,6 +2,8 @@ from IPython.display import display, HTML
 import time
 import math
 import re
+import sys
+import inspect
 
 """ 
 Original Created at: 23rd October 2018
@@ -147,21 +149,19 @@ SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0
 
 #------------------------------------------------------------------------------------------------
 
-class Screen:
-    def __init__(self, size=None, mode=None):
-        if size is None:
-            self.window_size = DEFAULT_WINDOW_SIZE
-        elif not (isinstance(size, tuple) and len(size) == 2 and isinstance(size[0], int) and isinstance(size[1], int)):
-            raise ValueError('window must be a tuple of 2 integers')        
-        else:
-            self.window_size = size
-        if mode is None:
-            self._mode = DEFAULT_MODE
-        elif mode not in VALID_MODES:
-            raise ValueError('Mode must be standard, logo, or svg')
-        else:
-            self._mode = mode
+def Screen():
+    """Return the singleton screen object.
+    If none exists at the moment, create a new one and return it,
+    else return the existing one."""
+    if Turtle._screen is None:
+        Turtle._screen = _Screen()
+    return Turtle._screen
+
+class _Screen:
+    def __init__(self):
         self._turtles = []
+        self.window_size = DEFAULT_WINDOW_SIZE
+        self._mode = DEFAULT_MODE
         if self._mode in ['standard','logo']:
             self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
             self.xscale = self.yscale = 1  
@@ -457,7 +457,8 @@ class Screen:
         start_pos = turtle.turtle_pos
         if turtle.is_pen_down:  
             turtle.svg_lines_string += \
-            """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" fill="transparent" fill-opacity="0" style="stroke:{pcolor};stroke-width:{pwidth}"/>""".format(
+            """<path d="M {x1} {y1} A {rx} {ry} 0 0 {s} {x2} {y2}" stroke-linecap="round" 
+            fill="transparent" fill-opacity="0" style="stroke:{pcolor};stroke-width:{pwidth}"/>""".format(
             x1=start_pos[0], 
             y1=start_pos[1],
             rx = rx,
@@ -479,9 +480,10 @@ class Screen:
         theta = math.radians(degrees)
         s = radius/abs(radius)  # 1=left, -1=right
         gamma = alpha-s*theta
-
-        circle_center = (turtle.turtle_pos[0] + radius*self.xscale*math.sin(alpha), turtle.turtle_pos[1] - radius*abs(self.yscale)*math.cos(alpha))
-        ending_point = (round(circle_center[0] - radius*self.xscale*math.sin(gamma),3) , round(circle_center[1] + radius*abs(self.yscale)*math.cos(gamma),3))
+        circle_center = (turtle.turtle_pos[0] + radius*self.xscale*math.sin(alpha), 
+                         turtle.turtle_pos[1] - radius*abs(self.yscale)*math.cos(alpha))
+        ending_point = (round(circle_center[0] - radius*self.xscale*math.sin(gamma),3) , 
+                        round(circle_center[1] + radius*abs(self.yscale)*math.cos(gamma),3))
   
         self._arctoNewPosition(radius,ending_point,turtle)
    
@@ -566,6 +568,40 @@ class Screen:
         """Returns the turtle window height"""
         return self.window_size[1]
 
+    def setup(self, width=DEFAULT_WINDOW_SIZE[0], height=DEFAULT_WINDOW_SIZE[1]):
+        """Set the size of the graphics window.
+
+        Args:
+            width: as integer a size in pixels. Default 800.
+            height: as integer the height in pixels. Default is 600
+            Note: Percentages are not used in this version.
+        """
+        if (isinstance(width,float) or isinstance(height,float)):
+            raise ValueError('Percentages not used in this turtle version, only integer pixels.')
+        elif not (isinstance(width,int) and isinstance(height,int)):
+            raise ValueError('The width and height must be integers.')
+        self.window_size = width,height
+       
+        w = width
+        h = height
+        if self._mode == "svg":
+            self.xmin = self.ymax = 0
+            self.xscale = 1
+            self.yscale = -1
+        elif self._mode != "world":
+            self.xmin,self.ymin,self.xmax,self.ymax = -w/2,-h/2,w/2,h/2
+            self.xscale = self.yscale = 1
+        else: # mode==world
+            self.xmin,self.ymin,self.xmax,self.ymax = -w/2,-h/2,w/2,h/2   
+            self.xscale = width/(self.xmax-self.xmin)
+            self.yscale = height/(self.ymax-self.ymin)
+        for turtle in self._turtles:
+            if self._mode != "world":
+                turtle.turtle_pos = (w/2, h/2)
+            else:
+                turtle.turtle_pos = (self._convertx(0),self._converty(0))
+        self._updateDrawing(delay=False)
+    
         
     # Show a border around the graphics window. Default (no parameters) is gray. A border can be turned off by setting color='none'. 
     def showborder(self, color = None, c2 = None, c3 = None):
@@ -594,8 +630,13 @@ class Screen:
         self._updateDrawing() 
 
     # Clear all text and all turtles on the screen
-    def clearscreen(self):
-        """Clears any text or drawing on the screen."""
+    def clear(self):
+        """Clears any text or drawing on the screen. Deletes all turtles.
+        
+        No argument.
+           
+        Note: This method is not available as a function. Use clearscreen.    
+        """
         for turtle in self._turtles:
             turtle.svg_lines_string = ""
             turtle.svg_fill_string = ""
@@ -609,13 +650,22 @@ class Screen:
             turtle.is_filling = False
             self._svg_drawlines_string = ""
         self._turtles = []
+        Turtle._pen = None
         self._updateDrawing()        
 
     # Reset all Turtles on the Screen to their initial state.
-    def resetscreen(self):
-        """Resets all turtles to their initial state."""
+    def reset(self):
+        """Resets all turtles to their initial state.
+        
+        No argument.
+        
+        Note: This method is not available as a function. Use resetscreen.
+        """
         for turtle in self._turtles:
             turtle.reset()
+    
+    clearscreen = clear
+    resetscreen = reset
 
     # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
     def mode(self, mode=None):
@@ -625,13 +675,13 @@ class Screen:
             One of “standard”, “logo”, “world”, or "svg"
     
         "standard":
-            initial turtle heading is to the right (east) and positive
+            Initial turtle heading is to the right (east) and positive
             angles measured counterclockwise with 0° pointing right.
         "logo":
-            initial turtle heading is upward (north) and positive angles
+            Initial turtle heading is upward (north) and positive angles
             are measured clockwise with 0° pointing up.
         "world":
-            used with user-defined coordinates. Setup is same as "standard".
+            Used with user-defined coordinates. Setup is same as "standard".
         "svg": 
             This is a special mode to handle how the original ColabTurtle
             worked. The coordinate system is the same as that used with SVG.
@@ -645,16 +695,14 @@ class Screen:
         elif mode.lower() not in VALID_MODES:
             raise ValueError('Mode is invalid. Valid options are: ' + str(VALID_MODES))
         self._mode = mode.lower()
+        w,h = self.window_size 
         if self._mode == "svg":
             self.xmin = self.ymax = 0
             self.xscale = 1
             self.yscale = -1
         elif self._mode != "world":
-            self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
+            self.xmin,self.ymin,self.xmax,self.ymax = -w/2,-h/2,w/2,h/2
             self.xscale = self.yscale = 1
-       # else: # mode==world
-        #    self.xscale = self.window_size[0]/(self.xmax-self.xmin)
-         #   self.yscale = self.window_size[1]/(self.ymax-self.ymin)
         self.resetscreen()        
 
     # Set up user-defined coordinate system using lower left and upper right corners.
@@ -691,11 +739,31 @@ class Screen:
         else: 
             self.xscale = self.window_size[0]/(self.xmax-self.xmin)
             self.yscale = self.window_size[1]/(self.ymax-self.ymin)
-        self.mode("world")       
+        self.mode("world") 
+        #self.clearscreen()
 
     def turtles(self):
         """Return the list of turtles on the screen."""
         return self._turtles
+
+    def initializescreen(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
+        """Initializes the drawing window
+    
+        Args:
+            window: (optional) the (width,height) in pixels
+            mode: (optional) one of "standard, "logo", "world", or "sv
+    
+        The defaults are (800,600) and "standard".
+    """
+        if window is not None:
+            if not (isinstance(window, tuple) and len(window) == 2 and isinstance(
+                    window[0], int) and isinstance(window[1], int)):
+                raise ValueError('Window must be a tuple of 2 integers')
+            else:
+                self.setup(window[0],window[1])
+        if mode is not None:
+            self.mode(mode)
+    initializeTurtle = initializescreen
 
     ########################################################################################
     #  Helper functions for color control
@@ -759,17 +827,23 @@ class Screen:
         return VALID_COLORS[n]
 
 #----------------------------------------------------------------------------------------------        
+      
         
-class Turtle:    
-    
-    def __init__(self, window, position = None):
-        if not isinstance(window, Screen) == True:
+class RawTurtle:     
+        
+    def __init__(self, window=None):
+        if window is None:
+            self.screen = Screen()
+        elif not isinstance(window, _Screen) == True:
             raise TypeError("window must be a Screen object")
+        else:
+            self.screen = window
+        screen = self.screen
         self.turtle_speed = DEFAULT_SPEED
         self.is_turtle_visible = DEFAULT_TURTLE_VISIBILITY
         self.pen_color = DEFAULT_PEN_COLOR
         self.fill_color = DEFAULT_FILL_COLOR
-        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (window._mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
+        self.turtle_degree = DEFAULT_TURTLE_DEGREE if (screen._mode in ["standard","world"]) else (270 - DEFAULT_TURTLE_DEGREE)
         self.turtle_orient = self.turtle_degree
         self.svg_lines_string = self.svg_fill_string = self.svg_dots_string = ""
         self.svg_stampsB_string = self.svg_stampsT_string = ""
@@ -781,19 +855,11 @@ class Turtle:
         self.stretchfactor = DEFAULT_STRETCHFACTOR
         self.shear_factor = DEFAULT_SHEARFACTOR
         self.outline_width = DEFAULT_OUTLINE_WIDTH
-
-        if position is not None:
-            if not (isinstance(position, tuple) and len(position) == 2):
-                raise ValueError('position must be a tuple of 2 integers')    
-            else:
-                self.turtle_pos = (window._convertx(position[0]),window._converty(position[1]))  
+        if screen._mode != "world":
+            self.turtle_pos = (screen.window_size[0] / 2, screen.window_size[1] / 2)
         else:
-            if window._mode != "world":
-                self.turtle_pos = (window.window_size[0] / 2, window.window_size[1] / 2)
-            else:
-                self.turtle_pos = (window._convertx(0),window._converty(0))
-                                   
-        self.timeout = window._speedToSec(DEFAULT_SPEED)
+            self.turtle_pos = (screen._convertx(0),screen._converty(0))                           
+        self.timeout = screen._speedToSec(DEFAULT_SPEED)
         self.animate = True
         self.is_filling = False
         self.is_pen_down = True
@@ -814,9 +880,8 @@ class Turtle:
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "blank":""}
-        if window._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})
-        self.screen = window                                   
-        window._add(self)
+        if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
+        screen._add(self)
         
         
         
@@ -1974,7 +2039,14 @@ class Turtle:
 
     # Clear text and turtle
     def clear(self):
-        """Clears any text or drawing on the screen."""
+        """Delete the turtle's drawings from the screen. Do not move turtle.
+
+        No arguments.
+
+        Delete the turtle's drawings from the screen. Do not move turtle.
+        State and position of the turtle as well as drawings of other
+        turtles are not affected.
+        """
         self.svg_lines_string = ""
         self.svg_fill_string = ""
         self.svg_dots_string = ""
@@ -2311,6 +2383,16 @@ class Turtle:
         """
         return self.screen._getcolor(n)
 
+class Turtle(RawTurtle):
+    _pen = None
+    _screen = None 
+    
+    def __init__(self):
+        if Turtle._screen is None:
+            Turtle._screen = Screen()
+        RawTurtle.__init__(self, Turtle._screen)   
+
+
 # Set the defaults used in the original version of ColabTurtle package
 def oldDefaults():
     """Set the defaults used in the original version of ColabTurtle package."""
@@ -2331,3 +2413,99 @@ def oldDefaults():
     DEFAULT_WINDOW_SIZE = (800, 500)
     DEFAULT_SPEED = 4
    
+
+_tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'getcolor', 'hideborder', 
+         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+         'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
+
+_tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
+       'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
+       'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
+       'getcolor', 'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
+       'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
+       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt',  'setheading', 'seth',  
+       'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
+       'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
+       'width', 'write', 'xcor', 'ycor' ]
+
+def _getmethparlist(ob):
+    """Get strings describing the arguments for the given object
+
+    Returns a pair of strings representing function parameter lists
+    including parenthesis.  The first string is suitable for use in
+    function definition and the second is suitable for use in function
+    call.  The "self" parameter is not included.
+    """
+    defText = callText = ""
+    # bit of a hack for methods - turn it into a function
+    # but we drop the "self" param.
+    # Try and build one for Python defined functions
+    args, varargs, varkw = inspect.getargs(ob.__code__)
+    items2 = args[1:]
+    realArgs = args[1:]
+    defaults = ob.__defaults__ or []
+    defaults = ["=%r" % (value,) for value in defaults]
+    defaults = [""] * (len(realArgs)-len(defaults)) + defaults
+    items1 = [arg + dflt for arg, dflt in zip(realArgs, defaults)]
+    if varargs is not None:
+        items1.append("*" + varargs)
+        items2.append("*" + varargs)
+    if varkw is not None:
+        items1.append("**" + varkw)
+        items2.append("**" + varkw)
+    defText = ", ".join(items1)
+    defText = "(%s)" % defText
+    callText = ", ".join(items2)
+    callText = "(%s)" % callText
+    return defText, callText
+
+def _turtle_docrevise(docstr):
+    """To reduce docstrings from RawTurtle class for functions
+    """
+
+    if docstr is None:
+        return None
+    turtlename = "turtle"
+    newdocstr = docstr.replace("%s." % turtlename,"")
+    parexp = re.compile(r' \(.+ %s\):' % turtlename)
+    newdocstr = parexp.sub(":", newdocstr)
+    return newdocstr
+
+def _screen_docrevise(docstr):
+    """To reduce docstrings from TurtleScreen class for functions
+    """
+
+    if docstr is None:
+        return None
+    screenname = "screen"
+    newdocstr = docstr.replace("%s." % screenname,"")
+    parexp = re.compile(r' \(.+ %s\):' % screenname)
+    newdocstr = parexp.sub(":", newdocstr)
+    return newdocstr
+
+
+__func_body = """\
+def {name}{paramslist}:
+    if {obj} is None:
+        {obj} = {init}
+    return {obj}.{name}{argslist}
+"""
+
+def _make_global_funcs(functions, cls, obj, init, docrevise):
+    for methodname in functions:
+        try:
+            method = getattr(cls, methodname)
+        except AttributeError:
+            print("method name missing:", methodname)
+            continue
+        pl1, pl2 = _getmethparlist(method)
+        defstr = __func_body.format(obj=obj, init=init, name=methodname, paramslist=pl1, argslist=pl2)
+        exec(defstr, globals())
+        globals()[methodname].__doc__ = docrevise(method.__doc__)
+
+_make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
+
+_make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
+
+
+
