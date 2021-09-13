@@ -2349,7 +2349,7 @@ class RawTurtle:
         self.animate = True        
 
     def clone(self):
-        cloneTurtle = Turtle(self.screen)
+        cloneTurtle = Turtle()
         cloneTurtle.ht()
         cloneTurtle.shape(self.shape())
         cloneTurtle.pen(self.pen())
