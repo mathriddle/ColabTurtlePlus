@@ -1,11 +1,11 @@
 # ColabTurtlePlus
-An extension of the original ColabTurtle by Tolga Atam (tolgaatam). Also includes some code from jaronma ColabTurtle_2 repo.
+An extension of the original ColabTurtle by Tolga Atam (tolgaatam) using classes (so multiple turtle are possible. Also includes some code from jaronma ColabTurtle_2 repo.
 
 This is a module for drawing classic Turtle figures on Google Colab notebooks. It can also be used in Jupyter Lab notebooks. The graphics are drawn using SVG tags. The SVG commands can be printed on screen (after the drawing is completed) or saved to a file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
 
-**Note:** The current version uses classes so that multiple turtles are possible. However, it only uses an object-oriented interface, so all screen and turtle instances must be declared first using the Screen and Turtle classes, e.g.\
-screen = Screen() \
-turtle = Turtle(screen)
+The ColabTurtlePlus module provides turtle graphics primitives, in both object-oriented and procedure-oriented ways. The procedural interface provides functions that are derived from the methods of the classes. They have the same names as the corresponding methods. A screen object is automatically created whenever a function derived from a Screen method is called. An (unnamed) turtle object is automatically created whenever any of the functions derived from a Turtle method is called.
+
+To use multiple turtles on a screen one has to use the object-oriented interface.
 
 Installation
 ----
@@ -23,25 +23,26 @@ In any code cell, import the package using
 
     from ColabTurtlePlus.Turtle import *
 
-Example
+Example 1
 ---
+This example uses the procedure-oriented interface.
 ```
 from ColabTurtlePlus.Turtle import *
-window = Screen(size=(300,300))
-window.showborder()
-T = Turtle(window)
-T.color("red", "yellow")
-T.shape("turtle")
-T.pensize(2)
-T.speed(7)
-T.begin_fill()
-for _ in range(4)
-  T.forward(100)
-  T.left(90)
-T.circle(-50)
-T.end_fill()
-T.color("black","green")
-window.saveSVG(turtle=True)
+reset()
+setup(300,300)
+showborder()
+color("red", "yellow")
+shape("turtle")
+pensize(2)
+speed(7)
+begin_fill()
+for _ in range(4):
+  forward(100)
+  left(90)
+circle(-50)
+end_fill()
+color("black","green")
+saveSVG(turtle=True)
 ```
 The resulting image is  
 ![svg image](example.svg)
