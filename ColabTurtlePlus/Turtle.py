@@ -2351,11 +2351,11 @@ class RawTurtle:
     def clone(self):
         screen = self.screen
         cloneTurtle = Turtle()
-        cloneTurtle.ht()
+        cloneTurtle.ht()        
+        x,y = self.position()
+        cloneTurtle.turtle_pos = screen._convertx(x),screen._converty(y)        
         cloneTurtle.shape(self.shape())
         cloneTurtle.pen(self.pen())
-        x,y = self.position()
-        cloneTurtle.turtle_pos = screen._convertx(x),screen._converty(y)
         return cloneTurtle
         
     ########################################################################################
