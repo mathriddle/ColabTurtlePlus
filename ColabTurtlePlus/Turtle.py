@@ -2353,7 +2353,7 @@ class RawTurtle:
         cloneTurtle.ht()
         cloneTurtle.shape(self.shape())
         cloneTurtle.pen(self.pen())
-        cloneTurtle.position = self.position
+        cloneTurtle.turtle_pos = self.position()
         return cloneTurtle
         
     ########################################################################################
