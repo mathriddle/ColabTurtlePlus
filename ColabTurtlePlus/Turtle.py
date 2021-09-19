@@ -808,23 +808,7 @@ class _Screen:
             err = 'The color parameter ' + color + ' must be a color string or a tuple'
             raise ValueError(err)
 
-    # Get the color corresponding to position n in the valid color list
-    def getcolor(self,n):
-        """ Returns the color string in the valid color list at position n
-    
-        Args:
-            n: an integer between 0 and 139
-    
-        Returns:
-            str: color string in the valid color list at position n
-        """
 
-        if not isinstance(n,(int,float)):
-            raise valueError("color index must be an integer between 0 and 139")
-        n = int(round(n))
-        if (n < 0) or (n > 139):
-            raise valueError("color index must be an integer between 0 and 139")
-        return VALID_COLORS[n]
 
 #----------------------------------------------------------------------------------------------        
       
@@ -2416,15 +2400,33 @@ def oldDefaults():
     DEFAULT_WINDOW_SIZE = (800, 500)
     DEFAULT_SPEED = 4
    
+    # Get the color corresponding to position n in the valid color list
+def getcolor(self,n):
+    """ Returns the color string in the valid color list at position n
+    
+    Args:
+        n: an integer between 0 and 139
+    
+    Returns:
+        str: color string in the valid color list at position n
+    """
 
-_tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'getcolor', 'hideborder', 
+    if not isinstance(n,(int,float)):
+        raise valueError("color index must be an integer between 0 and 139")
+    n = int(round(n))
+    if (n < 0) or (n > 139):
+        raise valueError("color index must be an integer between 0 and 139")
+    return VALID_COLORS[n]
+
+
+_tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'hideborder', 
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
        'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
-       'getcolor', 'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
+       'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
        'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt',  'setheading', 'seth',  
        'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
