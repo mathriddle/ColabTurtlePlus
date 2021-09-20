@@ -1,3 +1,3 @@
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mathriddle/ColabTurtlePlus/blob/main/examples/files/TolgaAtamExample.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mathriddle/ColabTurtlePlus/blob/main/examples_version2/files/TolgaAtamExample.ipynb)
 
-Tolga Atam's turtle example from his original ColabTurtle readme file. The two changes to his example are calling oldDefaults() before initializing the turtle to get the default values that he uses, and his "circle" shape is called "ring" in ColabTurtlePlus.
+Tolga Atam's turtle example from his original ColabTurtle readme file. The only change to his example is calling oldDefaults() to set the default values from ColabTurtle.
