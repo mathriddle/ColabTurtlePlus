@@ -5,7 +5,7 @@ This is a module for drawing classic Turtle figures on Google Colab notebooks. I
 
 The ColabTurtlePlus module provides turtle graphics primitives, in both object-oriented and procedure-oriented ways. The procedural interface provides functions that are derived from the methods of the classes. They have the same names as the corresponding methods. A screen object is automatically created whenever a function derived from a Screen method is called. An (unnamed) turtle object is automatically created whenever any of the functions derived from a Turtle method is called.
 
-To use multiple turtles on a screen one has to use the object-oriented interface.
+To use multiple turtles on a screen one has to use the object-oriented interface for the turtles.
 
 Installation
 ----
@@ -15,7 +15,7 @@ Create an empty code cell and type:
 
 Run the code cell to install the library.
 
-**Note:** The original non-class version of ColabTurtlePlus can be installed using !pip install ColabTurtlePlus==1.5
+**Note:** The previous non-class version of ColabTurtlePlus can be installed using !pip install ColabTurtlePlus==1.5.
 
 Usage
 ----
@@ -124,3 +124,4 @@ Main differences with classic turtle.py
 * The stamp method has an optional layer argument. The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
 * Not all the methods from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
 
+Documentation for the methods and functions in ColabTurtlePlus can be found at <a href="https://larryriddle.agnesscott.org/ColabTurtlePlus/documentation2.html">https://larryriddle.agnesscott.org/ColabTurtlePlus/documentation2.html.
