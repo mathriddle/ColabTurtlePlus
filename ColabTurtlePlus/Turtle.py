@@ -272,6 +272,7 @@ class _Screen:
             svg+=turtle.svg_stampsT_string 
         return svg
     
+
     # Helper function for generating the whole svg string
     def _generateSvgDrawing(self):
         return SVG_TEMPLATE.format(window_width=self.window_size[0], 
@@ -1173,8 +1174,7 @@ class RawTurtle:
             self.end_fill()       
             self.fill_color = fillcolor_temp
             self.screen._updateDrawing(turtle=self)
-        
-        
+ 
     # Move the turtle to a designated position.
     def goto(self, x, y=None):
         """Moves turtle to an absolute position.
