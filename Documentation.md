@@ -1,4 +1,4 @@
-# Documentation for ColabTurtlePlus
+# Documentation for ColabTurtlePlus 1.5 (no classes)
 
 Installation
 ----
