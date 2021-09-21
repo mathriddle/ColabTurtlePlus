@@ -16,57 +16,12 @@ Looks of the figures are inspired from Blockly Games / Turtle (blockly-games.app
 
 --------
 v1.0.0 Modified April/May 2021 by Larry Riddle
-Changed some default values to match classic turtle.py package
-  default background color is white, default pen color is black, default pen thickness is 1
-  default mode is "standard"
-  center of window has coordinates (0,0)
-Added option for selecting a mode when initializing the turtle graphics
-  "standard" : default direction is to the right (east) and positive angles measured counterclockwise
-  "logo" : default directon is upward (north) and positive angles are measured clockwise with 0° pointing up.
-  "world" : like standard but with user-defined coordinates. Initial turtle position is (0,0).
-  "svg": This is a special mode to handle how the original ColabTurtle worked. The coordinate system is the same
-         as that used with SVG. The upper left corner is (0,0) with positive x direction being to the right, and the 
-         positive y direction being to the bottom. Positive angles are measured clockwise with 0° pointing right.
-Added functions to print or save the svg coding for the image.
-Added additional shapes from classic turtle.py: 'classic' (the default shape), 'arrow', 'square', 'triangle', 'circle','turtle2', 'blank'
-  The circle shape in the original ColabTurtle has been renamed to 'ring'.
-  The turtle2 shape is the same as the turtle shape in the classic turtle.py package.
-Added speed=0 option that displays final image with no animation. 
-  Added done function so that final image is displayed on screen when speed=0.
-Added setworldcoordinates function to allow for setting world coordinate system. This sets the mode to "world".
-  If this is done *before* initializing the turtle window, the graphic window is adjusted to maintain
-  the same aspect ratio as the axes, so angles are true. It the world coordinates are set *after* initializing
-  the turtle window, no adjustment is made to the window size so angles may appear distorted.
-Added towards function to return the angle between the line from turtle position to specified position.
-Implemented begin_fill and end_fill functions from aronma/ColabTurtle_2 github. Added fillcolor function and fillrule function.
-  The fillrule function can be used to specify the SVG fill_rule (nonzero or evenodd). The default is evenodd to match turtle.py behavior.
-  When calling begin_fill, a value for the fill_rule can be given that will apply only to that fill.
-  Because the fill is controlled by svg rules, the result may differ from classic turtle fill.
-Implemented circle (arc) function from aronma/ColabTurtle_2 github. Modified these to match behavior of circle function in
-  classic turtle.py package. If the radius is positive, the center of the circle is to the left of the turtle and the
-  path is drawn in the counterclockwise direction. If the radius is negative, the center of the circle is to the right of
-  the turtle and path is drawn in the clockwise direction. Number of steps is not used here since the circle is drawn using
-  the svg circle function.
-Modified the color function to set both the pencolor as well as the fillcolor, just as in classic turtle.py package.
-Added dot function to draw a dot with given diameter and color.
-Added shapesize function to scale the turtle shape.
-Added shearfactor function.
-Added stamp, clearstamp, and clearstamps to stamp a copy of the turtle shape onto the canvas at the current turtle position, or to
-  delete stamps. Use stamp() or stamp(0) to put stamp at bottom of SVG order while stamp(1) will put it at top of SVG order.
-Added pen function.
-Added tilt and tiltangle functions.
-Added degrees and radians functions.
-Added animated motion along lines and circles, and for rotating right or left. Animation can be turned off/on using animationOff
-  and animationOn. Default is animationOn.
-Added a function to draw a line segment independent of the turtle motion.
-Added a function for the turtle to move along a regular polygon.
-Original ColabTurtle defaults can be set by calling oldDefaults() after importing the ColabTurtle package but before initializeTurtle.
-  This sets default background to black, default pen color to white, default pen width to 4, default shape to Turtle, and
-  default window size to 800x500. It also sets the mode to "svg".
-Added jumpto function to go directly to a given location with drawing or animation.
+Added additional functions and capabilities from classic turtle.py package
+Made use of SVG functions for animating the motion of the turtle
+v1.4-v1.5 uploaded to PyPI
 
 v2.0.0 Sept. 2021, Switched to using classes to allow for multiple turtles
-Added clone method to Turtle class
+Uploaded to PyPI
 
 """
 
