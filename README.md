@@ -97,7 +97,7 @@ Some of the default values have been changed to mirror those in turtle.py. In pa
    
 The original default values in ColabTurtle can be used by calling oldDefaults() at the beginning.
 
-This version extends ColabTurtle to include more of the commands found in the classic turtle.py package and some additional features.
+This version extends ColabTurtle to include more of the commands found in the classic turtle.py module and some additional features.
 * The possible turtle shapes include the ones from turtle.py: 'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. The 'turtle' shape is the one that Tolga Atam included in his original ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
 * Added the three modes from turtle.py, and an additional "svg" mode:
    * "standard" : initial turtle heading is to the right (east) and positive angles measured counterclockwise with 0° pointing right.
@@ -116,13 +116,13 @@ This version extends ColabTurtle to include more of the commands found in the cl
 Main differences with classic turtle.py
 ----
 
-* The circle method draws smooth arcs using SVG. The step argument is available but primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularPolygon() function to take advantage of svg commands.
+* The circle method draws smooth arcs using SVG. The step argument is available but primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularPolygon() turtle method to take advantage of svg commands.
 * A screen method to draw lines has been included.
-* Added getcolor method to return a color string from the list of 140 valid HTML colors that are allowed as valid colors. 
+* Added getcolor function to return a color string from the list of 140 valid HTML colors that are allowed as valid colors. 
 * Setting speed = 0 draws only the final image with no intermediate animations. This is usually very quick. To turn off the animation but still show the turtle motion (equivalent to speed=0 in classic turtle.py), call animationOff(). This will use the current speed, but forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly. Keeping consistent with the original ColabTurtle, the non-zero speed values can be from 1 to 13 (slowest to fastest).
 * There is a fillrule turtle method to set nonzero or evenodd as the options used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The begin_fill() function can take an argument of 'nonzero' or 'evenodd' to set the fill-rule just for that fill.
 * There is a fillopacity turtle method that sets the global fill-opacity used by SVG to fill an object. The default is 1. The begin_fill() function can take an argument between 0 and 1 to set the fill_opacity just for that fill. See details below.
-* The stamp method has an optional layer argument. The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
+* The stamp turtle method has an optional layer argument. The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
 * Not all the methods from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
 
 Documentation for the methods and functions in ColabTurtlePlus can be found at <a href="https://larryriddle.agnesscott.org/ColabTurtlePlus/documentation2.html">https://larryriddle.agnesscott.org/ColabTurtlePlus/documentation2.html.
