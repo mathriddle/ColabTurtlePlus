@@ -2234,7 +2234,7 @@ class RawTurtle:
             self.tilt_angle = angle*self.angle_conv
         else:
             self.tilt_angle = angle*_angle_conv
-            self.screen._updateDrawing(target=self, delay=False) 
+            self.screen._updateDrawing(turtle=self, delay=False) 
 
     # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
     def tilt(self, angle):
@@ -2256,11 +2256,13 @@ class RawTurtle:
             self.tilt_angle += angle*self.angle_conv
         else:
             self.tilt_angle += angle*self.angle_conv
-            self.screen._updateDrawing(target=self, delay=False)    
+            self.screen._updateDrawing(turtle=self, delay=False)    
 
     def delete(self):
+        """Deletes the turtle from the drawing window"""
         n = self.screen._turtles.index(self)
-        print(n)
+        self.screen_turtles.remove(n)
+        self.screen_updateDrawing(turtle=self, delay=False)
 
 #===========================
 # Animation Controls
