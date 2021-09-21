@@ -20,7 +20,7 @@ Run the code cell to install the library.
 
 Usage
 ----
-In any code cell, import the package using
+In any code cell, import the module using
 
     from ColabTurtlePlus.Turtle import *
 
