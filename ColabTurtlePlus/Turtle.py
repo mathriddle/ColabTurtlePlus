@@ -1942,9 +1942,9 @@ class RawTurtle:
             raise ValueError("The fill-opacity should be between 0 and 1.")
         self.fill_opacity = opacity            
 
-    #===========================
-    # More drawing contols
-    #===========================
+#===========================
+# More drawing contols
+#===========================
 
     # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
     def reset(self):
@@ -2258,10 +2258,13 @@ class RawTurtle:
             self.tilt_angle += angle*self.angle_conv
             self.screen._updateDrawing(target=self, delay=False)    
 
+    def delete(self):
+        n = self.screen.index(self)
+        print(n)
 
-    #===========================
-    # Animation Controls
-    #===========================
+#===========================
+# Animation Controls
+#===========================
 
     # Delay execution of next object for given delay time (in seconds)
     def delay(self, delay_time):
