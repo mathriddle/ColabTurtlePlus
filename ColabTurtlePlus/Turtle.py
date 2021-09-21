@@ -2259,7 +2259,7 @@ class RawTurtle:
             self.screen._updateDrawing(target=self, delay=False)    
 
     def delete(self):
-        n = self.screen.index(self)
+        n = self.screen._turtles.index(self)
         print(n)
 
 #===========================
