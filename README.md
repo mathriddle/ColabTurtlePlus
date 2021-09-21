@@ -16,11 +16,11 @@ Create an empty code cell and type:
 
 Run the code cell to install the library.
 
-**Note:** The previous non-class version of ColabTurtlePlus can be installed using !pip install ColabTurtlePlus==1.5.
+**Note:** The previous non-class version of ColabTurtlePlus can be installed using !pip install ColabTurtlePlus==1.5. 
 
 Usage
 ----
-In any code cell, import the package using
+In any code cell, import the module using
 
     from ColabTurtlePlus.Turtle import *
 
