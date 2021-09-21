@@ -2261,8 +2261,8 @@ class RawTurtle:
     def delete(self):
         """Deletes the turtle from the drawing window"""
         n = self.screen._turtles.index(self)
-        self.screen_turtles.remove(n)
-        self.screen_updateDrawing(turtle=self, delay=False)
+        self.screen._turtles.remove(n)
+        self.screen._updateDrawing(turtle=self, delay=False)
 
 #===========================
 # Animation Controls
