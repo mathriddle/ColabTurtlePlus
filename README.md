@@ -46,7 +46,7 @@ color("black","green")
 saveSVG(turtle=True)
 ```
 The resulting image is  
-![svg image](example.svg)
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/example.svg)
 
 Example 2
 ----
@@ -78,7 +78,7 @@ T.end_fill()
 S.end_fill()
 ```
 The resulting image is  
-![svg image](stars.svg)
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/stars.svg)
 
 Main differences from ColabTurtle
 ----
