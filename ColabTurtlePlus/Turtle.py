@@ -2359,7 +2359,7 @@ def getcolor(n):
     """
 
     if not isinstance(n,(int,float)):
-        raise valueError("color index must be an integer between 0 and 139")
+        raise ValueError("color index must be an integer between 0 and 139")
     n = int(round(n))
     if (n < 0) or (n > 139):
         raise valueError("color index must be an integer between 0 and 139")
