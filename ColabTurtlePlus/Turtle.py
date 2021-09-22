@@ -2317,18 +2317,6 @@ class RawTurtle:
     def _processColor(self, color):
         return self.screen._processColor(color)
 
-    # Get the color corresponding to position n in the valid color list
-    def getcolor(self,n):
-        """ Returns the color string in the valid color list at position n
-    
-        Args:
-            n: an integer between 0 and 139
-    
-        Returns:
-            str: color string in the valid color list at position n
-        """
-        return self.screen._getcolor(n)
-
 class Turtle(RawTurtle):
     _pen = None
     _screen = None 
@@ -2359,8 +2347,8 @@ def oldDefaults():
     DEFAULT_WINDOW_SIZE = (800, 500)
     DEFAULT_SPEED = 4
    
-    # Get the color corresponding to position n in the valid color list
-def getcolor(self,n):
+# Get the color corresponding to position n in the valid color list
+def getcolor(n):
     """ Returns the color string in the valid color list at position n
     
     Args:
