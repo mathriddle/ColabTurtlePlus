@@ -1942,9 +1942,9 @@ class RawTurtle:
             raise ValueError("The fill-opacity should be between 0 and 1.")
         self.fill_opacity = opacity            
 
-    #===========================
-    # More drawing contols
-    #===========================
+#===========================
+# More drawing contols
+#===========================
 
     # Delete the turtle’s drawings from the screen, re-center the turtle and set (most) variables to the default values.
     def reset(self):
@@ -2234,7 +2234,7 @@ class RawTurtle:
             self.tilt_angle = angle*self.angle_conv
         else:
             self.tilt_angle = angle*_angle_conv
-            self.screen._updateDrawing(target=self, delay=False) 
+            self.screen._updateDrawing(turtle=self, delay=False) 
 
     # Rotate the turtle shape by angle from its current tilt-angle, but do not change the turtle’s heading (direction of movement).
     def tilt(self, angle):
@@ -2256,12 +2256,16 @@ class RawTurtle:
             self.tilt_angle += angle*self.angle_conv
         else:
             self.tilt_angle += angle*self.angle_conv
-            self.screen._updateDrawing(target=self, delay=False)    
+            self.screen._updateDrawing(turtle=self, delay=False)    
 
+    def delete(self):
+        """Deletes the turtle from the drawing window"""
+        self.screen._turtles.remove(self)
+        self.screen._updateDrawing(turtle=self, delay=False)
 
-    #===========================
-    # Animation Controls
-    #===========================
+#===========================
+# Animation Controls
+#===========================
 
     # Delay execution of next object for given delay time (in seconds)
     def delay(self, delay_time):
@@ -2313,18 +2317,6 @@ class RawTurtle:
     def _processColor(self, color):
         return self.screen._processColor(color)
 
-    # Get the color corresponding to position n in the valid color list
-    def getcolor(self,n):
-        """ Returns the color string in the valid color list at position n
-    
-        Args:
-            n: an integer between 0 and 139
-    
-        Returns:
-            str: color string in the valid color list at position n
-        """
-        return self.screen._getcolor(n)
-
 class Turtle(RawTurtle):
     _pen = None
     _screen = None 
@@ -2355,8 +2347,8 @@ def oldDefaults():
     DEFAULT_WINDOW_SIZE = (800, 500)
     DEFAULT_SPEED = 4
    
-    # Get the color corresponding to position n in the valid color list
-def getcolor(self,n):
+# Get the color corresponding to position n in the valid color list
+def getcolor(n):
     """ Returns the color string in the valid color list at position n
     
     Args:
@@ -2367,7 +2359,7 @@ def getcolor(self,n):
     """
 
     if not isinstance(n,(int,float)):
-        raise valueError("color index must be an integer between 0 and 139")
+        raise ValueError("color index must be an integer between 0 and 139")
     n = int(round(n))
     if (n < 0) or (n > 139):
         raise valueError("color index must be an integer between 0 and 139")
