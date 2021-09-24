@@ -80,7 +80,7 @@ S.end_fill()
 The resulting image is  
 ![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/stars.svg)
 
-Main differences from ColabTurtle
+Main differences with ColabTurtle
 ----
 This version implements classes. 
 
@@ -120,8 +120,8 @@ Main differences with classic turtle.py
 * A screen method to draw lines has been included.
 * Added getcolor function to return a color string from the list of 140 valid HTML colors that are allowed as valid colors. 
 * Setting speed = 0 draws only the final image with no intermediate animations. This is usually very quick. To turn off the animation but still show the turtle motion (equivalent to speed=0 in classic turtle.py), call animationOff(). This will use the current speed, but forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly. Keeping consistent with the original ColabTurtle, the non-zero speed values can be from 1 to 13 (slowest to fastest).
-* There is a fillrule turtle method to set nonzero or evenodd as the options used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The begin_fill() function can take an argument of 'nonzero' or 'evenodd' to set the fill-rule just for that fill.
-* There is a fillopacity turtle method that sets the global fill-opacity used by SVG to fill an object. The default is 1. The begin_fill() function can take an argument between 0 and 1 to set the fill_opacity just for that fill. See details below.
+* There is a fillrule turtle method to set nonzero or evenodd as the options used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The begin_fill() function can take an argument of 'nonzero' or 'evenodd' to set the fill-rule just for that fill. See details in the documentation.
+* There is a fillopacity turtle method that sets the global fill-opacity used by SVG to fill an object. The default is 1. The begin_fill() function can take an argument between 0 and 1 to set the fill_opacity just for that fill. See details in the documentation.
 * The stamp turtle method has an optional layer argument. The argument determines whether the stamp appears below other items (layer=0) or above other items (layer=1) in the order that SVG draws items. So if layer=0, a stamp may be covered by a filled object, for example, even if the stamp is originally drawn on top of the object during the animation. To prevent this, set layer=1 (or any nonzero number). The default is layer=0 if no argument is given.
 * Not all the methods from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
 
