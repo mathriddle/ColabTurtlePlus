@@ -5,3 +5,5 @@ tdemo_chaos.py demo from the turtledemo package in python installation.
 Author: Gregor Lingl, Date: 2009-06-24
 
 A demonstrationn of chaos. The functions f, g, and h are identical, just written differently. Each function is iterated a certain number of times starting with the same initial point. After enough iterations, the values of the three functions will start to differ.
+
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/examples_version2/files/chaos.svg)
