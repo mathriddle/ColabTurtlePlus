@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="550"
-   height="550"
-   viewBox="0 0 550 550"
+   width="412.5"
+   height="412.5"
+   viewBox="0 0 412.5 412.5"
    version="1.1"
    id="svg6469"
    sodipodi:docname="bytedesign-colored.svg"
@@ -23,8 +23,8 @@
      inkscape:pagecheckerboard="0"
      showgrid="false"
      inkscape:zoom="1"
-     inkscape:cx="160"
-     inkscape:cy="285"
+     inkscape:cx="91"
+     inkscape:cy="216"
      inkscape:window-width="1555"
      inkscape:window-height="930"
      inkscape:window-x="0"
@@ -33,7 +33,7 @@
      inkscape:current-layer="svg6469" />
   <g
      id="g9785"
-     transform="matrix(0.75,0,0,0.75,68.75,68.75)">
+     transform="scale(0.75)">
     <rect
        width="100%"
        height="100%"
