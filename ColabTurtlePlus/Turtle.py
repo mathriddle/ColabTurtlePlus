@@ -260,12 +260,13 @@ class _Screen:
         header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
             fillcolor=self.background_color,
             kolor=self.border_color)
+        lines = self._svg_drawlines_string.replace("/>","/>\n")
         image = self._generateSvgLines().replace("/>","/>\n")
         stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
         stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
         dots = self._generateSvgDots().replace(">",">\n")
         turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
-        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
+        output = header + stampsB + lines + image + dots + stampsT + turtle_svg + "</svg>"
         print(output) 
 
     # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
@@ -297,12 +298,13 @@ class _Screen:
         header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
             fillcolor=self.background_color,
             kolor=self.border_color)
+        lines = self._svg_drawlines_string.replace("/>","/>\n")
         image = self._generateSvgLines().replace("/>","/>\n")
         stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
         stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
         dots = self._generateSvgDots().replace(">",">\n")
         turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
-        output = header + stampsB + image + dots + stampsT + turtle_svg + "</svg>"
+        output = header + stampsB + lines + image + dots + stampsT + turtle_svg + "</svg>"
         text_file.write(output)
         text_file.close()   
 
