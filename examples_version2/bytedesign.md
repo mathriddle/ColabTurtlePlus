@@ -8,3 +8,5 @@ Graphics to Redraw a Design</a>",
 November 1982, p. 120-139.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mathriddle/ColabTurtlePlus/blob/main/examples_version2/files/bytedesign_color.ipynb) Version drawn with green and red colors (and rotated slightly).
+
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/examples_version2/files/bytedesign.svg)![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/examples_version2/files/bytedesign-colored.svg)
