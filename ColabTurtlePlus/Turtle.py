@@ -108,9 +108,9 @@ def Screen():
     """Return the singleton screen object.
     If none exists at the moment, create a new one and return it,
     else return the existing one."""
-    if Turtle._screen is None:
-        Turtle._screen = _Screen()
-    return Turtle._screen
+    #if Turtle._screen is None:
+    Turtle._screen = _Screen()
+    #return Turtle._screen
 
 class _Screen:
     def __init__(self):
