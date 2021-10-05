@@ -110,7 +110,7 @@ def Screen():
     else return the existing one."""
     #if Turtle._screen is None:
     Turtle._screen = _Screen()
-    #return Turtle._screen
+    return Turtle._screen
 
 class _Screen:
     def __init__(self):
