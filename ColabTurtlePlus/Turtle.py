@@ -589,11 +589,14 @@ class _Screen:
 
     # Clear all text and all turtles on the screen
     def clear(self):
-        """Clears any text or drawing on the screen. Deletes all turtles.
+        """Clears any text or drawing in the graphics window. Deletes all turtles.
         
         No argument.
+        
+        Note: clear() can only be used as a method, not a function.
            
-        Note: This method is not available as a function. Use clearscreen.    
+        In order to re-run turtle commands in a cell, put clearscreen() as the first
+        command in the cell.
         """
         if self._turtles == []: return
         for turtle in self._turtles:
