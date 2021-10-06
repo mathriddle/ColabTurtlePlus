@@ -608,7 +608,8 @@ class _Screen:
             turtle.is_filling = False
             self._svg_drawlines_string = ""
         self._turtles = []
-        Turtle._pen = None
+        print("in clearscreen")
+        #Turtle._pen = None
         #Turtle._screen = None
         #self.drawing_window = None
         #self._updateDrawing(delay=False)        
