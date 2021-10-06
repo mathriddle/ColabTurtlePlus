@@ -595,6 +595,7 @@ class _Screen:
            
         Note: This method is not available as a function. Use clearscreen.    
         """
+        if self._turtles = []: return
         for turtle in self._turtles:
             turtle.svg_lines_string = ""
             turtle.svg_fill_string = ""
@@ -625,7 +626,7 @@ class _Screen:
         for turtle in self._turtles:
             turtle.reset()
     
-    clearscreen = clear
+    #clearscreen = clear
     resetscreen = reset
 
     # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
