@@ -609,8 +609,9 @@ class _Screen:
             self._svg_drawlines_string = ""
         self._turtles = []
         Turtle._pen = None
-        Turtle._screen = None
-        self._updateDrawing()        
+        if Turtle._screen is not None: 
+            Turtle._screen = None
+            self._updateDrawing()        
 
     # Reset all Turtles on the Screen to their initial state.
     def reset(self):
