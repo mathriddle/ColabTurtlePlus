@@ -610,6 +610,7 @@ class _Screen:
         self._turtles = []
         Turtle._pen = None
         Turtle._screen = None
+        self.drawing_window = None
         #self._updateDrawing(delay=False)        
 
     # Reset all Turtles on the Screen to their initial state.
