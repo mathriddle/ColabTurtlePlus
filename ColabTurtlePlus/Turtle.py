@@ -595,7 +595,7 @@ class _Screen:
            
         Note: This method is not available as a function. Use clearscreen.    
         """
-        if self._turtles = []: return
+        if self._turtles == []: return
         for turtle in self._turtles:
             turtle.svg_lines_string = ""
             turtle.svg_fill_string = ""
