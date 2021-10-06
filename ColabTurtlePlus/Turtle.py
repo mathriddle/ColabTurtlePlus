@@ -127,7 +127,7 @@ class _Screen:
         self._svg_drawlines_string = ""
         self.background_color = DEFAULT_BACKGROUND_COLOR
         self.border_color = DEFAULT_BORDER_COLOR
-        #self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
+        self.drawing_window = display(HTML(self._generateSvgDrawing()), display_id=True)
 
     # Helper function that maps [0,13] speed values to ms delays
     def _speedToSec(self, speed):
