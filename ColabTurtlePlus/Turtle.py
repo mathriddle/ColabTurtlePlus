@@ -626,7 +626,7 @@ class _Screen:
         for turtle in self._turtles:
             turtle.reset()
     
-    #clearscreen = clear
+    clearscreen = clear
     resetscreen = reset
 
     # Set turtle mode (“standard”, “logo”, “world”, or "svg") and reset the window. If mode is not given, current mode is returned.
