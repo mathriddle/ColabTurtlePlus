@@ -596,7 +596,7 @@ class _Screen:
         Note: clear() can only be used as a method, not a function.
            
         In order to re-run turtle commands in a cell, put clearscreen() as the first
-        command in the cell.
+        command in the cell (after the import command).
         """
         if self._turtles == []: return
         for turtle in self._turtles:
