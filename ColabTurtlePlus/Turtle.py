@@ -108,8 +108,8 @@ def Screen():
     """Return the singleton screen object.
     If none exists at the moment, create a new one and return it,
     else return the existing one."""
-    #if Turtle._screen is None:
-    Turtle._screen = _Screen()
+    if Turtle._screen is None:
+        Turtle._screen = _Screen()
     return Turtle._screen
 
 class _Screen:
@@ -609,6 +609,7 @@ class _Screen:
             self._svg_drawlines_string = ""
         self._turtles = []
         Turtle._pen = None
+        Turtle._screen = None
         self._updateDrawing()        
 
     # Reset all Turtles on the Screen to their initial state.
