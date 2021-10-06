@@ -1,1 +1,1 @@
-print("Put clearscreen() as the first line to re-run turtle commands")
+print("Put clearscreen() as the first line to re-run turtle commands in a cell")
