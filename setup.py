@@ -9,13 +9,13 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name='ColabTurtlePlus',
-    version='2.0',
+    version='2.0.1',
     packages=['ColabTurtlePlus'],
     url='https://github.com/mathriddle/ColabTurtlePlus',
     license='MIT',
     author='Larry Riddle',
     author_email='lriddle@agnesscott.edu',
-    description='An HTML based Turtle implementation for Google Colab and Jupyter Labs',
+    description='An HTML based Turtle implementation with classes for Google Colab and Jupyter Labs',
     long_description=README,
     long_description_content_type="text/markdown",
     classifiers=[
