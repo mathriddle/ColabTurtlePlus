@@ -23,6 +23,10 @@ v1.4-v1.5 uploaded to PyPI
 v2.0.0 Sept. 2021, Switched to using classes to allow for multiple turtles
 Uploaded to PyPI
 
+v2.0.1 Oct. 2021
+Lines drawn with drawlines() method now included in saved SVG file.
+Fixes so that graphic window is still displayed when cell executed more than once in Jupyter notebook.
+
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
