@@ -1,6 +1,6 @@
 # ColabTurtlePlus
 
-An extension of the original ColabTurtle by Tolga Atam (tolgaatam) using classes (so multiple turtle are possible). Also includes some code from jaronma ColabTurtle_2 repo.
+An extension of the original ColabTurtle by Tolga Atam (tolgaatam) using classes (so multiple turtle are possible). 
 
 This is a module for drawing classic Turtle figures on Google Colab notebooks. It can also be used in Jupyter Lab notebooks. The graphics are drawn using SVG tags. The SVG commands can be printed on screen (after the drawing is completed) or saved to a file for use in a program like inkscape or Adobe Illustrator, or displaying the image in a webpage.
 
@@ -20,7 +20,7 @@ Run the code cell to install the library.
 
 Usage
 ----
-In any code cell, import the module using
+In a code cell, import the module using
 
     from ColabTurtlePlus.Turtle import *
 
@@ -29,7 +29,7 @@ Example 1
 This example uses the procedure-oriented interface.
 ```
 from ColabTurtlePlus.Turtle import *
-reset()
+clearscreen()
 setup(300,300)
 showborder()
 color("red", "yellow")
@@ -117,7 +117,7 @@ Main differences with classic turtle.py
 ----
 
 * The circle method draws smooth arcs using SVG. The step argument is available but primarily for backward compatability with classic turtle.py circle. To get a true circular arc, do NOT use steps since the circle will be drawn using SVG commands. If steps > 20, it will be assumed that an arc of a circle was intended. While this function can still be used to draw a regular polygon with 20 or fewer sides, it is better to use the regularPolygon() turtle method to take advantage of svg commands.
-* A screen method to draw lines has been included.
+* A screen method to draw lines independent of a turtle has been included.
 * Added getcolor function to return a color string from the list of 140 valid HTML colors that are allowed as valid colors. 
 * Setting speed = 0 draws only the final image with no intermediate animations. This is usually very quick. To turn off the animation but still show the turtle motion (equivalent to speed=0 in classic turtle.py), call animationOff(). This will use the current speed, but forward/back/circle makes the turtle jump and likewise left/right makes the turtle turn instantly. Keeping consistent with the original ColabTurtle, the non-zero speed values can be from 1 to 13 (slowest to fastest).
 * There is a fillrule turtle method to set nonzero or evenodd as the options used by SVG to fill an object. The global default fill-rule is evenodd to match the behavior of classic turtle.py. The begin_fill() function can take an argument of 'nonzero' or 'evenodd' to set the fill-rule just for that fill. See details in the documentation.
@@ -126,3 +126,7 @@ Main differences with classic turtle.py
 * Not all the methods from classic turtle.py are included. Most of the missing ones are for user events, special turtle methods, and screen methods.
 
 Documentation for the methods and functions in ColabTurtlePlus can be found at <a href="https://larryriddle.agnesscott.org/ColabTurtlePlus/documentation2.html">https://larryriddle.agnesscott.org/ColabTurtlePlus/documentation2.html.
+    
+Acknowledgements
+----
+Inspiration for this work came from Tolga Atam's original ColabTurtle as well as the repositories at jaronma/ColabTurtle_2, diego2500garza/ColabTurtle, and Abstrqt/ColabTurtleClass.
