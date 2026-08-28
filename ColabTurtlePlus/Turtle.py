@@ -197,7 +197,7 @@ class _Screen:
                            cy=-(10*turtle.stretchfactor[1]+4),
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
-                           rotation_y=turtle.turtle_pos[1],
+                           rotation_y=turtle.turtle_pos[1],)
                       #     points=points)
         return svg
     
