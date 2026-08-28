@@ -2117,36 +2117,7 @@ class RawTurtle:
     #==========================
     # Turtle State - Appearance
     #==========================
-    
-    
-#        if not isinstance(points, list):
-#            raise TypeError("The points must be a list of coordinate pairs.")
-
-    def _format_userpoints(points):
-        if not isinstance(points, list):
-            raise TypeError("The points must be a list of coordinate pairs.")
-
-        if len(points) < 2:
-            raise ValueError("The points must contain at least 2 coordinate pairs.")
-
-        for i, point in enumerate(points):
-            if not isinstance(point, (tuple, list)):
-                raise TypeError(
-                     f"points[{i}] must be a coordinate pair."
-                )
-
-            if len(point) != 2:
-                raise ValueError(
-                    f"points[{i}] must contain exactly two coordinates."
-                )
-
-            if not all(isinstance(x, (int, float)) for x in point):
-                raise TypeError(
-                    f"points[{i}] must contain numeric coordinates."
-                )
-
-        return " ".join(f"{x},{y}" for x, y in points)
-        
+  
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None, points=None):
         """Sets turtle shape to shape with given name / return current shapename.
@@ -2173,7 +2144,24 @@ class RawTurtle:
             if points is None:
                 self.points = None
             else:
-                self.points = _format_userpoints(points)
+                if not isinstance(points, list):
+                    raise TypeError("The points must be a list of coordinate pairs.")
+                if len(points) < 2:
+                    raise ValueError("The points must contain at least 2 coordinate pairs.")
+                for i, point in enumerate(points):
+                     if not isinstance(point, (tuple, list)):
+                         raise TypeError(
+                             f"points[{i}] must be a coordinate pair."
+                      )
+                if len(point) != 2:
+                    raise ValueError(
+                        f"points[{i}] must contain exactly two coordinates."
+                    )
+                if not all(isinstance(x, (int, float)) for x in point):
+                    raise TypeError(
+                        f"points[{i}] must contain numeric coordinates."
+                    )
+                self.points = " ".join(f"{x},{y}" for x, y in points
         self.screen._updateDrawing(turtle=self)
  
     # Scale the size of the turtle
