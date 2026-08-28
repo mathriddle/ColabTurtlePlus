@@ -67,7 +67,7 @@ DEFAULT_TURTLE_SHAPE = 'classic'
 VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user') 
 DEFAULT_MODE = 'standard'
 DEFAULT_ANGLE_MODE = 'degrees'
-DEFAULT_POINTS = "10,-10 10,10 -10,10 -10,-10"
+DEFAULT_POINTS = '10,-10 10,10 -10,10 -10,-10'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{backcolor};stroke:{kolor};stroke-width:1"/>
@@ -198,7 +198,7 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           points=points)
+                      #     points=points)
         return svg
     
     # helper function for linking svg strings of text
