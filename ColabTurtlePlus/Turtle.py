@@ -64,9 +64,10 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
 #VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
-VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank') 
+VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user') 
 DEFAULT_MODE = 'standard'
 DEFAULT_ANGLE_MODE = 'degrees'
+DEFAULT_POINTS = "10,-10 10,10 -10,10 -10,-10"
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{backcolor};stroke:{kolor};stroke-width:1"/>
@@ -102,6 +103,9 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transf
 </g>"""
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
+</g>"""
+TURTLE_USER_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
@@ -193,7 +197,8 @@ class _Screen:
                            cy=-(10*turtle.stretchfactor[1]+4),
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
-                           rotation_y=turtle.turtle_pos[1])
+                           rotation_y=turtle.turtle_pos[1],
+                           points=turtle_points)
         return svg
     
     # helper function for linking svg strings of text
@@ -829,7 +834,9 @@ class RawTurtle:
               "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
+              "user":TURTLE_USER_SVG_TEMPLATE,
               "blank":""}
+        self.points = DEFAULT_POINTS
         if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
         screen._add(self)
         
