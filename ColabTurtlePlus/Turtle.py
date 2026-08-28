@@ -2140,7 +2140,12 @@ class RawTurtle:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
         if name is "user":
-            self.points =  " ".join(f"{x},{y}" for x, y in points)
+            if points=None:
+                self.points = None
+            elif isinstance(points, Polygon):
+                self.points =  " ".join(f"{x},{y}" for x, y in points)
+            else:
+                raise ValueError('points is not a polygon')
         self.screen._updateDrawing(turtle=self)
  
     # Scale the size of the turtle
