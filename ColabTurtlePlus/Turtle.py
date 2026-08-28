@@ -2161,7 +2161,7 @@ class RawTurtle:
                     raise TypeError(
                         f"points[{i}] must contain numeric coordinates."
                     )
-                self.points = " ".join(f"{x},{y}" for x, y in points
+                self.points = " ".join(f"{x},{y}" for x, y in points)
         self.screen._updateDrawing(turtle=self)
  
     # Scale the size of the turtle
