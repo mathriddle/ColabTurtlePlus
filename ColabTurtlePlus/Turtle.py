@@ -198,7 +198,7 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           points=turtle_points)
+                           points=points)
         return svg
     
     # helper function for linking svg strings of text
