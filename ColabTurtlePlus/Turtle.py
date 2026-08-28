@@ -87,7 +87,7 @@ TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="
 <polygon points="0,5 5,0 -5,0" transform="skewX({sk}) scale({sx},{sy})" style="fill:{turtle_color};stroke:{pcolor};stroke-width:1" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="{userpoints}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="-10,-5 0,5 10,-5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
@@ -198,7 +198,7 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           userpoints=turtle.userpoints)
+                           points=turtle.points)
         return svg
     
     # helper function for linking svg strings of text
@@ -826,7 +826,7 @@ class RawTurtle:
         self.stampdictT = {}
         self.stampnum = 0
         self.stamplist=[]
-        self.userpoints = DEFAULT_POINTS            
+        self.points = DEFAULT_POINTS            
         self.shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
               "ring":TURTLE_RING_SVG_TEMPLATE, 
               "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
