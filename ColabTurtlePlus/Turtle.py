@@ -2140,7 +2140,7 @@ class RawTurtle:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
         if name is "user":
-            if points=None:
+            if points is None:
                 self.points = None
             elif isinstance(points, Polygon):
                 self.points =  " ".join(f"{x},{y}" for x, y in points)
