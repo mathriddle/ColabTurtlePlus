@@ -4,6 +4,7 @@ import math
 import re
 import sys
 import inspect
+from shapely.geometry import Polygon
 
 """ 
 Original Created at: 23rd October 2018
