@@ -2118,7 +2118,7 @@ class RawTurtle:
     #==========================
 
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
-    def shape(self, name=None):
+    def shape(self, name=None, points=None):
         """Sets turtle shape to shape with given name / return current shapename.
 
         Args:
@@ -2139,6 +2139,7 @@ class RawTurtle:
         elif name.lower() not in VALID_TURTLE_SHAPES:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
+        self.points = points
         self.screen._updateDrawing(turtle=self)
  
     # Scale the size of the turtle
