@@ -2139,7 +2139,8 @@ class RawTurtle:
         elif name.lower() not in VALID_TURTLE_SHAPES:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
-        self.points = points
+        if name is "user":
+            self.points =  " ".join(f"{x},{y}" for x, y in points)
         self.screen._updateDrawing(turtle=self)
  
     # Scale the size of the turtle
