@@ -938,9 +938,9 @@ class RawTurtle:
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
             newtemplate = template.replace("</g>",tmp)
             self.shapeDict.update({self.turtle_shape:newtemplate})
-            #self.stretchfactor = 1,1
+            self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
-            self.screen._updateDrawing(self)
+            #self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
             self.shapeDict.update({self.turtle_shape:template})
