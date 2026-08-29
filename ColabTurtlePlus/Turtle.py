@@ -2428,7 +2428,7 @@ def getcolor(n):
 
 _tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'hideborder', 
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
-         'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
+         'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height', 'addshape' ]
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
