@@ -723,13 +723,7 @@ class _Screen:
 
     def turtles(self):
         """Return the list of turtles on the screen."""
-        return self._turtles
-
-    def addshape(self, name, points=None):
-        VALID_TURTLE_SHAPES.append(name)
-        self.points = " ".join(f"{x},{y}" for x, y in points)
-        self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
-        
+        return self._turtles        
         
     def initializescreen(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
         """Initializes the drawing window
@@ -2183,6 +2177,10 @@ class RawTurtle:
         self.screen._updateDrawing(turtle=self)
 
 
+    def addshape(self, name, points=None):
+        VALID_TURTLE_SHAPES.append(name)
+        self.points = " ".join(f"{x},{y}" for x, y in points)
+        self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
         
     # Scale the size of the turtle
     # stretch_wid scales perpendicular to orientation
@@ -2428,9 +2426,9 @@ def getcolor(n):
 
 _tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'hideborder', 
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
-         'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height', 'addshape' ]
+         'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
-_tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
+_tg_turtle_functions = ['addshape', 'animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
        'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
        'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
