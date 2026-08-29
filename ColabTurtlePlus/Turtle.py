@@ -4,7 +4,6 @@ import math
 import re
 import sys
 import inspect
-from shapely.geometry import Polygon
 
 """ 
 Original Created at: 23rd October 2018
@@ -28,6 +27,13 @@ v2.0.1 Oct. 2021
 Lines drawn with drawlines() method now included in saved SVG file.
 Fixes so that graphic window is still displayed when cell executed more than once in Jupyter notebook.
 
+v2.0.2 Aug. 2026
+Fix Python 3.13+ SyntaxWarning by using raw strings in regular expressions thanks to David Hay (misterhay).
+
+v2.1.0 Aug. 2026
+Created an additional turtle nameed "user".
+Added a second parameter to shape() function that allows "user" to be a user-defined custom polygonal turtle.
+This mimics the role of the function register_shape() from Python's turtle.
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -2121,12 +2127,17 @@ class RawTurtle:
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None, points=None):
         """Sets turtle shape to shape with given name / return current shapename.
+           Can also create a user-defined custom polygonal shape
 
         Args:
             name: an optional string, which is a valid shapename
+            points: an optional list or tuple of coordinate pairs 
 
         Sets the turtle shape to shape with given name or, if name is not given,
         returns the name of current shape.
+
+        If the name is 'user', then the turtle is the polygon defined by the points.
+        If no points are given, the user turtle will be blank.
     
         The possible turtle shapes include the ones from turtle.py: 
         'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. 
@@ -2144,24 +2155,24 @@ class RawTurtle:
             if points is None:
                 self.points = None
             else:
-                if not isinstance(points, list):
-                    raise TypeError("The points must be a list of coordinate pairs.")
-                if len(points) < 2:
-                    raise ValueError("The points must contain at least 2 coordinate pairs.")
-                for i, point in enumerate(points):
-                     if not isinstance(point, (tuple, list)):
-                         raise TypeError(
-                             f"points[{i}] must be a coordinate pair."
-                      )
-                if len(point) != 2:
-                    raise ValueError(
-                        f"points[{i}] must contain exactly two coordinates."
+               if not isinstance(points, (list, tuple)):
+                   raise TypeError("The points must be a list or tuple of coordinate pairs.")
+               if len(points) < 2:
+                   raise ValueError("The points must contain at least 2 coordinate pairs.")
+               for i, point in enumerate(points):
+                   if not isinstance(point, (list, tuple)):
+                       raise TypeError(
+                           f"The point[{i}] must be a coordinate pair."
+                       )
+               if len(point) != 2:
+                   raise ValueError(
+                       f"The point[{i}] must contain exactly two coordinates."
                     )
-                if not all(isinstance(x, (int, float)) for x in point):
-                    raise TypeError(
-                        f"points[{i}] must contain numeric coordinates."
-                    )
-                self.points = " ".join(f"{x},{y}" for x, y in points)
+               if not all(isinstance(x, (int, float)) for x in point):
+                   raise TypeError(
+                       f"The point[{i}] must contain numeric coordinates."
+                   )
+               self.points = " ".join(f"{x},{y}" for x, y in points)
         self.screen._updateDrawing(turtle=self)
  
     # Scale the size of the turtle
