@@ -71,10 +71,11 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
 #VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
-VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user') 
+VALID_TURTLE_SHAPES = ['turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user'] 
 DEFAULT_MODE = 'standard'
 DEFAULT_ANGLE_MODE = 'degrees'
 DEFAULT_POINTS = '-5,-4.5 0,-2.5 5,-4.5 0,4.5'
+DEFAULT_NAME = 'classic'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{backcolor};stroke:{kolor};stroke-width:1"/>
@@ -2174,7 +2175,14 @@ class RawTurtle:
                    )
                self.points = " ".join(f"{x},{y}" for x, y in points)
         self.screen._updateDrawing(turtle=self)
- 
+
+    def register_shape(self, name, points=None):
+        VALID_TURTLE_SHAPES.append(name)
+        self.points = " ".join(f"{x},{y}" for x, y in points)
+        self.shapeDict[name] = TURTLE_user_SVG_TEMPLATE
+        
+        self.screen._updateDrawing(turtle=self)
+        
     # Scale the size of the turtle
     # stretch_wid scales perpendicular to orientation
     # stretch_len scales in direction of turtle's orientation
