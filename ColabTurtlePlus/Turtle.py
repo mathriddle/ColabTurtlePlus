@@ -725,7 +725,7 @@ class _Screen:
         """Return the list of turtles on the screen."""
         return self._turtles
 
-    def register_shape(self, name, points=None):
+    def addshape(self, name, points=None):
         VALID_TURTLE_SHAPES.append(name)
         self.points = " ".join(f"{x},{y}" for x, y in points)
         self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
