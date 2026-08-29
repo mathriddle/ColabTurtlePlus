@@ -725,6 +725,12 @@ class _Screen:
         """Return the list of turtles on the screen."""
         return self._turtles
 
+    def register_shape(self, name, points=None):
+        VALID_TURTLE_SHAPES.append(name)
+        self.points = " ".join(f"{x},{y}" for x, y in points)
+        self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+        
+        
     def initializescreen(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
         """Initializes the drawing window
     
@@ -2176,12 +2182,7 @@ class RawTurtle:
                self.points = " ".join(f"{x},{y}" for x, y in points)
         self.screen._updateDrawing(turtle=self)
 
-    def register_shape(self, name, points=None):
-        VALID_TURTLE_SHAPES.append(name)
-        self.points = " ".join(f"{x},{y}" for x, y in points)
-        self.shapeDict[name] = TURTLE_user_SVG_TEMPLATE
-        
-        self.screen._updateDrawing(turtle=self)
+
         
     # Scale the size of the turtle
     # stretch_wid scales perpendicular to orientation
