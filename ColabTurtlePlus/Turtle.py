@@ -2126,19 +2126,15 @@ class RawTurtle:
     #==========================
   
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
-    def shape(self, name=None, points=None):
+    def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
            Can also create a user-defined custom polygonal shape
 
         Args:
             name: an optional string, which is a valid shapename
-            points: an optional list or tuple of coordinate pairs 
 
         Sets the turtle shape to shape with given name or, if name is not given,
         returns the name of current shape.
-
-        If the name is 'user', then the turtle is the polygon defined by the points.
-        If no points are given, the user turtle will be blank.
     
         The possible turtle shapes include the ones from turtle.py: 
         'classic' (the default), 'arrow', 'triangle', 'square', 'circle', 'blank'. 
@@ -2152,10 +2148,26 @@ class RawTurtle:
         elif name.lower() not in VALID_TURTLE_SHAPES:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
-        if name is "user":
-            if points is None:
-                self.points = None
-            else:
+        self.screen._updateDrawing(turtle=self)
+
+
+    def register_shape(self, name, points=None):
+    """Adds a turtle shape to to the shape list.
+
+    Arg:
+       name is an arbitrary string
+       points is a list or tuple of pairs of coordinates. 
+       
+    Installs the corresponding polygon shape.
+    Note: This version does NOT include shapes that are images.
+    """
+        if not isinstance(name,str):
+            raise TypeError("The name must be a string")
+        elif name.lower() in VALID_TURTLE_SHAPES:
+            raise TypeError("The name " + name + " is already in use")
+        if points is None:
+            self.points = None
+        else:
                if not isinstance(points, (list, tuple)):
                    raise TypeError("The points must be a list or tuple of coordinate pairs.")
                if len(points) < 2:
@@ -2173,14 +2185,13 @@ class RawTurtle:
                    raise TypeError(
                        f"The point[{i}] must contain numeric coordinates."
                    )
-               self.points = " ".join(f"{x},{y}" for x, y in points)
-        self.screen._updateDrawing(turtle=self)
-
-
-    def addshape(self, name, points=None):
+               self.points = " ".join(f"{x},{y}" for x, y in points)                        
+        name = name.lower()    
         VALID_TURTLE_SHAPES.append(name)
         self.points = " ".join(f"{x},{y}" for x, y in points)
         self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+    addshape=register_shape
+
         
     # Scale the size of the turtle
     # stretch_wid scales perpendicular to orientation
@@ -2433,7 +2444,7 @@ _tg_turtle_functions = ['addshape', 'animationOff', 'animationOn', 'bk', 'back',
        'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
        'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
-       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt',  'setheading', 'seth',  
+       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'register_shape', 'setheading', 'seth',  
        'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
        'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
        'width', 'write', 'xcor', 'ycor' ]
