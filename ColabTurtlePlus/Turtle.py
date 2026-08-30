@@ -2152,15 +2152,15 @@ class RawTurtle:
 
 
     def register_shape(self, name, points=None):
-    """Adds a turtle shape to to the shape list.
+        """Adds a turtle shape to to the shape list.
 
-    Arg:
-       name is an arbitrary string
-       points is a list or tuple of pairs of coordinates. 
+        Arg:
+           name is an arbitrary string
+           points is a list or tuple of pairs of coordinates. 
        
-    Installs the corresponding polygon shape.
-    Note: This version does NOT include shapes that are images.
-    """
+        Installs the corresponding polygon shape.
+        Note: This version does NOT include shapes that are images.
+        """
         if not isinstance(name,str):
             raise TypeError("The name must be a string")
         elif name.lower() in VALID_TURTLE_SHAPES:
@@ -2168,24 +2168,24 @@ class RawTurtle:
         if points is None:
             self.points = None
         else:
-               if not isinstance(points, (list, tuple)):
-                   raise TypeError("The points must be a list or tuple of coordinate pairs.")
-               if len(points) < 2:
-                   raise ValueError("The points must contain at least 2 coordinate pairs.")
-               for i, point in enumerate(points):
-                   if not isinstance(point, (list, tuple)):
-                       raise TypeError(
-                           f"The point[{i}] must be a coordinate pair."
-                       )
-               if len(point) != 2:
+            if not isinstance(points, (list, tuple)):
+                raise TypeError("The points must be a list or tuple of coordinate pairs.")
+            if len(points) < 2:
+                raise ValueError("The points must contain at least 2 coordinate pairs.")
+            for i, point in enumerate(points):
+                if not isinstance(point, (list, tuple)):
+                    raise TypeError(
+                        f"The point[{i}] must be a coordinate pair."
+                    )
+                if len(point) != 2:
                    raise ValueError(
                        f"The point[{i}] must contain exactly two coordinates."
                     )
-               if not all(isinstance(x, (int, float)) for x in point):
+                if not all(isinstance(x, (int, float)) for x in point):
                    raise TypeError(
                        f"The point[{i}] must contain numeric coordinates."
                    )
-               self.points = " ".join(f"{x},{y}" for x, y in points)                        
+            self.points = " ".join(f"{x},{y}" for x, y in points)                        
         name = name.lower()    
         VALID_TURTLE_SHAPES.append(name)
         self.points = " ".join(f"{x},{y}" for x, y in points)
