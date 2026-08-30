@@ -68,10 +68,10 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'lightgoldenrodyellow', 'oldlace', 'red', 'fuchsia', 'magenta', 'deeppink', 'orangered', 'tomato', 'hotpink', 'coral', 'darkorange', 
                 'lightsalmon', 'orange', 'lightpink', 'pink', 'gold', 'peachpuff', 'navajowhite', 'moccasin', 'bisque', 'mistyrose', 'blanchedalmond', 
                 'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none','')
-#VALID_COLORS_SET = set(VALID_COLORS)
+VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
-VALID_TURTLE_SHAPES = ['turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user'] 
+VALID_TURTLE_SHAPES = set('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user')
 DEFAULT_MODE = 'standard'
 DEFAULT_ANGLE_MODE = 'degrees'
 DEFAULT_POINTS = '-5,-4.5 0,-2.5 5,-4.5 0,4.5'
@@ -2163,8 +2163,6 @@ class RawTurtle:
         """
         if not isinstance(name,str):
             raise TypeError("The name must be a string")
-        elif name.lower() in VALID_TURTLE_SHAPES:
-            raise TypeError("The name " + name + " is already in use")
         if points is None:
             self.points = None
         else:
@@ -2187,7 +2185,7 @@ class RawTurtle:
                    )
             self.points = " ".join(f"{x},{y}" for x, y in points)                        
         name = name.lower()    
-        VALID_TURTLE_SHAPES.append(name)
+        VALID_TURTLE_SHAPES.add(name)
         self.points = " ".join(f"{x},{y}" for x, y in points)
         self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
     addshape=register_shape
