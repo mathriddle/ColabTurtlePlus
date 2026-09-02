@@ -28,7 +28,7 @@ Lines drawn with drawlines() method now included in saved SVG file.
 Fixes so that graphic window is still displayed when cell executed more than once in Jupyter notebook.
 
 v2.0.2 Aug. 2026
-Fix Python 3.13+ SyntaxWarning by using raw strings in regular expressions thanks to David Hay (misterhay).
+Fixed Python 3.13+ SyntaxWarning by using raw strings in regular expressions.
 
 v2.1.0 September 2026
 Added register_shape() (alias addshape) to mimic the role of the function register_shape() from Python's turtle.
