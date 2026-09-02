@@ -2193,7 +2193,7 @@ class RawTurtle:
         if isinstance(shape, (list,tuple)):
             self.points = " ".join(f"{x},{y}" for x, y in shape)
         elif isinstance(shape, str):
-            TURTLE_USER_SVG_TEMPLATE = TURTLE_USER_SVG_TEMPLATE.replace("</g>", tmp+"</g>")
+            #TURTLE_USER_SVG_TEMPLATE = TURTLE_USER_SVG_TEMPLATE.replace("</g>", SHAPE_DATA+"</g>")
         name = name.lower()    
         VALID_TURTLE_SHAPES.add(name)
         self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
