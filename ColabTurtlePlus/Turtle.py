@@ -123,6 +123,16 @@ style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry
 SHAPE_DATA = ""
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
+shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
+              "ring":TURTLE_RING_SVG_TEMPLATE, 
+              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
+              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
+              "square":TURTLE_SQUARE_SVG_TEMPLATE,
+              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
+              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
+              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
+              "user":TURTLE_USER_SVG_TEMPLATE,
+              "blank":""}
 #------------------------------------------------------------------------------------------------
 
 def Screen():
@@ -840,17 +850,8 @@ class RawTurtle:
         self.stampnum = 0
         self.stamplist=[]
         self.points = DEFAULT_POINTS            
-        self.shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
-              "ring":TURTLE_RING_SVG_TEMPLATE, 
-              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
-              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
-              "square":TURTLE_SQUARE_SVG_TEMPLATE,
-              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
-              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
-              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
-              "user":TURTLE_USER_SVG_TEMPLATE,
-              "blank":""}
-        if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
+
+        if screen._mode == "svg": shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
         screen._add(self)
         
         
@@ -926,7 +927,7 @@ class RawTurtle:
             self.screen._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
-            template = self.shapeDict[self.turtle_shape]        
+            template = shapeDict[self.turtle_shape]        
             tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
@@ -943,13 +944,13 @@ class RawTurtle:
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
             newtemplate = template.replace("</g>",tmp)
-            self.shapeDict.update({self.turtle_shape:newtemplate})
+            shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
             #self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
-            self.shapeDict.update({self.turtle_shape:template})
+            shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
         else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
@@ -2196,7 +2197,7 @@ class RawTurtle:
             T = TURTLE_USER_SVG_TEMPLATE.replace("</g>", SHAPE_DATA+"</g>")
         name = name.lower()    
         VALID_TURTLE_SHAPES.add(name)
-        self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+        shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
     addshape=register_shape
 
         
