@@ -851,7 +851,7 @@ class RawTurtle:
         self.stamplist=[]
         self.points = DEFAULT_POINTS            
 
-        if screen._mode == "svg": .update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
+        if screen._mode == "svg": shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
         screen._add(self)
         
         
@@ -944,13 +944,13 @@ class RawTurtle:
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
             newtemplate = template.replace("</g>",tmp)
-            .update({self.turtle_shape:newtemplate})
+            shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
             #self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
-            .update({self.turtle_shape:template})
+            shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
         else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
