@@ -2197,7 +2197,7 @@ class RawTurtle:
             T = TURTLE_USER_SVG_TEMPLATE.replace("</g>", SHAPE_DATA+"</g>")
         name = name.lower()    
         VALID_TURTLE_SHAPES.add(name)
-        shelfDict[name] = TURTLE_USER_SVG_TEMPLATE
+        shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
     addshape=register_shape
 
         
