@@ -123,7 +123,7 @@ style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry
 SHAPE_DATA = ""
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
- = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
+shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
               "ring":TURTLE_RING_SVG_TEMPLATE, 
               "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
               "arrow":TURTLE_ARROW_SVG_TEMPLATE,
