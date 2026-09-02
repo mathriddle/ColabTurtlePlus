@@ -340,6 +340,30 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
+    def register_shape(self, name, shape=None):
+        """Adds a turtle shape to to the shape list.
+
+        Arg:
+           name is an arbitrary string
+           points is a list or tuple of pairs of coordinates. 
+       
+        Installs the corresponding polygon shape.
+        Note: This version does NOT include shapes that are images.
+        """
+        if not isinstance(name,str):
+            raise TypeError("The name must be a string")
+        #if shape is None:
+        #    self.shape = None  
+            
+        if isinstance(shape, (list,tuple)):
+            self.points = " ".join(f"{x},{y}" for x, y in shape)
+        elif isinstance(shape, str):
+            T = TURTLE_USER_SVG_TEMPLATE.replace("</g>", SHAPE_DATA+"</g>")
+        name = name.lower()    
+        VALID_TURTLE_SHAPES.add(name)
+        shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+    addshape=register_shape
+        
     #=========================
     # screen drawing functions
     #=========================
@@ -927,7 +951,7 @@ class RawTurtle:
             self.screen._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
-            template = [self.turtle_shape]        
+            template = shapeDict[self.turtle_shape]        
             tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
@@ -2176,29 +2200,7 @@ class RawTurtle:
        pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
        SHAPE_DATA = SHAPE_DATA+pattern.sub(lambda match: replacements[match.group(0)], ELLIPSE_TEMPLATE)
     
-    def register_shape(self, name, shape=None):
-        """Adds a turtle shape to to the shape list.
-
-        Arg:
-           name is an arbitrary string
-           points is a list or tuple of pairs of coordinates. 
-       
-        Installs the corresponding polygon shape.
-        Note: This version does NOT include shapes that are images.
-        """
-        if not isinstance(name,str):
-            raise TypeError("The name must be a string")
-        #if shape is None:
-        #    self.shape = None  
-            
-        if isinstance(shape, (list,tuple)):
-            self.points = " ".join(f"{x},{y}" for x, y in shape)
-        elif isinstance(shape, str):
-            T = TURTLE_USER_SVG_TEMPLATE.replace("</g>", SHAPE_DATA+"</g>")
-        name = name.lower()    
-        VALID_TURTLE_SHAPES.add(name)
-        shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
-    addshape=register_shape
+ 
 
         
     # Scale the size of the turtle
@@ -2443,16 +2445,16 @@ def getcolor(n):
     return VALID_COLORS[n]
 
 
-_tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'hideborder', 
-         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+_tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'drawline', 'hideborder', 
+         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
-_tg_turtle_functions = ['addshape', 'animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
+_tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
        'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
        'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
-       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'register_shape', 'setheading', 'seth',  
+       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'setheading', 'seth',  
        'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
        'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
        'width', 'write', 'xcor', 'ycor' ]
