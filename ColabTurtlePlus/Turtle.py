@@ -133,6 +133,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "user":TURTLE_USER_SVG_TEMPLATE,
               "blank":""}
+pointsDict = {}
 #------------------------------------------------------------------------------------------------
 
 def Screen():
@@ -221,7 +222,7 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           points=turtle.points)
+                           points=pointsDict[turtle.turtle_shape]
         return svg
     
     # helper function for linking svg strings of text
@@ -352,15 +353,11 @@ class _Screen:
         """
         if not isinstance(name,str):
             raise TypeError("The name must be a string")
-        #if shape is None:
-        #    self.shape = None  
-            
-        if isinstance(shape, (list,tuple)):
-            self.points = " ".join(f"{x},{y}" for x, y in shape)
-        elif isinstance(shape, str):
-            T = TURTLE_USER_SVG_TEMPLATE.replace("</g>", SHAPE_DATA+"</g>")
+
+        #self.points = " ".join(f"{x},{y}" for x, y in shape)
         name = name.lower()    
         VALID_TURTLE_SHAPES.add(name)
+        pointsDict[name] = " ".join(f"{x},{y}" for x, y in shape)
         shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
     addshape=register_shape
         
