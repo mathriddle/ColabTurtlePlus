@@ -113,7 +113,7 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
 
-TURTLE_USER_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
@@ -231,7 +231,8 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           points=pointsDict[turtle.turtle_shape])
+                           points=pointsDict[turtle.turtle_shape]),
+                           id = turtle.turtle_shape
         return svg
     
     # helper function for linking svg strings of text
@@ -350,7 +351,7 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
-    def register_shape(self, name, shape=None):
+    def register_shape(self, name, points=None):
         """Adds a turtle shape to to the shape list.
 
         Arg:
@@ -363,10 +364,9 @@ class _Screen:
         if not isinstance(name,str):
             raise TypeError("The name must be a string")
 
-        #self.points = " ".join(f"{x},{y}" for x, y in shape)
         name = name.lower()    
         VALID_TURTLE_SHAPES.add(name)
-        pointsDict[name] = " ".join(f"{x},{y}" for x, y in shape)
+        pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
         shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
     addshape=register_shape
         
