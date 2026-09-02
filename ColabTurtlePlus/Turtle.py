@@ -111,15 +111,10 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transf
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
-
 TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
-POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
-scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
-ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})" 
-style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
-SHAPE_DATA = ""
+
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
 shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
@@ -2197,6 +2192,8 @@ class RawTurtle:
         The 'turtle' shape is the one that Tolga Atam included in his original 
         ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
         turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
+        
+        Use register_shape (alias addshape) to create a polygonal shape with a chosen name.
         """
 
         if name is None:
@@ -2205,29 +2202,6 @@ class RawTurtle:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
         self.screen._updateDrawing(turtle=self)
-
-    def addPolyComponent(self, points, fill=None, outline=None):
-      # global SHAPE_DATA
-       p = " ".join(f"{x},{y}" for x, y in points)
-       SHAPE_DATA = SHAPE_DATA+POLY_TEMPLATE.replace("{points}",p) + "\n"
-       if fill is not None:
-          SHAPE_DATA = SHAPE_DATA.replace("{turtle_color}",fill)
-
-    def addEllipseComponent(self, center, xradius, yradius=None):
-      # global SHAPE_DATA
-       if yradius is None:
-           yradius = xradius
-       replacements = {
-          "{cx}": str(center[0]),
-          "{cy}": str(center[1]),
-          "{rx}": str(xradius),
-          "{ry}": str(yradius)
-       }
-       pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
-       SHAPE_DATA = SHAPE_DATA+pattern.sub(lambda match: replacements[match.group(0)], ELLIPSE_TEMPLATE)
-    
- 
-
         
     # Scale the size of the turtle
     # stretch_wid scales perpendicular to orientation
