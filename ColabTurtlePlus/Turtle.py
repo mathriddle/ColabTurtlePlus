@@ -30,10 +30,9 @@ Fixes so that graphic window is still displayed when cell executed more than onc
 v2.0.2 Aug. 2026
 Fix Python 3.13+ SyntaxWarning by using raw strings in regular expressions thanks to David Hay (misterhay).
 
-v2.1.0 Aug. 2026
-Created an additional turtle nameed "user".
-Added a second parameter to shape() function that allows "user" to be a user-defined custom polygonal turtle.
-This mimics the role of the function register_shape() from Python's turtle.
+v2.1.0 September 2026
+Added register_shape() (alias addshape) to mimic the role of the function register_shape() from Python's turtle.
+This only works to add a polygonal shape. It does not work with images or components.
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -352,18 +351,39 @@ class _Screen:
         text_file.close()   
 
     def register_shape(self, name, points=None):
-        """Adds a turtle shape to to the shape list.
+        """Adds a polygonal turtle shape to to the shape list.
 
         Arg:
            name is an arbitrary string
-           points is a list or tuple of pairs of coordinates. 
+           points is a list or tuple of pairs of coordinates that define the polygon. 
        
         Installs the corresponding polygon shape.
-        Note: This version does NOT include shapes that are images.
+        If no points are given, the turtle shape will be blank.
+        Note: This version does NOT include shapes that are images or components.
         """
+            
         if not isinstance(name,str):
             raise TypeError("The name must be a string")
-
+        if points is None:
+            self.points = None
+        else:
+            if not isinstance(points, (list, tuple)):
+                raise TypeError("The points must be a list or tuple of coordinate pairs.")
+            if len(points) < 2:
+                raise ValueError("The points must contain at least 2 coordinate pairs.")
+            for i, point in enumerate(points):
+                if not isinstance(point, (list, tuple)):
+                    raise TypeError(
+                        f"The point[{i}] must be a coordinate pair."
+                    )
+                if len(point) != 2:
+                   raise ValueError(
+                       f"The point[{i}] must contain exactly two coordinates."
+                    )
+                if not all(isinstance(x, (int, float)) for x in point):
+                   raise TypeError(
+                       f"The point[{i}] must contain numeric coordinates."
+                   )  
         name = name.lower()    
         VALID_TURTLE_SHAPES.add(name)
         pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
