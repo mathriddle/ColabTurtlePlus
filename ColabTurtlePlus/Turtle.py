@@ -112,9 +112,11 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transf
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
-
 TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
+</g>"""
+TURTLE_PIC_SVG_TEMPLATE = """<g id="pic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<image href="maincomponent.ong" height="20" widht="20" transform="skewX({sk}) scale({sx},{sy})"  />
 </g>"""
 POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
 scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
@@ -132,6 +134,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "user":TURTLE_USER_SVG_TEMPLATE,
+              "image":TURTLE_PIC_SVG_TEMPLATE,
               "blank":""}
 pointsDict = {"turtle":"", 
               "ring":"", 
@@ -142,6 +145,7 @@ pointsDict = {"turtle":"",
               "circle":"",
               "turtle2":"",
               "user":"",
+              "image:"",
               "blank":""}
 #------------------------------------------------------------------------------------------------
 
