@@ -2189,7 +2189,29 @@ class RawTurtle:
         self.turtle_shape = name.lower()
         self.screen._updateDrawing(turtle=self)
 
+    def register_shape(self, name, shape=None):
+        """Adds a turtle shape to to the shape list.
 
+        Arg:
+           name is an arbitrary string
+           points is a list or tuple of pairs of coordinates. 
+       
+        Installs the corresponding polygon shape.
+        Note: This version does NOT include shapes that are images.
+        """
+        if not isinstance(name,str):
+            raise TypeError("The name must be a string")
+        #if shape is None:
+        #    self.shape = None  
+            
+        if isinstance(shape, (list,tuple)):
+            self.points = " ".join(f"{x},{y}" for x, y in shape)
+        elif isinstance(shape, str):
+            T = TURTLE_USER_SVG_TEMPLATE.replace("</g>", SHAPE_DATA+"</g>")
+        name = name.lower()    
+        VALID_TURTLE_SHAPES.add(name)
+        self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+    addshape=register_shape
 
 
         
