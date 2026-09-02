@@ -325,6 +325,45 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
+    def register_shape(self, name, points=None):
+        """Adds a turtle shape to to the shape list.
+
+        Arg:
+           name is an arbitrary string
+           points is a list or tuple of pairs of coordinates. 
+       
+        Installs the corresponding polygon shape.
+        Note: This version does NOT include shapes that are images.
+        """
+        if not isinstance(name,str):
+            raise TypeError("The name must be a string")
+        if points is None:
+            self.points = None
+        else:
+            if not isinstance(points, (list, tuple)):
+                raise TypeError("The points must be a list or tuple of coordinate pairs.")
+            if len(points) < 2:
+                raise ValueError("The points must contain at least 2 coordinate pairs.")
+            for i, point in enumerate(points):
+                if not isinstance(point, (list, tuple)):
+                    raise TypeError(
+                        f"The point[{i}] must be a coordinate pair."
+                    )
+                if len(point) != 2:
+                   raise ValueError(
+                       f"The point[{i}] must contain exactly two coordinates."
+                    )
+                if not all(isinstance(x, (int, float)) for x in point):
+                   raise TypeError(
+                       f"The point[{i}] must contain numeric coordinates."
+                   )
+            self.points = " ".join(f"{x},{y}" for x, y in points)                        
+        name = name.lower()    
+        VALID_TURTLE_SHAPES.add(name)
+        self.points = " ".join(f"{x},{y}" for x, y in points)
+        self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+    addshape=register_shape
+        
     #=========================
     # screen drawing functions
     #=========================
@@ -2151,44 +2190,7 @@ class RawTurtle:
         self.screen._updateDrawing(turtle=self)
 
 
-    def register_shape(self, name, points=None):
-        """Adds a turtle shape to to the shape list.
 
-        Arg:
-           name is an arbitrary string
-           points is a list or tuple of pairs of coordinates. 
-       
-        Installs the corresponding polygon shape.
-        Note: This version does NOT include shapes that are images.
-        """
-        if not isinstance(name,str):
-            raise TypeError("The name must be a string")
-        if points is None:
-            self.points = None
-        else:
-            if not isinstance(points, (list, tuple)):
-                raise TypeError("The points must be a list or tuple of coordinate pairs.")
-            if len(points) < 2:
-                raise ValueError("The points must contain at least 2 coordinate pairs.")
-            for i, point in enumerate(points):
-                if not isinstance(point, (list, tuple)):
-                    raise TypeError(
-                        f"The point[{i}] must be a coordinate pair."
-                    )
-                if len(point) != 2:
-                   raise ValueError(
-                       f"The point[{i}] must contain exactly two coordinates."
-                    )
-                if not all(isinstance(x, (int, float)) for x in point):
-                   raise TypeError(
-                       f"The point[{i}] must contain numeric coordinates."
-                   )
-            self.points = " ".join(f"{x},{y}" for x, y in points)                        
-        name = name.lower()    
-        VALID_TURTLE_SHAPES.add(name)
-        self.points = " ".join(f"{x},{y}" for x, y in points)
-        self.shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
-    addshape=register_shape
 
         
     # Scale the size of the turtle
@@ -2433,16 +2435,16 @@ def getcolor(n):
     return VALID_COLORS[n]
 
 
-_tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'hideborder', 
-         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+_tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'drawline', 'hideborder', 
+         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
-_tg_turtle_functions = ['addshape', 'animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
+_tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
        'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
        'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
-       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'register_shape', 'setheading', 'seth',  
+       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'setheading', 'seth',  
        'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
        'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
        'width', 'write', 'xcor', 'ycor' ]
