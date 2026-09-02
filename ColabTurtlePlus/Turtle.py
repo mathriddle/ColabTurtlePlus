@@ -27,6 +27,12 @@ v2.0.1 Oct. 2021
 Lines drawn with drawlines() method now included in saved SVG file.
 Fixes so that graphic window is still displayed when cell executed more than once in Jupyter notebook.
 
+v2.0.2 Aug. 2026
+Fixed Python 3.13+ SyntaxWarning by using raw strings in regular expressions.
+
+v2.1.0 September 2026
+Added register_shape() (alias addshape) to mimic the role of the function register_shape() from Python's turtle.
+This only works to add a polygonal shape. It does not work with images or components.
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -61,12 +67,14 @@ VALID_COLORS = ('black', 'navy', 'darkblue', 'mediumblue', 'blue', 'darkgreen', 
                 'lightgoldenrodyellow', 'oldlace', 'red', 'fuchsia', 'magenta', 'deeppink', 'orangered', 'tomato', 'hotpink', 'coral', 'darkorange', 
                 'lightsalmon', 'orange', 'lightpink', 'pink', 'gold', 'peachpuff', 'navajowhite', 'moccasin', 'bisque', 'mistyrose', 'blanchedalmond', 
                 'papayawhip', 'lavenderblush', 'seashell', 'cornsilk', 'lemonchiffon', 'floralwhite', 'snow', 'yellow', 'lightyellow', 'ivory', 'white','none','')
-#VALID_COLORS_SET = set(VALID_COLORS)
+VALID_COLORS_SET = set(VALID_COLORS)
 VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
-VALID_TURTLE_SHAPES = ('turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank') 
+VALID_TURTLE_SHAPES = {'turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user'}
 DEFAULT_MODE = 'standard'
 DEFAULT_ANGLE_MODE = 'degrees'
+DEFAULT_POINTS = '-5,-4.5 0,-2.5 5,-4.5 0,4.5'
+DEFAULT_NAME = 'classic'
 SVG_TEMPLATE = """
       <svg width="{window_width}" height="{window_height}">  
         <rect width="100%" height="100%" style="fill:{backcolor};stroke:{kolor};stroke-width:1"/>
@@ -86,7 +94,7 @@ TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="
 <polygon points="0,5 5,0 -5,0" transform="skewX({sk}) scale({sx},{sy})" style="fill:{turtle_color};stroke:{pcolor};stroke-width:1" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="-10,-5 0,5 10,-5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
@@ -103,9 +111,32 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transf
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
+TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
+</g>"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
+shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
+              "ring":TURTLE_RING_SVG_TEMPLATE, 
+              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
+              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
+              "square":TURTLE_SQUARE_SVG_TEMPLATE,
+              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
+              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
+              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
+              "user":TURTLE_USER_SVG_TEMPLATE,
+              "blank":""}
+pointsDict = {"turtle":"", 
+              "ring":"", 
+              "classic":"",
+              "arrow":"",
+              "square":"",
+              "triangle":"",
+              "circle":"",
+              "turtle2":"",
+              "user":"",
+              "blank":""}
 #------------------------------------------------------------------------------------------------
 
 def Screen():
@@ -178,7 +209,7 @@ class _Screen:
         else:
             degrees -= 90
        
-        svg = turtle.shapeDict[turtle.turtle_shape].format(
+        svg = shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
                            pcolor=turtle.pen_color,
                            turtle_x=turtle_x, 
@@ -193,7 +224,9 @@ class _Screen:
                            cy=-(10*turtle.stretchfactor[1]+4),
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
-                           rotation_y=turtle.turtle_pos[1])
+                           rotation_y=turtle.turtle_pos[1],
+                           points=pointsDict[turtle.turtle_shape],
+                           id = turtle.turtle_shape)
         return svg
     
     # helper function for linking svg strings of text
@@ -312,6 +345,46 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
+    def register_shape(self, name, points=None):
+        """Adds a polygonal turtle shape to to the shape list.
+
+        Arg:
+           name is an arbitrary string
+           points is a list or tuple of pairs of coordinates that define the polygon. 
+       
+        Installs the corresponding polygon shape.
+        If no points are given, the turtle shape will be blank.
+        Note: This version does NOT include shapes that are images or components.
+        """
+            
+        if not isinstance(name,str):
+            raise TypeError("The name must be a string")
+        if points is None:
+            self.points = None
+        else:
+            if not isinstance(points, (list, tuple)):
+                raise TypeError("The points must be a list or tuple of coordinate pairs.")
+            if len(points) < 2:
+                raise ValueError("The points must contain at least 2 coordinate pairs.")
+            for i, point in enumerate(points):
+                if not isinstance(point, (list, tuple)):
+                    raise TypeError(
+                        f"The point[{i}] must be a coordinate pair."
+                    )
+                if len(point) != 2:
+                   raise ValueError(
+                       f"The point[{i}] must contain exactly two coordinates."
+                    )
+                if not all(isinstance(x, (int, float)) for x in point):
+                   raise TypeError(
+                       f"The point[{i}] must contain numeric coordinates."
+                   )  
+        name = name.lower()    
+        VALID_TURTLE_SHAPES.add(name)
+        pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
+        shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+    addshape=register_shape
+        
     #=========================
     # screen drawing functions
     #=========================
@@ -710,8 +783,8 @@ class _Screen:
 
     def turtles(self):
         """Return the list of turtles on the screen."""
-        return self._turtles
-
+        return self._turtles        
+        
     def initializescreen(self,window=DEFAULT_WINDOW_SIZE,mode=DEFAULT_MODE):
         """Initializes the drawing window
     
@@ -821,16 +894,9 @@ class RawTurtle:
         self.stampdictT = {}
         self.stampnum = 0
         self.stamplist=[]
-        self.shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
-              "ring":TURTLE_RING_SVG_TEMPLATE, 
-              "classic":TURTLE_CLASSIC_SVG_TEMPLATE,
-              "arrow":TURTLE_ARROW_SVG_TEMPLATE,
-              "square":TURTLE_SQUARE_SVG_TEMPLATE,
-              "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
-              "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
-              "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
-              "blank":""}
-        if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
+        self.points = DEFAULT_POINTS            
+
+        if screen._mode == "svg": shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
         screen._add(self)
         
         
@@ -906,7 +972,7 @@ class RawTurtle:
             self.screen._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
-            template = self.shapeDict[self.turtle_shape]        
+            template = shapeDict[self.turtle_shape]        
             tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="1 1" to="{sx} {sy}"
@@ -923,13 +989,13 @@ class RawTurtle:
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
             newtemplate = template.replace("</g>",tmp)
-            self.shapeDict.update({self.turtle_shape:newtemplate})
+            shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
-            self.screen._updateDrawing(self)
+            #self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
-            self.shapeDict.update({self.turtle_shape:template})
+            shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
         else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
@@ -2109,10 +2175,11 @@ class RawTurtle:
     #==========================
     # Turtle State - Appearance
     #==========================
-
+  
     # Set turtle shape to shape with given name or, if name is not given, return name of current shape
     def shape(self, name=None):
         """Sets turtle shape to shape with given name / return current shapename.
+           Can also create a user-defined custom polygonal shape
 
         Args:
             name: an optional string, which is a valid shapename
@@ -2125,6 +2192,8 @@ class RawTurtle:
         The 'turtle' shape is the one that Tolga Atam included in his original 
         ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
         turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
+        
+        Use register_shape (alias addshape) to create a polygonal shape with a chosen name.
         """
 
         if name is None:
@@ -2133,7 +2202,7 @@ class RawTurtle:
             raise ValueError('Shape is invalid. Valid options are: ' + str(VALID_TURTLE_SHAPES)) 
         self.turtle_shape = name.lower()
         self.screen._updateDrawing(turtle=self)
- 
+        
     # Scale the size of the turtle
     # stretch_wid scales perpendicular to orientation
     # stretch_len scales in direction of turtle's orientation
@@ -2376,8 +2445,8 @@ def getcolor(n):
     return VALID_COLORS[n]
 
 
-_tg_screen_functions = ['bgcolor', 'clearscreen', 'drawline', 'hideborder', 
-         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'resetscreen',  'setup', 
+_tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'drawline', 'hideborder', 
+         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
@@ -2385,7 +2454,7 @@ _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward',
        'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
        'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
-       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt',  'setheading', 'seth',  
+       'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'setheading', 'seth',  
        'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
        'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
        'width', 'write', 'xcor', 'ycor' ]
