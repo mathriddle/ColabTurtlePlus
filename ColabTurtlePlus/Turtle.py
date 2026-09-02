@@ -232,7 +232,7 @@ class _Screen:
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
                            points=pointsDict[turtle.turtle_shape]),
-                           id = turtle.turtle_shape
+                           id = turtle.turtle_shape)
         return svg
     
     # helper function for linking svg strings of text
