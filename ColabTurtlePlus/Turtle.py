@@ -2190,7 +2190,7 @@ class RawTurtle:
         #if shape is None:
         #    self.shape = None  
             
-        if isinstance(shape, {list,tuple}:
+        if isinstance(shape, {list,tuple}):
             self.points = " ".join(f"{x},{y}" for x, y in shape)
         elif isinstance(shape, str):
             TURTLE_USER_SVG_TEMPLATE = TURTLE_USER_SVG_TEMPLATE.replace("</g>", tmp+"</g>")
