@@ -114,6 +114,14 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
+TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+"{component}"
+</g>"""
+
+POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
+scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
+ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
+style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
@@ -850,8 +858,53 @@ class _Screen:
 
 
 #----------------------------------------------------------------------------------------------        
-      
-        
+class Shape(object):
+    def __init__(self, type_, data=None):
+    self._type = type_
+    if type_ == "compound":
+        data = ""
+    self._data = data
+
+    def addcomponent(self, points, fill=None, outline=None):
+      tmp = self.data
+      p = " ".join(f"{x},{y}" for x, y in points)
+      tmp = tmp + POLY_TEMPLATE.replace("{points}",p) + "\n"
+      if fill is not None:
+        tmp = tmp.replace("{turtle_color}",fill) 
+        if outline is None:
+          tmp = tmp.replace("{pcolor}",fill)
+        else:
+          tmp = tmp.replace("{pcolor}", outline)
+      elif outline is not None:
+        tmp = tmp.replace("{pcolor}",outline)
+      self.data = tmp
+
+    def addEllipseComponent(self,center, radii, fill=None, outline=None):
+      tmp = self.data
+      if isinstance(radii, (float,int)):
+        xradius = radii
+        yradius = radii
+      elif isinstance(radii, tuple):
+        xradius = radii[0]
+        yradius = radii[1]
+      replacements = {
+        "{cx}": str(center[0]),
+        "{cy}": str(center[1]),
+        "{rx}": str(xradius),
+        "{ry}": str(yradius)
+      }
+      pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
+      tmp = tmp+pattern.sub(lambda match: replacements[match.group(0)], ELLIPSE_TEMPLATE)
+      if fill is not None:
+        tmp = tmp.replace("{turtle_color}",fill) 
+        if outline is None:
+          tmp = tmp.replace("{pcolor}",fill)
+        else:
+          tmp = tmp.replace("{pcolor}", outline)
+      elif outline is not None:
+        tmp = tmp.replace("{pcolor}",outline)
+      self.data = tmp
+
 class RawTurtle:     
         
     def __init__(self, window=None):
