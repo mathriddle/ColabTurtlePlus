@@ -866,7 +866,7 @@ class Shape(object):
       self._data = data
 
     def addcomponent(self, points, fill=None, outline=None):
-      tmp = self.data
+      tmp = self._data
       p = " ".join(f"{x},{y}" for x, y in points)
       tmp = tmp + POLY_TEMPLATE.replace("{points}",p) + "\n"
       if fill is not None:
@@ -877,10 +877,10 @@ class Shape(object):
           tmp = tmp.replace("{pcolor}", outline)
       elif outline is not None:
         tmp = tmp.replace("{pcolor}",outline)
-      self.data = tmp
+      self._data = tmp
 
     def addEllipseComponent(self,center, radii, fill=None, outline=None):
-      tmp = self.data
+      tmp = self._data
       if isinstance(radii, (float,int)):
         xradius = radii
         yradius = radii
@@ -903,8 +903,10 @@ class Shape(object):
           tmp = tmp.replace("{pcolor}", outline)
       elif outline is not None:
         tmp = tmp.replace("{pcolor}",outline)
-      self.data = tmp
+      self._data = tmp
 
+
+-------------------------------------------------------------
 class RawTurtle:     
         
     def __init__(self, window=None):
