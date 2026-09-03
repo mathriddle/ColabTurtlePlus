@@ -860,10 +860,10 @@ class _Screen:
 #----------------------------------------------------------------------------------------------        
 class Shape(object):
     def __init__(self, type_, data=None):
-    self._type = type_
-    if type_ == "compound":
+      self._type = type_
+      if type_ == "compound":
         data = ""
-    self._data = data
+      self._data = data
 
     def addcomponent(self, points, fill=None, outline=None):
       tmp = self.data
