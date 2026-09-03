@@ -354,7 +354,7 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
-    def register_shape(self, name, points=None):
+    def register_shape(self, name, shape=None):
         """Adds a polygonal turtle shape to to the shape list.
 
         Arg:
@@ -368,11 +368,10 @@ class _Screen:
             
         if not isinstance(name,str):
             raise TypeError("The name must be a string")
-        if points is None:
+        if shape is None:
             self.points = None
-        else:
-            if not isinstance(points, (list, tuple)):
-                raise TypeError("The points must be a list or tuple of coordinate pairs.")
+        elif isinstance(shape, (list, tuple)):
+            points = shape
             if len(points) < 2:
                 raise ValueError("The points must contain at least 2 coordinate pairs.")
             for i, point in enumerate(points):
@@ -388,10 +387,23 @@ class _Screen:
                    raise TypeError(
                        f"The point[{i}] must contain numeric coordinates."
                    )  
-        name = name.lower()    
-        VALID_TURTLE_SHAPES.add(name)
-        pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
-        shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+            name = name.lower()    
+            VALID_TURTLE_SHAPES.add(name)
+            pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
+            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+        else:  #assume compound shape
+            tmp=TURTLE_COMPONENT_SVG_TEMPLATE.format(
+                    component=shape._data,
+                    visibility="{visibility}",
+                    degrees="{degrees}",
+                    rotation_x="{rotation_x}",
+                    rotation_y="{rotation_y}",
+                    turtle_x="{turtle_x}",
+                    turtle_y="{turtle_y}",
+                    )
+            componentDict[shape] = tmp
+            name = name.lower()    
+            VALID_TURTLE_SHAPES.add(name)
     addshape=register_shape
         
     #=========================
