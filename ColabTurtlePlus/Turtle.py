@@ -135,6 +135,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
               "user":TURTLE_USER_SVG_TEMPLATE,
+              "comp":TURTLE_COMPONENT_SVG_TEMPLATE
               "blank":""}
 pointsDict = {"turtle":"", 
               "ring":"", 
@@ -402,9 +403,10 @@ class _Screen:
                     turtle_x="{turtle_x}",
                     turtle_y="{turtle_y}",
                     )
-            componentDict[shape] = tmp
+           # componentDict[shape] = tm
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
+            shapeDict[name] = tmp
     addshape=register_shape
         
     #=========================
