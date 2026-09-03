@@ -134,8 +134,8 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
-              "user":TURTLE_USER_SVG_TEMPLATE,
-              "comp":TURTLE_COMPONENT_SVG_TEMPLATE
+        #      "user":TURTLE_USER_SVG_TEMPLATE,
+        #      "comp":TURTLE_COMPONENT_SVG_TEMPLATE,
               "blank":""}
 pointsDict = {"turtle":"", 
               "ring":"", 
@@ -147,7 +147,7 @@ pointsDict = {"turtle":"",
               "turtle2":"",
               "user":"",
               "blank":""}
-comoponentDict = {}
+
 #------------------------------------------------------------------------------------------------
 
 def Screen():
