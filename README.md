@@ -8,6 +8,10 @@ The ColabTurtlePlus module provides turtle graphics primitives, in both object-o
 
 To use multiple turtles on a screen one has to use the object-oriented interface for the turtles.
 
+What's New:
+----
+Sept. 2026: Version 2.1.0 adds a register_shape (alias addshape) function to create a polygonal turtle shape. It does not work with images or components.
+
 Installation
 ----
 Create an empty code cell and type:
