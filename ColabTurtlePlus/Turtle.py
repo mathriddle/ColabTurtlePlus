@@ -407,6 +407,7 @@ class _Screen:
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             shapeDict[name] = tmp
+            pointsDict[name] = ""
     addshape=register_shape
         
     #=========================
