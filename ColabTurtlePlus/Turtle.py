@@ -392,7 +392,7 @@ class _Screen:
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
-            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",points)   #TURTLE_USER_SVG_TEMPLATE
         else:  #assume compound shape
             tmp=TURTLE_COMPONENT_SVG_TEMPLATE.format(
                     component=shape._data,
