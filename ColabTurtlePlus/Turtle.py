@@ -137,18 +137,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
         #      "user":TURTLE_USER_SVG_TEMPLATE,
         #      "comp":TURTLE_COMPONENT_SVG_TEMPLATE,
               "blank":""}
-"""
-pointsDict = {"turtle":"", 
-              "ring":"", 
-              "classic":"",
-              "arrow":"",
-              "square":"",
-              "triangle":"",
-              "circle":"",
-              "turtle2":"",
-              "user":"",
-              "blank":""}
-"""
+
 #------------------------------------------------------------------------------------------------
 
 def Screen():
@@ -237,7 +226,6 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           points="",
                            id = turtle.turtle_shape)
         return svg
     
@@ -393,7 +381,6 @@ class _Screen:
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             pointstr = " ".join(f"{x},{y}" for x, y in points)
-            #pointsDict[name] = pointstr
             shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",pointstr)   #TURTLE_USER_SVG_TEMPLATE
         else:  #assume compound shape
             tmp=TURTLE_COMPONENT_SVG_TEMPLATE.format(
@@ -409,7 +396,6 @@ class _Screen:
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             shapeDict[name] = tmp
-            #pointsDict[name] = ""
     addshape=register_shape
         
     #=========================
