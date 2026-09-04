@@ -137,6 +137,7 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
         #      "user":TURTLE_USER_SVG_TEMPLATE,
         #      "comp":TURTLE_COMPONENT_SVG_TEMPLATE,
               "blank":""}
+"""
 pointsDict = {"turtle":"", 
               "ring":"", 
               "classic":"",
@@ -147,7 +148,7 @@ pointsDict = {"turtle":"",
               "turtle2":"",
               "user":"",
               "blank":""}
-
+"""
 #------------------------------------------------------------------------------------------------
 
 def Screen():
@@ -236,7 +237,7 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           points=pointsDict[turtle.turtle_shape],
+                          #points=pointsDict[turtle.turtle_shape],
                            id = turtle.turtle_shape)
         return svg
     
