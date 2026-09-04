@@ -871,16 +871,16 @@ class Shape(object):
     def addcomponent(self, points, fill=None, outline=None):
       tmp = self._data
       p = " ".join(f"{x},{y}" for x, y in points)
-      tmp = tmp + POLY_TEMPLATE.replace("{points}",p) + "\n"
+      template = POLY_TEMPLATE.replace("{points}",p) + "\n"
       if fill is not None:
-        tmp = tmp.replace("{turtle_color}",fill) 
+        template = template.replace("{turtle_color}",fill) 
         if outline is None:
-          tmp = tmp.replace("{pcolor}",fill)
+          template = template.replace("{pcolor}",fill)
         else:
-          tmp = tmp.replace("{pcolor}", outline)
+          template = template.replace("{pcolor}", outline)
       elif outline is not None:
-        tmp = tmp.replace("{pcolor}",outline)
-      self._data = tmp
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template
 
     def addEllipseComponent(self,center, radii, fill=None, outline=None):
       tmp = self._data
@@ -897,16 +897,16 @@ class Shape(object):
         "{ry}": str(yradius)
       }
       pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
-      tmp = tmp+pattern.sub(lambda match: replacements[match.group(0)], ELLIPSE_TEMPLATE)
+      template = pattern.sub(lambda match: replacements[match.group(0)], ELLIPSE_TEMPLATE)
       if fill is not None:
-        tmp = tmp.replace("{turtle_color}",fill) 
+        template = template.replace("{turtle_color}",fill) 
         if outline is None:
-          tmp = tmp.replace("{pcolor}",fill)
+          template = template.replace("{pcolor}",fill)
         else:
-          tmp = tmp.replace("{pcolor}", outline)
+          template = template.replace("{pcolor}", outline)
       elif outline is not None:
-        tmp = tmp.replace("{pcolor}",outline)
-      self._data = tmp
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template
 
 
 #-------------------------------------------------------------
