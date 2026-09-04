@@ -1721,6 +1721,18 @@ class RawTurtle:
             deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
             return 360-deg
 
+    def extract_points(self,svg_string):
+        match = re.search(r'points="([^"]*)"', svg_string)
+        if not match:
+            raise ValueError("No points attribute found")
+        def number(s):
+            value = float(s)
+            return int(value) if value.is_integer() else value
+        return tuple(
+            (number(x), number(y))
+            for x, y in (point.split(",") for point in match.group(1).split())
+        )
+            
     #========================================
     # Turtle Motion - Setting and Measurement
     #========================================
