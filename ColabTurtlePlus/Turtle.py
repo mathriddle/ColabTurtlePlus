@@ -2537,7 +2537,7 @@ _tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'drawline', 'hideb
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
-       'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
+       'dot', 'down', 'end_fill', 'extract_points', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
        'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
        'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'setheading', 'seth',  
