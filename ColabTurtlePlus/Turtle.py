@@ -2011,22 +2011,6 @@ class RawTurtle:
 
         return self.is_filling
 
-    def fill(self):
-        """A context manager for filling a shape.
-
-        Implicitly ensures the code block is wrapped with
-        begin_fill() and end_fill().
-
-        Example (for a Turtle instance named turtle):
-        >>> turtle.color("black", "red")
-        >>> with turtle.fill():
-        ...     turtle.circle(60)
-        """
-        self.begin_fill()
-        try:
-            yield
-        finally:
-            self.end_fill()
         
     # Initialize the string for the svg path of the filled shape.
     # Modified from aronma/ColabTurtle_2 github repo
