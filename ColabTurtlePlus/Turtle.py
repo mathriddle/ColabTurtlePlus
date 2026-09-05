@@ -122,6 +122,8 @@ POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
 scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
 ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
+PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+transform="skewX({sk}) scale({sx},{sy})" />"""
 
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
@@ -906,8 +908,20 @@ class Shape(object):
           template = template.replace("{pcolor}", outline)
       elif outline is not None:
         template = template.replace("{pcolor}",outline)
-      self._data = tmp + template
+      self._data = tmp + template + "\n"
 
+   def addPathComponent(self, path, fill=None, outline=None):
+      tmp = self._data
+      template = PATH_TEMPLATE.replace("{path}",path)
+      if fill is not None:
+        template = template.replace("{turtle_color}",fill) 
+        if outline is None:
+          template = template.replace("{pcolor}",fill)
+        else:
+          template = template.replace("{pcolor}", outline)
+      elif outline is not None:
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template + "\n"
 
 #-------------------------------------------------------------
 
