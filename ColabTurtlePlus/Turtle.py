@@ -910,7 +910,7 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template + "\n"
 
-   def addPathComponent(self, path, fill=None, outline=None):
+    def addPathComponent(self, path, fill=None, outline=None):
       tmp = self._data
       template = PATH_TEMPLATE.replace("{path}",path)
       if fill is not None:
