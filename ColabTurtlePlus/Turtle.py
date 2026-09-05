@@ -2330,7 +2330,8 @@ class RawTurtle:
             outline = self.outline_width
         elif not isinstance(outline, (int,float)):
             raise ValueError('The outline must be a positive number.')        
-        self.outline_width = outline   
+        self.outline_width = outline 
+        self.screen._updateDrawing(turtle=self, delay=False)
     turtlesize = shapesize #alias
 
     # Set or return the current shearfactor. Shear the turtleshape according to the given shearfactor shear, which is the tangent of the shear angle. 
