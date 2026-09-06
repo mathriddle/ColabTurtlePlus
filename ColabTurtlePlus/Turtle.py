@@ -212,8 +212,7 @@ class _Screen:
             degrees -= 90
         elif turtle.turtle_shape in {'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank'}:
             degrees -= 90
-        else:
-            degrees = degrees
+        
        
         svg = shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
