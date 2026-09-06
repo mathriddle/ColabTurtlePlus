@@ -111,12 +111,10 @@ TURTLE_CIRCLE_SVG_TEMPLATE = """<g id="ellipse" visibility="{visibility}" transf
 TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
-#TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-#<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
-#</g>"""
-TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="scale(1,-1) rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
+
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 "{component}"
 </g>"""
@@ -212,8 +210,10 @@ class _Screen:
         elif turtle.turtle_shape == 'ring':
             turtle_y += 10*turtle.stretchfactor[1]+4
             degrees -= 90
-        else:
+        elif turtle.turtle_shape in {'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank'}:
             degrees -= 90
+        else:
+            degrees = degrees
        
         svg = shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
@@ -385,7 +385,7 @@ class _Screen:
                    )  
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
-            pointstr = " ".join(f"{x},{y}" for x, y in points)
+            pointstr = " ".join(f"{y},{x}" for x, y in points)
             shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",pointstr)   #TURTLE_USER_SVG_TEMPLATE
         else:  #assume compound shape
             tmp=TURTLE_COMPONENT_SVG_TEMPLATE.format(
