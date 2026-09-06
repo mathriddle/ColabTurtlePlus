@@ -381,7 +381,7 @@ class _Screen:
                    )  
         name = name.lower()    
         VALID_TURTLE_SHAPES.add(name)
-        pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
+        pointsDict[name] = " ".join(f"{x},{-y}" for x, y in points)
         shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
     addshape=register_shape
         
