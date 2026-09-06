@@ -209,7 +209,7 @@ class _Screen:
         elif turtle.turtle_shape == 'ring':
             turtle_y += 10*turtle.stretchfactor[1]+4
             degrees -= 90
-        elif turtle.turtle_shape in {'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank'},:
+        elif turtle.turtle_shape in {'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank'}:
             degrees -= 90
        
         svg = shapeDict[turtle.turtle_shape].format(
