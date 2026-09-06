@@ -196,10 +196,10 @@ class _Screen:
             vis = 'hidden'
 
         turtle_x = turtle.turtle_pos[0]
-        turtle_y = -turtle.turtle_pos[1]
-        if self._mode == "standard":
+        turtle_y = turtle.turtle_pos[1]
+        if self._mode == 'standard':
             degrees = turtle.turtle_degree - turtle.tilt_angle    
-        elif self._mode == "world":
+        elif self._mode == 'world':
             degrees = turtle.turtle_orient - turtle.tilt_angle
         else:
             degrees = turtle.turtle_degree + turtle.tilt_angle
