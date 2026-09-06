@@ -114,8 +114,8 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 #TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 #<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 #</g>"""
-TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="{points}" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
+TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="scale(1,-1) rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 "{component}"
