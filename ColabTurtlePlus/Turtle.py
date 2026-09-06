@@ -196,7 +196,7 @@ class _Screen:
             vis = 'hidden'
 
         turtle_x = turtle.turtle_pos[0]
-        turtle_y = turtle.turtle_pos[1]
+        turtle_y = -turtle.turtle_pos[1]
         if self._mode == "standard":
             degrees = turtle.turtle_degree - turtle.tilt_angle    
         elif self._mode == "world":
@@ -209,7 +209,7 @@ class _Screen:
         elif turtle.turtle_shape == 'ring':
             turtle_y += 10*turtle.stretchfactor[1]+4
             degrees -= 90
-        elif turtle.turtle_shape in {'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank'}:
+        else
             degrees -= 90
        
         svg = shapeDict[turtle.turtle_shape].format(
