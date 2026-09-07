@@ -1052,14 +1052,7 @@ class RawTurtle:
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = shapeDict[self.turtle_shape]        
-            tmp = """<animateTransform id = "one" attributeName="transform" 
-                      type="scale"
-                      from="1 1" to="{sx} {sy}"
-                      begin="0s" dur="0.01s"
-                      repeatCount="1"
-                      additive="sum"
-                      fill="freeze"
-                /><animateTransform attributeName="transform"
+            tmp = """<animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{extent} 0 0"
                     begin="one.end" dur="{t}s"
@@ -1069,7 +1062,7 @@ class RawTurtle:
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
             newtemplate = template.replace("</g>",tmp)
             shapeDict.update({self.turtle_shape:newtemplate})
-           # self.stretchfactor = 1,1
+            self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
             self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
