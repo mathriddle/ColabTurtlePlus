@@ -112,7 +112,7 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 <polygon points="0,16 2,14 1,10 4,7 7,9 9,8 6,5 7,1 5,-3 8,-6 6,-8 4,-5 0,-7 -4,-5 -6,-8 -8,-6 -5,-3 -7,1 -6,5 -9,8 -7,9 -4,7 -1,10 -2,14" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};stroke-width:1;fill:{turtle_color}" />
 </g>"""
 TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="{points}" transform="skewX({sk}) scale({sx},{-sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
@@ -222,7 +222,7 @@ class _Screen:
                            visibility=vis, 
                            degrees=degrees,
                            sx=turtle.stretchfactor[0],
-                           sy=turtle.stretchfactor[1],
+                           sy=-turtle.stretchfactor[1],
                            sk=turtle.shear_factor,
                            rx=10*turtle.stretchfactor[0],
                            ry=10*turtle.stretchfactor[1],
