@@ -137,8 +137,6 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
-        #      "user":TURTLE_USER_SVG_TEMPLATE,
-        #      "comp":TURTLE_COMPONENT_SVG_TEMPLATE,
               "blank":""}
 
 #------------------------------------------------------------------------------------------------
@@ -350,15 +348,16 @@ class _Screen:
         text_file.close()   
 
     def register_shape(self, name, shape=None):
-        """Adds a polygonal turtle shape to to the shape list.
+        """Adds a turtle shape to to the shape list.
 
         Arg:
            name is an arbitrary string
-           points is a list or tuple of pairs of coordinates that define the polygon. 
+           points is a list or tuple of pairs of coordinates that define a polygon, 
+           or a (compound) Shape object
        
-        Installs the corresponding polygon shape.
+        Installs the corresponding polygon shape or the corresponding compound shape.
         If no points are given, the turtle shape will be blank.
-        Note: This version does NOT include shapes that are images or components.
+        Note: This version does NOT include shapes that are images
         """
             
         if not isinstance(name,str):
@@ -873,7 +872,21 @@ class Shape(object):
         data = ""
       self._data = data
 
+        
     def addcomponent(self, points, fill=None, outline=None):
+      """Add polygonal component to a shape of type compound.
+
+      Arguments: poly is a polygon, i. e. a tuple of number pairs.
+           fill is the fillcolor of the polygon,
+           outline is the outline color of the polygon.
+
+      Example:
+        >>> poly = ((0,0),(10,-5),(0,10),(-10,-5))
+        >>> s = Shape("compound")
+        >>> s.addcomponent(poly, "red", "blue")
+        >>> # .. add more components and then use register_shape()
+      """
+        
       tmp = self._data
       p = " ".join(f"{x},{y}" for x, y in points)
       template = POLY_TEMPLATE.replace("{points}",p) + "\n"
@@ -887,7 +900,20 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template
 
-    def addEllipseComponent(self,center, radii, fill=None, outline=None):
+    def addEllipseComponent(self, center, radii, fill=None, outline=None):
+      """Add elliptical component to a shape of type compound.
+
+      Arguments: center is a tuple (cx,cy) that is the center of the ellipse
+           radii is a tuple (rx, ry) giving the radius of the ellipse in the x and y directions.
+              Can use just radii = r as a substitute for (r,r) to do a circle of radius r
+           fill is the fillcolor of the ellipse,
+           outline is the outline color of the ellipse.
+
+      Example:
+        >>> s = Shape("compound")
+        >>> s.addEllipseComponent((0,0), (50,100), "red", "blue")
+        >>> # .. add more components and then use register_shape()
+      """
       tmp = self._data
       if isinstance(radii, (float,int)):
         xradius = radii
@@ -914,6 +940,18 @@ class Shape(object):
       self._data = tmp + template + "\n"
 
     def addPathComponent(self, path, fill=None, outline=None):
+      """Add an SVG path component to a shape of type compound.
+
+      Arguments: path is an SVG string defining a path
+           fill is the fillcolor of the component,
+           outline is the outline color of the component.
+
+      Example:
+        >>> curve = "M -50 -50 Q 0 100 50 -50"   (quadratic Bezier curve)
+        >>> s = Shape("compound")
+        >>> s.addPathComponent(curve, "red", "blue")
+        >>> # .. add more components and then use register_shape()
+      """
       tmp = self._data
       template = PATH_TEMPLATE.replace("{path}",path)
       if fill is not None:
