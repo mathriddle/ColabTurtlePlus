@@ -815,7 +815,7 @@ class _Screen:
             mode: (optional) one of "standard, "logo", "world", or "sv
     
         The defaults are (800,600) and "standard".
-    """
+        """
         if window is not None:
             if not (isinstance(window, tuple) and len(window) == 2 and isinstance(
                     window[0], int) and isinstance(window[1], int)):
@@ -905,7 +905,7 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template
 
-    def addEllipseComponent(self, center, radii, fill=None, outline=None):
+    def addellipsecomponent(self, center, radii, fill=None, outline=None):
       """Add elliptical component to a shape of type compound.
 
       Arguments: center is a tuple (cx,cy) that is the center of the ellipse
@@ -944,7 +944,7 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template + "\n"
 
-    def addPathComponent(self, path, fill=None, outline=None):
+    def addpathcomponent(self, path, fill=None, outline=None):
       """Add an SVG path component to a shape of type compound.
 
       Arguments: path is an SVG string defining a path
@@ -969,6 +969,8 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template + "\n"
 
+    addEllipseComponet = addellipsecomponent
+    addPathComponent = addpathcomponent
 #-------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------        
@@ -2586,6 +2588,8 @@ _tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'drawline', 'hideb
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
+_tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent']
+
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
        'dot', 'down', 'end_fill', 'extract_points', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
@@ -2651,7 +2655,6 @@ def _screen_docrevise(docstr):
     newdocstr = parexp.sub(":", newdocstr)
     return newdocstr
 
-
 __func_body = """\
 def {name}{paramslist}:
     if {obj} is None:
@@ -2674,6 +2677,7 @@ def _make_global_funcs(functions, cls, obj, init, docrevise):
 _make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
 
 _make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
+
 
 
 
