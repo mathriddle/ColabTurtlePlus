@@ -34,7 +34,6 @@ Example 1
 ---
 This example uses the procedure-oriented interface.
 ```
-from ColabTurtlePlus.Turtle import *
 clearscreen()
 setup(300,300)
 showborder()
@@ -58,7 +57,6 @@ Example 2
 ----
 This example has two turtles and uses the object-oriented interface.
 ```
-from ColabTurtlePlus.Turtle import *
 clearscreen()
 setup(500,300)
 T = Turtle()
@@ -125,7 +123,8 @@ s.shape("star")
 s.circle(-50)
 s.color("black","green")
 ```
-
+The resulting image is  
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/example3.png)
 
 Main differences with ColabTurtle
 ----
