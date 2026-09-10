@@ -124,7 +124,7 @@ s.circle(-50)
 s.color("black","green")
 ```
 The resulting image is  
-![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/example3.png)
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/example3.svg)
 
 Main differences with ColabTurtle
 ----
