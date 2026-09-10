@@ -10,7 +10,9 @@ To use multiple turtles on a screen one has to use the object-oriented interface
 
 What's New:
 ----
-Sept. 2026: Version 2.1.0 adds a register_shape (alias addshape) function to create a polygonal turtle shape. It does not work with images or components.
+Sept. 2026: Version 2.1.0 adds a register_shape (alias addshape) function to create a polygonal turtle shape. It does not work with images.
+
+Sept. 2026: Version 2.1.1 allows use of addcomponent() to add a polygon to a component turtle shape. There are two new ways to build additional components: addellipsecomponent() adds an elliptical shape, and addpathcompenent adds a path defined using svg path commands.
 
 Installation
 ----
@@ -32,7 +34,6 @@ Example 1
 ---
 This example uses the procedure-oriented interface.
 ```
-from ColabTurtlePlus.Turtle import *
 clearscreen()
 setup(300,300)
 showborder()
@@ -56,7 +57,6 @@ Example 2
 ----
 This example has two turtles and uses the object-oriented interface.
 ```
-from ColabTurtlePlus.Turtle import *
 clearscreen()
 setup(500,300)
 T = Turtle()
@@ -83,6 +83,48 @@ S.end_fill()
 ```
 The resulting image is  
 ![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/stars.svg)
+
+Example 3:
+----
+This example uses components.
+```
+clearscreen()
+setup(300,300)
+
+comp_shape = Shape("compound")
+poly = ((-50,0),(-50,100),(50,100),(50,0))
+comp_shape.addcomponent(poly,"blue")
+comp_shape.addellipsecomponent((0,120),50,"red")
+
+star_coords = ((-10,-13.8), (0,17), (10,-13.8), (-16.2,5.3), (16.2,5.3))
+
+addshape("box_with_ball", comp_shape)
+addshape("star", star_coords)
+
+t = Turtle()
+t.shapesize(0.5,0.5)
+t.fillcolor("yellow")
+t.shapesize(0.25)
+t.shape("box_with_ball")
+t.pensize(2)
+t.speed(5)
+t.begin_fill()
+
+for _ in range(4):
+  t.forward(100)
+  t.left(90)
+t.end_fill()
+t.forward(100)
+t.left(90)
+
+s = Turtle()
+s.shapesize(1.5)
+s.shape("star")
+s.circle(-50)
+s.color("black","green")
+```
+The resulting image is  
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/example3.svg)
 
 Main differences with ColabTurtle
 ----

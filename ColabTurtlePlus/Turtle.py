@@ -32,7 +32,13 @@ Fixed Python 3.13+ SyntaxWarning by using raw strings in regular expressions.
 
 v2.1.0 September 2026
 Added register_shape() (alias addshape) to mimic the role of the function register_shape() from Python's turtle.
-This only works to add a polygonal shape. It does not work with images or components.
+This only works to add a polygonal shape (and now component shapes with v2.1.1). It does not work with images.
+
+v2.1.1 September 2026
+Added addcomponent() to create new polygonal turtles. Because turtles are defined as svg strings, also added two
+new functions, addellipsecomponent() and addpathcomponent, to create turtles bassed on ellipical shapes and svg
+paths. To be consistent with Python's turtle, these are first invoked using a call to Shape("compound") and then
+combined using register_shape().
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -94,7 +100,7 @@ TURTLE_RING_SVG_TEMPLATE = """<g id="ring" visibility="{visibility}" transform="
 <polygon points="0,5 5,0 -5,0" transform="skewX({sk}) scale({sx},{sy})" style="fill:{turtle_color};stroke:{pcolor};stroke-width:1" />
 </g>"""
 TURTLE_CLASSIC_SVG_TEMPLATE = """<g id="classic" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
+<polygon points="-5,-4.5 0,-2.5 5,-4.5 0,4.5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_ARROW_SVG_TEMPLATE = """<g id="arrow" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="-10,-5 0,5 10,-5" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
@@ -115,6 +121,18 @@ TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 
+TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
+"{component}"
+</g>"""
+
+POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
+scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
+ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
+style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
+PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+transform="skewX({sk}) scale({sx},{sy})" />"""
+
+
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
 
 shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE, 
@@ -125,18 +143,8 @@ shapeDict = {"turtle":TURTLE_TURTLE_SVG_TEMPLATE,
               "triangle":TURTLE_TRIANGLE_SVG_TEMPLATE,
               "circle":TURTLE_CIRCLE_SVG_TEMPLATE,
               "turtle2":TURTLE_TURTLE2_SVG_TEMPLATE,
-              "user":TURTLE_USER_SVG_TEMPLATE,
               "blank":""}
-pointsDict = {"turtle":"", 
-              "ring":"", 
-              "classic":"",
-              "arrow":"",
-              "square":"",
-              "triangle":"",
-              "circle":"",
-              "turtle2":"",
-              "user":"",
-              "blank":""}
+
 #------------------------------------------------------------------------------------------------
 
 def Screen():
@@ -194,9 +202,9 @@ class _Screen:
 
         turtle_x = turtle.turtle_pos[0]
         turtle_y = turtle.turtle_pos[1]
-        if self._mode == "standard":
+        if self._mode == 'standard':
             degrees = turtle.turtle_degree - turtle.tilt_angle    
-        elif self._mode == "world":
+        elif self._mode == 'world':
             degrees = turtle.turtle_orient - turtle.tilt_angle
         else:
             degrees = turtle.turtle_degree + turtle.tilt_angle
@@ -206,8 +214,9 @@ class _Screen:
         elif turtle.turtle_shape == 'ring':
             turtle_y += 10*turtle.stretchfactor[1]+4
             degrees -= 90
-        else:
+        else:    #turtle.turtle_shape in {'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank'}:
             degrees -= 90
+        
        
         svg = shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
@@ -216,7 +225,7 @@ class _Screen:
                            turtle_y=turtle_y,
                            visibility=vis, 
                            degrees=degrees,
-                           sx=turtle.stretchfactor[0],
+                           sx=-turtle.stretchfactor[0],
                            sy=turtle.stretchfactor[1],
                            sk=turtle.shear_factor,
                            rx=10*turtle.stretchfactor[0],
@@ -225,7 +234,6 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           points=pointsDict[turtle.turtle_shape],
                            id = turtle.turtle_shape)
         return svg
     
@@ -345,25 +353,25 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
-    def register_shape(self, name, points=None):
-        """Adds a polygonal turtle shape to to the shape list.
+    def register_shape(self, name, shape=None):
+        """Adds a turtle shape to to the shape list.
 
         Arg:
            name is an arbitrary string
-           points is a list or tuple of pairs of coordinates that define the polygon. 
+           points is a list or tuple of pairs of coordinates that define a polygon, 
+           or a (compound) Shape object
        
-        Installs the corresponding polygon shape.
+        Installs the corresponding polygon shape or the corresponding compound shape.
         If no points are given, the turtle shape will be blank.
-        Note: This version does NOT include shapes that are images or components.
+        Note: This version does NOT include shapes that are images
         """
             
         if not isinstance(name,str):
             raise TypeError("The name must be a string")
-        if points is None:
+        if shape is None:
             self.points = None
-        else:
-            if not isinstance(points, (list, tuple)):
-                raise TypeError("The points must be a list or tuple of coordinate pairs.")
+        elif isinstance(shape, (list, tuple)):
+            points = shape
             if len(points) < 2:
                 raise ValueError("The points must contain at least 2 coordinate pairs.")
             for i, point in enumerate(points):
@@ -379,10 +387,24 @@ class _Screen:
                    raise TypeError(
                        f"The point[{i}] must contain numeric coordinates."
                    )  
-        name = name.lower()    
-        VALID_TURTLE_SHAPES.add(name)
-        pointsDict[name] = " ".join(f"{x},{y}" for x, y in points)
-        shapeDict[name] = TURTLE_USER_SVG_TEMPLATE
+            name = name.lower()    
+            VALID_TURTLE_SHAPES.add(name)
+            pointstr = " ".join(f"{x},{y}" for x, y in points)
+            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",pointstr)   #TURTLE_USER_SVG_TEMPLATE
+        else:  #assume compound shape
+            tmp=TURTLE_COMPONENT_SVG_TEMPLATE.format(
+                    component=shape._data,
+                    visibility="{visibility}",
+                    degrees="{degrees}",
+                    rotation_x="{rotation_x}",
+                    rotation_y="{rotation_y}",
+                    turtle_x="{turtle_x}",
+                    turtle_y="{turtle_y}",
+                    )
+           # componentDict[shape] = tm
+            name = name.lower()    
+            VALID_TURTLE_SHAPES.add(name)
+            shapeDict[name] = tmp
     addshape=register_shape
         
     #=========================
@@ -793,7 +815,7 @@ class _Screen:
             mode: (optional) one of "standard, "logo", "world", or "sv
     
         The defaults are (800,600) and "standard".
-    """
+        """
         if window is not None:
             if not (isinstance(window, tuple) and len(window) == 2 and isinstance(
                     window[0], int) and isinstance(window[1], int)):
@@ -847,7 +869,109 @@ class _Screen:
             err = 'The color parameter ' + color + ' must be a color string or a tuple'
             raise ValueError(err)
 
+#----------------------------------------------------------------------------------------------        
+class Shape(object):
+    def __init__(self, type_, data=None):
+      self._type = type_
+      if type_ == "compound":
+        data = ""
+      self._data = data
 
+        
+    def addcomponent(self, points, fill=None, outline=None):
+      """Add polygonal component to a shape of type compound.
+
+      Arguments: poly is a polygon, i. e. a tuple of number pairs.
+           fill is the fillcolor of the polygon,
+           outline is the outline color of the polygon.
+
+      Example:
+        >>> poly = ((0,0),(10,-5),(0,10),(-10,-5))
+        >>> s = Shape("compound")
+        >>> s.addcomponent(poly, "red", "blue")
+        >>> # .. add more components and then use register_shape()
+      """
+        
+      tmp = self._data
+      p = " ".join(f"{x},{y}" for x, y in points)
+      template = POLY_TEMPLATE.replace("{points}",p) + "\n"
+      if fill is not None:
+        template = template.replace("{turtle_color}",fill) 
+        if outline is None:
+          template = template.replace("{pcolor}",fill)
+        else:
+          template = template.replace("{pcolor}", outline)
+      elif outline is not None:
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template
+
+    def addellipsecomponent(self, center, radii, fill=None, outline=None):
+      """Add elliptical component to a shape of type compound.
+
+      Arguments: center is a tuple (cx,cy) that is the center of the ellipse
+           radii is a tuple (rx, ry) giving the radius of the ellipse in the x and y directions.
+              Can use just radii = r as a substitute for (r,r) to do a circle of radius r
+           fill is the fillcolor of the ellipse,
+           outline is the outline color of the ellipse.
+
+      Example:
+        >>> s = Shape("compound")
+        >>> s.addellipsecomponent((0,0), (50,100), "red", "blue")
+        >>> # .. add more components and then use register_shape()
+      """
+      tmp = self._data
+      if isinstance(radii, (float,int)):
+        xradius = radii
+        yradius = radii
+      elif isinstance(radii, tuple):
+        xradius = radii[0]
+        yradius = radii[1]
+      replacements = {
+        "{cx}": str(center[0]),
+        "{cy}": str(center[1]),
+        "{rx}": str(xradius),
+        "{ry}": str(yradius)
+      }
+      pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
+      template = pattern.sub(lambda match: replacements[match.group(0)], ELLIPSE_TEMPLATE)
+      if fill is not None:
+        template = template.replace("{turtle_color}",fill) 
+        if outline is None:
+          template = template.replace("{pcolor}",fill)
+        else:
+          template = template.replace("{pcolor}", outline)
+      elif outline is not None:
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template + "\n"
+
+    def addpathcomponent(self, path, fill=None, outline=None):
+      """Add an SVG path component to a shape of type compound.
+
+      Arguments: path is an SVG string defining a path
+           fill is the fillcolor of the component,
+           outline is the outline color of the component.
+
+      Example:
+        >>> curve = "M -50 -50 Q 0 100 50 -50"   (quadratic Bezier curve)
+        >>> s = Shape("compound")
+        >>> s.addpathcomponent(curve, "red", "blue")
+        >>> # .. add more components and then use register_shape()
+      """
+      tmp = self._data
+      template = PATH_TEMPLATE.replace("{path}",path)
+      if fill is not None:
+        template = template.replace("{turtle_color}",fill) 
+        if outline is None:
+          template = template.replace("{pcolor}",fill)
+        else:
+          template = template.replace("{pcolor}", outline)
+      elif outline is not None:
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template + "\n"
+
+    addEllipseComponet = addellipsecomponent
+    addPathComponent = addpathcomponent
+#-------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------        
       
@@ -975,7 +1099,7 @@ class RawTurtle:
             template = shapeDict[self.turtle_shape]        
             tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
-                      from="1 1" to="{sx} {sy}"
+                      from="{sx} {sy}" to="{sx} {sy}"                      
                       begin="0s" dur="0.01s"
                       repeatCount="1"
                       additive="sum"
@@ -992,7 +1116,7 @@ class RawTurtle:
             shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
-            #self.screen._updateDrawing(self)
+            self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
             shapeDict.update({self.turtle_shape:template})
@@ -1647,6 +1771,19 @@ class RawTurtle:
             deg = math.degrees(math.atan2(-Dxy[1],Dxy[0])) % 360
             return 360-deg
 
+    def extract_points(self):
+        svg_string = shapeDict[self.turtle_shape]
+        match = re.search(r'points="([^"]*)"', svg_string)
+        if not match:
+            raise ValueError("No points attribute found")
+        def number(s):
+            value = float(s)
+            return int(value) if value.is_integer() else value
+        return tuple(
+            (number(x), number(y))
+            for x, y in (point.split(",") for point in match.group(1).split())
+        )
+            
     #========================================
     # Turtle Motion - Setting and Measurement
     #========================================
@@ -1922,6 +2059,7 @@ class RawTurtle:
 
         return self.is_filling
 
+        
     # Initialize the string for the svg path of the filled shape.
     # Modified from aronma/ColabTurtle_2 github repo
     # The current _svg_lines_string is stored to be used when the fill is finished because the svg_fill_string will include
@@ -2241,7 +2379,8 @@ class RawTurtle:
             outline = self.outline_width
         elif not isinstance(outline, (int,float)):
             raise ValueError('The outline must be a positive number.')        
-        self.outline_width = outline   
+        self.outline_width = outline 
+        self.screen._updateDrawing(turtle=self, delay=False)
     turtlesize = shapesize #alias
 
     # Set or return the current shearfactor. Shear the turtleshape according to the given shearfactor shear, which is the tangent of the shear angle. 
@@ -2449,9 +2588,11 @@ _tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'drawline', 'hideb
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
+_tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent']
+
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
-       'dot', 'down', 'end_fill', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
+       'dot', 'down', 'end_fill', 'extract_points', 'face', 'fd', 'fillcolor', 'filling', 'fillopacity', 'fillrule', 'forward',  
        'getheading', 'getx', 'gety', 'goto', 'heading', 'hideturtle', 'home', 'ht', 'isdown',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
        'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'setheading', 'seth',  
@@ -2514,7 +2655,6 @@ def _screen_docrevise(docstr):
     newdocstr = parexp.sub(":", newdocstr)
     return newdocstr
 
-
 __func_body = """\
 def {name}{paramslist}:
     if {obj} is None:
@@ -2537,6 +2677,7 @@ def _make_global_funcs(functions, cls, obj, init, docrevise):
 _make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
 
 _make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
+
 
 
 
