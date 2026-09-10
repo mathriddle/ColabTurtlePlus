@@ -32,11 +32,11 @@ Fixed Python 3.13+ SyntaxWarning by using raw strings in regular expressions.
 
 v2.1.0 September 2026
 Added register_shape() (alias addshape) to mimic the role of the function register_shape() from Python's turtle.
-This only works to add a polygonal shape. It does not work with images.
+This only works to add a polygonal shape (and now component shapes with v2.1.1). It does not work with images.
 
 v2.1.1 September 2026
 Added addcomponent() to create new polygonal turtles. Because turtles are defined as svg strings, also added two
-new functions, addEllipseComponent() and addPathComponent, to create turtles bassed on ellipical shapes and svg
+new functions, addellipsecomponent() and addpathcomponent, to create turtles bassed on ellipical shapes and svg
 paths. To be consistent with Python's turtle, these are first invoked using a call to Shape("compound") and then
 combined using register_shape().
 """
@@ -916,7 +916,7 @@ class Shape(object):
 
       Example:
         >>> s = Shape("compound")
-        >>> s.addEllipseComponent((0,0), (50,100), "red", "blue")
+        >>> s.addellipsecomponent((0,0), (50,100), "red", "blue")
         >>> # .. add more components and then use register_shape()
       """
       tmp = self._data
@@ -954,7 +954,7 @@ class Shape(object):
       Example:
         >>> curve = "M -50 -50 Q 0 100 50 -50"   (quadratic Bezier curve)
         >>> s = Shape("compound")
-        >>> s.addPathComponent(curve, "red", "blue")
+        >>> s.addpathcomponent(curve, "red", "blue")
         >>> # .. add more components and then use register_shape()
       """
       tmp = self._data
