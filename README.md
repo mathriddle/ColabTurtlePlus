@@ -12,7 +12,7 @@ What's New:
 ----
 Sept. 2026: Version 2.1.0 adds a register_shape (alias addshape) function to create a polygonal turtle shape. It does not work with images.
 
-Sept. 2026: Version 2.1.1 allows use of addcomponent() to add a polygon to a component turtle shape. There are two new ways to build additional components: addEllipseComponent() adds an elliptical shape, and addPathCompenent adds a path defined using svg path commands.
+Sept. 2026: Version 2.1.1 allows use of addcomponent() to add a polygon to a component turtle shape. There are two new ways to build additional components: addellipsecomponent() adds an elliptical shape, and addpathcompenent adds a path defined using svg path commands.
 
 Installation
 ----
@@ -94,7 +94,7 @@ setup(300,300)
 comp_shape = Shape("compound")
 poly = ((-50,0),(-50,100),(50,100),(50,0))
 comp_shape.addcomponent(poly,"blue")
-comp_shape.addEllipseComponent((0,120),50,"red")
+comp_shape.addellipsecomponent((0,120),50,"red")
 
 star_coords = ((-10,-13.8), (0,17), (10,-13.8), (-16.2,5.3), (16.2,5.3))
 
