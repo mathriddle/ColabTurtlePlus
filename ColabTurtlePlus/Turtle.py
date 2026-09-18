@@ -218,7 +218,7 @@ class _Screen:
             degrees -= 90
         
        
-        svg = self.shapeDict[turtle.turtle_shape].format(
+        svg = turtle.shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
                            pcolor=turtle.pen_color,
                            turtle_x=turtle_x, 
