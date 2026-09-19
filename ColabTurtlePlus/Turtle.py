@@ -401,10 +401,11 @@ class _Screen:
                     turtle_x="{turtle_x}",
                     turtle_y="{turtle_y}",
                     )
-           # componentDict[shape] = tm
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             shapeDict[name] = tmp
+        for turtle in self._turtles:
+            turtle.shapeDict = shapeDict.copy()
     addshape=register_shape
         
     #=========================
