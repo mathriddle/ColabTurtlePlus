@@ -39,6 +39,9 @@ Added addcomponent() to create new polygonal turtles. Because turtles are define
 new functions, addellipsecomponent() and addpathcomponent, to create turtles bassed on ellipical shapes and svg
 paths. To be consistent with Python's turtle, these are first invoked using a call to Shape("compound") and then
 combined using register_shape().
+
+v2.1.2 September 2026
+Fixed an issue introduced with register_shape when two or more turtles had the same shape.
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
