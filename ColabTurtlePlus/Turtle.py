@@ -39,6 +39,9 @@ Added addcomponent() to create new polygonal turtles. Because turtles are define
 new functions, addellipsecomponent() and addpathcomponent, to create turtles bassed on ellipical shapes and svg
 paths. To be consistent with Python's turtle, these are first invoked using a call to Shape("compound") and then
 combined using register_shape().
+
+v2.1.2 September 2026
+Fixed an issue introduced with register_shape when two or more turtles had the same shape.
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -218,7 +221,7 @@ class _Screen:
             degrees -= 90
         
        
-        svg = shapeDict[turtle.turtle_shape].format(
+        svg = turtle.shapeDict[turtle.turtle_shape].format(
                            turtle_color=turtle.fill_color,
                            pcolor=turtle.pen_color,
                            turtle_x=turtle_x, 
@@ -401,10 +404,11 @@ class _Screen:
                     turtle_x="{turtle_x}",
                     turtle_y="{turtle_y}",
                     )
-           # componentDict[shape] = tm
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             shapeDict[name] = tmp
+        for turtle in self._turtles:
+            turtle.shapeDict = shapeDict.copy()
     addshape=register_shape
         
     #=========================
@@ -1019,8 +1023,8 @@ class RawTurtle:
         self.stampnum = 0
         self.stamplist=[]
         self.points = DEFAULT_POINTS            
-
-        if screen._mode == "svg": shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
+        self.shapeDict = shapeDict.copy()
+        if screen._mode == "svg": self.shapeDict.update({"circle":TURTLE_RING_SVG_TEMPLATE})                                          
         screen._add(self)
         
         
@@ -1096,7 +1100,7 @@ class RawTurtle:
             self.screen._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
-            template = shapeDict[self.turtle_shape]        
+            template = self.shapeDict[self.turtle_shape]        
             tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="{sx} {sy}" to="{sx} {sy}"                      
@@ -1113,13 +1117,13 @@ class RawTurtle:
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
             newtemplate = template.replace("</g>",tmp)
-            shapeDict.update({self.turtle_shape:newtemplate})
+            self.shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
             self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.turtle_orient = self._turtleOrientation()
-            shapeDict.update({self.turtle_shape:template})
+            self.shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
         else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
@@ -1772,7 +1776,7 @@ class RawTurtle:
             return 360-deg
 
     def extract_points(self):
-        svg_string = shapeDict[self.turtle_shape]
+        svg_string = self.shapeDict[self.turtle_shape]
         match = re.search(r'points="([^"]*)"', svg_string)
         if not match:
             raise ValueError("No points attribute found")

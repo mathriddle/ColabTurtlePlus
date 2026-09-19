@@ -14,6 +14,8 @@ Sept. 2026: Version 2.1.0 adds a register_shape (alias addshape) function to cre
 
 Sept. 2026: Version 2.1.1 allows use of addcomponent() to add a polygon to a component turtle shape. There are two new ways to build additional components: addellipsecomponent() adds an elliptical shape, and addpathcompenent adds a path defined using svg path commands.
 
+Sept. 2026: Version 2.1.2. Bug fix when multiple turtles have the same shape.
+
 Installation
 ----
 Create an empty code cell and type:
