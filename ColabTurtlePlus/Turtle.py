@@ -855,22 +855,45 @@ class _Screen:
         return True
 
     # Helps validate color input to functions
-    def _processColor(self,color):
+    # def _processColor(self,color):
+    #     if isinstance(color, str):    
+    #         if color == "": color = "none"
+    #         color = color.lower().strip()
+    #         if 'rgb' not in color: color = color.replace(" ","")
+    #         if not self._validateColorString(color):
+    #             err = 'Color ' + color + ' is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
+    #             raise ValueError(err)
+    #         return color
+    #     elif isinstance(color, tuple):
+    #         if not self._validateColorTuple(color):
+    #             err = 'Color tuple ' + color + ' is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
+    #             raise ValueError(err)
+    #         return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
+    #     else:
+    #         err = 'The color parameter ' + color + ' must be a color string or a tuple'
+    #         raise ValueError(err)
+                
+    def _processColor(self, color):
         if isinstance(color, str):    
-            if color == "": color = "none"
+            if color == "": 
+                color = "none"
             color = color.lower().strip()
-            if 'rgb' not in color: color = color.replace(" ","")
+            if 'rgb' not in color: 
+                color = color.replace(" ", "")
             if not self._validateColorString(color):
-                err = 'Color ' + color + ' is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
+            # Used an f-string
+                err = f'Color {color} is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
                 raise ValueError(err)
-            return color
+            return color        
         elif isinstance(color, tuple):
             if not self._validateColorTuple(color):
-                err = 'Color tuple ' + color + ' is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
+            # Use an f-string to safely convert the tuple to text
+                err = f'Color tuple {color} is invalid. It must be a tuple of three integers, which are in the interval'
                 raise ValueError(err)
-            return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
+            return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')       
         else:
-            err = 'The color parameter ' + color + ' must be a color string or a tuple'
+            # Use an f-string to safely handle any unknown data type (e.g. None, int)
+            err = f'The color parameter {color} must be a color string or a tuple'
             raise ValueError(err)
 
 #----------------------------------------------------------------------------------------------        
