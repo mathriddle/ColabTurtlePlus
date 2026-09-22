@@ -890,7 +890,7 @@ class _Screen:
             # Use an f-string to safely convert the tuple to text
                 err = f'Color tuple {color} is invalid. It must be a tuple of three integers, which are in the interval'
                 raise ValueError(err)
-            return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')       
+            return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'       
         else:
             # Use an f-string to safely handle any unknown data type (e.g. None, int)
             err = f'The color parameter {color} must be a color string or a tuple'
