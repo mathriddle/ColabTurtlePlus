@@ -854,25 +854,7 @@ class _Screen:
             return False
         return True
 
-    # Helps validate color input to functions
-    # def _processColor(self,color):
-    #     if isinstance(color, str):    
-    #         if color == "": color = "none"
-    #         color = color.lower().strip()
-    #         if 'rgb' not in color: color = color.replace(" ","")
-    #         if not self._validateColorString(color):
-    #             err = 'Color ' + color + ' is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
-    #             raise ValueError(err)
-    #         return color
-    #     elif isinstance(color, tuple):
-    #         if not self._validateColorTuple(color):
-    #             err = 'Color tuple ' + color + ' is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
-    #             raise ValueError(err)
-    #         return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'
-    #     else:
-    #         err = 'The color parameter ' + color + ' must be a color string or a tuple'
-    #         raise ValueError(err)
-                
+    # Helps validate color input to functions           
     def _processColor(self, color):
         if isinstance(color, str):    
             if color == "": 
@@ -881,14 +863,14 @@ class _Screen:
             if 'rgb' not in color: 
                 color = color.replace(" ", "")
             if not self._validateColorString(color):
-            # Used an f-string
+            # Use an f-string
                 err = f'Color {color} is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
                 raise ValueError(err)
             return color        
         elif isinstance(color, tuple):
             if not self._validateColorTuple(color):
             # Use an f-string to safely convert the tuple to text
-                err = f'Color tuple {color} is invalid. It must be a tuple of three integers, which are in the interval'
+                err = f'Color tuple {color} is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
                 raise ValueError(err)
             return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'       
         else:
