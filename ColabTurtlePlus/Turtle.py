@@ -874,7 +874,7 @@ class _Screen:
                 return False
             return True
         if self._colormode == 1.0:
-            if not isinstance(color[0], [float,int]) or not isinstance(color[1], [float,int]) or not isinstance(color[2], [float,int]):
+            if not isinstance(color[0], (float,int)) or not isinstance(color[1], (float,int)) or not isinstance(color[2], (float,int)):
                 return False
             if not 0 <= color[0] <= 1 or not 0 <= color[1] <= 1 or not 0 <= color[2] <= 1:
                 return False
