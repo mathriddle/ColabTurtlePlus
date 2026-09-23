@@ -164,6 +164,7 @@ class _Screen:
         self._turtles = []
         self.window_size = DEFAULT_WINDOW_SIZE
         self._mode = DEFAULT_MODE
+        self._colormode = DEFAULT_COLORMODE
         if self._mode in ['standard','logo']:
             self.xmin,self.ymin,self.xmax,self.ymax = -self.window_size[0]/2,-self.window_size[1]/2,self.window_size[0]/2,self.window_size[1]/2
             self.xscale = self.yscale = 1  
