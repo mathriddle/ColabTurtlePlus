@@ -81,6 +81,7 @@ VALID_MODES = ('standard','logo','world','svg')
 DEFAULT_TURTLE_SHAPE = 'classic'
 VALID_TURTLE_SHAPES = {'turtle', 'ring', 'classic', 'arrow', 'square', 'triangle', 'circle', 'turtle2', 'blank', 'user'}
 DEFAULT_MODE = 'standard'
+DEFAULT_COLORMODE = 255
 DEFAULT_ANGLE_MODE = 'degrees'
 DEFAULT_POINTS = '-5,-4.5 0,-2.5 5,-4.5 0,4.5'
 DEFAULT_NAME = 'classic'
@@ -770,6 +771,23 @@ class _Screen:
             self.xscale = self.yscale = 1
         self.resetscreen()        
 
+    # Set color mode (1 or 255). If mode is not given, current mode is returned.
+    def colormode(self, cmode=None):
+        """Return the colormode or set it to 1.0 or 255.
+
+        Optional argument:
+        cmode -- one of the values 1.0 or 255
+
+        r, g, b values of colortriples have to be in range 0..cmode.
+
+        """
+        if cmode is None:
+            return self._colormode
+        if cmode == 1.0:
+            self._colormode = float(cmode)
+        elif cmode == 255:
+            self._colormode = int(cmode)
+        
     # Set up user-defined coordinate system using lower left and upper right corners.
     # Screen is reset.
     # if the xscale and yscale are not equal, the aspect ratio of the axes and the
@@ -844,15 +862,22 @@ class _Screen:
             return True
         return False
 
-    # Used to validate if a 3 tuple of integers is a valid RGB color
+    # Used to validate if a 3 tuple of integers or a 3 tuple of floats is a valid RGB color
     def _validateColorTuple(self, color):
         if len(color) != 3:
             return False
-        if not isinstance(color[0], int) or not isinstance(color[1], int) or not isinstance(color[2], int):
-            return False
-        if not 0 <= color[0] <= 255 or not 0 <= color[1] <= 255 or not 0 <= color[2] <= 255:
-            return False
-        return True
+        if self._colormode == 255:
+            if not isinstance(color[0], int) or not isinstance(color[1], int) or not isinstance(color[2], int):
+                return False
+            if not 0 <= color[0] <= 255 or not 0 <= color[1] <= 255 or not 0 <= color[2] <= 255:
+                return False
+            return True
+        if self._colormode == 1.0:
+            if not isinstance(color[0], {float,int}) or not isinstance(color[1], {float,int}) or not isinstance(color[2], {float,int}):
+                return False
+            if not 0 <= color[0] <= 1 or not 0 <= color[1] <= 1 or not 0 <= color[2] <= 1:
+                return False
+            return True
 
     # Helps validate color input to functions           
     def _processColor(self, color):
@@ -872,7 +897,10 @@ class _Screen:
             # Use an f-string to safely convert the tuple to text
                 err = f'Color tuple {color} is invalid. It must be a tuple of three integers, which are in the interval [0,255]'
                 raise ValueError(err)
-            return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')'       
+            if self._colormode == 255:
+                return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')' 
+            else:
+                return 'rgb(' + str(255.0*color[0]) + ',' + str(255.0*color[1]) + ',' + str(255.0*color[2]) + ')' 
         else:
             # Use an f-string to safely handle any unknown data type (e.g. None, int)
             err = f'The color parameter {color} must be a color string or a tuple'
