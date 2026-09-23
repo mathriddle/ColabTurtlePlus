@@ -901,7 +901,7 @@ class _Screen:
             if self._colormode == 255:
                 return 'rgb(' + str(color[0]) + ',' + str(color[1]) + ',' + str(color[2]) + ')' 
             else:
-                return 'rgb(' + str(255.0*color[0]) + ',' + str(255.0*color[1]) + ',' + str(255.0*color[2]) + ')' 
+                return 'rgb(' + str(int(255.0*color[0])) + ',' + str(int(255.0*color[1])) + ',' + str(int(255.0*color[2])) + ')' 
         else:
             # Use an f-string to safely handle any unknown data type (e.g. None, int)
             err = f'The color parameter {color} must be a color string or a tuple'
