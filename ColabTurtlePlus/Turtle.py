@@ -2622,7 +2622,7 @@ def getcolor(n):
     return VALID_COLORS[n]
 
 
-_tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'drawline', 'hideborder', 
+_tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'colormode', 'drawline', 'hideborder', 
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
