@@ -891,7 +891,8 @@ class _Screen:
             if not self._validateColorString(color):
             # Use an f-string
                 err = f'Color {color} is invalid. It can be a known html color name, 3-6 digit hex string, or rgb string.'
-                raise ValueError(err)
+                err2 = "See from https://www.w3schools.com/colors/colors_names.asp for known html color names"
+                raise ValueError(err + "\n" + err2)
             return color        
         elif isinstance(color, tuple):
             if not self._validateColorTuple(color):
