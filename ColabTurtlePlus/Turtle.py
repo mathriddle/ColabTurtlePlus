@@ -896,7 +896,7 @@ class _Screen:
         elif isinstance(color, tuple):
             if not self._validateColorTuple(color):
             # Use an f-string to safely convert the tuple to text
-                endpt = self._colormode()
+                endpt = self._colormode
                 err = f'Color tuple {color} is invalid. It must be a tuple of three integers, which are in the interval [0,'+str(endpt)+']'
                 raise ValueError(err)
             if self._colormode == 255:
