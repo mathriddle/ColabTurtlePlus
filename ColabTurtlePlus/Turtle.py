@@ -2700,21 +2700,21 @@ def {name}{paramslist}:
     return {obj}.{name}{argslist}
 """
 
-def _make_global_funcs(functions, cls, obj, init, docrevise):
-    for methodname in functions:
-        try:
-            method = getattr(cls, methodname)
-        except AttributeError:
-            print("method name missing:", methodname)
-            continue
-        pl1, pl2 = _getmethparlist(method)
-        defstr = __func_body.format(obj=obj, init=init, name=methodname, paramslist=pl1, argslist=pl2)
-        exec(defstr, globals())
-        globals()[methodname].__doc__ = docrevise(method.__doc__)
+# def _make_global_funcs(functions, cls, obj, init, docrevise):
+#     for methodname in functions:
+#         try:
+#             method = getattr(cls, methodname)
+#         except AttributeError:
+#             print("method name missing:", methodname)
+#             continue
+#         pl1, pl2 = _getmethparlist(method)
+#         defstr = __func_body.format(obj=obj, init=init, name=methodname, paramslist=pl1, argslist=pl2)
+#         exec(defstr, globals())
+#         globals()[methodname].__doc__ = docrevise(method.__doc__)
 
-_make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
+# _make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
 
-_make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
+# _make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
 
 
 
