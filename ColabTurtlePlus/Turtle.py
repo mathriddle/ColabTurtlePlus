@@ -899,7 +899,7 @@ class _Screen:
                 endpt = self._colormode
                 if self._colormode == 255:
                     numtype = "integers"
-                else
+                else:
                     numtype = "floats"
                 err = f'Color tuple {color} is invalid. It must be a tuple of three {numtype} in the interval [0,{endpt}]'
                 raise ValueError(err)
