@@ -786,8 +786,9 @@ class _Screen:
             return self._colormode
         if cmode == 1.0:
             self._colormode = float(cmode)
-        elif cmode == 255:
-            self._colormode = int(cmode)
+      #  elif cmode == 255:
+        else:
+            self._colormode = int(255)
         
     # Set up user-defined coordinate system using lower left and upper right corners.
     # Screen is reset.
