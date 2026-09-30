@@ -1422,7 +1422,7 @@ class RawTurtle:
     setposition = goto # alias               
 
     # jump to a point without drawing or animation
-    def jumpto(self, x=None, y=None, *, fill_gap: bool = False) -> None:
+    def jumpto(self, x=None, y=None, fill_gap: bool = False) -> None:
         """Instantly move turtle to an absolute position.
 
         Arguments:
@@ -1443,6 +1443,11 @@ class RawTurtle:
         with fill_gap=True, which makes the imaginary line traveled during
         teleporting act as a fill barrier like in goto(x, y).
         """
+        if isinstance(x, tuple) and y is None:
+             if len(x) != 2:
+                 raise ValueError('The tuple argument must be of length 2.')
+             y = x[1]
+             x = x[0]
         pendown = self.isdown()
         was_filling = self.filling()
        # if pendown:
