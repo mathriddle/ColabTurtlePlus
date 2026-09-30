@@ -786,10 +786,11 @@ class _Screen:
             return self._colormode
         if cmode == 1.0:
             self._colormode = float(cmode)
-      #  elif cmode == 255:
+        elif cmode == 255:
+            self._colormode = int(cmode)
         else:
-            self._colormode = int(255)
-        
+            err = f'Colormode {cmode} is invalid. It must be 1.0 or 255.'
+            raise ValueError(err)        
     # Set up user-defined coordinate system using lower left and upper right corners.
     # Screen is reset.
     # if the xscale and yscale are not equal, the aspect ratio of the axes and the
