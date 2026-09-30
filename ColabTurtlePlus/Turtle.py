@@ -1444,7 +1444,7 @@ class RawTurtle:
         teleporting act as a fill barrier like in goto(x, y).
         """
         pendown = self.isdown()
-        was_filling = self.filling()
+        was_filling = self.is_filling()
         if pendown:
             self.pen(pendown=False)
         if was_filling and not fill_gap:
