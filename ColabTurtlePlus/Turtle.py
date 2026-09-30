@@ -1422,7 +1422,7 @@ class RawTurtle:
     setposition = goto # alias               
 
     # jump to a point without drawing or animation
-    def jumpto(self, x=None, y=None, *, fill_gap: bool = False) -> None:
+    def jumpto(self, x=None, y=None) #, *, fill_gap: bool = False) -> None:
         """Instantly move turtle to an absolute position.
 
         Arguments:
@@ -1451,7 +1451,7 @@ class RawTurtle:
             self.end_fill()
         new_x = x if x is not None else self._position[0]
         new_y = y if y is not None else self._position[1]
-        self._position = Vec2D(new_x, new_y)
+        self._position = (new_x, new_y)
         self.pen(pendown=pendown)
         if was_filling and not fill_gap:
             self.begin_fill()
