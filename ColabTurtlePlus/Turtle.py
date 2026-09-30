@@ -1422,26 +1422,59 @@ class RawTurtle:
     setposition = goto # alias               
 
     # jump to a point without drawing or animation
-    def jumpto(self,x,y=None):
-        """Jumps to a specified point without drawing/animation
-    
-        Args:
-            x: a number     or      a pair of numbers
-            y: a number     or      None
+    def jumpto(self, x=None, y=None, *, fill_gap: bool = False) -> None:
+        """Instantly move turtle to an absolute position.
 
-            jumpto(x, y)      or    jumpto((x,y))  
+        Arguments:
+        x -- a number      or     None
+        y -- a number             None
+        fill_gap -- a boolean     This argument must be specified by name.
+
+        call: teleport(x, y)         # two coordinates
+        --or: teleport(x)            # teleport to x position, keeping y as is
+        --or: teleport(y=y)          # teleport to y position, keeping x as is
+        --or: teleport(x, y, fill_gap=True)
+                                     # teleport but fill the gap in between
+
+        Move turtle to an absolute position. Unlike goto(x, y), a line will not
+        be drawn. The turtle's orientation does not change. If currently
+        filling, the polygon(s) teleported from will be filled after leaving,
+        and filling will begin again after teleporting. This can be disabled
+        with fill_gap=True, which makes the imaginary line traveled during
+        teleporting act as a fill barrier like in goto(x, y).
         """
-        if isinstance(x, tuple) and y is None:
-            if len(x) != 2:
-                raise ValueError('The tuple argument must be of length 2.')
-            y = x[1]
-            x = x[0]
-        animate_temp = self.animate
-        self.penup()
-        self.animationOff()
-        self.goto(x,y)
-        self.animate = animate_temp
-        self.pendown()
+        pendown = self.isdown()
+        was_filling = self.filling()
+        if pendown:
+            self.pen(pendown=False)
+        if was_filling and not fill_gap:
+            self.end_fill()
+        new_x = x if x is not None else self._position[0]
+        new_y = y if y is not None else self._position[1]
+        self._position = Vec2D(new_x, new_y)
+        self.pen(pendown=pendown)
+        if was_filling and not fill_gap:
+            self.begin_fill()
+    # def jumpto(self,x,y=None):
+    #     """Jumps to a specified point without drawing/animation
+    
+    #     Args:
+    #         x: a number     or      a pair of numbers
+    #         y: a number     or      None
+
+    #         jumpto(x, y)      or    jumpto((x,y))  
+    #     """
+    #     if isinstance(x, tuple) and y is None:
+    #         if len(x) != 2:
+    #             raise ValueError('The tuple argument must be of length 2.')
+    #         y = x[1]
+    #         x = x[0]
+    #     animate_temp = self.animate
+    #     self.penup()
+    #     self.animationOff()
+    #     self.goto(x,y)
+    #     self.animate = animate_temp
+    #     self.pendown()
         
     # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
     def setx(self, x):
