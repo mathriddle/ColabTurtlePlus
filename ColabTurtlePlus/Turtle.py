@@ -1630,7 +1630,8 @@ class RawTurtle:
             return self.turtle_speed
         speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
         if speed in speeds:
-            self.turtle_speed = speeds[speed]
+            #self.turtle_speed = speeds[speed]
+            speed = speeds[speed]
         elif not isinstance(speed,(int,float)):
             raise ValueError("speed should be a number between 0 and 13")
         self.turtle_speed = speed
