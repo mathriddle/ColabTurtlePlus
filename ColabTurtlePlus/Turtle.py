@@ -501,7 +501,7 @@ class _Screen:
                         y2=new_pos[1],
                         pcolor=turtle.pen_color, 
                         pwidth=turtle.pen_width)
-        if turtle.is_filling and turtle.is_pen_down:
+        if turtle.is_filling:
             turtle.svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
         turtle.turtle_pos = new_pos
         turtle.timeout = timeout_orig
