@@ -1422,7 +1422,7 @@ class RawTurtle:
     setposition = goto # alias               
 
     # jump to a point without drawing or animation
-    def jumpto(self, x=None, y=None, *,fill_gap: bool = False) -> None:
+    def jumpto(self, x=None, y=None, fill_gap: bool = False) -> None:
         """Instantly move turtle to an absolute position.
 
         Arguments:
