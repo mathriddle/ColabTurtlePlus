@@ -1456,6 +1456,7 @@ class RawTurtle:
             self.end_fill()
         new_x = x if x is not None else self.position()[0]
         new_y = y if y is not None else self.position()[1]
+        print(x,y)
         animate_temp = self.animate
         self.penup()
         self.animationOff()
