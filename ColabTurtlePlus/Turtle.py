@@ -1461,7 +1461,7 @@ class RawTurtle:
         self.animationOff()
         self.goto(new_x,new_y)
         self.animate = animate_temp
-        self.pendown()
+     #   self.pendown()
      #   self._position = (new_x, new_y)
         self.pen(pendown=pendown)
         if was_filling and not fill_gap:
