@@ -502,7 +502,10 @@ class _Screen:
                         pcolor=turtle.pen_color, 
                         pwidth=turtle.pen_width)
         if turtle.is_filling:
-            turtle.svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
+            if turtle.is_pen_down:
+                turtle.svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
+            else:
+                turtle.svg_fill_string += """ M {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])    
         turtle.turtle_pos = new_pos
         turtle.timeout = timeout_orig
         if not turtle.animate: self._updateDrawing(turtle=turtle)                    
@@ -1458,14 +1461,14 @@ class RawTurtle:
             self.pen(pendown=False)                
         new_x = x if x is not None else self.getx()
         new_y = y if y is not None else self.gety()
-        # animate_temp = self.animate
-        # self.penup()
-        # self.animationOff()
-        # self.goto(new_x,new_y)
-        # self.animate = animate_temp
+        animate_temp = self.animate
+        self.penup()
+        self.animationOff()
+        self.goto(new_x,new_y)
+        self.animate = animate_temp
      #   self.pendown()
      #   self._position = (new_x, new_y)
-        self.turtle_pos = (new_x,new_y)
+      #  self.turtle_pos = (new_x,new_y)
         self.pen(pendown=pendown)
         if was_filling and not fill_gap:
             self.begin_fill()
