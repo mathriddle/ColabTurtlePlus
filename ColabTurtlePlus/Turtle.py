@@ -1450,8 +1450,8 @@ class RawTurtle:
              x = x[0]
         pendown = self.isdown()
         was_filling = self.filling()
-       # if pendown:
-        #    self.pen(pendown=False)
+        if pendown:
+            self.pen(pendown=False)
         if was_filling and not fill_gap:
             self.end_fill()
         new_x = x if x is not None else self.getx()
