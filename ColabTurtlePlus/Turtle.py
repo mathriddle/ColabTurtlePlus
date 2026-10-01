@@ -1454,8 +1454,8 @@ class RawTurtle:
         #    self.pen(pendown=False)
         if was_filling and not fill_gap:
             self.end_fill()
-        new_x = x if x is not None else self.position()[0]
-        new_y = y if y is not None else self.position()[1]
+        new_x = x if x is not None else self.getx()
+        new_y = y if y is not None else self.gety()
         print(x,y)
         animate_temp = self.animate
         self.penup()
