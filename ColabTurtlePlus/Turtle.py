@@ -42,6 +42,11 @@ combined using register_shape().
 
 v2.1.2 September 2026
 Fixed an issue introduced with register_shape when two or more turtles had the same shape.
+
+v2.2 October 2026
+Fixed some bugs related to color processing and speed.
+Added colormode to handle RGB either in [0,1] range or [1,255] range.
+Modified jumpto to mimic the teleport function added to the turtle module in Python 3.12
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -124,7 +129,6 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
-
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 "{component}"
 </g>"""
@@ -794,6 +798,7 @@ class _Screen:
         else:
             err = f'Colormode {cmode} is invalid. It must be 1.0 or 255.'
             raise ValueError(err)        
+   
     # Set up user-defined coordinate system using lower left and upper right corners.
     # Screen is reset.
     # if the xscale and yscale are not equal, the aspect ratio of the axes and the
@@ -1023,8 +1028,7 @@ class Shape(object):
 #-------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------        
-      
-        
+           
 class RawTurtle:     
         
     def __init__(self, window=None):
@@ -1434,17 +1438,18 @@ class RawTurtle:
         fill_gap -- a boolean     This argument must be specified by name.
 
         call: teleport(x, y)         # two coordinates
-        --or: teleport(x)            # teleport to x position, keeping y as is
-        --or: teleport(y=y)          # teleport to y position, keeping x as is
+        --or: teleport(x)            # jump to to x position, keeping y as is
+        --or: teleport(y=y)          # jump to to y position, keeping x as is
         --or: teleport(x, y, fill_gap=True)
-                                     # teleport but fill the gap in between
+                                     # jump but fill the gap in between
 
         Move turtle to an absolute position. Unlike goto(x, y), a line will not
         be drawn. The turtle's orientation does not change. If currently
-        filling, the polygon(s) teleported from will be filled after leaving,
-        and filling will begin again after teleporting. This can be disabled
-        with fill_gap=True, which makes the imaginary line traveled during
-        teleporting act as a fill barrier like in goto(x, y).
+        filling, the regions(s) jumped from will be filled after leaving,
+        and filling will begin again after jumping. This can be disabled
+        with fill_gap=True which will do all filling upon the end_fill(). Because the
+        filling is done via SVG commands, this might be different than with Python's teleport
+        function.
         """
         if isinstance(x, tuple) and y is None:
              if len(x) != 2:
@@ -1466,32 +1471,10 @@ class RawTurtle:
         self.animationOff()
         self.goto(new_x,new_y)
         self.animate = animate_temp
-     #   self.pendown()
-     #   self._position = (new_x, new_y)
-      #  self.turtle_pos = (new_x,new_y)
         self.pen(pendown=pendown)
         if was_filling and not fill_gap:
             self.begin_fill()
-    # def jumpto(self,x,y=None):
-    #     """Jumps to a specified point without drawing/animation
-    
-    #     Args:
-    #         x: a number     or      a pair of numbers
-    #         y: a number     or      None
-
-    #         jumpto(x, y)      or    jumpto((x,y))  
-    #     """
-    #     if isinstance(x, tuple) and y is None:
-    #         if len(x) != 2:
-    #             raise ValueError('The tuple argument must be of length 2.')
-    #         y = x[1]
-    #         x = x[0]
-    #     animate_temp = self.animate
-    #     self.penup()
-    #     self.animationOff()
-    #     self.goto(x,y)
-    #     self.animate = animate_temp
-    #     self.pendown()
+    teleport = jumpto #alias
         
     # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
     def setx(self, x):
@@ -2694,7 +2677,7 @@ _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
        'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'setheading', 'seth',  
        'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
-       'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
+       'showturtle', 'speed', 'st', 'stamp', 'teleport', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
        'width', 'write', 'xcor', 'ycor' ]
 
 def _getmethparlist(ob):
