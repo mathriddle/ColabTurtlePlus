@@ -16,6 +16,8 @@ Sept. 2026: Version 2.1.1 allows use of addcomponent() to add a polygon to a com
 
 Sept. 2026: Version 2.1.2. Bug fix when multiple turtles have the same shape.
 
+Oct. 2026: Version 2.2.0. Added colormode and modified jumpto to mimic teleport from Python's turtle module.
+
 Installation
 ----
 Create an empty code cell and type:

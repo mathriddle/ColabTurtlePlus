@@ -42,6 +42,11 @@ combined using register_shape().
 
 v2.1.2 September 2026
 Fixed an issue introduced with register_shape when two or more turtles had the same shape.
+
+v2.2 October 2026
+Fixed some bugs related to color processing and speed.
+Added colormode to handle RGB either in [0,1] range or [1,255] range.
+Modified jumpto to mimic the teleport function added to the turtle module in Python 3.12
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -124,7 +129,6 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
-
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 "{component}"
 </g>"""
@@ -502,7 +506,10 @@ class _Screen:
                         pcolor=turtle.pen_color, 
                         pwidth=turtle.pen_width)
         if turtle.is_filling:
-            turtle.svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
+            if turtle.is_pen_down:
+                turtle.svg_fill_string += """ L {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])  
+            else:
+                turtle.svg_fill_string += """ M {x1} {y1} """.format(x1=new_pos[0],y1=new_pos[1])    
         turtle.turtle_pos = new_pos
         turtle.timeout = timeout_orig
         if not turtle.animate: self._updateDrawing(turtle=turtle)                    
@@ -791,6 +798,7 @@ class _Screen:
         else:
             err = f'Colormode {cmode} is invalid. It must be 1.0 or 255.'
             raise ValueError(err)        
+   
     # Set up user-defined coordinate system using lower left and upper right corners.
     # Screen is reset.
     # if the xscale and yscale are not equal, the aspect ratio of the axes and the
@@ -1020,8 +1028,7 @@ class Shape(object):
 #-------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------        
-      
-        
+           
 class RawTurtle:     
         
     def __init__(self, window=None):
@@ -1422,26 +1429,52 @@ class RawTurtle:
     setposition = goto # alias               
 
     # jump to a point without drawing or animation
-    def jumpto(self,x,y=None):
-        """Jumps to a specified point without drawing/animation
-    
-        Args:
-            x: a number     or      a pair of numbers
-            y: a number     or      None
+    def jumpto(self, x=None, y=None, fill_gap: bool = False) -> None:
+        """Instantly move turtle to an absolute position.
 
-            jumpto(x, y)      or    jumpto((x,y))  
+        Arguments:
+        x -- a number      or     None
+        y -- a number             None
+        fill_gap -- a boolean     This argument must be specified by name.
+
+        call: teleport(x, y)         # two coordinates
+        --or: teleport(x)            # jump to to x position, keeping y as is
+        --or: teleport(y=y)          # jump to to y position, keeping x as is
+        --or: teleport(x, y, fill_gap=True)
+                                     # jump but fill the gap in between
+
+        Move turtle to an absolute position. Unlike goto(x, y), a line will not
+        be drawn. The turtle's orientation does not change. If currently
+        filling, the regions(s) jumped from will be filled after leaving,
+        and filling will begin again after jumping. This can be disabled
+        with fill_gap=True which will do all filling upon the end_fill(). Because the
+        filling is done via SVG commands, this might be different than with Python's teleport
+        function.
         """
         if isinstance(x, tuple) and y is None:
-            if len(x) != 2:
-                raise ValueError('The tuple argument must be of length 2.')
-            y = x[1]
-            x = x[0]
+             if len(x) != 2:
+                 raise ValueError('The tuple argument must be of length 2.')
+             y = x[1]
+             x = x[0]
+        pendown = self.isdown()
+        was_filling = self.filling()
+     #   if pendown:
+     #       self.pen(pendown=False)
+        if was_filling and not fill_gap:
+            self.end_fill()
+        if pendown:
+            self.pen(pendown=False)                
+        new_x = x if x is not None else self.getx()
+        new_y = y if y is not None else self.gety()
         animate_temp = self.animate
         self.penup()
         self.animationOff()
-        self.goto(x,y)
+        self.goto(new_x,new_y)
         self.animate = animate_temp
-        self.pendown()
+        self.pen(pendown=pendown)
+        if was_filling and not fill_gap:
+            self.begin_fill()
+    teleport = jumpto #alias
         
     # Move the turtle to a designated 'x' x-coordinate, y-coordinate stays the same
     def setx(self, x):
@@ -1580,7 +1613,8 @@ class RawTurtle:
             return self.turtle_speed
         speeds = {'fastest':13, 'fast':10, 'normal':5, 'slow':3, 'slowest':1}
         if speed in speeds:
-            self.turtle_speed = speeds[speed]
+            #self.turtle_speed = speeds[speed]
+            speed = speeds[speed]
         elif not isinstance(speed,(int,float)):
             raise ValueError("speed should be a number between 0 and 13")
         self.turtle_speed = speed
@@ -2643,7 +2677,7 @@ _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward',
        'isvisible', 'jumpto', 'left', 'lt', 'pd', 'pen', 'pencolor', 'pensize', 'pendown', 'penup', 'pos', 
        'position',  'pu', 'radians', 'regularPolygon', 'reset', 'right', 'rt', 'setheading', 'seth',  
        'setpos', 'setposition', 'settiltangle', 'setx','sety', 'shape', 'shapesize', 'shearfactor',  
-       'showturtle', 'speed', 'st', 'stamp', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
+       'showturtle', 'speed', 'st', 'stamp', 'teleport', 'tilt', 'tiltangle', 'turtlesize', 'towards', 'up', 'update',  
        'width', 'write', 'xcor', 'ycor' ]
 
 def _getmethparlist(ob):
