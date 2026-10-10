@@ -2754,9 +2754,9 @@ def _make_global_funcs(functions, cls, obj, init, docrevise):
         exec(defstr, globals())
         globals()[methodname].__doc__ = docrevise(method.__doc__)
 
-#_make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
+_make_global_funcs(_tg_turtle_functions, Turtle, 'Turtle._pen', 'Turtle()',_turtle_docrevise)
 
-#_make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
+_make_global_funcs(_tg_screen_functions, _Screen, 'Turtle._screen', 'Screen()',_screen_docrevise)
 
 
 
