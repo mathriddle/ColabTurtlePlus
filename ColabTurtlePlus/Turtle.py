@@ -140,7 +140,7 @@ style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry
 PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
 transform="skewX({sk}) scale({sx},{sy})" />"""
 GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
-transform="skewX({sk}) scale({sx},{sy})"> "{group}" </g>"""
+transform="skewX({sk}) scale({sx},{sy})"> {group} </g>"""
 
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
@@ -959,7 +959,7 @@ class Shape(object):
           template = template.replace("{pcolor}", outline)
       elif outline is not None:
         template = template.replace("{pcolor}",outline)
-      self._data = tmp + template
+      self._data = tmp + template + "\n"
 
     def addgroupcomponent(self, group, fill=None, outline=None):
       """Add SVG group image to a shape of type compound.
@@ -985,7 +985,7 @@ class Shape(object):
           template = template.replace("{pcolor}", outline)
       elif outline is not None:
         template = template.replace("{pcolor}",outline)
-      self._data = tmp + template
+      self._data = tmp + template + "\n"
         
     def addellipsecomponent(self, center, radii, fill=None, outline=None):
       """Add elliptical component to a shape of type compound.
