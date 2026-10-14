@@ -130,7 +130,7 @@ TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-"{component}"
+{component}
 </g>"""
 
 POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
