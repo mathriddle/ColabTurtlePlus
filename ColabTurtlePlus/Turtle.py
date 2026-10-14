@@ -139,8 +139,8 @@ ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
 PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
 transform="skewX({sk}) scale({sx},{sy})" />"""
-GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
-transform="skewX({sk}) scale({sx},{sy})"> {group} </g>"""
+GROUP_TEMPLATE = """<style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+transform="skewX({sk}) scale({sx},{sy})"> {group} """
 
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
@@ -962,17 +962,11 @@ class Shape(object):
       self._data = tmp + template
 
     def addgroupcomponent(self, group, fill=None, outline=None):
-      """Add SVG group image to a shape of type compound.
+      """Add SVG group commands to a shape of type compound.
 
-      Arguments: poly is a polygon, i. e. a tuple of number pairs.
+      Arguments: group is a group of svg commands
            fill is the fillcolor of the polygon,
            outline is the outline color of the polygon.
-
-      Example:
-        >>> poly = ((0,0),(10,-5),(0,10),(-10,-5))
-        >>> s = Shape("compound")
-        >>> s.addcomponent(poly, "red", "blue")
-        >>> # .. add more components and then use register_shape()
       """
         
       tmp = self._data
@@ -1053,6 +1047,7 @@ class Shape(object):
 
     addEllipseComponet = addellipsecomponent
     addPathComponent = addpathcomponent
+    addGroupComponent = addgroupcomponent
 #-------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------        
@@ -2439,7 +2434,7 @@ class RawTurtle:
         ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
         turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
         
-        Use register_shape (alias addshape) to create a polygonal shape with a chosen name.
+        Use register_shape (alias addshape) to create other polygonal or compound shapes with a chosen name.
         """
 
         if name is None:
@@ -2696,7 +2691,8 @@ _tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'colormode', 'draw
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
-_tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent']
+_tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent', 'addgroupcomponent',
+                       'addEllipseComponent', 'addGroupComponent']
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
