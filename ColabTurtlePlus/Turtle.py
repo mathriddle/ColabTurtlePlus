@@ -130,7 +130,7 @@ TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-{component}
+{component} 
 </g>"""
 
 POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
@@ -401,7 +401,7 @@ class _Screen:
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             pointstr = " ".join(f"{x},{y}" for x, y in points)
-            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",pointstr)   #TURTLE_USER_SVG_TEMPLATE
+            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",pointstr)   
         else:  #assume compound shape
             tmp=TURTLE_COMPONENT_SVG_TEMPLATE.format(
                     component=shape._data,
@@ -959,7 +959,7 @@ class Shape(object):
           template = template.replace("{pcolor}", outline)
       elif outline is not None:
         template = template.replace("{pcolor}",outline)
-      self._data = tmp + template + "\n"
+      self._data = tmp + template
 
     def addgroupcomponent(self, group, fill=None, outline=None):
       """Add SVG group image to a shape of type compound.
@@ -976,7 +976,7 @@ class Shape(object):
       """
         
       tmp = self._data
-      template = GROUP_TEMPLATE.replace("{group}", group) + "\n"
+      template = GROUP_TEMPLATE.replace("{group}", group)
       if fill is not None:
         template = template.replace("{turtle_color}",fill) 
         if outline is None:
@@ -985,7 +985,7 @@ class Shape(object):
           template = template.replace("{pcolor}", outline)
       elif outline is not None:
         template = template.replace("{pcolor}",outline)
-      self._data = tmp + template + "\n"
+      self._data = tmp + template
         
     def addellipsecomponent(self, center, radii, fill=None, outline=None):
       """Add elliptical component to a shape of type compound.
