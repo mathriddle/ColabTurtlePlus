@@ -139,6 +139,8 @@ ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
 PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
 transform="skewX({sk}) scale({sx},{sy})" />"""
+GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+transform="skewX({sk}) scale({sx},{sy})" /> "{group}" </g>"""
 
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
@@ -959,7 +961,33 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template
 
-    def addellipsecomponent(self, center, radii, fill=None, outline=None):
+    def addgroupcomponent(self, group, fill=None, outline=None):
+      """Add SVG group image to a shape of type compound.
+
+      Arguments: poly is a polygon, i. e. a tuple of number pairs.
+           fill is the fillcolor of the polygon,
+           outline is the outline color of the polygon.
+
+      Example:
+        >>> poly = ((0,0),(10,-5),(0,10),(-10,-5))
+        >>> s = Shape("compound")
+        >>> s.addcomponent(poly, "red", "blue")
+        >>> # .. add more components and then use register_shape()
+      """
+        
+      tmp = self._data
+      template = POLY_TEMPLATE.replace("{group}", group) + "\n"
+      if fill is not None:
+        template = template.replace("{turtle_color}",fill) 
+        if outline is None:
+          template = template.replace("{pcolor}",fill)
+        else:
+          template = template.replace("{pcolor}", outline)
+      elif outline is not None:
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template
+        
+      def addellipsecomponent(self, center, radii, fill=None, outline=None):
       """Add elliptical component to a shape of type compound.
 
       Arguments: center is a tuple (cx,cy) that is the center of the ellipse
