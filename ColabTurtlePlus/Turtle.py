@@ -1188,7 +1188,7 @@ class RawTurtle:
                     additive="sum"
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
-            newtemplate = template.replace("</g>",tmp)
+            newtemplate = template.replace("</g>",tmp,1)
             self.shapeDict.update({self.turtle_shape:newtemplate})
             self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
