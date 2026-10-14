@@ -987,7 +987,7 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template
         
-      def addellipsecomponent(self, center, radii, fill=None, outline=None):
+    def addellipsecomponent(self, center, radii, fill=None, outline=None):
       """Add elliptical component to a shape of type compound.
 
       Arguments: center is a tuple (cx,cy) that is the center of the ellipse
