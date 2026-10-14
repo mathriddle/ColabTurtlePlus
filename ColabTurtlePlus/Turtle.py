@@ -976,7 +976,7 @@ class Shape(object):
       """
         
       tmp = self._data
-      template = POLY_TEMPLATE.replace("{group}", group) + "\n"
+      template = GROUP_TEMPLATE.replace("{group}", group) + "\n"
       if fill is not None:
         template = template.replace("{turtle_color}",fill) 
         if outline is None:
