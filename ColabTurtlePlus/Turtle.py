@@ -1172,7 +1172,8 @@ class RawTurtle:
             self.screen._updateDrawing(turtle=self)
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
-            template = self.shapeDict[self.turtle_shape]        
+            template = self.shapeDict[self.turtle_shape]  
+            print(template.count("</g>")
             tmp = """<animateTransform id = "one" attributeName="transform" 
                       type="scale"
                       from="{sx} {sy}" to="{sx} {sy}"                      
