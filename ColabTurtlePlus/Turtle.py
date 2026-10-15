@@ -129,16 +129,14 @@ TURTLE_TURTLE2_SVG_TEMPLATE = """<g id="turtle2" visibility="{visibility}" trans
 TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
-TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})>
+TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
 {component} 
 </g>"""
 
 POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" 
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
-ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
-style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
-PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
-transform="skewX({sk}) scale({sx},{sy})"/>"""
+ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
+PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})"/>"""
 GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
 transform="skewX({sk}) scale({sx},{sy})"> {group} </g>"""
 
