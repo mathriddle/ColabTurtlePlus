@@ -137,7 +137,7 @@ POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
 ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
 PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})"/>"""
-GROUP_TEMPLATE = """<style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+GROUP_TEMPLATE = """style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
 transform="skewX({sk}) scale({sx},{sy})"> {group} """
 
 
