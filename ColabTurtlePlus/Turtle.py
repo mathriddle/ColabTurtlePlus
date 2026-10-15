@@ -133,7 +133,8 @@ TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transf
 {component} 
 </g>"""
 
-POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
+POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" 
+style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
 ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
 PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
