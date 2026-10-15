@@ -1170,7 +1170,7 @@ class RawTurtle:
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.screen._updateDrawing(turtle=self)
-        elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
+        else #elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = self.shapeDict[self.turtle_shape]  
             print(template.count("</g>"))
@@ -1199,21 +1199,21 @@ class RawTurtle:
             self.shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
-        else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
-            turtle_degree_orig = self.turtle_degree
-            s = 1 if angle > 0 else -1
-            while s*deg > 0:
-                if s*deg > 30:
-                    self.turtle_degree = (self.turtle_degree + s*30) % 360
-                    self.turtle_orient = self._turtleOrientation()
-                else:
-                    self.turtle_degree = (self.turtle_degree + deg) % 360
-                    self.turtle_orient = self._turtleOrientation()
-                self.screen._updateDrawing(turtle=self)
-                deg -= s*30
-            self.timeout = timeout_orig
-            self.turtle_degree = (self.turtle_degree + deg) % 360
-            self.turtle_orient = self._turtleOrientation()
+        # else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
+        #     turtle_degree_orig = self.turtle_degree
+        #     s = 1 if angle > 0 else -1
+        #     while s*deg > 0:
+        #         if s*deg > 30:
+        #             self.turtle_degree = (self.turtle_degree + s*30) % 360
+        #             self.turtle_orient = self._turtleOrientation()
+        #         else:
+        #             self.turtle_degree = (self.turtle_degree + deg) % 360
+        #             self.turtle_orient = self._turtleOrientation()
+        #         self.screen._updateDrawing(turtle=self)
+        #         deg -= s*30
+        #     self.timeout = timeout_orig
+        #     self.turtle_degree = (self.turtle_degree + deg) % 360
+        #     self.turtle_orient = self._turtleOrientation()
     rt = right # alias    
     
     # Makes the turtle move right by 'angle' degrees or radians
