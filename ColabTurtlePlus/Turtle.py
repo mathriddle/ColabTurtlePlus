@@ -1170,7 +1170,7 @@ class RawTurtle:
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.screen._updateDrawing(turtle=self)
-        elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
+        elif self.turtle_shape != 'ring': # and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = self.shapeDict[self.turtle_shape]  
             # tmp = """<animateTransform id = "one" attributeName="transform" 
