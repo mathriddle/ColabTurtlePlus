@@ -137,8 +137,8 @@ POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
 ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
 PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})"/>"""
-GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
-transform="skewX({sk}) scale({sx},{sy})"> {group} </g>"""
+GROUP_TEMPLATE = """<style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+transform="skewX({sk}) scale({sx},{sy})"> {group} """
 
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
