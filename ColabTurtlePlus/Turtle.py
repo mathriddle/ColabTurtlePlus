@@ -130,15 +130,14 @@ TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-{component} 
-</g>"""
+{component}</g>"""
 
 POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" 
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
 ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
 PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})"/>"""
-GROUP_TEMPLATE = """style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
-transform="skewX({sk}) scale({sx},{sy})"> {group} """
+GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+transform="skewX({sk}) scale({sx},{sy})"> {group} </g>"""
 
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
@@ -1169,7 +1168,7 @@ class RawTurtle:
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.screen._updateDrawing(turtle=self)
-        elif self.turtle_shape != 'ring' and template.count("</g>") == 1: # and self.stretchfactor[0]==self.stretchfactor[1]:
+        elif self.turtle_shape != 'ring': #and template.count("</g>") == 1: # and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = self.shapeDict[self.turtle_shape]  
             # tmp = """<animateTransform id = "one" attributeName="transform" 
@@ -1188,7 +1187,10 @@ class RawTurtle:
                     additive="sum"
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
-            newtemplate = template.replace("</g>",tmp,1)
+            if template.count("</g></g>"==1:
+                newtemplate = template.replace("</g></g>","</g>"+tmp)
+            else:
+                newtemplate = template.replace("</g>",tmp)  
             self.shapeDict.update({self.turtle_shape:newtemplate})
             #self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
