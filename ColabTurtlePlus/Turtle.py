@@ -1173,7 +1173,6 @@ class RawTurtle:
         elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = self.shapeDict[self.turtle_shape]  
-            print(template.count("</g>"))
             # tmp = """<animateTransform id = "one" attributeName="transform" 
             #           type="scale"
             #           from="{sx} {sy}" to="{sx} {sy}"                      
@@ -1182,7 +1181,7 @@ class RawTurtle:
             #           additive="sum"
             #           fill="freeze"
                 # /><animateTransform attributeName="transform"
-              tmp = """<animateTransform attributeName="transform"
+            tmp = """<animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{extent} 0 0"
                     begin="0s" dur="{t}s"
