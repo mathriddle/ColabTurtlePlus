@@ -1165,10 +1165,11 @@ class RawTurtle:
             raise ValueError('Degrees must be a number.')  
         timeout_orig = self.timeout
         deg = angle*self.angle_conv
+        template = self.shapeDict[self.turtle_shape] 
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.screen._updateDrawing(turtle=self)
-        elif self.turtle_shape != 'ring': # and self.stretchfactor[0]==self.stretchfactor[1]:
+        elif self.turtle_shape != 'ring' and template.count("</g>") == 1: # and self.stretchfactor[0]==self.stretchfactor[1]:
             stretchfactor_orig = self.stretchfactor
             template = self.shapeDict[self.turtle_shape]  
             # tmp = """<animateTransform id = "one" attributeName="transform" 
