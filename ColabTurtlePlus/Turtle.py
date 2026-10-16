@@ -243,7 +243,7 @@ class _Screen:
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
                            id = turtle.turtle_shape,
-                           fill_rule=turtle.fill_rule
+                           fill_rule=turtle.fill_rule)
         return svg
     
     # helper function for linking svg strings of text
