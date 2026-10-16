@@ -135,8 +135,8 @@ TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transf
 POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" 
 style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
 ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
-PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})"/>"""
-GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
+PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:{fill_rule};fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})"/>"""
+GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:{fill_rule};fill:{turtle_color};fill-opacity:1;" 
 transform="skewX({sk}) scale({sx},{sy})"> {group} </g>"""
 
 
@@ -242,7 +242,8 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           id = turtle.turtle_shape)
+                           id = turtle.turtle_shape,
+                           fill_rule=turtle.fill_rule
         return svg
     
     # helper function for linking svg strings of text
