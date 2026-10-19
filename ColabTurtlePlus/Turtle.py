@@ -1193,7 +1193,7 @@ class RawTurtle:
             # else:
             #newtemplate = template.replace("</g>",tmp)  
             # Split from the right at most 1 time
-            parts = template.rsplit(</g>, 1)
+            parts = template.rsplit("</g>", 1)
             # Join the pieces back together with the new substring
             newtemplate = tmp.join(parts)
             self.shapeDict.update({self.turtle_shape:newtemplate})
