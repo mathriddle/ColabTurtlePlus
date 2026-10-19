@@ -1188,10 +1188,14 @@ class RawTurtle:
                     additive="sum"
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
-            if template.count("</g></g>")==1:
-                newtemplate = template.replace("</g></g>","</g>"+tmp)
-            else:
-                newtemplate = template.replace("</g>",tmp)  
+            # if template.count("</g></g>")==1:
+            #     newtemplate = template.replace("</g></g>","</g>"+tmp)
+            # else:
+            #newtemplate = template.replace("</g>",tmp)  
+            # Split from the right at most 1 time
+            parts = template.rsplit(</g>, 1)
+            # Join the pieces back together with the new substring
+            newtemplate = tmp.join(parts)
             self.shapeDict.update({self.turtle_shape:newtemplate})
             #self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
