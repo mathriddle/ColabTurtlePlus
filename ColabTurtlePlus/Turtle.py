@@ -47,6 +47,10 @@ v2.2 October 2026
 Fixed some bugs related to color processing and speed.
 Added colormode to handle RGB either in [0,1] range or [1,255] range.
 Modified jumpto to mimic the teleport function added to the turtle module in Python 3.12
+
+v2.2.1 October 2026
+New function addgroupcomponent() to add an svg group to a shape compound.
+Turtle shapes that are scaled differently in x and y directions are now rotated smoothly in right/left turns
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -1169,17 +1173,9 @@ class RawTurtle:
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.screen._updateDrawing(turtle=self)
-        elif self.turtle_shape != 'ring': #and template.count("</g>") == 1: # and self.stretchfactor[0]==self.stretchfactor[1]:
+        elif self.turtle_shape != 'ring': 
             stretchfactor_orig = self.stretchfactor
             template = self.shapeDict[self.turtle_shape]  
-            # tmp = """<animateTransform id = "one" attributeName="transform" 
-            #           type="scale"
-            #           from="{sx} {sy}" to="{sx} {sy}"                      
-            #           begin="0s" dur="0.01s"
-            #           repeatCount="1"
-            #           additive="sum"
-            #           fill="freeze"
-                # /><animateTransform attributeName="transform"
             tmp = """<animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{extent} 0 0"
@@ -1188,16 +1184,12 @@ class RawTurtle:
                     additive="sum"
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
-            # if template.count("</g></g>")==1:
-            #     newtemplate = template.replace("</g></g>","</g>"+tmp)
-            # else:
-            #newtemplate = template.replace("</g>",tmp)  
+
             # Split from the right at most 1 time
             parts = template.rsplit("</g>", 1)
-            # Join the pieces back together with the new substring
+            # Join the pieces back together with tmp string replacing the last </g>
             newtemplate = tmp.join(parts)
             self.shapeDict.update({self.turtle_shape:newtemplate})
-            #self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
             self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
@@ -1205,7 +1197,7 @@ class RawTurtle:
             self.shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
-        else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
+        else: #_turtle_shape == 'ring' 
             turtle_degree_orig = self.turtle_degree
             s = 1 if angle > 0 else -1
             while s*deg > 0:
