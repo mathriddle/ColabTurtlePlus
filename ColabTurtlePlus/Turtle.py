@@ -349,7 +349,7 @@ class _Screen:
         # dots = self._generateSvgDots().replace(">",">\n")
         # turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
         # output = header + stampsB + lines + image + dots + stampsT + turtle_svg + "</svg>"
-        output = self._generateSvgString()
+        output = self._generateSvgString(turtle)
         print(output) 
 
     # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
@@ -388,7 +388,7 @@ class _Screen:
         # dots = self._generateSvgDots().replace(">",">\n")
         # turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
         # output = header + stampsB + lines + image + dots + stampsT + turtle_svg + "</svg>"
-        output = self._generateSvgString()
+        output = self._generateSvgString(turtle)
         text_file.write(output)
         text_file.close()   
 
@@ -408,7 +408,7 @@ class _Screen:
             raise ValueError("File name must be a string")
         if not filename.endswith(".png"):
             filename += ".png"
-        svg_string = self._generateSvgString()
+        svg_string = self._generateSvgString(turtle)
     
         # Escape quotes and clean up the string so it's safe for JavaScript template literals
         svg_safe = svg_string.replace('`', '\\`').replace('\$', '\\$')
