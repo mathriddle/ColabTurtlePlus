@@ -1047,6 +1047,7 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template + "\n"
 
+    addComponent = addcomponent
     addEllipseComponet = addellipsecomponent
     addPathComponent = addpathcomponent
     addGroupComponent = addgroupcomponent
@@ -2691,7 +2692,7 @@ _tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'colormode', 'draw
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
 _tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent', 'addgroupcomponent',
-                       'addEllipseComponent', 'addGroupComponent']
+                       'addComponent', 'addEllipseComponent', 'addPathComponent', 'addGroupComponent']
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
