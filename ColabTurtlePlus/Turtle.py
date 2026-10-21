@@ -308,7 +308,7 @@ class _Screen:
                                kolor=self.border_color)
 
     # Helper function for generating svg string for output
-    def _generateSvgString(self):
+    def _generateSvgString(self, turtle=False):
         header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
             w= self.window_size[0],
             h= self.window_size[1]) 
