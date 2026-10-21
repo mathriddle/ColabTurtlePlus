@@ -403,6 +403,11 @@ class _Screen:
     # 1. Get the raw SVG string using your existing logic
     # (Assuming self._get_svg_string(turtle) or similar exists in your package)
     #svg_string = self._get_svg_string(turtle=turtle)
+
+    if not isinstance(filename, str):
+            raise ValueError("File name must be a string")
+    if not filename.endswith(".png"):
+            filename += ".png"
     svg_string = self._generateSvgString()
     
     # Escape quotes and clean up the string so it's safe for JavaScript template literals
@@ -2772,7 +2777,7 @@ def getcolor(n):
 
 
 _tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'colormode', 'drawline', 'hideborder', 
-         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
+         'initializescreen','initializeTurtle', 'showSVG', 'saveSVG', 'savePNG' , 'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
 _tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent', 'addgroupcomponent',
