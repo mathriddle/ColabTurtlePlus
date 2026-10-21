@@ -47,6 +47,10 @@ v2.2 October 2026
 Fixed some bugs related to color processing and speed.
 Added colormode to handle RGB either in [0,1] range or [1,255] range.
 Modified jumpto to mimic the teleport function added to the turtle module in Python 3.12
+
+v2.2.1 October 2026
+New function addgroupcomponent() to add an svg group to a shape compound.
+Turtle shapes that are scaled differently in x and y directions are now rotated smoothly in right/left turns
 """
 
 DEFAULT_WINDOW_SIZE = (800, 600)
@@ -130,15 +134,14 @@ TURTLE_USER_SVG_TEMPLATE = """<g id="{id}" visibility="{visibility}" transform="
 <polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />
 </g>"""
 TURTLE_COMPONENT_SVG_TEMPLATE = """<g id="user" visibility="{visibility}" transform="rotate({degrees},{rotation_x},{rotation_y}) translate({turtle_x}, {turtle_y})">
-"{component}"
-</g>"""
+{component}</g>"""
 
-POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk})
-scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
-ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})"
-style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
-PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:evenodd;fill:{turtle_color};fill-opacity:1;" 
-transform="skewX({sk}) scale({sx},{sy})" />"""
+POLY_TEMPLATE = """<polygon points="{points}" transform="skewX({sk}) scale({sx},{sy})" 
+style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" />"""
+ELLIPSE_TEMPLATE =  """<ellipse transform="skewX({sk}) scale({sx},{sy})" style="stroke:{pcolor};fill:{turtle_color};stroke-width:{pw}" rx="{rx}" ry ="{ry}" cx="{cx}" cy="{cy}" />"""
+PATH_TEMPLATE = """<path d="{path}" style="stroke:{pcolor};fill-rule:{fill_rule};fill:{turtle_color};fill-opacity:1;" transform="skewX({sk}) scale({sx},{sy})"/>"""
+GROUP_TEMPLATE = """<g style="stroke:{pcolor};fill-rule:{fill_rule};fill:{turtle_color};fill-opacity:1;" 
+transform="skewX({sk}) scale({sx},{sy})"> {group} </g>"""
 
 
 SPEED_TO_SEC_MAP = {0: 0, 1: 1.0, 2: 0.8, 3: 0.5, 4: 0.3, 5: 0.25, 6: 0.20, 7: 0.15, 8: 0.125, 9: 0.10, 10: 0.08, 11: 0.04, 12: 0.02, 13: 0.005}
@@ -243,7 +246,8 @@ class _Screen:
                            pw = turtle.outline_width,
                            rotation_x=turtle.turtle_pos[0], 
                            rotation_y=turtle.turtle_pos[1],
-                           id = turtle.turtle_shape)
+                           id = turtle.turtle_shape,
+                           fill_rule=turtle.fill_rule)
         return svg
     
     # helper function for linking svg strings of text
@@ -399,7 +403,7 @@ class _Screen:
             name = name.lower()    
             VALID_TURTLE_SHAPES.add(name)
             pointstr = " ".join(f"{x},{y}" for x, y in points)
-            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",pointstr)   #TURTLE_USER_SVG_TEMPLATE
+            shapeDict[name] = TURTLE_USER_SVG_TEMPLATE.replace("{points}",pointstr)   
         else:  #assume compound shape
             tmp=TURTLE_COMPONENT_SVG_TEMPLATE.format(
                     component=shape._data,
@@ -959,6 +963,26 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template
 
+    def addgroupcomponent(self, group, fill=None, outline=None):
+      """Add SVG group commands to a shape of type compound.
+
+      Arguments: group is a group of svg commands
+           fill is the fillcolor of the polygon,
+           outline is the outline color of the polygon.
+      """
+        
+      tmp = self._data
+      template = GROUP_TEMPLATE.replace("{group}", group)
+      if fill is not None:
+        template = template.replace("{turtle_color}",fill) 
+        if outline is None:
+          template = template.replace("{pcolor}",fill)
+        else:
+          template = template.replace("{pcolor}", outline)
+      elif outline is not None:
+        template = template.replace("{pcolor}",outline)
+      self._data = tmp + template
+        
     def addellipsecomponent(self, center, radii, fill=None, outline=None):
       """Add elliptical component to a shape of type compound.
 
@@ -1023,8 +1047,10 @@ class Shape(object):
         template = template.replace("{pcolor}",outline)
       self._data = tmp + template + "\n"
 
+    addComponent = addcomponent
     addEllipseComponet = addellipsecomponent
     addPathComponent = addpathcomponent
+    addGroupComponent = addgroupcomponent
 #-------------------------------------------------------------
 
 #----------------------------------------------------------------------------------------------        
@@ -1144,30 +1170,27 @@ class RawTurtle:
             raise ValueError('Degrees must be a number.')  
         timeout_orig = self.timeout
         deg = angle*self.angle_conv
+        template = self.shapeDict[self.turtle_shape] 
         if self.turtle_speed == 0 or not self.animate:
             self.turtle_degree = (self.turtle_degree + deg) % 360
             self.screen._updateDrawing(turtle=self)
-        elif self.turtle_shape != 'ring' and self.stretchfactor[0]==self.stretchfactor[1]:
+        elif self.turtle_shape != 'ring': 
             stretchfactor_orig = self.stretchfactor
-            template = self.shapeDict[self.turtle_shape]        
-            tmp = """<animateTransform id = "one" attributeName="transform" 
-                      type="scale"
-                      from="{sx} {sy}" to="{sx} {sy}"                      
-                      begin="0s" dur="0.01s"
-                      repeatCount="1"
-                      additive="sum"
-                      fill="freeze"
-                /><animateTransform attributeName="transform"
+            template = self.shapeDict[self.turtle_shape]  
+            tmp = """<animateTransform attributeName="transform"
                     type="rotate"
                     from="0 0 0" to ="{extent} 0 0"
-                    begin="one.end" dur="{t}s"
+                    begin="0s" dur="{t}s"
                     repeatCount="1"
                     additive="sum"
                     fill="freeze"
                 /></g>""".format(extent=deg, t=self.timeout*abs(deg)/90, sx=self.stretchfactor[0], sy=self.stretchfactor[1])
-            newtemplate = template.replace("</g>",tmp)
+
+            # Split from the right at most 1 time
+            parts = template.rsplit("</g>", 1)
+            # Join the pieces back together with tmp string replacing the last </g>
+            newtemplate = tmp.join(parts)
             self.shapeDict.update({self.turtle_shape:newtemplate})
-            self.stretchfactor = 1,1
             self.timeout = self.timeout*abs(deg)/90+0.001
             self.screen._updateDrawing(self)
             self.turtle_degree = (self.turtle_degree + deg) % 360
@@ -1175,7 +1198,7 @@ class RawTurtle:
             self.shapeDict.update({self.turtle_shape:template})
             self.stretchfactor = stretchfactor_orig
             self.timeout = timeout_orig
-        else: #_turtle_shape == 'ring' or _stretchfactor[0] != _stretchfactor[1]
+        else: #_turtle_shape == 'ring' 
             turtle_degree_orig = self.turtle_degree
             s = 1 if angle > 0 else -1
             while s*deg > 0:
@@ -2411,7 +2434,7 @@ class RawTurtle:
         ColabTurtle version. Use 'turtle2' for the polygonal turtle shape form 
         turtle.py. The circle shape from the original ColabTurtle was renamed 'ring'.
         
-        Use register_shape (alias addshape) to create a polygonal shape with a chosen name.
+        Use register_shape (alias addshape) to create other polygonal or compound shapes with a chosen name.
         """
 
         if name is None:
@@ -2668,7 +2691,8 @@ _tg_screen_functions = ['addshape', 'bgcolor', 'clearscreen', 'colormode', 'draw
          'initializescreen','initializeTurtle', 'showSVG', 'saveSVG',  'line',  'mode', 'register_shape', 'resetscreen',  'setup', 
          'setworldcoordinates', 'showborder', 'turtles',  'window_width', 'window_height' ]
 
-_tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent']
+_tg_shape_functions = ['addcomponent', 'addellipsecomponent', 'addpathcomponent', 'addgroupcomponent',
+                       'addComponent', 'addEllipseComponent', 'addPathComponent', 'addGroupComponent']
 
 _tg_turtle_functions = ['animationOff', 'animationOn', 'bk', 'back', 'backward', 'begin_fill',
        'circle', 'clear', 'clearstamp', 'clearstamps', 'color', 'degrees', 'delay', 'distance', 'done',  
