@@ -393,68 +393,69 @@ class _Screen:
         text_file.close()   
 
     def savePNG(self, filename="SVGimage.png", turtle=False):
-    """
-    Converts the current SVG drawing to a PNG file entirely in the browser,
-    requiring NO external system dependencies or pip installations.
-    """
+        """
+        Converts the current SVG drawing to a PNG file entirely in the browser,
+        requiring NO external system dependencies or pip installations.
+        """
 
-    if not HAS_COLAB:
-        raise NotImplementedError("savePNG() is currently only supported inside Google Colab environments.")    
-    # 1. Get the raw SVG string using your existing logic
-    # (Assuming self._get_svg_string(turtle) or similar exists in your package)
-    #svg_string = self._get_svg_string(turtle=turtle)
+        if not HAS_COLAB:
+            raise NotImplementedError("savePNG() is currently only supported inside Google Colab environments.")    
+        # 1. Get the raw SVG string using your existing logic
+        # (Assuming self._get_svg_string(turtle) or similar exists in your package)
+        #svg_string = self._get_svg_string(turtle=turtle)
 
-    if not isinstance(filename, str):
+        if not isinstance(filename, str):
             raise ValueError("File name must be a string")
-    if not filename.endswith(".png"):
+        if not filename.endswith(".png"):
             filename += ".png"
-    svg_string = self._generateSvgString()
+        svg_string = self._generateSvgString()
     
-    # Escape quotes and clean up the string so it's safe for JavaScript template literals
-    svg_safe = svg_string.replace('`', '\\`').replace('\$', '\\$')
+        # Escape quotes and clean up the string so it's safe for JavaScript template literals
+        svg_safe = svg_string.replace('`', '\\`').replace('\$', '\\$')
 
-    # 2. JavaScript to render the SVG onto a canvas and return the PNG base64 string
-    js_code = f"""
-    (async () => {{
-        const svgString = `{svg_safe}`;
-        const blob = new Blob([svgString], {{ type: 'image/svg+xml;charset=utf-8' }});
-        const url = URL.createObjectURL(blob);
+        # 2. JavaScript to render the SVG onto a canvas and return the PNG base64 string
+        js_code = f"""
+            (async () => {{
+            const svgString = `{svg_safe}`;
+            const blob = new Blob([svgString], {{ type: 'image/svg+xml;charset=utf-8' }});
+            const url = URL.createObjectURL(blob);
         
-        const img = new Image();
-        await new Promise((resolve, reject) => {{
-            img.onload = resolve;
-            img.onerror = reject;
-            img.src = url;
-        }});
+            const img = new Image();
+            await new Promise((resolve, reject) => {{
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = url;
+            }});
         
-        // Match the canvas bounds to the image size
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width || 800; // fallback default
-        canvas.height = img.height || 600;
+            // Match the canvas bounds to the image size
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width || 800; // fallback default
+            canvas.height = img.height || 600;
         
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
         
-        URL.revokeObjectURL(url);
+            URL.revokeObjectURL(url);
         
-        // Extract base64 encoded PNG data
-        const pngDataUrl = canvas.toDataURL('image/png');
-        return pngDataUrl.split(',')[1]; 
-    }})();
-    """
+            // Extract base64 encoded PNG data
+            const pngDataUrl = canvas.toDataURL('image/png');
+            return pngDataUrl.split(',')[1]; 
+        }})();
+        """
     
-    try:
-        # 3. Execute JS in the browser context and get the base64 string back
-        base64_png = output.eval_js(js_code)
+        try:
+            # 3. Execute JS in the browser context and get the base64 string back
+            base64_png = output.eval_js(js_code)
         
-        # 4. Decode bytes and write directly to disk in the Colab workspace
-        with open(filename, 'wb') as f:
-            f.write(base64.b64decode(base64_png))
-        print(f"Successfully saved PNG to {filename}")
+            # 4. Decode bytes and write directly to disk in the Colab workspace
+            with open(filename, 'wb') as f:
+                f.write(base64.b64decode(base64_png))
+            print(f"Successfully saved PNG to {filename}")
         
-    except Exception as e:
-        print(f"Error saving PNG: {e}")
-        print("Note: savePNG() is designed to run in a Google Colab frontend environment.")
+        except Exception as e:
+            print(f"Error saving PNG: {e}")
+            print("Note: savePNG() is designed to run in a Google Colab frontend environment.")
+            
     def register_shape(self, name, shape=None):
         """Adds a turtle shape to to the shape list.
 
