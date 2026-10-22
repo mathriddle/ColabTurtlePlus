@@ -393,14 +393,14 @@ class _Screen:
         text_file.close()   
 
 	def savePNG(self, filename="SVGimage.png", turtle=False):
-	    """
-  	  	Converts the current SVG drawing to a PNG file entirely in the browser,
-   	 	requiring NO external system dependencies or pip installations.
-   	 	Works perfectly across XPython (pyjs), Native Pyodide, and Google Colab.
-   		 """
-  	  	if not isinstance(filename, str):
+    	"""
+    	Converts the current SVG drawing to a PNG file entirely in the browser,
+    	requiring NO external system dependencies or pip installations.
+    	Works perfectly across XPython (pyjs), Native Pyodide, and Google Colab.
+    	"""
+    	if not isinstance(filename, str):
         	raise ValueError("File name must be a string")
-   	 	if not filename.endswith(".png"):
+    	if not filename.endswith(".png"):
         	filename += ".png"
         
     	svg_string = self._generateSvgString(turtle)
@@ -438,7 +438,7 @@ class _Screen:
         	base64_png = None
         	unique_id = f"ctp_png_{int(time.time() * 1000)}"
 
-        	# === STRATEGY A: GOOGLE COLAB ===
+       	 # === STRATEGY A: GOOGLE COLAB ===
         	if HAS_COLAB:
             	js_code = f"(async () => {{ {js_core} return b64Data; \n}})();"
             	base64_png = output.eval_js(js_code)
@@ -462,7 +462,7 @@ class _Screen:
                 	}}
             	}})();
             	"""
-            	# Injecting this using IPython display executes it in the main UI thread (NOT the kernel worker)
+           	 # Injecting this using IPython display executes it in the main UI thread (NOT the kernel worker)
             	display(Javascript(js_ui_thread_code))
             
             	# Give the browser UI thread a moment to load the image and render the canvas
@@ -480,8 +480,8 @@ class _Screen:
                 	try:
                     	import js
                     	# The native pyodide 'js' module gives access to the web worker scope. 
-	                    # If sessionStorage is mirrored or globally accessible, we pull from it.
-                    	# Alternatively, we evaluate directly on the pyodide global worker context:
+                    	# If sessionStorage is mirrored or globally accessible, we pull from it.
+                   	 # Alternatively, we evaluate directly on the pyodide global worker context:
                     	if hasattr(js, 'sessionStorage'):
                         	base64_png = js.sessionStorage.getItem(unique_id)
                         	js.sessionStorage.removeItem(unique_id)
@@ -498,7 +498,8 @@ class _Screen:
     
     	except Exception as e:
         	print(f"Error saving PNG: {e}")
-        	print("Note: savePNG() requires a frontend browser context (Google Colab or JupyterLite).")	
+        	print("Note: savePNG() requires a frontend browser context (Google Colab or JupyterLite).")
+
             
     def register_shape(self, name, shape=None):
         """Adds a turtle shape to to the shape list.
