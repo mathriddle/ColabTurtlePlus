@@ -393,7 +393,6 @@ class _Screen:
         text_file.close()   
 
 	def savePNG(self, filename="SVGimage.png", turtle=False):
-	def savePNG(self, filename="SVGimage.png", turtle=False):
 	    """
   	  	Converts the current SVG drawing to a PNG file entirely in the browser,
    	 	requiring NO external system dependencies or pip installations.
