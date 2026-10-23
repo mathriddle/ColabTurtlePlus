@@ -352,44 +352,53 @@ class _Screen:
         print(output) 
 
     # Save the image as an SVG file using given filename. Set turtle=True to include turtle in svg output
-    def saveSVG(self, file=None, turtle=False):
-        """Saves the image as an SVG file.
-    
-        Args:
-            file: a string giving filename for saved file. The extension 
-                ".svg" will be added if missing. If no filename is given,
-                the default name SVGimage.svg will be used.
-            turtle: an optional boolean that determines if the turtles 
-                are included in the svg output saved to the file. Default is False.
-    
-        The SVG commands can be printed on screen (after the drawing is 
-        completed) or saved to a file for use in a program like inkscape 
-        or Adobe Illustrator, or displaying the image in a webpage.
+    def saveSVG(self, file="SVGimage.svg", turtle=False):
         """
-    
+        Generates the SVG drawing text string and triggers an instant 
+        direct download onto the user's local computer via the browser.
+        Works seamlessly across Google Colab, JupyterLab, and JupyterLite kernels.
+        """
         if file is None:
             file = "SVGimage.svg"
         elif not isinstance(file, str):
             raise ValueError("File name must be a string")
         if not file.endswith(".svg"):
             file += ".svg"
-        text_file = open(file, "w")
-        # header = ("""<svg width="{w}" height="{h}" viewBox="0 0 {w} {h}" xmlns="http://www.w3.org/2000/svg">\n""").format(
-        #     w= self.window_size[0],
-        #     h= self.window_size[1]) 
-        # header += ("""<rect width="100%" height="100%" style="fill:{fillcolor};stroke:{kolor};stroke-width:1" />\n""").format(
-        #     fillcolor=self.background_color,
-        #     kolor=self.border_color)
-        # lines = self._svg_drawlines_string.replace("/>","/>\n")
-        # image = self._generateSvgLines().replace("/>","/>\n")
-        # stampsB = self._generateSvgStampsB().replace("</g>","</g>\n")
-        # stampsT = self._generateSvgStampsT().replace("</g>","</g>\n")    
-        # dots = self._generateSvgDots().replace(">",">\n")
-        # turtle_svg = (self._generateTurtlesSvgDrawing() + " \n") if turtle else ""
-        # output = header + stampsB + lines + image + dots + stampsT + turtle_svg + "</svg>"
-        output = self._generateSvgString(turtle)
-        text_file.write(output)
-        text_file.close()   
+            
+        svg_string = self._generateSvgString(turtle)
+        
+        # Escape backticks and fix any invalid escape sequences for safe JS template literals
+        svg_safe = svg_string.replace('`', r'\`').replace(r'\$', r'\\$')
+
+        # Build the JavaScript snippet cleanly to avoid syntax parsing color bleeding
+        js_lines = [
+            "(async () => {",
+            "    try {",
+            f"        const svgString = `{svg_safe}`;",
+            "        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });",
+            "        const url = URL.createObjectURL(blob);",
+            "        const downloadLink = document.createElement('a');",
+            "        downloadLink.href = url;",
+            f"       downloadLink.download = '{file}';",
+            "        document.body.appendChild(downloadLink);",
+            "        downloadLink.click();",
+            "        document.body.removeChild(downloadLink);",
+            "        URL.revokeObjectURL(url);",
+            "    } catch (err) {",
+            "        console.error('ColabTurtlePlus: Failed to download SVG:', err);",
+            "    }",
+            "})();"
+        ]
+        js_code = "\n".join(js_lines)
+
+        try:
+            # Execute directly in the browser layout thread
+            display(HTML(f"<script>{js_code}</script>"))
+            #print(f"Triggered local browser download for: {file}")
+            
+        except Exception as e:
+            print(f"Error executing saveSVG: {e}")
+ 
 
 
     def savePNG(self, filename="SVGimage.png", turtle=False):
@@ -434,7 +443,6 @@ class _Screen:
             "        document.body.appendChild(downloadLink);",
             "        downloadLink.click();",
             "        document.body.removeChild(downloadLink);",
-            "        console.log('ColabTurtlePlus: PNG download triggered successfully.');",
             "    } catch (err) {",
             "        console.error('ColabTurtlePlus: Failed to render/download PNG:', err);",
             "    }",
@@ -446,7 +454,7 @@ class _Screen:
             # This executes the script directly in the user's browser UI thread
             # completely avoiding background kernel / web-worker sandboxes.
             display(HTML(f"<script>{js_code}</script>"))
-            print(f"Triggered local browser download for: {filename}")
+            #print(f"Triggered local browser download for: {filename}")
             
         except Exception as e:
             print(f"Error executing savePNG: {e}")
