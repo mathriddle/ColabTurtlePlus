@@ -5,12 +5,6 @@ import re
 import sys
 import inspect
 
-try:
-    from google.colab import output
-    HAS_COLAB = True
-except ImportError:
-    HAS_COLAB = False
-
 """ 
 Original Created at: 23rd October 2018
         by: Tolga Atam
