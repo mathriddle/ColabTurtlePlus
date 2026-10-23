@@ -392,8 +392,8 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
-	def savePNG(self, filename="SVGimage.png", turtle=False):
-    	"""
+    def savePNG(self, filename="SVGimage.png", turtle=False):
+        """
         Converts the current SVG drawing to a PNG file entirely in the browser,
         requiring NO external system dependencies or pip installations.
         Works perfectly across XPython (pyjs), Native Pyodide, and Google Colab.
@@ -402,9 +402,9 @@ class _Screen:
             raise ValueError("File name must be a string")
         if not filename.endswith(".png"):
             filename += ".png"
-        
+            
         svg_string = self._generateSvgString(turtle)
-    
+        
         # Escape quotes and clean up the string so it's safe for JavaScript template literals
         svg_safe = svg_string.replace('`', r'\`').replace(r'\$', r'\\$')
 
@@ -413,75 +413,65 @@ class _Screen:
             const svgString = `{svg_safe}`;
             const blob = new Blob([svgString], {{ type: 'image/svg+xml;charset=utf-8' }});
             const url = URL.createObjectURL(blob);
-    
+        
             const img = new Image();
             await new Promise((resolve, reject) => {{
                 img.onload = resolve;
                 img.onerror = reject;
                 img.src = url;
             }});
-    
+        
             const canvas = document.createElement('canvas');
             canvas.width = img.width || 800;
             canvas.height = img.height || 600;
-    
+        
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0);
-    
+        
             URL.revokeObjectURL(url);
-    
+        
             const pngDataUrl = canvas.toDataURL('image/png');
-            const b64Data = pngDataUrl.split(',')[1];
+            const b64Data = pngDataUrl.split(',');
         """
 
         try:
             base64_png = None
             unique_id = f"ctp_png_{int(time.time() * 1000)}"
 
-       	    # === STRATEGY A: GOOGLE COLAB ===
+            # === STRATEGY A: GOOGLE COLAB ===
             if HAS_COLAB:
                 js_code = f"(async () => {{ {js_core} return b64Data; \n}})();"
                 base64_png = output.eval_js(js_code)
-            
+                
             # === STRATEGY B: JUPYTERLITE (Native Pyodide / pyjs Kernels via UI Cell Injection) ===
             else:
-                # We execute code on the Main UI Window thread, and write the result back into 
-                # Pyodide's globally exposed web-worker variable window context or sessionStorage.
                 js_ui_thread_code = f"""
                 (async () => {{
                     try {{
                         {js_core}
-                    
-                        // 1. Try writing to sessionStorage as a universal cross-thread storage channel
                         sessionStorage.setItem('{unique_id}', b64Data);
-                    
-                        // 2. Also try assigning to window for xpython/pyjs compatibility
                         window.{unique_id} = b64Data;
                     }} catch (err) {{
                         sessionStorage.setItem('{unique_id}', "ERROR: " + err.message);
                     }}
                 }})();
                 """
-           	    # Injecting this using IPython display executes it in the main UI thread (NOT the kernel worker)
                 display(Javascript(js_ui_thread_code))
-            
+                
                 # Give the browser UI thread a moment to load the image and render the canvas
                 time.sleep(0.4)
-            
-                # Now, the Python kernel reads the data from the respective storage systems
+                
+                # Try reading from window (XPython / pyjs)
                 if 'pyjs' in sys.modules or 'js' in sys.modules:
                     import js
                     if hasattr(js.window, unique_id):
                         base64_png = getattr(js.window, unique_id)
                         delattr(js.window, unique_id)
-            
-                # Fallback if we are in native Pyodide kernel worker: read from the web environment's sessionStorage
+                
+                # Fallback to sessionStorage (Native Pyodide web worker)
                 if base64_png is None and 'pyodide' in sys.modules:
                     try:
                         import js
-                        # The native pyodide 'js' module gives access to the web worker scope. 
-                        # If sessionStorage is mirrored or globally accessible, we pull from it.
-                   	    # Alternatively, we evaluate directly on the pyodide global worker context:
                         if hasattr(js, 'sessionStorage'):
                             base64_png = js.sessionStorage.getItem(unique_id)
                             js.sessionStorage.removeItem(unique_id)
@@ -491,14 +481,15 @@ class _Screen:
             if not base64_png or "ERROR" in str(base64_png) or str(base64_png) == "undefined":
                 raise Exception(f"JavaScript UI conversion failed or timed out. Logged data: {base64_png}")
 
-            # 4. Decode bytes and write directly to disk in the active environment workspace
+            # 4. Decode bytes and write directly to disk
             with open(filename, 'wb') as f:
                 f.write(base64.b64decode(base64_png))
             print(f"Successfully saved PNG to {filename}")
-    
+        
         except Exception as e:
             print(f"Error saving PNG: {e}")
             print("Note: savePNG() requires a frontend browser context (Google Colab or JupyterLite).")
+
 
             
     def register_shape(self, name, shape=None):
