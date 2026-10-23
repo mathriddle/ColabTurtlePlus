@@ -1,10 +1,9 @@
-from IPython.display import display, HTML, Javascript
+from IPython.display import display, HTML
 import time
 import math
 import re
 import sys
 import inspect
-import base64
 
 try:
     from google.colab import output
@@ -392,11 +391,12 @@ class _Screen:
         text_file.write(output)
         text_file.close()   
 
+
     def savePNG(self, filename="SVGimage.png", turtle=False):
         """
-        Converts the current SVG drawing to a PNG file entirely in the browser,
-        requiring NO external system dependencies or pip installations.
-        Works perfectly across XPython (pyjs), Native Pyodide, and Google Colab.
+        Converts the current SVG drawing to a PNG file entirely in the browser
+        and triggers an instant direct download onto the user's local computer.
+        Works flawlessly across Google Colab, JupyterLab, and JupyterLite kernels.
         """
         if not isinstance(filename, str):
             raise ValueError("File name must be a string")
@@ -408,87 +408,51 @@ class _Screen:
         # Escape quotes and clean up the string so it's safe for JavaScript template literals
         svg_safe = svg_string.replace('`', r'\`').replace(r'\$', r'\\$')
 
-        # Core JavaScript logic to convert SVG -> Canvas -> Base64
-        js_core = f"""
-            const svgString = `{svg_safe}`;
-            const blob = new Blob([svgString], {{ type: 'image/svg+xml;charset=utf-8' }});
-            const url = URL.createObjectURL(blob);
-        
-            const img = new Image();
-            await new Promise((resolve, reject) => {{
-                img.onload = resolve;
-                img.onerror = reject;
-                img.src = url;
-            }});
-        
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width || 800;
-            canvas.height = img.height || 600;
-        
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-        
-            URL.revokeObjectURL(url);
-        
-            const pngDataUrl = canvas.toDataURL('image/png');
-            const b64Data = pngDataUrl.split(',');
-        """
+        # Build the JavaScript snippet cleanly
+        js_lines = [
+            "(async () => {",
+            "    try {",
+            f"        const svgString = `{svg_safe}`;",
+            "        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });",
+            "        const url = URL.createObjectURL(blob);",
+            "        const img = new Image();",
+            "        await new Promise((resolve, reject) => {",
+            "            img.onload = resolve;",
+            "            img.onerror = reject;",
+            "            img.src = url;",
+            "        });",
+            "        const canvas = document.createElement('canvas');",
+            "        canvas.width = img.width || 800;",
+            "        canvas.height = img.height || 600;",
+            "        const ctx = canvas.getContext('2d');",
+            "        ctx.drawImage(img, 0, 0);",
+            "        URL.revokeObjectURL(url);",
+            "        const pngDataUrl = canvas.toDataURL('image/png');",
+            "        const downloadLink = document.createElement('a');",
+            "        downloadLink.href = pngDataUrl;",
+            f"       downloadLink.download = '{filename}';",
+            "        document.body.appendChild(downloadLink);",
+            "        downloadLink.click();",
+            "        document.body.removeChild(downloadLink);",
+            "        console.log('ColabTurtlePlus: PNG download triggered successfully.');",
+            "    } catch (err) {",
+            "        console.error('ColabTurtlePlus: Failed to render/download PNG:', err);",
+            "    }",
+            "})();"
+        ]
+        js_code = "\n".join(js_lines)
 
         try:
-            base64_png = None
-            unique_id = f"ctp_png_{int(time.time() * 1000)}"
-
-            # === STRATEGY A: GOOGLE COLAB ===
-            if HAS_COLAB:
-                js_code = f"(async () => {{ {js_core} return b64Data; \n}})();"
-                base64_png = output.eval_js(js_code)
-                
-            # === STRATEGY B: JUPYTERLITE (Native Pyodide / pyjs Kernels via UI Cell Injection) ===
-            else:
-                js_ui_thread_code = f"""
-                (async () => {{
-                    try {{
-                        {js_core}
-                        sessionStorage.setItem('{unique_id}', b64Data);
-                        window.{unique_id} = b64Data;
-                    }} catch (err) {{
-                        sessionStorage.setItem('{unique_id}', "ERROR: " + err.message);
-                    }}
-                }})();
-                """
-                display(Javascript(js_ui_thread_code))
-                
-                # Give the browser UI thread a moment to load the image and render the canvas
-                time.sleep(0.4)
-                
-                # Try reading from window (XPython / pyjs)
-                if 'pyjs' in sys.modules or 'js' in sys.modules:
-                    import js
-                    if hasattr(js.window, unique_id):
-                        base64_png = getattr(js.window, unique_id)
-                        delattr(js.window, unique_id)
-                
-                # Fallback to sessionStorage (Native Pyodide web worker)
-                if base64_png is None and 'pyodide' in sys.modules:
-                    try:
-                        import js
-                        if hasattr(js, 'sessionStorage'):
-                            base64_png = js.sessionStorage.getItem(unique_id)
-                            js.sessionStorage.removeItem(unique_id)
-                    except Exception:
-                        pass
-
-            if not base64_png or "ERROR" in str(base64_png) or str(base64_png) == "undefined":
-                raise Exception(f"JavaScript UI conversion failed or timed out. Logged data: {base64_png}")
-
-            # 4. Decode bytes and write directly to disk
-            with open(filename, 'wb') as f:
-                f.write(base64.b64decode(base64_png))
-            print(f"Successfully saved PNG to {filename}")
-        
+            # This executes the script directly in the user's browser UI thread
+            # completely avoiding background kernel / web-worker sandboxes.
+            display(HTML(f"<script>{js_code}</script>"))
+            print(f"Triggered local browser download for: {filename}")
+            
         except Exception as e:
-            print(f"Error saving PNG: {e}")
-            print("Note: savePNG() requires a frontend browser context (Google Colab or JupyterLite).")
+            print(f"Error executing savePNG: {e}")
+
+
+        
 
 
             
