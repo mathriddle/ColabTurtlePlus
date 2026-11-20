@@ -48,13 +48,12 @@ Fixed some bugs related to color processing and speed.
 Added colormode to handle RGB either in [0,1] range or [1,255] range.
 Modified jumpto to mimic the teleport function added to the turtle module in Python 3.12
 
-v2.2.1 October 2026
+v2.2.1 November 2026
 New function addgroupcomponent() to add an svg group to a shape compound.
+The image (with or without the turtle(s)) can now be saved as a PNG file to the local computer using the savePNG() function.
 Turtle shapes that are scaled differently in x and y directions are now rotated smoothly in right/left turns.
 The function saveSVG() will now bring up a download dialog box to save the file to the local computer rather than to the
 Colab or Jupyter sidebar file browser.
-The image (with or without the turtle(s)) can now be saved as a PNG file to the local computer using the savePNG() function.
-
 
 """
 
