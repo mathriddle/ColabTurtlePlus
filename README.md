@@ -18,12 +18,12 @@ Sept. 2026: Version 2.1.2. Bug fix when multiple turtles have the same shape.
 
 Oct. 2026: Version 2.2.0. Added colormode and modified jumpto to mimic teleport from Python's turtle module.
 
-Oct. 2026: Version 2.2.1.
+Nov. 2026: Version 2.2.1.
 New function addgroupcomponent() to add an svg group to a shape compound.
+The image (with or without the turtle(s)) can now be saved as a PNG file to the local computer using the savePNG() function.
 Turtle shapes that are scaled differently in x and y directions are now rotated smoothly in right/left turns.
 The function saveSVG() will now bring up a download dialog box to save the file to the local computer rather than to the
 Colab or Jupyter sidebar file browser.
-The image (with or without the turtle(s)) can now be saved as a PNG file to the local computer using the savePNG() function.
 
 Installation
 ----
