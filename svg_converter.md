@@ -1,0 +1,3 @@
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mathriddle/ColabTurtlePlus/blob/main/examples_version2/files/svg_converter.ipynb)
+
+Convert svg code so that it can be used as a turtle image in ColabTurtlePlus. The function center_svg() will center the image at (0,0), optionally reflect its y-axis to be compatible with the orientation of the y-axis in turtle graphics, and scale the image to a desired size. The svg code to be converted must include either width/height pixel values or a viewBox (in pixels) for the centering to work.
