@@ -2,4 +2,4 @@
 
 Examples of compound shapes that can be used as turtles using the addgroupcompound() function.
 
-![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/examples_version2/files/allturtles.svg)
+![](https://github.com/mathriddle/ColabTurtlePlus/raw/main/examples_version2/files/allturtles.png)
